@@ -10,6 +10,7 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { RetrievalQAChain } from "langchain/chains";
 import { OpenAI } from "langchain/llms/openai";
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
+import { Configuration } from "openai";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +18,8 @@ export default function Home() {
   const [isNotesLoading, setIsNotesLoading] = useState(false);
   const [notesText, setNotesText] = useState("");
   const [question, setQuestion] = useState("");
-  const [answerText, setAnswerText] = useState("");
-  const [docs, setDocs] = useState<any>()
+  const [answerText, setAnswerText] = useState<any>();
+  const [docs, setDocs] = useState<any>();
 
   const fetchSite = async () => {
     const loader = new CheerioWebBaseLoader(
@@ -27,12 +28,14 @@ export default function Home() {
     const siteDocs = await loader.load();
     setDocs(siteDocs);
 
+    console.log("Website loaded");
+
     return new Response("Hello World!");
   };
 
   useEffect(() => {
-    fetchSite()
-  }, [])
+    fetchSite();
+  }, []);
 
   const getChatCompletionStream = async (prompt: string) => {
     setIsNotesLoading(true);
@@ -54,10 +57,12 @@ export default function Home() {
     const question = notesText;
 
     const res = await chain.call({
-      query: `Answer the question in a friendly and detailed way and please use emojis: ${question}`,
+      query: `Answer the question in a friendly, detailed and please use emojis: ${question}`,
     });
 
     console.log(res);
+
+    setAnswerText(res);
 
     setIsNotesLoading(false);
 
@@ -72,7 +77,7 @@ export default function Home() {
             Cognition
           </h1>
           <span className="select-none font-medium">
-            Study. Faster. <span className="text-orange-500">Smarter.</span>
+            Learn. Faster. <span className="text-orange-500">Smarter.</span>
           </span>
         </div>
         <div className="flex w-full flex-row gap-6">
@@ -82,12 +87,12 @@ export default function Home() {
               id=""
               rows={10}
               onChange={(e) => setNotesText(e.target.value)}
-              placeholder="Paste your study notes 📝"
+              placeholder="What would you like to cognite? 🤔"
               className="w-full resize-none rounded-lg p-4 shadow-sm outline-none ring-1 ring-slate-200 transition-all duration-300 hover:ring-slate-300 focus:ring-2 focus:ring-orange-500"
             ></textarea>
             {/* make a black button that says make question */}
             <button
-              className="w-max rounded-md bg-slate-900 px-6 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:bg-slate-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+              className="w-max rounded-md bg-slate-900 px-6 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 hover:bg-slate-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
               onClick={() => getChatCompletionStream(notesText)}
             >
               {isNotesLoading ? (
@@ -125,7 +130,9 @@ export default function Home() {
       </div>
       <div className="mt-2 flex justify-center">
         <div className="flex w-9/12 flex-col gap-3 text-center">
-          <p className="text-2xl font-semibold text-slate-800">{question}</p>
+          <p className="text-2xl font-semibold text-slate-800">
+            {answerText?.text}
+          </p>
         </div>
       </div>
     </main>
