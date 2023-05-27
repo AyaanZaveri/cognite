@@ -7,8 +7,10 @@ import { Document } from "langchain/document";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { RetrievalQAChain } from "langchain/chains";
+import { ConversationalRetrievalQAChain } from "langchain/chains";
+import { ConversationChain } from "langchain/chains";
 import { OpenAI } from "langchain/llms/openai";
+import { ChatOpenAI } from "langchain/chat_models/openai";
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 import { Configuration } from "openai";
 
@@ -23,12 +25,26 @@ export default function Home() {
 
   const fetchSite = async () => {
     const loader = new CheerioWebBaseLoader(
-      "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub"
+      "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub",
+      {
+        selector: "div[class='LS81yb VICjCf j5pSsc db35Fc']",
+      }
     );
-    const siteDocs = await loader.load();
-    setDocs(siteDocs);
+    const loader2 = new CheerioWebBaseLoader(
+      "https://thewoodlandsss.peelschools.org/about-us"
+    );
+    const loader3 = new CheerioWebBaseLoader(
+      "https://sites.google.com/pdsb.net/twsstudentservices/student-services?authuser=0"
+    );
 
-    console.log("Website loaded");
+    const siteDocs = await loader.load();
+    const siteDocs2 = await loader2.load();
+    const siteDocs3 = await loader3.load();
+
+    const concatDocs = siteDocs.concat(siteDocs2).concat(siteDocs3);
+    setDocs(concatDocs);
+
+    console.log("Websites loaded");
 
     return new Response("Hello World!");
   };
@@ -48,19 +64,24 @@ export default function Home() {
       })
     );
 
-    const model = new OpenAI({
+    const model = new ChatOpenAI({
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+      modelName: "gpt-3.5-turbo",
     });
 
-    const chain = RetrievalQAChain.fromLLM(model, store.asRetriever());
+    const chain = ConversationalRetrievalQAChain.fromLLM(
+      model,
+      store.asRetriever()
+    );
+
+    const chatHistory = "";
 
     const question = notesText;
 
     const res = await chain.call({
-      query: `Answer the question in a friendly, detailed and please use emojis: ${question}`,
+      question: `Answer the question in a friendly, detailed and concise way and please limit yourself to 1-3 sentences. Please use emojis: ${question}`,
+      chat_history: chatHistory,
     });
-
-    console.log(res);
 
     setAnswerText(res);
 
@@ -128,7 +149,7 @@ export default function Home() {
           </div> */}
         </div>
       </div>
-      <div className="mt-2 flex justify-center">
+      <div className="mt-2 pb-16 flex justify-center">
         <div className="flex w-9/12 flex-col gap-3 text-center">
           <p className="text-2xl font-semibold text-slate-800">
             {answerText?.text}

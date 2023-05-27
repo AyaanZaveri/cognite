@@ -16,6 +16,9 @@ dependencies:
   cheerio:
     specifier: 1.0.0-rc.12
     version: 1.0.0-rc.12
+  chromadb:
+    specifier: ^1.5.0
+    version: 1.5.0
   eslint:
     specifier: 8.40.0
     version: 8.40.0
@@ -24,7 +27,7 @@ dependencies:
     version: 13.4.2(eslint@8.40.0)(typescript@5.0.4)
   langchain:
     specifier: ^0.0.83
-    version: 0.0.83(cheerio@1.0.0-rc.12)(hnswlib-node@1.4.2)(puppeteer@20.4.0)
+    version: 0.0.83(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(puppeteer@20.4.0)
   next:
     specifier: 13.4.4
     version: 13.4.4(react-dom@18.2.0)(react@18.2.0)
@@ -836,6 +839,10 @@ packages:
 
   /chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
+    dev: false
+
+  /chromadb@1.5.0:
+    resolution: {integrity: sha512-uBHbgykL5lYuXXaTst3H9P/539pC8vJNe7pzkyl8oGVWgJJjrgA8XGyFstTjG8EjjxxUpTUh8GcU4LmfgOu9dg==}
     dev: false
 
   /chromium-bidi@0.4.10(devtools-protocol@0.0.1120988):
@@ -2327,7 +2334,7 @@ packages:
       object.assign: 4.1.4
     dev: false
 
-  /langchain@0.0.83(cheerio@1.0.0-rc.12)(hnswlib-node@1.4.2)(puppeteer@20.4.0):
+  /langchain@0.0.83(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(puppeteer@20.4.0):
     resolution: {integrity: sha512-XS5H7g2/JRIi70D3UjfYpYlnkl5Q0lnsU9wT3fHexPazopUr4yvfg8ocHi+IyAQUOKSoEuyQQxxgaPsh2iyyxg==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -2457,6 +2464,7 @@ packages:
       ansi-styles: 5.2.0
       binary-extensions: 2.2.0
       cheerio: 1.0.0-rc.12
+      chromadb: 1.5.0
       expr-eval: 2.0.2
       flat: 5.0.2
       hnswlib-node: 1.4.2
