@@ -1,6 +1,9 @@
 lockfileVersion: '6.0'
 
 dependencies:
+  '@pinecone-database/pinecone':
+    specifier: ^0.1.6
+    version: 0.1.6
   '@types/node':
     specifier: 20.2.0
     version: 20.2.0
@@ -27,7 +30,7 @@ dependencies:
     version: 13.4.2(eslint@8.40.0)(typescript@5.0.4)
   langchain:
     specifier: ^0.0.83
-    version: 0.0.83(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(puppeteer@20.4.0)
+    version: 0.0.83(@pinecone-database/pinecone@0.1.6)(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(puppeteer@20.4.0)
   next:
     specifier: 13.4.4
     version: 13.4.4(react-dom@18.2.0)(react@18.2.0)
@@ -314,6 +317,15 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+    dev: false
+
+  /@pinecone-database/pinecone@0.1.6:
+    resolution: {integrity: sha512-tCnVc28udecthhgSBTdcMhYEW+xsR++AdZasp+ZE/AvUD1hOR2IR3edjk9m0sDxZyvXbno2KeqUbLIOZr7sCTw==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      cross-fetch: 3.1.6
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@pkgr/utils@2.4.0:
@@ -2334,7 +2346,7 @@ packages:
       object.assign: 4.1.4
     dev: false
 
-  /langchain@0.0.83(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(puppeteer@20.4.0):
+  /langchain@0.0.83(@pinecone-database/pinecone@0.1.6)(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(puppeteer@20.4.0):
     resolution: {integrity: sha512-XS5H7g2/JRIi70D3UjfYpYlnkl5Q0lnsU9wT3fHexPazopUr4yvfg8ocHi+IyAQUOKSoEuyQQxxgaPsh2iyyxg==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -2461,6 +2473,7 @@ packages:
         optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.4.3
+      '@pinecone-database/pinecone': 0.1.6
       ansi-styles: 5.2.0
       binary-extensions: 2.2.0
       cheerio: 1.0.0-rc.12

@@ -1,19 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
-import { Document } from "langchain/document";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { RetrievalQAChain } from "langchain/chains";
-import { ConversationalRetrievalQAChain } from "langchain/chains";
-import { ConversationChain } from "langchain/chains";
-import { OpenAI } from "langchain/llms/openai";
-import { ChatOpenAI } from "langchain/chat_models/openai";
-import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
-import { Configuration } from "openai";
 
 const inter = Inter({ subsets: ["latin"] });
 
