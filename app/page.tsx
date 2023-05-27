@@ -7,6 +7,7 @@ import { Document } from "langchain/document";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { RetrievalQAChain } from "langchain/chains";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { ConversationChain } from "langchain/chains";
 import { OpenAI } from "langchain/llms/openai";
@@ -33,12 +34,26 @@ export default function Home() {
     const loader2 = new CheerioWebBaseLoader(
       "https://sites.google.com/pdsb.net/twsstudentservices/student-services"
     );
+    const loader3 = new CheerioWebBaseLoader(
+      "https://en.wikipedia.org/wiki/The_Woodlands_School_(Mississauga)"
+    );
 
     const siteDocs = await loader.load();
     const siteDocs2 = await loader2.load();
+    const siteDocs3 = await loader3.load();
 
-    const concatDocs = siteDocs.concat(siteDocs2);
-    setDocs(concatDocs);
+    const concatDocs = siteDocs.concat(siteDocs2).concat(siteDocs3);
+
+    const splitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 1000,
+      chunkOverlap: 50,
+    });
+
+    const splittedDocs = await splitter.splitDocuments(concatDocs);
+
+    setDocs(splittedDocs);
+
+    console.log(splittedDocs);
 
     console.log("Websites loaded");
 
@@ -60,8 +75,8 @@ export default function Home() {
       })
     );
 
-    const resultOne = await vectorStore.similaritySearchWithScore(prompt, 1);
-    console.log("resultOne", resultOne);
+    // const resultOne = await vectorStore.similaritySearchWithScore(prompt, 1);
+    // console.log("resultOne", resultOne);
 
     const model = new ChatOpenAI({
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
