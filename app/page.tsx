@@ -38,8 +38,8 @@ export default function Home() {
     );
 
     const siteDocs = await loader.load();
-    const siteDocs2 = await loader2.load();
-    const siteDocs3 = await loader3.load();
+    const siteDocs2 = await loader2.loadAndSplit();
+    const siteDocs3 = await loader3.loadAndSplit();
 
     const concatDocs = siteDocs.concat(siteDocs2).concat(siteDocs3);
     setDocs(concatDocs);
