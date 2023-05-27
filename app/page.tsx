@@ -22,86 +22,65 @@ export default function Home() {
   const [notesText, setNotesText] = useState("");
   const [question, setQuestion] = useState("");
   const [answerText, setAnswerText] = useState<any>();
+  const [streamedAnswer, setStreamedAnswer] = useState<string>("");
   const [docs, setDocs] = useState<any>();
 
   const fetchSite = async () => {
-    const loader = new CheerioWebBaseLoader(
-      "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub",
-      {
-        selector: "div[class='LS81yb VICjCf j5pSsc db35Fc']",
-      }
-    );
-    const loader2 = new CheerioWebBaseLoader(
-      "https://sites.google.com/pdsb.net/twsstudentservices/student-services"
-    );
-    const loader3 = new CheerioWebBaseLoader(
-      "https://en.wikipedia.org/wiki/The_Woodlands_School_(Mississauga)"
-    );
-
-    const siteDocs = await loader.load();
-    const siteDocs2 = await loader2.load();
-    const siteDocs3 = await loader3.load();
-
-    const concatDocs = siteDocs.concat(siteDocs2).concat(siteDocs3);
-
-    const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 50,
+    const response = await fetch("/api/site", {
+      method: "GET",
     });
 
-    const splittedDocs = await splitter.splitDocuments(concatDocs);
+    const reader = response.body!.getReader();
 
-    setDocs(splittedDocs);
+    while (true) {
+      const { done, value } = await reader.read();
 
-    console.log(splittedDocs);
+      if (done) {
+        break;
+      }
 
-    console.log("Websites loaded");
+      const text = new TextDecoder().decode(value);
+      setDocs(JSON.parse(text)?.splittedDocs);
 
-    return new Response("Hello World!");
+      console.log("Done fetching sites!");
+    }
   };
 
   useEffect(() => {
     fetchSite();
   }, []);
 
-  const getChatCompletionStream = async (prompt: string) => {
-    setIsNotesLoading(true);
+  const handleChatSubmit = async (prompt: string) => {
+    setStreamedAnswer("");
     setQuestion(prompt);
+    setIsNotesLoading(true);
 
-    const vectorStore = await MemoryVectorStore.fromDocuments(
-      docs,
-      new OpenAIEmbeddings({
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-      })
-    );
-
-    // const resultOne = await vectorStore.similaritySearchWithScore(prompt, 1);
-    // console.log("resultOne", resultOne);
-
-    const model = new ChatOpenAI({
-      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-      modelName: "gpt-3.5-turbo",
+    if (!docs) {
+      console.log("No docs!");
+      return;
+    }
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      body: JSON.stringify({ prompt: prompt, docs: docs }),
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-    const chain = ConversationalRetrievalQAChain.fromLLM(
-      model,
-      vectorStore.asRetriever()
-    );
+    const reader = response.body!.getReader();
 
-    const chatHistory = "";
+    while (true) {
+      const { done, value } = await reader.read();
 
-    const question = notesText;
+      if (done) {
+        break;
+      }
 
-    const res = await chain.call({
-      question: `Answer the question in a friendly, detailed and concise way and please limit yourself to 1-3 sentences. Please use emojis: ${question}`,
-      chat_history: chatHistory,
-    });
-
-    setAnswerText(res);
+      const text = new TextDecoder().decode(value);
+      setStreamedAnswer((prevData: any) => prevData + text);
+    }
 
     setIsNotesLoading(false);
-
-    return new Response(res.text);
   };
 
   return (
@@ -131,9 +110,9 @@ export default function Home() {
 
             <div className="mb-4 flex justify-start">
               <div className="bg-stone-50 rounded-lg px-4 py-3 ring-2 ring-stone-200 font-medium text-stone-700 shadow-lg shadow-stone-500/10">
-                {answerText?.text ? (
-                  <span>{answerText?.text}</span>
-                ) : answerText?.text?.length < 0 && isNotesLoading == false ? (
+                {streamedAnswer ? (
+                  <span>{streamedAnswer}</span>
+                ) : streamedAnswer?.length < 0 && isNotesLoading == false ? (
                   <span className="inline-flex animate-pulse gap-2">
                     Thinking <p>🧠</p>
                   </span>
@@ -155,7 +134,7 @@ export default function Home() {
             {/* make a black button that says make question */}
             <button
               className="w-max rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
-              onClick={() => getChatCompletionStream(notesText)}
+              onClick={() => handleChatSubmit(notesText)}
             >
               {isNotesLoading ? (
                 <span className="inline-flex animate-pulse gap-2">
