@@ -1,11 +1,12 @@
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { PlaywrightWebBaseLoader } from "langchain/document_loaders/web/playwright";
 
 const getSiteDocs = async (req: any, res: any) => {
   const loader = new CheerioWebBaseLoader(
     "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub",
     {
-      selector: "div[class='LS81yb VICjCf j5pSsc db35Fc']",
+      selector: "section.yaqOZd",
     }
   );
   const loader2 = new CheerioWebBaseLoader(
@@ -23,12 +24,14 @@ const getSiteDocs = async (req: any, res: any) => {
   const siteDocs3 = await loader3.load();
   // const siteDocs4 = await loader4.load();
 
+  console.log(siteDocs);
+
   const concatDocs = siteDocs.concat(siteDocs2).concat(siteDocs3);
   // .concat(siteDocs4);
 
   const splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
-    chunkOverlap: 50,
+    chunkSize: 2500,
+    chunkOverlap: 200,
   });
 
   const splittedDocs = await splitter.splitDocuments(concatDocs);

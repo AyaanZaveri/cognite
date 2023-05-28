@@ -2,6 +2,7 @@
 
 import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
+import JSON5 from "json5";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,6 +12,7 @@ export default function Home() {
   const [question, setQuestion] = useState("");
   const [answerText, setAnswerText] = useState<any>();
   const [streamedAnswer, setStreamedAnswer] = useState<string>("");
+  const [chatHistory, setChatHistory] = useState<any>([]);
   const [docs, setDocs] = useState<any>();
 
   const fetchSite = async () => {
@@ -28,7 +30,7 @@ export default function Home() {
       }
 
       const text = new TextDecoder().decode(value);
-      setDocs(JSON.parse(text)?.splittedDocs);
+      setDocs(JSON5.parse(text)?.splittedDocs);
 
       console.log("Done fetching sites!");
     }
@@ -49,7 +51,11 @@ export default function Home() {
     }
     const response = await fetch("/api/chat", {
       method: "POST",
-      body: JSON.stringify({ prompt: prompt, docs: docs }),
+      body: JSON.stringify({
+        prompt: prompt,
+        docs: docs,
+        chatHistory: chatHistory,
+      }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -71,6 +77,16 @@ export default function Home() {
     setIsNotesLoading(false);
   };
 
+  // useEffect(() => {
+  //   setChatHistory((prevChatHistory: any) => [
+  //     ...prevChatHistory,
+  //     question,
+  //     streamedAnswer,
+  //   ]);
+  // }, [streamedAnswer]);
+
+  // console.log(chatHistory);
+
   return (
     <main className={inter.className}>
       <div className="flex flex-col items-center justify-center p-8 gap-8 h-screen">
@@ -86,7 +102,7 @@ export default function Home() {
           <div className="w-full overflow-y-auto p-6">
             <div className="mb-4 flex justify-start">
               <div className="bg-stone-50 rounded-lg px-4 py-3 ring-2 ring-stone-200 font-medium text-stone-700 shadow-lg shadow-stone-500/10">
-                Hi there! How can I help you?
+                Hi there! Ask me something related to the school 🏫
               </div>
             </div>
 
