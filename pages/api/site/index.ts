@@ -19,9 +19,9 @@ const getSiteDocs = async (req: any, res: any) => {
     "https://sites.google.com/pdsb.net/twsstudentservices/important-links-and-info?authuser=0"
   );
 
-  const siteDocs = await loader.load();
-  const siteDocs2 = await loader2.load();
-  const siteDocs3 = await loader3.load();
+  const siteDocs = await loader.loadAndSplit();
+  const siteDocs2 = await loader2.loadAndSplit();
+  const siteDocs3 = await loader3.loadAndSplit();
   // const siteDocs4 = await loader4.load();
 
   console.log(siteDocs);
@@ -32,6 +32,7 @@ const getSiteDocs = async (req: any, res: any) => {
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 2500,
     chunkOverlap: 200,
+    separators: [".", "!", "?", "\n", " ", "\t", "\r"],
   });
 
   const splittedDocs = await splitter.splitDocuments(concatDocs);

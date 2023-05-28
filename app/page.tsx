@@ -87,6 +87,8 @@ export default function Home() {
 
   // console.log(chatHistory);
 
+  console.log(docs);
+
   return (
     <main className={inter.className}>
       <div className="flex flex-col items-center justify-center p-8 gap-8 h-screen">
