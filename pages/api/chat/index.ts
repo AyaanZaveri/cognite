@@ -5,6 +5,12 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 
+export const config = {
+  runtime: "edge",
+};
+
+const {NEXT_PUBLIC_OPENAI_API_KEY, NEXT_PUBLIC_OPENAI_ENDPOINT, NEXT_PUBLIC_PINECONE_API_KEY, NEXT_PUBLIC_PINECONE_ENDPOINT} = process.env;
+
 export default async function handler(req: any, res: any) {
   const { prompt, docs, chatHistory } = req.body;
 
@@ -12,12 +18,12 @@ export default async function handler(req: any, res: any) {
     docs,
     new OpenAIEmbeddings(
       {
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        openAIApiKey: NEXT_PUBLIC_OPENAI_API_KEY,
         stripNewLines: true,
         verbose: true,
       },
       {
-        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+        basePath: NEXT_PUBLIC_OPENAI_ENDPOINT,
       }
     )
   );
@@ -26,7 +32,7 @@ export default async function handler(req: any, res: any) {
 
   const model = new ChatOpenAI(
     {
-      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+      openAIApiKey: NEXT_PUBLIC_OPENAI_API_KEY,
       streaming: true,
       modelName: "gpt-3.5-turbo",
       callbacks: [
@@ -38,7 +44,7 @@ export default async function handler(req: any, res: any) {
       ],
     },
     {
-      basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+      basePath: NEXT_PUBLIC_OPENAI_ENDPOINT,
     }
   );
 
@@ -51,8 +57,8 @@ export default async function handler(req: any, res: any) {
   );
 
   await chain.call({
-    question: `Answer the question in a friendly, detailed and concise way and please limit yourself to 1-3 sentences. Please use emojis: ${prompt}`,
-    chat_history: "",
+    question: prompt,
+    chat_history: chatHistory,
   });
 
   res.end();
