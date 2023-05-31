@@ -5,13 +5,14 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 
-export const config = {
-  runtime: "edge",
-};
+const {
+  NEXT_PUBLIC_OPENAI_API_KEY,
+  NEXT_PUBLIC_OPENAI_ENDPOINT,
+  NEXT_PUBLIC_PINECONE_API_KEY,
+  NEXT_PUBLIC_PINECONE_ENDPOINT,
+} = process.env;
 
-const {NEXT_PUBLIC_OPENAI_API_KEY, NEXT_PUBLIC_OPENAI_ENDPOINT, NEXT_PUBLIC_PINECONE_API_KEY, NEXT_PUBLIC_PINECONE_ENDPOINT} = process.env;
-
-export default async function handler(req: any, res: any) {
+async function handler(req: any, res: any) {
   const { prompt, docs, chatHistory } = req.body;
 
   const vectorStore = await MemoryVectorStore.fromDocuments(
@@ -28,7 +29,7 @@ export default async function handler(req: any, res: any) {
     )
   );
 
-  // console.log(vectorStore);
+  console.log(vectorStore);
 
   const model = new ChatOpenAI(
     {
@@ -63,3 +64,5 @@ export default async function handler(req: any, res: any) {
 
   res.end();
 }
+
+export default handler;

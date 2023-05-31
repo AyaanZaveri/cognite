@@ -1,11 +1,15 @@
 "use client";
 
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import { useEffect, useState } from "react";
 import JSON5 from "json5";
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAI } from "langchain/dist";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { ChatOpenAI } from "langchain/chat_models/openai";
+import { ConversationalRetrievalQAChain } from "langchain/chains";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,6 +22,7 @@ export default function Home() {
   const [chatHistory, setChatHistory] = useState<any>([]);
   const [docs, setDocs] = useState<any>();
   const [userUrl, setUserUrl] = useState<string>("");
+  const [chain, setChain] = useState<any>(null);
 
   const fetchSite = async () => {
     const loader = new CheerioWebBaseLoader(userUrl);
@@ -33,83 +38,72 @@ export default function Home() {
 
     const splittedDocs = await splitter.splitDocuments(siteDocs);
 
-    setDocs(splittedDocs);
+    const vectorStore = await MemoryVectorStore.fromDocuments(
+      splittedDocs,
+      new OpenAIEmbeddings(
+        {
+          openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+          stripNewLines: true,
+          verbose: true,
+        },
+        {
+          basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+        }
+      )
+    );
 
-    // const response = await fetch("/api/site", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     url: userUrl,
-    //   }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
+    const model = new ChatOpenAI(
+      {
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        streaming: true,
+        modelName: "gpt-3.5-turbo",
+        // callbacks: [
+        //   {
+        //     handleLLMNewToken(token: string) {
+        //       res.write(token);
+        //     },
+        //   },
+        // ],
+        callbacks: [
+          {
+            handleLLMNewToken(token: string) {
+              setStreamedAnswer((prev) => prev + token);
+            },
+          },
+        ],
+      },
+      {
+        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+      }
+    );
 
-    // const reader = response.body!.getReader();
+    const conversationalChain = ConversationalRetrievalQAChain.fromLLM(
+      model,
+      vectorStore.asRetriever(),
+      {
+        returnSourceDocuments: true,
+      }
+    );
 
-    // while (true) {
-    //   const { done, value } = await reader.read();
-
-    //   if (done) {
-    //     break;
-    //   }
-
-    //   const text = new TextDecoder().decode(value);
-    //   setDocs(text);
-
-    //   console.log("Done fetching sites!");
+    setChain(conversationalChain);
   };
 
-  // useEffect(() => {
-  //   fetchSite();
-  // }, []);
+  console.log(streamedAnswer);
 
   const handleChatSubmit = async (prompt: string) => {
     setStreamedAnswer("");
     setQuestion(prompt);
     setIsNotesLoading(true);
 
-    if (!docs) {
-      console.log("No docs!");
-      return;
-    }
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      body: JSON.stringify({
-        prompt: prompt,
-        docs: docs,
-        chatHistory: chatHistory,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
+    const res = await chain.call({
+      question: prompt,
+      chat_history: chatHistory,
     });
 
-    const reader = response.body!.getReader();
-
-    while (true) {
-      const { done, value } = await reader.read();
-
-      if (done) {
-        break;
-      }
-
-      const text = new TextDecoder().decode(value);
-      setStreamedAnswer((prevData: any) => prevData + text);
-    }
+    console.log(res);
 
     setIsNotesLoading(false);
   };
-
-  // useEffect(() => {
-  //   setChatHistory((prevChatHistory: any) => [
-  //     ...prevChatHistory,
-  //     question,
-  //     streamedAnswer,
-  //   ]);
-  // }, [streamedAnswer]);
-
-  // console.log(chatHistory);
 
   console.log(docs);
 
@@ -129,32 +123,32 @@ export default function Home() {
             type="text"
             placeholder="URL of the site you want to cognite 🔗"
             onChange={(e) => setUserUrl(e.target.value)}
-            className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-2 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
+            className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
           />
           <button
             onClick={fetchSite}
-            className="w-1/6 rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+            className="w-max rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
           >
             <span className="inline-flex w-full gap-2 justify-center">
-              Set Url <p>🔗</p>
+              Set <p>🔗</p>
             </span>
           </button>
         </div>
         <div className="w-full overflow-y-auto h-full flex flex-col mb-20 px-8 py-2">
           <div className="mb-4 flex justify-start">
-            <div className="bg-stone-50 rounded-lg px-4 py-3 ring-2 ring-stone-200 font-medium text-stone-700 shadow-lg shadow-stone-500/10">
+            <div className="bg-stone-50 rounded-lg px-4 py-3 ring-1 ring-stone-200 font-medium text-stone-700">
               Hi there! Ask me something related to the url.
             </div>
           </div>
 
           <div className="mb-4 flex justify-end">
-            <div className="bg-orange-500 rounded-lg px-4 py-3 ring-2 ring-orange-400 font-medium text-white shadow-lg shadow-orange-500/10">
+            <div className="bg-orange-500 ring-orange-400 ring-1 rounded-lg px-4 py-3 font-medium text-white">
               {question}
             </div>
           </div>
 
           <div className="mb-4 flex justify-start">
-            <div className="bg-stone-50 rounded-lg px-4 py-3 ring-2 ring-stone-200 font-medium text-stone-700 shadow-lg shadow-stone-500/10">
+            <div className="bg-stone-100 ring-1 ring-stone-200 rounded-lg px-4 py-3 font-medium text-stone-700">
               {streamedAnswer ? (
                 <span>{streamedAnswer}</span>
               ) : streamedAnswer?.length < 0 && isNotesLoading == false ? (
@@ -167,18 +161,24 @@ export default function Home() {
         </div>
 
         <div className="flex w-full flex-row gap-6 bottom-0 fixed">
-          <div className="flex w-full flex-row gap-3 p-8">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleChatSubmit(notesText);
+            }}
+            className="flex w-full flex-row gap-3 p-8"
+          >
             <input
               name=""
               id=""
               onChange={(e) => setNotesText(e.target.value)}
               placeholder="What would you like to cognite? 🤔"
-              className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-2 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
+              className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
             ></input>
             {/* make a black button that says make question */}
             <button
               className="w-max rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
-              onClick={() => handleChatSubmit(notesText)}
+              type="submit"
             >
               {isNotesLoading ? (
                 <span className="inline-flex animate-pulse gap-2">
@@ -190,7 +190,7 @@ export default function Home() {
                 </span>
               )}
             </button>
-          </div>
+          </form>
           {/* <div className="flex w-full flex-col items-end justify-end gap-3">
             <textarea
               name=""
@@ -198,7 +198,7 @@ export default function Home() {
               rows={10}
               onChange={(e) => setAnswerText(e.target.value)}
               placeholder="Write your answer 👍"
-              className="w-full resize-none rounded-lg p-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
+              className="w-full resize-none rounded-lg p-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-1 focus:ring-orange-500"
             ></textarea>
             <button
               className="w-max rounded-md bg-stone-900 px-6 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
