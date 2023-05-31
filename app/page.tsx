@@ -14,7 +14,8 @@ import { ConversationalRetrievalQAChain } from "langchain/chains";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [isNotesLoading, setIsNotesLoading] = useState(false);
+  const [isAnswerLoading, setIsAnswerLoading] = useState(false);
+  const [isSiteFetching, setIsSiteFetching] = useState(false);
   const [notesText, setNotesText] = useState("");
   const [question, setQuestion] = useState("");
   const [answerText, setAnswerText] = useState<any>();
@@ -25,6 +26,8 @@ export default function Home() {
   const [chain, setChain] = useState<any>(null);
 
   const fetchSite = async () => {
+    setIsSiteFetching(true);
+
     const loader = new CheerioWebBaseLoader(userUrl);
     const siteDocs = await loader.load();
 
@@ -86,6 +89,8 @@ export default function Home() {
     );
 
     setChain(conversationalChain);
+
+    setIsSiteFetching(false);
   };
 
   console.log(streamedAnswer);
@@ -93,7 +98,7 @@ export default function Home() {
   const handleChatSubmit = async (prompt: string) => {
     setStreamedAnswer("");
     setQuestion(prompt);
-    setIsNotesLoading(true);
+    setIsAnswerLoading(true);
 
     const res = await chain.call({
       question: prompt,
@@ -102,7 +107,7 @@ export default function Home() {
 
     console.log(res);
 
-    setIsNotesLoading(false);
+    setIsAnswerLoading(false);
   };
 
   console.log(docs);
@@ -111,14 +116,20 @@ export default function Home() {
     <main className={inter.className}>
       <div className="flex flex-col w-full items-center justify-center gap-8 h-screen">
         <div className="flex flex-col items-center gap-2 p-8">
-          <h1 className="mt-10 select-none bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text py-2 text-6xl font-bold text-transparent">
+          <h1 className="mt-10 select-none bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text py-2 text-6xl font-bold text-transparent">
             Cognition
           </h1>
           <span className="select-none font-medium">
             Learn. Faster. <span className="text-orange-500">Smarter.</span>
           </span>
         </div>
-        <div className="flex w-full flex-row gap-3 px-8">
+        <form
+          className="flex w-full flex-row gap-3 px-8"
+          onSubmit={(e) => {
+            e.preventDefault();
+            fetchSite();
+          }}
+        >
           <input
             type="text"
             placeholder="URL of the site you want to cognite 🔗"
@@ -126,14 +137,20 @@ export default function Home() {
             className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
           />
           <button
-            onClick={fetchSite}
+            type="submit"
             className="w-max rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
           >
             <span className="inline-flex w-full gap-2 justify-center">
-              Set <p>🔗</p>
+              {isSiteFetching ? (
+                <p className="inline-flex w-full gap-2 justify-center animate-pulse">
+                  Setting <p>⛓️</p>
+                </p>
+              ) : (
+                <p className="inline-flex w-full gap-2 justify-center">Set <p>🔗</p></p>
+              )}
             </span>
           </button>
-        </div>
+        </form>
         <div className="w-full overflow-y-auto h-full flex flex-col mb-20 px-8 py-2">
           <div className="mb-4 flex justify-start">
             <div className="bg-stone-50 rounded-lg px-4 py-3 ring-1 ring-stone-200 font-medium text-stone-700">
@@ -151,7 +168,7 @@ export default function Home() {
             <div className="bg-stone-100 ring-1 ring-stone-200 rounded-lg px-4 py-3 font-medium text-stone-700">
               {streamedAnswer ? (
                 <span>{streamedAnswer}</span>
-              ) : streamedAnswer?.length < 0 && isNotesLoading == false ? (
+              ) : streamedAnswer?.length < 0 && isAnswerLoading == false ? (
                 <span className="inline-flex animate-pulse gap-2">
                   Thinking <p>🧠</p>
                 </span>
@@ -180,7 +197,7 @@ export default function Home() {
               className="w-max rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
               type="submit"
             >
-              {isNotesLoading ? (
+              {isAnswerLoading ? (
                 <span className="inline-flex animate-pulse gap-2">
                   Thinking <p>🧠</p>
                 </span>
@@ -204,7 +221,7 @@ export default function Home() {
               className="w-max rounded-md bg-stone-900 px-6 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
               onClick={() => getChatCompletionStream(notesText)}
             >
-              {isNotesLoading ? (
+              {isAnswerLoading ? (
                 <span className="inline-flex animate-pulse gap-2">
                   Thinking <p>🧠</p>
                 </span>
