@@ -10,6 +10,8 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
+import { sidebarWidthState } from "@/atoms/sidebar";
+import { useRecoilState } from "recoil";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +26,7 @@ export default function Home() {
   const [docs, setDocs] = useState<any>();
   const [userUrl, setUserUrl] = useState<string>("");
   const [chain, setChain] = useState<any>(null);
+  const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
 
   const fetchSite = async () => {
     setIsSiteFetching(true);
@@ -113,15 +116,20 @@ export default function Home() {
   console.log(docs);
 
   return (
-    <main className={inter.className}>
-      <div className="flex flex-col w-full items-center justify-center gap-8 h-screen">
-        <div className="flex flex-col items-center gap-2 p-8">
-          <h1 className="mt-10 select-none bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text py-2 text-6xl font-bold text-transparent">
+    <main>
+      <div
+        className="flex flex-col w-full items-center justify-center gap-8 h-screen"
+        style={{
+          paddingLeft: sidebarWidth,
+        }}
+      >
+        <div className="flex flex-col items-center gap-2 p-4">
+          {/* <h1 className="mt-10 select-none bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text py-2 text-6xl font-bold text-transparent">
             Cognition
           </h1>
           <span className="select-none font-medium">
             Learn. Faster. <span className="text-orange-500">Smarter.</span>
-          </span>
+          </span> */}
         </div>
         <form
           className="flex w-full flex-row gap-3 px-8"
@@ -142,11 +150,13 @@ export default function Home() {
           >
             <span className="inline-flex w-full gap-2 justify-center">
               {isSiteFetching ? (
-                <p className="inline-flex w-full gap-2 justify-center animate-pulse">
+                <span className="inline-flex w-full gap-2 justify-center animate-pulse">
                   Setting <p>⛓️</p>
-                </p>
+                </span>
               ) : (
-                <p className="inline-flex w-full gap-2 justify-center">Set <p>🔗</p></p>
+                <span className="inline-flex w-full gap-2 justify-center">
+                  Set <p>🔗</p>
+                </span>
               )}
             </span>
           </button>
@@ -177,38 +187,39 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex w-full flex-row gap-6 bottom-0 fixed">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleChatSubmit(notesText);
-            }}
-            className="flex w-full flex-row gap-3 p-8"
-          >
-            <input
-              name=""
-              id=""
-              onChange={(e) => setNotesText(e.target.value)}
-              placeholder="What would you like to cognite? 🤔"
-              className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
-            ></input>
-            {/* make a black button that says make question */}
-            <button
-              className="w-max rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
-              type="submit"
+        <div className="bottom-0 w-full">
+          <div className="flex w-full flex-row gap-6">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleChatSubmit(notesText);
+              }}
+              className="flex w-full flex-row gap-3 p-8"
             >
-              {isAnswerLoading ? (
-                <span className="inline-flex animate-pulse gap-2">
-                  Thinking <p>🧠</p>
-                </span>
-              ) : (
-                <span className="inline-flex gap-2">
-                  Cognite <p>🔥</p>
-                </span>
-              )}
-            </button>
-          </form>
-          {/* <div className="flex w-full flex-col items-end justify-end gap-3">
+              <input
+                name=""
+                id=""
+                onChange={(e) => setNotesText(e.target.value)}
+                placeholder="What would you like to cognite? 🤔"
+                className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
+              ></input>
+              {/* make a black button that says make question */}
+              <button
+                className="w-max rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+                type="submit"
+              >
+                {isAnswerLoading ? (
+                  <span className="inline-flex animate-pulse gap-2">
+                    Thinking <p>🧠</p>
+                  </span>
+                ) : (
+                  <span className="inline-flex gap-2">
+                    Cognite <p>🔥</p>
+                  </span>
+                )}
+              </button>
+            </form>
+            {/* <div className="flex w-full flex-col items-end justify-end gap-3">
             <textarea
               name=""
               id=""
@@ -230,6 +241,7 @@ export default function Home() {
               )}
             </button>
           </div> */}
+          </div>
         </div>
       </div>
       {/* <div className="mt-2 pb-16 flex justify-center">
