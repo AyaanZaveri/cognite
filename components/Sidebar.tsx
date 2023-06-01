@@ -65,7 +65,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`flex items-center h-full z-20 fixed select-none bg-stone-50/50`}
+      className={`flex items-center h-full z-20 fixed select-none bg-white`}
     >
       {/* <img
         draggable="false"

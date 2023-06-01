@@ -4,7 +4,11 @@ import { Inter, Poppins } from "next/font/google";
 import { useEffect, useState } from "react";
 import JSON5 from "json5";
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import {
+  CharacterTextSplitter,
+  RecursiveCharacterTextSplitter,
+  TextSplitter,
+} from "langchain/text_splitter";
 import { OpenAI } from "langchain/dist";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
@@ -12,6 +16,7 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { sidebarWidthState } from "@/atoms/sidebar";
 import { useRecoilState } from "recoil";
+import { writeFile } from "fs/promises";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,29 +28,49 @@ export default function Home() {
   const [answerText, setAnswerText] = useState<any>();
   const [streamedAnswer, setStreamedAnswer] = useState<string>("");
   const [chatHistory, setChatHistory] = useState<any>([]);
-  const [docs, setDocs] = useState<any>();
   const [userUrl, setUserUrl] = useState<string>("");
   const [chain, setChain] = useState<any>(null);
   const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
 
+  const scrapeSite = async (url: string) => {
+    const res = await fetch("/api/scrape", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        url: url,
+      }),
+    });
+
+    const data = await res.json();
+
+    console.log(data);
+
+    return data;
+  };
+
+  const getTextChunks = async () => {
+    const siteText = await scrapeSite(userUrl);
+    const splitter = new CharacterTextSplitter({
+      separator: " ",
+      chunkSize: 2000,
+      chunkOverlap: 200,
+    });
+    const output = await splitter.createDocuments([siteText.data]);
+
+    console.log(output);
+
+    return output;
+  };
+
   const fetchSite = async () => {
     setIsSiteFetching(true);
 
-    const loader = new CheerioWebBaseLoader(userUrl);
-    const siteDocs = await loader.load();
-
-    console.log("siteDocs", siteDocs);
-
-    const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 2500,
-      chunkOverlap: 200,
-      separators: [".", "!", "?", "\n", " ", "\t", "\r"],
-    });
-
-    const splittedDocs = await splitter.splitDocuments(siteDocs);
+    const docs = await getTextChunks();
 
     const vectorStore = await MemoryVectorStore.fromDocuments(
-      splittedDocs,
+      await docs,
       new OpenAIEmbeddings(
         {
           openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -96,8 +121,6 @@ export default function Home() {
     setIsSiteFetching(false);
   };
 
-  console.log(streamedAnswer);
-
   const handleChatSubmit = async (prompt: string) => {
     setStreamedAnswer("");
     setQuestion(prompt);
@@ -112,8 +135,6 @@ export default function Home() {
 
     setIsAnswerLoading(false);
   };
-
-  console.log(docs);
 
   return (
     <main>
@@ -163,19 +184,19 @@ export default function Home() {
         </form>
         <div className="w-full overflow-y-auto h-full flex flex-col mb-20 px-8 py-2">
           <div className="mb-4 flex justify-start">
-            <div className="bg-stone-50 rounded-lg px-4 py-3 ring-1 ring-stone-200 font-medium text-stone-700">
+            <div className="bg-stone-50 rounded-lg px-4 py-3 ring-1 ring-stone-200 text-stone-700">
               Hi there! Ask me something related to the url.
             </div>
           </div>
 
           <div className="mb-4 flex justify-end">
-            <div className="bg-orange-500 ring-orange-400 ring-1 rounded-lg px-4 py-3 font-medium text-white">
+            <div className="bg-orange-500 ring-orange-400 ring-1 rounded-lg px-4 py-3 text-white">
               {question}
             </div>
           </div>
 
           <div className="mb-4 flex justify-start">
-            <div className="bg-stone-100 ring-1 ring-stone-200 rounded-lg px-4 py-3 font-medium text-stone-700">
+            <div className="bg-stone-100 ring-1 ring-stone-200 rounded-lg px-4 py-3 text-stone-700">
               {streamedAnswer ? (
                 <span>{streamedAnswer}</span>
               ) : streamedAnswer?.length < 0 && isAnswerLoading == false ? (
