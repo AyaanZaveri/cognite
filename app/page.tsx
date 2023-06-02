@@ -32,6 +32,24 @@ export default function Home() {
   const [chain, setChain] = useState<any>(null);
   const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
 
+  const model = new ChatOpenAI(
+    {
+      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+      streaming: true,
+      modelName: "gpt-3.5-turbo",
+      callbacks: [
+        {
+          handleLLMNewToken(token: string) {
+            setStreamedAnswer((prev) => prev + token);
+          },
+        },
+      ],
+    },
+    {
+      basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+    }
+  );
+
   const scrapeSite = async (url: string) => {
     const res = await fetch("/api/scrape", {
       method: "POST",
@@ -52,12 +70,14 @@ export default function Home() {
 
   const getTextChunks = async () => {
     const siteText = await scrapeSite(userUrl);
+    console.log(siteText);
     const splitter = new CharacterTextSplitter({
+      chunkSize: 1000,
+      chunkOverlap: 100,
       separator: " ",
-      chunkSize: 2000,
-      chunkOverlap: 200,
     });
-    const output = await splitter.createDocuments([siteText.data]);
+
+    const output = await splitter?.createDocuments([siteText.data]);
 
     console.log(output);
 
@@ -83,36 +103,12 @@ export default function Home() {
       )
     );
 
-    const model = new ChatOpenAI(
-      {
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-        streaming: true,
-        modelName: "gpt-3.5-turbo",
-        // callbacks: [
-        //   {
-        //     handleLLMNewToken(token: string) {
-        //       res.write(token);
-        //     },
-        //   },
-        // ],
-        callbacks: [
-          {
-            handleLLMNewToken(token: string) {
-              setStreamedAnswer((prev) => prev + token);
-            },
-          },
-        ],
-      },
-      {
-        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-      }
-    );
-
     const conversationalChain = ConversationalRetrievalQAChain.fromLLM(
       model,
       vectorStore.asRetriever(),
       {
         returnSourceDocuments: true,
+        verbose: true,
       }
     );
 
@@ -121,18 +117,22 @@ export default function Home() {
     setIsSiteFetching(false);
   };
 
+  const callChain = async () => {
+    const res = await chain.call({
+      question: question,
+      chat_history: chatHistory,
+    });
+
+    const chatHistoryPrompt = `Q: ${prompt}\nA: ${res.answer}\n\n`;
+    setChatHistory((prev: any) => prev + chatHistoryPrompt);
+  };
+
   const handleChatSubmit = async (prompt: string) => {
     setStreamedAnswer("");
     setQuestion(prompt);
     setIsAnswerLoading(true);
 
-    const res = await chain.call({
-      question: prompt,
-      chat_history: chatHistory,
-    });
-
-    console.log(res);
-
+    callChain();
     setIsAnswerLoading(false);
   };
 
@@ -163,7 +163,7 @@ export default function Home() {
             type="text"
             placeholder="URL of the site you want to cognite 🔗"
             onChange={(e) => setUserUrl(e.target.value)}
-            className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
+            className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 hover:ring-2 focus:ring-2 focus:ring-orange-500"
           />
           <button
             type="submit"
@@ -185,7 +185,7 @@ export default function Home() {
         <div className="w-full overflow-y-auto h-full flex flex-col mb-20 px-8 py-2">
           <div className="mb-4 flex justify-start">
             <div className="bg-stone-50 rounded-lg px-4 py-3 ring-1 ring-stone-200 text-stone-700">
-              Hi there! Ask me something related to the url.
+              Hi there! Try cogniting something 🔥
             </div>
           </div>
 
@@ -196,7 +196,7 @@ export default function Home() {
           </div>
 
           <div className="mb-4 flex justify-start">
-            <div className="bg-stone-100 ring-1 ring-stone-200 rounded-lg px-4 py-3 text-stone-700">
+            <div className="bg-stone-50 ring-1 ring-stone-200 rounded-lg px-4 py-3 text-stone-700">
               {streamedAnswer ? (
                 <span>{streamedAnswer}</span>
               ) : streamedAnswer?.length < 0 && isAnswerLoading == false ? (
