@@ -37,6 +37,7 @@ export default function Home() {
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
       streaming: true,
       modelName: "gpt-3.5-turbo",
+      temperature: 1,
       callbacks: [
         {
           handleLLMNewToken(token: string) {
@@ -74,7 +75,6 @@ export default function Home() {
     const splitter = new CharacterTextSplitter({
       chunkSize: 1000,
       chunkOverlap: 100,
-      separator: " ",
     });
 
     const output = await splitter?.createDocuments([siteText.data]);
@@ -117,22 +117,18 @@ export default function Home() {
     setIsSiteFetching(false);
   };
 
-  const callChain = async () => {
-    const res = await chain.call({
-      question: question,
-      chat_history: chatHistory,
-    });
-
-    const chatHistoryPrompt = `Q: ${prompt}\nA: ${res.answer}\n\n`;
-    setChatHistory((prev: any) => prev + chatHistoryPrompt);
-  };
-
   const handleChatSubmit = async (prompt: string) => {
     setStreamedAnswer("");
     setQuestion(prompt);
     setIsAnswerLoading(true);
 
-    callChain();
+    const res = await chain.call({
+      question: prompt,
+      chat_history: [],
+    });
+
+    console.log(res);
+
     setIsAnswerLoading(false);
   };
 
@@ -163,7 +159,7 @@ export default function Home() {
             type="text"
             placeholder="URL of the site you want to cognite 🔗"
             onChange={(e) => setUserUrl(e.target.value)}
-            className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 hover:ring-2 focus:ring-2 focus:ring-orange-500"
+            className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
           />
           <button
             type="submit"
