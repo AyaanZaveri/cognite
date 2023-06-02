@@ -72,16 +72,20 @@ export default function Home() {
   const getTextChunks = async () => {
     const siteText = await scrapeSite(userUrl);
     console.log(siteText);
-    const splitter = new CharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 100,
+
+    const splitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 2500,
+      chunkOverlap: 200,
+      separators: [".", "!", "?", "\n", " ", "\t", "\r"],
     });
 
-    const output = await splitter?.createDocuments([siteText.data]);
+    const output = await splitter.createDocuments([siteText.data]);
 
-    console.log(output);
+    const splittedDocs = await splitter.splitDocuments(output);
 
-    return output;
+    console.log(splittedDocs);
+
+    return splittedDocs;
   };
 
   const fetchSite = async () => {
@@ -89,8 +93,10 @@ export default function Home() {
 
     const docs = await getTextChunks();
 
+    console.log(docs);
+
     const vectorStore = await MemoryVectorStore.fromDocuments(
-      await docs,
+      docs,
       new OpenAIEmbeddings(
         {
           openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
