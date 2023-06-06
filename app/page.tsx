@@ -1,6 +1,6 @@
 "use client";
 
-import { Inter, Poppins } from "next/font/google";
+import { Barlow, Inter, Poppins } from "next/font/google";
 import { useEffect, useState } from "react";
 import JSON5 from "json5";
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
@@ -9,16 +9,22 @@ import {
   RecursiveCharacterTextSplitter,
   TextSplitter,
 } from "langchain/text_splitter";
-import { OpenAI } from "langchain/dist";
+import { OpenAI, PromptTemplate } from "langchain/dist";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { sidebarWidthState } from "@/atoms/sidebar";
 import { useRecoilState } from "recoil";
+import { BufferMemory } from "langchain/memory";
 import { writeFile } from "fs/promises";
+import Card from "@/components/Cogs/Card";
 
 const inter = Inter({ subsets: ["latin"] });
+const barlow = Barlow({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
 
 export default function Home() {
   const [isAnswerLoading, setIsAnswerLoading] = useState(false);
@@ -27,10 +33,16 @@ export default function Home() {
   const [question, setQuestion] = useState("");
   const [answerText, setAnswerText] = useState<any>();
   const [streamedAnswer, setStreamedAnswer] = useState<string>("");
-  const [chatHistory, setChatHistory] = useState<any>([]);
   const [userUrl, setUserUrl] = useState<string>("");
   const [chain, setChain] = useState<any>(null);
   const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
+  const [history, setHistory] = useState([]);
+  const [messages, setMessages] = useState([
+    {
+      message: "Hi there! How can I help?",
+      type: "apiMessage",
+    },
+  ]);
 
   const model = new ChatOpenAI(
     {
@@ -38,6 +50,7 @@ export default function Home() {
       streaming: true,
       modelName: "gpt-3.5-turbo",
       temperature: 1,
+      topP: 1,
       callbacks: [
         {
           handleLLMNewToken(token: string) {
@@ -52,48 +65,38 @@ export default function Home() {
   );
 
   const scrapeSite = async (url: string) => {
-    const res = await fetch("/api/scrape", {
+    const res = await fetch(`/api/extract?url=${url}`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({
-        url: url,
-      }),
     });
 
     const data = await res.json();
 
     console.log(data);
 
-    return data;
+    return data.extracted_text;
   };
 
   const getTextChunks = async () => {
     const siteText = await scrapeSite(userUrl);
+
     console.log(siteText);
 
-    const splitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 2500,
-      chunkOverlap: 200,
-      separators: [".", "!", "?", "\n", " ", "\t", "\r"],
-    });
+    const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
 
-    const output = await splitter.createDocuments([siteText.data]);
+    const docs = await splitter.createDocuments([siteText]);
 
-    const splittedDocs = await splitter.splitDocuments(output);
+    console.log(docs);
 
-    console.log(splittedDocs);
-
-    return splittedDocs;
+    return docs;
   };
 
   const fetchSite = async () => {
     setIsSiteFetching(true);
 
     const docs = await getTextChunks();
-
-    console.log(docs);
 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
@@ -111,11 +114,7 @@ export default function Home() {
 
     const conversationalChain = ConversationalRetrievalQAChain.fromLLM(
       model,
-      vectorStore.asRetriever(),
-      {
-        returnSourceDocuments: true,
-        verbose: true,
-      }
+      vectorStore.asRetriever()
     );
 
     setChain(conversationalChain);
@@ -128,15 +127,34 @@ export default function Home() {
     setQuestion(prompt);
     setIsAnswerLoading(true);
 
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { message: prompt, type: "userMessage" },
+    ]);
+
     const res = await chain.call({
       question: prompt,
       chat_history: [],
     });
 
-    console.log(res);
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { message: res.text, type: "apiMessage" },
+    ]);
 
     setIsAnswerLoading(false);
   };
+
+  useEffect(() => {
+    if (messages.length >= 3) {
+      setHistory([
+        [
+          messages[messages.length - 2].message,
+          messages[messages.length - 1].message,
+        ],
+      ] as any);
+    }
+  }, [messages]);
 
   return (
     <main>
@@ -146,13 +164,14 @@ export default function Home() {
           paddingLeft: sidebarWidth,
         }}
       >
-        <div className="flex flex-col items-center gap-2 p-4">
-          {/* <h1 className="mt-10 select-none bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text py-2 text-6xl font-bold text-transparent">
-            Cognition
-          </h1>
-          <span className="select-none font-medium">
-            Learn. Faster. <span className="text-orange-500">Smarter.</span>
-          </span> */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* <Card
+            cog="The Woodlands Secondary School"
+            imgUrl="https://thewoodlandsss.peelschools.org/images/logo.svg"
+          /> */}
+        </div>
+        <div className="flex flex-col items-center gap-2 pt-12 pb-4">
+          <span className={barlow.className + " text-5xl font-medium text-zinc-700 select-none"}>Cognition 🔥</span>
         </div>
         <form
           className="flex w-full flex-row gap-3 px-8"
@@ -165,11 +184,11 @@ export default function Home() {
             type="text"
             placeholder="URL of the site you want to cognite 🔗"
             onChange={(e) => setUserUrl(e.target.value)}
-            className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
+            className="w-full font-normal resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
           />
           <button
             type="submit"
-            className="w-max rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+            className="w-max rounded-md bg-zinc-900 px-8 py-2 font-medium text-white shadow transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
           >
             <span className="inline-flex w-full gap-2 justify-center">
               {isSiteFetching ? (
@@ -186,19 +205,19 @@ export default function Home() {
         </form>
         <div className="w-full overflow-y-auto h-full flex flex-col mb-20 px-8 py-2">
           <div className="mb-4 flex justify-start">
-            <div className="bg-stone-50 rounded-lg px-4 py-3 ring-1 ring-stone-200 text-stone-700">
+            <div className="bg-zinc-50 rounded-md px-4 py-3 ring-1 ring-zinc-200 text-zinc-700">
               Hi there! Try cogniting something 🔥
             </div>
           </div>
 
           <div className="mb-4 flex justify-end">
-            <div className="bg-orange-500 ring-orange-400 ring-1 rounded-lg px-4 py-3 text-white">
+            <div className="bg-orange-500 ring-orange-400 ring-1 rounded-md px-4 py-3 text-white">
               {question}
             </div>
           </div>
 
           <div className="mb-4 flex justify-start">
-            <div className="bg-stone-50 ring-1 ring-stone-200 rounded-lg px-4 py-3 text-stone-700">
+            <div className="bg-zinc-50 ring-1 ring-zinc-200 rounded-md px-4 py-3 text-zinc-700">
               {streamedAnswer ? (
                 <span>{streamedAnswer}</span>
               ) : streamedAnswer?.length < 0 && isAnswerLoading == false ? (
@@ -223,12 +242,12 @@ export default function Home() {
                 name=""
                 id=""
                 onChange={(e) => setNotesText(e.target.value)}
-                placeholder="What would you like to cognite? 🤔"
-                className="w-full resize-none rounded-lg py-3 px-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-2 focus:ring-orange-500"
+                placeholder="What would you like to cognite 🔥"
+                className="w-full font-normal resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
               ></input>
               {/* make a black button that says make question */}
               <button
-                className="w-max rounded-lg bg-stone-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+                className="w-max rounded-md bg-zinc-900 px-8 py-2 font-medium text-white shadow transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
                 type="submit"
               >
                 {isAnswerLoading ? (
@@ -249,10 +268,10 @@ export default function Home() {
               rows={10}
               onChange={(e) => setAnswerText(e.target.value)}
               placeholder="Write your answer 👍"
-              className="w-full resize-none rounded-lg p-4 shadow-sm outline-none ring-1 ring-stone-200 transition-all duration-300 hover:ring-stone-300 focus:ring-1 focus:ring-orange-500"
+              className="w-full resize-none rounded-md p-4 shadow outline-none ring-1 ring-zinc-200 transition-all duration-300 hover:ring-zinc-300 focus:ring-1 focus:ring-orange-500"
             ></textarea>
             <button
-              className="w-max rounded-md bg-stone-900 px-6 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:bg-stone-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+              className="w-max rounded-md bg-zinc-900 px-6 py-2 font-medium text-white shadow transition-all duration-300 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
               onClick={() => getChatCompletionStream(notesText)}
             >
               {isAnswerLoading ? (
@@ -269,7 +288,7 @@ export default function Home() {
       </div>
       {/* <div className="mt-2 pb-16 flex justify-center">
         <div className="flex w-9/12 flex-col gap-3 text-center">
-          <p className="text-2xl font-semibold text-stone-800">
+          <p className="text-2xl font-semibold text-zinc-800">
             {answerText?.text}
           </p>
         </div>

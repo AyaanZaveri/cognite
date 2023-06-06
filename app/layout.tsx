@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Inter, Poppins } from "next/font/google";
+import { Barlow, Inter, Poppins } from "next/font/google";
 import Sidebar from "../components/Sidebar";
 import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper";
 
@@ -11,7 +11,7 @@ const poppins = Poppins({
 
 export const metadata = {
   title: "Cognition",
-  description: "Cognition - Get answers about the school",
+  description: "Chat with any website",
 };
 
 export default function RootLayout({

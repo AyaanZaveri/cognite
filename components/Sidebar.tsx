@@ -4,8 +4,22 @@
 import { sidebarWidthState } from "@/atoms/sidebar";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
+import Card from "./Cogs/Card";
 
 const Sidebar = () => {
+  const [cogs, setCogs] = useState<any>([
+    {
+      id: 1,
+      title: "The Woodlands",
+      emoji: "🏫",
+      urls: [
+        "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub",
+        "https://sites.google.com/pdsb.net/twsstudentservices/student-services",
+        "https://en.wikipedia.org/wiki/The_Woodlands_School_(Mississauga)",
+      ],
+    },
+  ]);
+
   const sidebarRef = useRef<any>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
@@ -64,9 +78,7 @@ const Sidebar = () => {
   }, [sidebarWidth]);
 
   return (
-    <div
-      className={`flex items-center h-full z-20 fixed select-none bg-white`}
-    >
+    <div className={`flex items-center h-full z-20 fixed select-none bg-zinc-50`}>
       {/* <img
         draggable="false"
         onClick={() => router.push("/")}
@@ -81,7 +93,7 @@ const Sidebar = () => {
         alt=""
       /> */}
       <div
-        className="border-r border-stone-100 dark:border-stone-800 to-orange-500/20 h-full flex flex-col justify-start items-start"
+        className="border-r border-zinc-200 dark:border-zinc-800 to-orange-500/20 h-full flex flex-col justify-start items-start"
         ref={sidebarRef}
         style={{ width: sidebarWidth }}
         onMouseDown={(e) => e.preventDefault()}
