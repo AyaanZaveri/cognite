@@ -1,46 +1,49 @@
+import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
 import React from "react";
 
 interface CardProps {
-  cog: string;
-  imgUrl: string;
+  cog: {
+    id: number;
+    title: string;
+    img: string;
+    description: string;
+  };
+  fetchSite: (id: number) => void;
+  isSiteFetching: number | null | undefined;
 }
 
-const Card = ({ cog, imgUrl }: CardProps) => {
+const space_grotesk = Space_Grotesk({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
+
+const Card = ({ cog, fetchSite, isSiteFetching }: CardProps) => {
+  
   return (
-    <li className="flex flex-col bg-zinc-50 hover:bg-zinc-100 active:scale-[0.98] rounded-md p-3 transition duration-200 ease-in-out relative group">
-      <div className="flex-grow ">
-        <a className="h-full" href="/cog/twss">
-          <div className="group select-none p-1 transition ease-in-out duration-200 h-full rounded-md">
-            <div className="flex justify-between items-center gap-2 ">
-              <div className="flex items-center gap-2 overflow-x-hidden">
-                <div className="text-xl">
-                  🏫
-                </div>
-                <div className="w-full">
-                  <div className="text-zinc-700 font-medium line-clamp-1 transition ease-in-out duration-200">
-                    The Woodlands
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="font-normal text-zinc-500 transition duration-200 ease-in-out text-[12px] leading-5 text line-clamp-3">
-              This is a secondary school in Mississauga
-            </div>
-          </div>
-        </a>
-      </div>
-      <div className="flex justify-between  gap-1">
-        {" "}
-        <div className="flex-grow">
-          <a href="/user/cognition">
-            <div className="mt-1 text-zinc-700 w-max select-none text-xs p-1 rounded-md transition ease-in-out duration-200 active:bg-zinc-300 hover:bg-zinc-200">
-              ~ Cognition
-            </div>
-          </a>
+    <div
+      key={cog.id}
+      className={`relative flex flex-col w-full bg-orange-50/75 rounded-xl p-5 hover:bg-orange-100 active:bg-orange-100 transition-all duration-300 cursor-pointer transform active:scale-[0.98] hover:ring-2 hover:ring-orange-200 active:ring-2 active:ring-orange-200 ${
+        isSiteFetching == cog.id - 1 ? "bg-green-50" : ""
+      }`}
+      onClick={() => fetchSite(cog.id - 1)}
+    >
+      <div className="flex items-center mb-2">
+        <div className="relative w-8 h-8 bg-white rounded-md ring-1 ring-stone-200">
+          <Image
+            src={cog.img}
+            alt={cog.title}
+            layout="fill"
+            objectFit="contain"
+            className="p-1"
+          />
         </div>
+        <h5 className={space_grotesk.className + " ml-3 font-semibold text-lg text-zinc-800"}>
+          {cog.title}
+        </h5>
       </div>
-    </li>
+      <p className="text-sm font-light text-zinc-600">{cog.description}</p>
+    </div>
   );
 };
 

@@ -28,7 +28,9 @@ const space_grotesk = Space_Grotesk({
 
 export default function Home() {
   const [isAnswerLoading, setIsAnswerLoading] = useState(false);
-  const [isSiteFetching, setIsSiteFetching] = useState(false);
+  const [isSiteFetching, setIsSiteFetching] = useState<
+    number | null | undefined
+  >();
   const [notesText, setNotesText] = useState("");
   const [question, setQuestion] = useState("");
   const [answerText, setAnswerText] = useState<any>();
@@ -43,11 +45,12 @@ export default function Home() {
       type: "apiMessage",
     },
   ]);
-  const urls = [
+  const cogs = [
     {
       id: 1,
       title: "The Woodlands",
-      emoji: "🏫",
+      img: "https://thewoodlandsss.peelschools.org/images/logo.svg",
+      description: "The Woodlands Secondary School is a school in Mississauga",
       urls: [
         "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub",
         "https://sites.google.com/pdsb.net/twsstudentservices/home?authuser=0",
@@ -58,7 +61,8 @@ export default function Home() {
     {
       id: 2,
       title: "John Fraser",
-      emoji: "🏫",
+      img: "https://johnfraser.peelschools.org/images/logo.svg",
+      description: "John Fraser Secondary School is a school in Mississauga",
       urls: [
         "https://johnfrasersac.com/allclubs/",
         "https://en.wikipedia.org/wiki/John_Fraser_Secondary_School",
@@ -102,8 +106,8 @@ export default function Home() {
     return data.extracted_text;
   };
 
-  const getTextChunks = async () => {
-    const siteText = await scrapeSite(urls[1].urls);
+  const getTextChunks = async (cogId: number) => {
+    const siteText = await scrapeSite(cogs[cogId].urls);
 
     console.log(siteText);
 
@@ -116,10 +120,10 @@ export default function Home() {
     return docs;
   };
 
-  const fetchSite = async () => {
-    setIsSiteFetching(true);
+  const fetchSite = async (cogId: number) => {
+    setIsSiteFetching(cogId);
 
-    const docs = await getTextChunks();
+    const docs = await getTextChunks(cogId);
 
     const vectorStore = await MemoryVectorStore.fromDocuments(
       docs,
@@ -142,7 +146,7 @@ export default function Home() {
 
     setChain(conversationalChain);
 
-    setIsSiteFetching(false);
+    setIsSiteFetching(null);
   };
 
   const handleChatSubmit = async (prompt: string) => {
@@ -187,7 +191,7 @@ export default function Home() {
           paddingLeft: sidebarWidth,
         }}
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* <Card
             cog="The Woodlands Secondary School"
             imgUrl="https://thewoodlandsss.peelschools.org/images/logo.svg"
@@ -203,7 +207,7 @@ export default function Home() {
           </span>
           <span className="pb-2">🔥</span>
         </div>
-        <form
+        {/* <form
           className="flex w-full flex-row gap-3 px-8"
           onSubmit={(e) => {
             e.preventDefault();
@@ -232,10 +236,26 @@ export default function Home() {
               )}
             </span>
           </button>
-        </form>
+        </form> */}
+
+        {/* map the cogs in to div cards that fetchSite by passing in the cog id - 1. Use grid! Do not use components. Just use divs. I want to have emoji and title and then below, a description*/}
+
+        <div className="w-full px-8 select-none">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {cogs.map((cog, idx) => (
+              <Card
+                key={idx}
+                cog={cog}
+                fetchSite={fetchSite}
+                isSiteFetching={isSiteFetching}
+              />
+            ))}
+          </div>
+        </div>
+
         <div className="w-full overflow-y-auto h-full flex flex-col mb-20 px-8 py-2">
           <div className="mb-4 flex justify-start">
-            <div className="bg-zinc-100 rounded-lg px-4 py-3 text-zinc-700 max-w-xl break-words">
+            <div className="bg-zinc-50 rounded-lg px-4 py-3 text-zinc-700 max-w-xl break-words">
               Hi there! Try cogniting something 🔥
             </div>
           </div>
@@ -247,7 +267,7 @@ export default function Home() {
           </div>
 
           <div className="mb-4 flex justify-start">
-            <div className="bg-zinc-100 rounded-lg px-4 py-3 text-zinc-700 max-w-xl break-words">
+            <div className="bg-zinc-50 rounded-lg px-4 py-3 text-zinc-700 max-w-xl break-words">
               {streamedAnswer ? (
                 <span>{streamedAnswer}</span>
               ) : streamedAnswer?.length < 0 && isAnswerLoading == false ? (
@@ -273,11 +293,11 @@ export default function Home() {
                 id=""
                 onChange={(e) => setNotesText(e.target.value)}
                 placeholder="What would you like to cognite 🔥"
-                className="w-full font-normal resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
+                className="w-full font-normal select-none resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
               ></input>
               {/* make a black button that says make question */}
               <button
-                className="w-max rounded-md outline-none bg-zinc-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+                className="w-max select-none rounded-md outline-none bg-zinc-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
                 type="submit"
               >
                 {isAnswerLoading ? (
