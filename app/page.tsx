@@ -1,6 +1,6 @@
 "use client";
 
-import { Barlow, Inter, Poppins } from "next/font/google";
+import { Space_Grotesk, Inter, Poppins } from "next/font/google";
 import { useEffect, useState } from "react";
 import JSON5 from "json5";
 import { CheerioWebBaseLoader } from "langchain/document_loaders/web/cheerio";
@@ -21,8 +21,8 @@ import { writeFile } from "fs/promises";
 import Card from "@/components/Cogs/Card";
 
 const inter = Inter({ subsets: ["latin"] });
-const barlow = Barlow({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+const space_grotesk = Space_Grotesk({
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
@@ -43,13 +43,35 @@ export default function Home() {
       type: "apiMessage",
     },
   ]);
+  const urls = [
+    {
+      id: 1,
+      title: "The Woodlands",
+      emoji: "🏫",
+      urls: [
+        "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub",
+        "https://sites.google.com/pdsb.net/twsstudentservices/home?authuser=0",
+        "https://en.wikipedia.org/wiki/The_Woodlands_School_(Mississauga)",
+        "https://sites.google.com/pdsb.net/twsstudentservices/important-links-and-info?authuser=0",
+      ],
+    },
+    {
+      id: 2,
+      title: "John Fraser",
+      emoji: "🏫",
+      urls: [
+        "https://johnfrasersac.com/allclubs/",
+        "https://en.wikipedia.org/wiki/John_Fraser_Secondary_School",
+      ],
+    },
+  ];
 
   const model = new ChatOpenAI(
     {
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
       streaming: true,
       modelName: "gpt-3.5-turbo",
-      temperature: 1,
+      temperature: 0.7,
       topP: 1,
       callbacks: [
         {
@@ -64,12 +86,13 @@ export default function Home() {
     }
   );
 
-  const scrapeSite = async (url: string) => {
-    const res = await fetch(`/api/extract?url=${url}`, {
+  const scrapeSite = async (urls: string[]) => {
+    const res = await fetch(`/api/extract`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
+      body: JSON.stringify({ urls }),
     });
 
     const data = await res.json();
@@ -80,13 +103,13 @@ export default function Home() {
   };
 
   const getTextChunks = async () => {
-    const siteText = await scrapeSite(userUrl);
+    const siteText = await scrapeSite(urls[1].urls);
 
     console.log(siteText);
 
     const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
 
-    const docs = await splitter.createDocuments([siteText]);
+    const docs = await splitter.createDocuments([siteText as string]);
 
     console.log(docs);
 
@@ -170,8 +193,15 @@ export default function Home() {
             imgUrl="https://thewoodlandsss.peelschools.org/images/logo.svg"
           /> */}
         </div>
-        <div className="flex flex-col items-center gap-2 pt-12 pb-4">
-          <span className={barlow.className + " text-5xl font-medium text-zinc-700 select-none"}>Cognition 🔥</span>
+        <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2">
+          <span
+            className={
+              space_grotesk.className + " font-medium text-zinc-700 pb-2"
+            }
+          >
+            Cognition
+          </span>
+          <span className="pb-2">🔥</span>
         </div>
         <form
           className="flex w-full flex-row gap-3 px-8"
@@ -184,11 +214,11 @@ export default function Home() {
             type="text"
             placeholder="URL of the site you want to cognite 🔗"
             onChange={(e) => setUserUrl(e.target.value)}
-            className="w-full font-normal resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
+            className="w-full font-normal resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
           />
           <button
             type="submit"
-            className="w-max rounded-md bg-zinc-900 px-8 py-2 font-medium text-white shadow transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+            className="w-max rounded-md outline-none bg-zinc-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
           >
             <span className="inline-flex w-full gap-2 justify-center">
               {isSiteFetching ? (
@@ -205,19 +235,19 @@ export default function Home() {
         </form>
         <div className="w-full overflow-y-auto h-full flex flex-col mb-20 px-8 py-2">
           <div className="mb-4 flex justify-start">
-            <div className="bg-zinc-50 rounded-md px-4 py-3 ring-1 ring-zinc-200 text-zinc-700">
+            <div className="bg-zinc-100 rounded-lg px-4 py-3 text-zinc-700 max-w-xl break-words">
               Hi there! Try cogniting something 🔥
             </div>
           </div>
 
           <div className="mb-4 flex justify-end">
-            <div className="bg-orange-500 ring-orange-400 ring-1 rounded-md px-4 py-3 text-white">
+            <div className="bg-orange-500 rounded-lg px-4 py-3 text-white max-w-xl break-words">
               {question}
             </div>
           </div>
 
           <div className="mb-4 flex justify-start">
-            <div className="bg-zinc-50 ring-1 ring-zinc-200 rounded-md px-4 py-3 text-zinc-700">
+            <div className="bg-zinc-100 rounded-lg px-4 py-3 text-zinc-700 max-w-xl break-words">
               {streamedAnswer ? (
                 <span>{streamedAnswer}</span>
               ) : streamedAnswer?.length < 0 && isAnswerLoading == false ? (
@@ -243,11 +273,11 @@ export default function Home() {
                 id=""
                 onChange={(e) => setNotesText(e.target.value)}
                 placeholder="What would you like to cognite 🔥"
-                className="w-full font-normal resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
+                className="w-full font-normal resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
               ></input>
               {/* make a black button that says make question */}
               <button
-                className="w-max rounded-md bg-zinc-900 px-8 py-2 font-medium text-white shadow transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+                className="w-max rounded-md outline-none bg-zinc-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
                 type="submit"
               >
                 {isAnswerLoading ? (
@@ -268,10 +298,10 @@ export default function Home() {
               rows={10}
               onChange={(e) => setAnswerText(e.target.value)}
               placeholder="Write your answer 👍"
-              className="w-full resize-none rounded-md p-4 shadow outline-none ring-1 ring-zinc-200 transition-all duration-300 hover:ring-zinc-300 focus:ring-1 focus:ring-orange-500"
+              className="w-full resize-none rounded-md p-4 shadow-sm outline-none ring-1 ring-zinc-200 transition-all duration-300 hover:ring-zinc-300 focus:ring-1 focus:ring-orange-500"
             ></textarea>
             <button
-              className="w-max rounded-md bg-zinc-900 px-6 py-2 font-medium text-white shadow transition-all duration-300 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+              className="w-max rounded-md bg-zinc-900 px-6 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
               onClick={() => getChatCompletionStream(notesText)}
             >
               {isAnswerLoading ? (

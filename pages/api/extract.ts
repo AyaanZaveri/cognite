@@ -6,10 +6,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const url = req.query.url;
+  const urls = req.body.urls;
 
-  if (!url) {
-    res.status(400).json({ error: "URL is required" });
+  if (!urls || !Array.isArray(urls)) {
+    res
+      .status(400)
+      .json({ error: "URLs array is required in the request body" });
     return;
   }
 
@@ -18,44 +20,47 @@ export default async function handler(
       headless: true,
       args: ["--no-sandbox"],
     });
-    const page = await browser.newPage();
-    await page.setRequestInterception(true);
 
-    page.on("request", (request) => {
-      if (request.resourceType() === "document") {
-        request.continue();
-      } else {
-        request.abort();
-      }
-    });
+    let combinedText = "";
+    for (const url of urls) {
+      const page = await browser.newPage();
+      await page.setRequestInterception(true);
 
-    await page.goto(url as string);
+      page.on("request", (request) => {
+        if (request.resourceType() === "document") {
+          request.continue();
+        } else {
+          request.abort();
+        }
+      });
 
-    // Wait for the content to load
-    await page.waitForSelector("body");
+      await page.goto(url as string);
 
-    const content = await page.evaluate(() => {
-      const elements = Array.from(document.querySelectorAll("body *"));
-      return elements
-        .map((element) => element.textContent!.replace(/\s+/g, " "))
-        .join(" ");
-    });
+      // Wait for the content to load
+      await page.waitForSelector("body");
 
-    const $ = cheerio.load(content);
+      const content = await page.evaluate(() => {
+        const elements = Array.from(document.querySelectorAll("body *"));
+        return elements
+          .map((element) => element.textContent!.replace(/\s+/g, " "))
+          .join(" ");
+      });
 
-    // create empty result set, assume selectors will return same number of results
-    let result: any = [];
-    for (let i = 0; i < $("body").length; i++) {
-      result.push({});
+      const title = await page.evaluate(() => document.title);
+
+      const $ = cheerio.load(content);
+
+      let extractedText = "";
+      $("body").each((_i: any, elem: any) => {
+        extractedText += $(elem).text();
+      });
+
+      combinedText += `${title}\n${extractedText}\n`;
+      await page.close();
     }
 
-    // fill result set by parsing the html for each property selector
-    $("body").each((i: any, elem: any) => {
-      result[i].body = $(elem).text();
-    });
-
     await browser.close();
-    res.status(200).json({ extracted_text: result[0].body });
+    res.status(200).json({ extracted_text: combinedText });
   } catch (error) {
     res.status(500).json({ error: "An error occurred while extracting text" });
   }

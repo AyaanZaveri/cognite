@@ -60,12 +60,12 @@ const Sidebar = () => {
   // console.log(sidebarWidth);
 
   const constrainSidebarWidth = (num: number) => {
-    if (num < 240) {
-      setSidebarWidth(240);
+    if (num < 220) {
+      setSidebarWidth(220);
     }
 
-    if (num > 320) {
-      setSidebarWidth(320);
+    if (num > 280) {
+      setSidebarWidth(280);
     }
 
     return num;
@@ -78,7 +78,9 @@ const Sidebar = () => {
   }, [sidebarWidth]);
 
   return (
-    <div className={`flex items-center h-full z-20 fixed select-none bg-zinc-50`}>
+    <div
+      className={`flex items-center h-full z-20 fixed select-none bg-zinc-50`}
+    >
       {/* <img
         draggable="false"
         onClick={() => router.push("/")}
@@ -99,8 +101,9 @@ const Sidebar = () => {
         onMouseDown={(e) => e.preventDefault()}
       ></div>
       <div
-        className={`absolute top-0 h-full w-1 transition-colors duration-300 cursor-col-resize hover:bg-orange-500 active:bg-orange-600`}
+        className={`absolute top-0 h-full w-[3px] transition-colors duration-300 cursor-col-resize hover:bg-orange-500 active:bg-orange-600`}
         onMouseDown={startResizing}
+        onDoubleClick={() => setSidebarWidth(240)}
         style={{ left: sidebarWidth }}
       ></div>
     </div>
