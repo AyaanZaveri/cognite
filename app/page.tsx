@@ -11,6 +11,7 @@ import {
 } from "langchain/text_splitter";
 import { OpenAI, PromptTemplate } from "langchain/dist";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
+import { PineconeClient } from "@pinecone-database/pinecone";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
@@ -50,7 +51,8 @@ export default function Home() {
       id: 1,
       title: "The Woodlands",
       img: "https://thewoodlandsss.peelschools.org/images/logo.svg",
-      description: "The Woodlands Secondary School is a school in Mississauga",
+      description:
+        "The Woodlands Secondary School is a school in Mississauga, Ontario, Canada",
       urls: [
         "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub",
         "https://sites.google.com/pdsb.net/twsstudentservices/home?authuser=0",
@@ -62,10 +64,24 @@ export default function Home() {
       id: 2,
       title: "John Fraser",
       img: "https://johnfraser.peelschools.org/images/logo.svg",
-      description: "John Fraser Secondary School is a school in Mississauga",
+      description:
+        "John Fraser Secondary School is a school in Mississauga, Ontario, Canada",
       urls: [
         "https://johnfrasersac.com/allclubs/",
         "https://en.wikipedia.org/wiki/John_Fraser_Secondary_School",
+      ],
+    },
+    {
+      id: 3,
+      title: "French League",
+      img: "https://www.raycast.com/_next/image?url=https%3A%2F%2Ffiles.raycast.com%2Fp83cp3dpry9ktfemji1dcy4af5jp&w=128&q=75",
+      description:
+        "France's top football league with 20 clubs competing for the championship",
+      urls: [
+        "https://www.ligue1.com/ranking",
+        "https://www.ligue1.com/ranking/scorers",
+        "https://www.ligue1.com/ranking/assists",
+        "https://www.ligue1.com/fixtures-results",
       ],
     },
   ];
@@ -75,7 +91,7 @@ export default function Home() {
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
       streaming: true,
       modelName: "gpt-3.5-turbo",
-      temperature: 0.7,
+      temperature: 0.9,
       topP: 1,
       callbacks: [
         {
@@ -241,7 +257,7 @@ export default function Home() {
         {/* map the cogs in to div cards that fetchSite by passing in the cog id - 1. Use grid! Do not use components. Just use divs. I want to have emoji and title and then below, a description*/}
 
         <div className="w-full px-8 select-none">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
             {cogs.map((cog, idx) => (
               <Card
                 key={idx}
@@ -255,19 +271,19 @@ export default function Home() {
 
         <div className="w-full overflow-y-auto h-full flex flex-col mb-20 px-8 py-2">
           <div className="mb-4 flex justify-start">
-            <div className="bg-zinc-50 rounded-lg px-4 py-3 text-zinc-700 max-w-xl break-words">
+            <div className="bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words">
               Hi there! Try cogniting something 🔥
             </div>
           </div>
 
           <div className="mb-4 flex justify-end">
-            <div className="bg-orange-500 rounded-lg px-4 py-3 text-white max-w-xl break-words">
+            <div className="bg-orange-100 rounded-xl px-4 py-3 text-zinc-800 max-w-xl break-words">
               {question}
             </div>
           </div>
 
           <div className="mb-4 flex justify-start">
-            <div className="bg-zinc-50 rounded-lg px-4 py-3 text-zinc-700 max-w-xl break-words">
+            <div className="bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words">
               {streamedAnswer ? (
                 <span>{streamedAnswer}</span>
               ) : streamedAnswer?.length < 0 && isAnswerLoading == false ? (

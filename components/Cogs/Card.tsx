@@ -19,12 +19,13 @@ const space_grotesk = Space_Grotesk({
 });
 
 const Card = ({ cog, fetchSite, isSiteFetching }: CardProps) => {
-  
   return (
     <div
       key={cog.id}
-      className={`relative flex flex-col w-full bg-orange-50/75 rounded-xl p-5 hover:bg-orange-100 active:bg-orange-100 transition-all duration-300 cursor-pointer transform active:scale-[0.98] hover:ring-2 hover:ring-orange-200 active:ring-2 active:ring-orange-200 ${
-        isSiteFetching == cog.id - 1 ? "bg-green-50" : ""
+      className={`relative flex flex-col w-full rounded-xl p-5 transition-all duration-300 cursor-pointer transform active:scale-[0.98] hover:ring-[2.5px] active:ring-[2.5px] ${
+        isSiteFetching == cog.id - 1
+          ? "bg-green-50 hover:bg-green-100 active:bg-green-100 hover:ring-green-200 active:ring-green-200"
+          : "bg-orange-50 hover:bg-orange-100 active:bg-orange-100 hover:ring-orange-200 active:ring-orange-200"
       }`}
       onClick={() => fetchSite(cog.id - 1)}
     >
@@ -35,10 +36,15 @@ const Card = ({ cog, fetchSite, isSiteFetching }: CardProps) => {
             alt={cog.title}
             layout="fill"
             objectFit="contain"
-            className="p-1"
+            className="p-1 rounded-lg"
           />
         </div>
-        <h5 className={space_grotesk.className + " ml-3 font-semibold text-lg text-zinc-800"}>
+        <h5
+          className={
+            space_grotesk.className +
+            " ml-3 font-semibold text-lg text-zinc-800"
+          }
+        >
           {cog.title}
         </h5>
       </div>

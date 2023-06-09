@@ -17,7 +17,7 @@ export default async function handler(
 
   try {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: "new",
       args: ["--no-sandbox"],
     });
 
