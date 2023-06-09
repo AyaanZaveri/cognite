@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import puppeteer from "puppeteer";
+// import puppeteer from "puppeteer";
+import chromium from "chrome-aws-lambda";
 const cheerio = require("cheerio");
 
 export default async function handler(
@@ -16,9 +17,10 @@ export default async function handler(
   }
 
   try {
-    const browser = await puppeteer.launch({
-      headless: "new",
+    const browser = await chromium.puppeteer.launch({
+      headless: true,
       args: ["--no-sandbox"],
+      ignoreHTTPSErrors: true,
     });
 
     let combinedText = "";

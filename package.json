@@ -17,6 +17,7 @@
     "autoprefixer": "10.4.14",
     "cheerio": "1.0.0-rc.12",
     "chromadb": "^1.5.0",
+    "chrome-aws-lambda": "^10.1.0",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "is-array-buffer": "^3.0.2",
@@ -34,6 +35,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.31",
     "hnswlib-node": "^1.4.2",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0"

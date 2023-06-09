@@ -276,23 +276,21 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mb-4 flex justify-end">
-            <div className="bg-orange-100 rounded-xl px-4 py-3 text-zinc-800 max-w-xl break-words">
-              {question}
+          {question.length > 0 ? (
+            <div className="mb-4 flex justify-end">
+              <div className="bg-orange-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words">
+                {question}
+              </div>
             </div>
-          </div>
+          ) : null}
 
-          <div className="mb-4 flex justify-start">
-            <div className="bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words">
-              {streamedAnswer ? (
+          {streamedAnswer.length > 0 ? (
+            <div className="mb-4 flex justify-start">
+              <div className="bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words">
                 <span>{streamedAnswer}</span>
-              ) : streamedAnswer?.length < 0 && isAnswerLoading == false ? (
-                <span className="inline-flex animate-pulse gap-2">
-                  Thinking <p>🧠</p>
-                </span>
-              ) : null}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
 
         <div className="bottom-0 w-full">
