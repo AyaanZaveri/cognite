@@ -10,6 +10,9 @@ dependencies:
   '@types/node':
     specifier: 20.2.0
     version: 20.2.0
+  '@types/puppeteer':
+    specifier: ^7.0.4
+    version: 7.0.4(typescript@5.0.4)
   '@types/puppeteer-core':
     specifier: ^7.0.4
     version: 7.0.4(typescript@5.0.4)
@@ -84,6 +87,15 @@ devDependencies:
   '@types/cheerio':
     specifier: ^0.22.31
     version: 0.22.31
+  '@types/eslint':
+    specifier: 8.40.0
+    version: 8.40.0
+  '@types/pdf-parse':
+    specifier: ^1.1.1
+    version: 1.1.1
+  '@types/prettier':
+    specifier: ^2.7.3
+    version: 2.7.3
   hnswlib-node:
     specifier: ^1.4.2
     version: 1.4.2
@@ -423,12 +435,35 @@ packages:
       '@types/node': 20.2.0
     dev: true
 
+  /@types/eslint@8.40.0:
+    resolution: {integrity: sha512-nbq2mvc/tBrK9zQQuItvjJl++GTN5j06DaPtp3hZCpngmG6Q3xoyEmd0TwZI0gAy/G1X0zhGBbr2imsGFdFV0g==}
+    dependencies:
+      '@types/estree': 1.0.1
+      '@types/json-schema': 7.0.12
+    dev: true
+
+  /@types/estree@1.0.1:
+    resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
+    dev: true
+
+  /@types/json-schema@7.0.12:
+    resolution: {integrity: sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==}
+    dev: true
+
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: false
 
   /@types/node@20.2.0:
     resolution: {integrity: sha512-3iD2jaCCziTx04uudpJKwe39QxXgSUnpxXSvRQjRvHPxFQfmfP4NXIm/NURVeNlTCc+ru4WqjYGTmpXrW9uMlw==}
+
+  /@types/pdf-parse@1.1.1:
+    resolution: {integrity: sha512-lDBKAslCwvfK2uvS1Uk+UCpGvw+JRy5vnBFANPKFSY92n/iEnunXi0KVBjPJXhsM4jtdcPnS7tuZ0zjA9x6piQ==}
+    dev: true
+
+  /@types/prettier@2.7.3:
+    resolution: {integrity: sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==}
+    dev: true
 
   /@types/prop-types@15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
@@ -439,6 +474,19 @@ packages:
     deprecated: This is a stub types definition. puppeteer-core provides its own type definitions, so you do not need this installed.
     dependencies:
       puppeteer-core: 20.5.0(typescript@5.0.4)
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: false
+
+  /@types/puppeteer@7.0.4(typescript@5.0.4):
+    resolution: {integrity: sha512-ja78vquZc8y+GM2al07GZqWDKQskQXygCDiu0e3uO0DMRKqE0MjrFBFmTulfPYzLB6WnL7Kl2tFPy0WXSpPomg==}
+    deprecated: This is a stub types definition. puppeteer provides its own type definitions, so you do not need this installed.
+    dependencies:
+      puppeteer: 20.5.0(typescript@5.0.4)
     transitivePeerDependencies:
       - bufferutil
       - encoding
