@@ -20,6 +20,8 @@ import { useRecoilState } from "recoil";
 import { BufferMemory } from "langchain/memory";
 import { writeFile } from "fs/promises";
 import Card from "@/components/Cogs/Card";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+import FileInput from "@/components/FileInput";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -39,6 +41,7 @@ export default function Home() {
   const [userUrl, setUserUrl] = useState<string>("");
   const [chain, setChain] = useState<any>(null);
   const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
+  const [fileLoading, setFileLoading] = useState(false);
   const [history, setHistory] = useState([]);
   const [messages, setMessages] = useState([
     {
@@ -84,6 +87,13 @@ export default function Home() {
         "https://www.ligue1.com/fixtures-results",
       ],
     },
+    {
+      id: 4,
+      title: "Your Cog",
+      img: "https://www.raycast.com/_next/image?url=https%3A%2F%2Ffiles.raycast.com%2Fp83cp3dpry9ktfemji1dcy4af5jp&w=128&q=75",
+      description: "Your own cog",
+      urls: [userUrl],
+    },
   ];
 
   const model = new ChatOpenAI(
@@ -91,7 +101,7 @@ export default function Home() {
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
       streaming: true,
       modelName: "gpt-3.5-turbo",
-      temperature: 0.9,
+      temperature: 0.7,
       topP: 1,
       callbacks: [
         {
@@ -157,7 +167,28 @@ export default function Home() {
 
     const conversationalChain = ConversationalRetrievalQAChain.fromLLM(
       model,
-      vectorStore.asRetriever()
+      vectorStore.asRetriever(),
+      {
+        questionGeneratorTemplate: `
+        Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
+
+        Chat History:
+        {chat_history}
+        Follow Up Input: {question}
+        Standalone question:
+`,
+        qaTemplate: `
+        You are a helpful AI assistant. Use the following pieces of context to answer the question at the end.
+        If you don't know the answer, just say you don't know. DO NOT try to make up an answer.
+        If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.
+        Use as much detail when as possible when responding. Respond using markdown and give at least two sentences. Make sure to use emojis throughout.
+
+        {context}
+
+        Question: {question}
+        Helpful answer in markdown format:
+        `,
+      }
     );
 
     setChain(conversationalChain);
@@ -199,21 +230,75 @@ export default function Home() {
     }
   }, [messages]);
 
+  const handleFileSelected = async (file: File) => {
+    setFileLoading(true);
+
+    console.log("Running");
+    const loader = new PDFLoader(file);
+    console.log("Made PDF");
+    const docs = await loader.loadAndSplit();
+    console.log("Loaded PDF");
+    // const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
+    // const docs = await splitter.splitDocuments(loadedDocs);
+
+    console.log(docs);
+
+    const vectorStore = await MemoryVectorStore.fromDocuments(
+      docs,
+      new OpenAIEmbeddings(
+        {
+          openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+          stripNewLines: true,
+          verbose: true,
+        },
+        {
+          basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+        }
+      )
+    );
+
+    const conversationalChain = ConversationalRetrievalQAChain.fromLLM(
+      model,
+      vectorStore.asRetriever(),
+      {
+        questionGeneratorTemplate: `
+        Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
+
+        Chat History:
+        {chat_history}
+        Follow Up Input: {question}
+        Standalone question:
+`,
+        qaTemplate: `
+        You are a helpful AI assistant. Use the following pieces of context to answer the question at the end.
+        If you don't know the answer, just say you don't know. DO NOT try to make up an answer.
+        If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.
+        Use as much detail when as possible when responding. Respond using markdown and give at least two sentences. Make sure to use emojis throughout.
+
+        {context}
+
+        Question: {question}
+        Helpful answer in markdown format:
+        `,
+      }
+    );
+
+    setChain(conversationalChain);
+
+    console.log("DONE 🔥");
+
+    setFileLoading(false);
+  };
+
   return (
     <main>
       <div
-        className="flex flex-col w-full items-center justify-center gap-8 h-screen"
+        className="flex flex-col w-full items-center justify-center gap-8 h-full"
         style={{
           paddingLeft: sidebarWidth,
         }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* <Card
-            cog="The Woodlands Secondary School"
-            imgUrl="https://thewoodlandsss.peelschools.org/images/logo.svg"
-          /> */}
-        </div>
-        <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2">
+        <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2 mt-6">
           <span
             className={
               space_grotesk.className + " font-medium text-zinc-700 pb-2"
@@ -223,39 +308,6 @@ export default function Home() {
           </span>
           <span className="pb-2">🔥</span>
         </div>
-        {/* <form
-          className="flex w-full flex-row gap-3 px-8"
-          onSubmit={(e) => {
-            e.preventDefault();
-            fetchSite();
-          }}
-        >
-          <input
-            type="text"
-            placeholder="URL of the site you want to cognite 🔗"
-            onChange={(e) => setUserUrl(e.target.value)}
-            className="w-full font-normal resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
-          />
-          <button
-            type="submit"
-            className="w-max rounded-md outline-none bg-zinc-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
-          >
-            <span className="inline-flex w-full gap-2 justify-center">
-              {isSiteFetching ? (
-                <span className="inline-flex w-full gap-2 justify-center animate-pulse">
-                  Setting <p>⛓️</p>
-                </span>
-              ) : (
-                <span className="inline-flex w-full gap-2 justify-center">
-                  Set <p>🔗</p>
-                </span>
-              )}
-            </span>
-          </button>
-        </form> */}
-
-        {/* map the cogs in to div cards that fetchSite by passing in the cog id - 1. Use grid! Do not use components. Just use divs. I want to have emoji and title and then below, a description*/}
-
         <div className="w-full px-8 select-none">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
             {cogs.map((cog, idx) => (
@@ -267,9 +319,23 @@ export default function Home() {
               />
             ))}
           </div>
+
+          <input
+            type="text"
+            placeholder="URL of the site you want to cognite 🔗"
+            onChange={(e) => setUserUrl(e.target.value)}
+            className="w-full font-normal resize-none mt-8 hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
+          />
+          <div
+            className={`mt-4 ${
+              fileLoading ? "text-green-500" : "text-orange-500"
+            }`}
+          >
+            <FileInput onFileSelected={handleFileSelected} />
+          </div>
         </div>
 
-        <div className="w-full overflow-y-auto h-full flex flex-col mb-20 px-8 py-2">
+        <div className="w-full h-full flex flex-col px-8 py-2 pb-24">
           <div className="mb-4 flex justify-start">
             <div className="bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words">
               Hi there! Try cogniting something 🔥
@@ -293,14 +359,19 @@ export default function Home() {
           ) : null}
         </div>
 
-        <div className="bottom-0 w-full">
-          <div className="flex w-full flex-row gap-6">
+        <div
+          className="bottom-6 w-full fixed"
+          style={{
+            paddingLeft: sidebarWidth / 2,
+          }}
+        >
+          <div className="flex w-full flex-row gap-6 px-8">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleChatSubmit(notesText);
               }}
-              className="flex w-full flex-row gap-3 p-8"
+              className="flex w-full flex-row gap-3"
             >
               <input
                 name=""
@@ -313,6 +384,9 @@ export default function Home() {
               <button
                 className="w-max select-none rounded-md outline-none bg-zinc-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
                 type="submit"
+                style={{
+                  marginRight: sidebarWidth / 2,
+                }}
               >
                 {isAnswerLoading ? (
                   <span className="inline-flex animate-pulse gap-2">
@@ -325,38 +399,9 @@ export default function Home() {
                 )}
               </button>
             </form>
-            {/* <div className="flex w-full flex-col items-end justify-end gap-3">
-            <textarea
-              name=""
-              id=""
-              rows={10}
-              onChange={(e) => setAnswerText(e.target.value)}
-              placeholder="Write your answer 👍"
-              className="w-full resize-none rounded-md p-4 shadow-sm outline-none ring-1 ring-zinc-200 transition-all duration-300 hover:ring-zinc-300 focus:ring-1 focus:ring-orange-500"
-            ></textarea>
-            <button
-              className="w-max rounded-md bg-zinc-900 px-6 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
-              onClick={() => getChatCompletionStream(notesText)}
-            >
-              {isAnswerLoading ? (
-                <span className="inline-flex animate-pulse gap-2">
-                  Thinking <p>🧠</p>
-                </span>
-              ) : (
-                "Quiz Me"
-              )}
-            </button>
-          </div> */}
           </div>
         </div>
       </div>
-      {/* <div className="mt-2 pb-16 flex justify-center">
-        <div className="flex w-9/12 flex-col gap-3 text-center">
-          <p className="text-2xl font-semibold text-zinc-800">
-            {answerText?.text}
-          </p>
-        </div>
-      </div> */}
     </main>
   );
 }

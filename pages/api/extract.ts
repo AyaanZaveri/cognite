@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-// import puppeteer from "puppeteer";
 import chromium from "chrome-aws-lambda";
 const cheerio = require("cheerio");
 
