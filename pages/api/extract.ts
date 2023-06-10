@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 const cheerio = require("cheerio");
 
-let chrome = {};
+let chrome: any = {};
 let puppeteer: any;
 
 if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
@@ -27,11 +27,22 @@ export default async function handler(
   }
 
   try {
-    const browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox"],
-      ignoreHTTPSErrors: true,
-    });
+    const options = process.env.AWS_REGION
+      ? {
+          args: chrome.args,
+          executablePath: await chrome.executablePath,
+          headless: chrome.headless,
+        }
+      : {
+          args: [],
+          executablePath:
+            process.platform === "win32"
+              ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
+              : process.platform === "linux"
+              ? "/usr/bin/google-chrome"
+              : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        };
+    const browser = await puppeteer.launch(options);
 
     let combinedText = "";
     for (const url of urls) {
