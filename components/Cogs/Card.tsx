@@ -30,7 +30,7 @@ const Card = ({ cog, fetchSite, isSiteFetching }: CardProps) => {
       onClick={() => fetchSite(cog.id - 1)}
     >
       <div className="flex items-center mb-2">
-        <div className="relative w-8 h-8 bg-white rounded-md ring-1 ring-stone-200">
+        <div className="relative w-8 h-8 bg-white rounded-md ring-1 ring-zinc-200">
           <Image
             src={cog.img}
             alt={cog.title}

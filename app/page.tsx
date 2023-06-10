@@ -354,7 +354,7 @@ export default function Home() {
             <div className="mb-4 flex justify-start">
               <div
                 className={`bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words transition-all duration-300 ${
-                  streaming ? "ring-2 ring-stone-200" : ""
+                  streaming ? "ring-[2.5px] ring-zinc-200" : ""
                 }`}
               >
                 <span className="prose transition-all duration-300">
