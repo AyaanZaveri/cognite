@@ -283,7 +283,7 @@ export default function Home() {
 
     setFileLoading(false);
   };
-  
+
   return (
     <main>
       <div
@@ -332,14 +332,20 @@ export default function Home() {
         <div className="w-full h-full flex flex-col px-8 py-2 pb-24">
           <div className="mb-4 flex justify-start">
             <div className="bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words">
-              Hi there! Try cogniting something 🔥
+              <span className="prose transition-all duration-300">
+                <ReactMarkdown>
+                  {"Hi there! Try **cogniting** something 🔥"}
+                </ReactMarkdown>
+              </span>
             </div>
           </div>
 
           {question.length > 0 ? (
             <div className="mb-4 flex justify-end">
               <div className="bg-orange-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words">
-                {question}
+                <span className="prose transition-all duration-300">
+                  <ReactMarkdown>{question}</ReactMarkdown>
+                </span>
               </div>
             </div>
           ) : null}
