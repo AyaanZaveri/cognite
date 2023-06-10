@@ -12,8 +12,6 @@
     "@extractus/article-extractor": "^7.2.16",
     "@pinecone-database/pinecone": "^0.1.6",
     "@types/node": "20.2.0",
-    "@types/puppeteer": "^7.0.4",
-    "@types/puppeteer-core": "^7.0.4",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
@@ -33,11 +31,13 @@
     "puppeteer": "^20.5.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-markdown": "^8.0.7",
     "recoil": "^0.7.7",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
     "@types/cheerio": "^0.22.31",
     "@types/eslint": "8.40.0",
     "@types/pdf-parse": "^1.1.1",

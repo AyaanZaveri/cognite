@@ -22,6 +22,7 @@ import { writeFile } from "fs/promises";
 import Card from "@/components/Cogs/Card";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import FileInput from "@/components/FileInput";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -43,6 +44,7 @@ export default function Home() {
   const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
   const [fileLoading, setFileLoading] = useState(false);
   const [history, setHistory] = useState([]);
+  const [streaming, setStreaming] = useState(false);
   const [messages, setMessages] = useState([
     {
       message: "Hi there! How can I help?",
@@ -105,8 +107,14 @@ export default function Home() {
       topP: 1,
       callbacks: [
         {
+          handleLLMStart() {
+            setStreaming(true);
+          },
           handleLLMNewToken(token: string) {
             setStreamedAnswer((prev) => prev + token);
+          },
+          handleLLMEnd() {
+            setStreaming(false);
           },
         },
       ],
@@ -126,9 +134,9 @@ export default function Home() {
 `;
 
   const QA_TEMPLATE = `
-  You are ChatGPT, a large language model trained by OpenAI.
+  You are Cognition, a large language model.
   Carefully heed the user's instructions.
-  Respond using Markdown. Make sure to use emojis throughout.
+  Respond using lots of Markdown. Make sure to use emojis throughout.
 
   {context}
 
@@ -338,8 +346,14 @@ export default function Home() {
 
           {streamedAnswer.length > 0 ? (
             <div className="mb-4 flex justify-start">
-              <div className="bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words">
-                <span>{streamedAnswer}</span>
+              <div
+                className={`bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words transition-all duration-300 ${
+                  streaming ? "ring-2 ring-stone-200" : ""
+                }`}
+              >
+                <span className="prose transition-all duration-300">
+                  <ReactMarkdown>{streamedAnswer}</ReactMarkdown>
+                </span>
               </div>
             </div>
           ) : null}
@@ -368,7 +382,7 @@ export default function Home() {
               ></input>
               {/* make a black button that says make question */}
               <button
-                className="w-max select-none rounded-md outline-none bg-zinc-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+                className="w-max rounded-md select-none outline-none bg-zinc-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
                 type="submit"
                 style={{
                   marginRight: sidebarWidth / 2,
