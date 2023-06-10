@@ -1,17 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import chromium from "chrome-aws-lambda";
 const cheerio = require("cheerio");
-
-let chrome: any = {};
-let puppeteer: any;
-
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  // running on the Vercel platform.
-  chrome = require("chrome-aws-lambda");
-  puppeteer = require("puppeteer-core");
-} else {
-  // running locally.
-  puppeteer = require("puppeteer");
-}
 
 export default async function handler(
   req: NextApiRequest,
@@ -27,29 +16,18 @@ export default async function handler(
   }
 
   try {
-    const options = process.env.AWS_REGION
-      ? {
-          args: chrome.args,
-          executablePath: await chrome.executablePath,
-          headless: chrome.headless,
-        }
-      : {
-          args: [],
-          executablePath:
-            process.platform === "win32"
-              ? "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"
-              : process.platform === "linux"
-              ? "/usr/bin/google-chrome"
-              : "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-        };
-    const browser = await puppeteer.launch(options);
+    const browser = await chromium.puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox"],
+      ignoreHTTPSErrors: true,
+    });
 
     let combinedText = "";
     for (const url of urls) {
       const page = await browser.newPage();
       await page.setRequestInterception(true);
 
-      page.on("request", (request: any) => {
+      page.on("request", (request) => {
         if (request.resourceType() === "document") {
           request.continue();
         } else {
