@@ -60,12 +60,14 @@ const Sidebar = () => {
   // console.log(sidebarWidth);
 
   const constrainSidebarWidth = (num: number) => {
-    if (num < 220) {
-      setSidebarWidth(220);
-    }
+    if (window.innerWidth > 768) {
+      if (num < 220) {
+        setSidebarWidth(220);
+      }
 
-    if (num > 280) {
-      setSidebarWidth(280);
+      if (num > 280) {
+        setSidebarWidth(280);
+      }
     }
 
     return num;
@@ -76,6 +78,23 @@ const Sidebar = () => {
       constrainSidebarWidth(sidebarWidth);
     }
   }, [sidebarWidth]);
+
+  useEffect(() => {
+    const updateSidebarWidth = () => {
+      if (window.innerWidth < 768) {
+        setSidebarWidth(0);
+      } else {
+        setSidebarWidth(240);
+      }
+    };
+
+    updateSidebarWidth();
+    window.addEventListener("resize", updateSidebarWidth);
+
+    return () => {
+      window.removeEventListener("resize", updateSidebarWidth);
+    };
+  }, []);
 
   return (
     <div

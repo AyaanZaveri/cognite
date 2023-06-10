@@ -130,7 +130,6 @@ export default function Home() {
   Chat History:
   {chat_history}
   Follow Up Input: {question}
-  Standalone question:
 `;
 
   const QA_TEMPLATE = `
