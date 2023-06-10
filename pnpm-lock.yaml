@@ -19,6 +19,9 @@ dependencies:
   autoprefixer:
     specifier: 10.4.14
     version: 10.4.14(postcss@8.4.23)
+  axios:
+    specifier: ^1.4.0
+    version: 1.4.0
   cheerio:
     specifier: 1.0.0-rc.12
     version: 1.0.0-rc.12
@@ -42,7 +45,7 @@ dependencies:
     version: 2.2.3
   langchain:
     specifier: ^0.0.83
-    version: 0.0.83(@pinecone-database/pinecone@0.1.6)(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(pdf-parse@1.1.1)(puppeteer@20.5.0)
+    version: 0.0.83(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(pdf-parse@1.1.1)(puppeteer@20.5.0)
   next:
     specifier: 13.4.4
     version: 13.4.4(react-dom@18.2.0)(react@18.2.0)
@@ -780,6 +783,16 @@ packages:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
       follow-redirects: 1.15.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios@1.4.0:
+    resolution: {integrity: sha512-S4XCWMEmzvo64T9GfvQDOXgYRDJ/wsSZc7Jvdgx5u1sd0JwsuPLqb3SYmusag+edF6ziyMensPVqLTSc1PiSEA==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -2556,7 +2569,7 @@ packages:
     bundledDependencies:
       - tar-fs
 
-  /langchain@0.0.83(@pinecone-database/pinecone@0.1.6)(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(pdf-parse@1.1.1)(puppeteer@20.5.0):
+  /langchain@0.0.83(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.0)(hnswlib-node@1.4.2)(pdf-parse@1.1.1)(puppeteer@20.5.0):
     resolution: {integrity: sha512-XS5H7g2/JRIi70D3UjfYpYlnkl5Q0lnsU9wT3fHexPazopUr4yvfg8ocHi+IyAQUOKSoEuyQQxxgaPsh2iyyxg==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -2685,6 +2698,7 @@ packages:
       '@anthropic-ai/sdk': 0.4.3
       '@pinecone-database/pinecone': 0.1.6
       ansi-styles: 5.2.0
+      axios: 1.4.0
       binary-extensions: 2.2.0
       cheerio: 1.0.0-rc.12
       chromadb: 1.5.0

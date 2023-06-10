@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import chromium from "chrome-aws-lambda";
+import axios from "axios";
 const cheerio = require("cheerio");
 
 export default async function handler(
@@ -16,51 +16,27 @@ export default async function handler(
   }
 
   try {
-    const browser = await chromium.puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox"],
-      ignoreHTTPSErrors: true,
-    });
-
     let combinedText = "";
+
     for (const url of urls) {
-      const page = await browser.newPage();
-      await page.setRequestInterception(true);
+      // Fetch the HTML content of the URL
+      const response = await axios.get(url as string);
 
-      page.on("request", (request) => {
-        if (request.resourceType() === "document") {
-          request.continue();
-        } else {
-          request.abort();
-        }
-      });
+      // Load the fetched HTML content with Cheerio
+      const $ = cheerio.load(response.data);
 
-      await page.goto(url as string);
+      // Extract the title
+      const title = $("title").text();
 
-      // Wait for the content to load
-      await page.waitForSelector("body");
-
-      const content = await page.evaluate(() => {
-        const elements = Array.from(document.querySelectorAll("body *"));
-        return elements
-          .map((element) => element.textContent!.replace(/\s+/g, " "))
-          .join(" ");
-      });
-
-      const title = await page.evaluate(() => document.title);
-
-      const $ = cheerio.load(content);
-
+      // Extract the text content from the body
       let extractedText = "";
       $("body").each((_i: any, elem: any) => {
         extractedText += $(elem).text();
       });
 
       combinedText += `${title}\n${extractedText}\n`;
-      await page.close();
     }
 
-    await browser.close();
     res.status(200).json({ extracted_text: combinedText });
   } catch (error) {
     res.status(500).json({ error: "An error occurred while extracting text" });
