@@ -26,7 +26,7 @@ dependencies:
     specifier: ^1.5.0
     version: 1.5.0
   chrome-aws-lambda:
-    specifier: ^2.1.1
+    specifier: ^2.0.1
     version: 2.1.1(puppeteer-core@2.1.1)
   eslint:
     specifier: 8.40.0
@@ -59,7 +59,7 @@ dependencies:
     specifier: ^20.5.0
     version: 20.5.0(typescript@5.0.4)
   puppeteer-core:
-    specifier: ^2.1.1
+    specifier: ^2.0.1
     version: 2.1.1
   react:
     specifier: 18.2.0
