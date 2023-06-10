@@ -1,36 +1,11 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import puppeteer from "puppeteer-core";
 const cheerio = require("cheerio");
 
-let chrome = {};
-let puppeteer: any;
-
-if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
-  // running on the Vercel platform.
-  chrome = require("chrome-aws-lambda");
-  puppeteer = require("puppeteer-core");
-} else {
-  // running locally.
-  puppeteer = require("puppeteer");
-}
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const urls = req.body.urls;
-
-  if (!urls || !Array.isArray(urls)) {
-    res
-      .status(400)
-      .json({ error: "URLs array is required in the request body" });
-    return;
-  }
-
+export async function scrape(urls: string[]) {
   try {
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: "new",
       args: ["--no-sandbox"],
-      ignoreHTTPSErrors: true,
     });
 
     let combinedText = "";
@@ -38,7 +13,7 @@ export default async function handler(
       const page = await browser.newPage();
       await page.setRequestInterception(true);
 
-      page.on("request", (request: any) => {
+      page.on("request", (request) => {
         if (request.resourceType() === "document") {
           request.continue();
         } else {
@@ -46,7 +21,7 @@ export default async function handler(
         }
       });
 
-      await page.goto(url as string);
+      await page.goto(url);
 
       // Wait for the content to load
       await page.waitForSelector("body");
@@ -72,8 +47,8 @@ export default async function handler(
     }
 
     await browser.close();
-    res.status(200).json({ extracted_text: combinedText });
+    return combinedText;
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while extracting text" });
+    throw new Error("An error occurred while extracting text");
   }
 }

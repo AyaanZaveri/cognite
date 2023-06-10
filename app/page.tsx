@@ -23,6 +23,7 @@ import Card from "@/components/Cogs/Card";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import FileInput from "@/components/FileInput";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { scrape } from "@/utils/scrape";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -283,6 +284,18 @@ export default function Home() {
 
     setFileLoading(false);
   };
+
+  useEffect(() => {
+    scrape([
+      "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub",
+    ])
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <main>
