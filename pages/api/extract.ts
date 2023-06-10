@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-const cheerio = require("cheerio");
+// const cheerio = require("cheerio");
 
 let chrome: any = {};
 let puppeteer: any;
@@ -71,14 +71,14 @@ export default async function handler(
 
       const title = await page.evaluate(() => document.title);
 
-      const $ = cheerio.load(content);
+      // const $ = cheerio.load(content);
 
-      let extractedText = "";
-      $("body").each((_i: any, elem: any) => {
-        extractedText += $(elem).text();
-      });
+      // let extractedText = "";
+      // $("body").each((_i: any, elem: any) => {
+      //   extractedText += $(elem).text();
+      // });
 
-      combinedText += `${title}\n${extractedText}\n`;
+      // combinedText += `${title}\n${extractedText}\n`;
       await page.close();
     }
 
