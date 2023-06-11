@@ -13,7 +13,11 @@ const FileInput: React.FC<FileInputProps> = ({ onFileSelected }) => {
   };
 
   return (
-    <input type="file" accept="application/pdf" onChange={handleInputChange} />
+    <input
+      type="file"
+      accept="application/pdf, application/epub+zip"
+      onChange={handleInputChange}
+    />
   );
 };
 

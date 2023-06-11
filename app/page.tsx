@@ -13,6 +13,7 @@ import { OpenAI, PromptTemplate } from "langchain/dist";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { sidebarWidthState } from "@/atoms/sidebar";
@@ -21,8 +22,13 @@ import { BufferMemory } from "langchain/memory";
 import { writeFile } from "fs/promises";
 import Card from "@/components/Cogs/Card";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+import { EPubLoader } from "langchain/document_loaders/fs/epub";
 import FileInput from "@/components/FileInput";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { createEmbeddings } from "@/utils/embed";
+import { createChain } from "@/utils/chain";
+import { saveAs } from "file-saver";
+import { getVideoId } from "@/utils/ytTranscript";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -40,6 +46,8 @@ export default function Home() {
   const [answerText, setAnswerText] = useState<any>();
   const [streamedAnswer, setStreamedAnswer] = useState<string>("");
   const [userUrl, setUserUrl] = useState<string>("");
+  const [youtubeUrl, setYoutubeUrl] = useState<string>("");
+  const [ytTranscript, setYtTranscript] = useState<string>("");
   const [chain, setChain] = useState<any>(null);
   const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
   const [fileLoading, setFileLoading] = useState(false);
@@ -91,10 +99,19 @@ export default function Home() {
     },
     {
       id: 4,
-      title: "Your Cog",
+      title: "You",
       img: "https://www.raycast.com/_next/image?url=https%3A%2F%2Ffiles.raycast.com%2Fp83cp3dpry9ktfemji1dcy4af5jp&w=128&q=75",
       description: "Your own cog",
       urls: [userUrl],
+    },
+    {
+      id: 5,
+      title: "Youtube",
+      img: "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
+      description: "Youtube",
+      urls: [
+        "https://youtubetranscript.com/?server_vid=" + getVideoId(youtubeUrl),
+      ],
     },
   ];
 
@@ -123,25 +140,6 @@ export default function Home() {
       basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
     }
   );
-
-  const CONDENSE_TEMPLATE = `
-  Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
-
-  Chat History:
-  {chat_history}
-  Follow Up Input: {question}
-`;
-
-  const QA_TEMPLATE = `
-  You are Cognition, a large language model.
-  Carefully heed the user's instructions.
-  Respond using Markdown. Make sure to use emojis throughout.
-
-  {context}
-
-  Question: {question}
-  Helpful answer in markdown format:
-  `;
 
   const scrapeSite = async (urls: string[]) => {
     const res = await fetch(`/api/extract`, {
@@ -173,33 +171,31 @@ export default function Home() {
     return docs;
   };
 
+  const embeddings = async (docs: any) => {
+    await fetch("/api/embeddings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({
+        docs: docs,
+      }),
+    });
+  };
+
   const fetchSite = async (cogId: number) => {
     setIsSiteFetching(cogId);
 
     const docs = await getTextChunks(cogId);
 
-    const vectorStore = await MemoryVectorStore.fromDocuments(
-      docs,
-      new OpenAIEmbeddings(
-        {
-          openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-          stripNewLines: true,
-          verbose: true,
-        },
-        {
-          basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-        }
-      )
-    );
+    // embeddings(docs);
 
-    const conversationalChain = ConversationalRetrievalQAChain.fromLLM(
-      model,
-      vectorStore.asRetriever(),
-      {
-        questionGeneratorTemplate: CONDENSE_TEMPLATE,
-        qaTemplate: QA_TEMPLATE,
-      }
-    );
+    console.log(docs);
+
+    const vectorStore = await createEmbeddings(docs);
+
+    const conversationalChain = await createChain(model, vectorStore);
 
     setChain(conversationalChain);
 
@@ -240,47 +236,49 @@ export default function Home() {
     }
   }, [messages]);
 
+  // const handleFileSelected = async (file: File) => {
+  //   setFileLoading(true);
+
+  //   console.log("Running");
+  //   const loader = new PDFLoader(file);
+  //   console.log("Made PDF");
+  //   const docs = await loader.loadAndSplit();
+  //   console.log("Loaded PDF");
+  //   // const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
+  //   // const docs = await splitter.splitDocuments(loadedDocs);
+
+  //   embeddings(docs);
+
+  //   console.log(docs);
+
+  //   const vectorStore = await createEmbeddings(docs);
+
+  //   const conversationalChain = await createChain(model, vectorStore);
+
+  //   setChain(conversationalChain);
+
+  //   console.log("DONE 🔥");
+
+  //   setFileLoading(false);
+  // };
+
   const handleFileSelected = async (file: File) => {
-    setFileLoading(true);
-
-    console.log("Running");
-    const loader = new PDFLoader(file);
-    console.log("Made PDF");
-    const docs = await loader.loadAndSplit();
-    console.log("Loaded PDF");
-    // const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
-    // const docs = await splitter.splitDocuments(loadedDocs);
-
-    console.log(docs);
-
-    const vectorStore = await MemoryVectorStore.fromDocuments(
-      docs,
-      new OpenAIEmbeddings(
-        {
-          openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-          stripNewLines: true,
-          verbose: true,
-        },
-        {
-          basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-        }
-      )
-    );
-
-    const conversationalChain = ConversationalRetrievalQAChain.fromLLM(
-      model,
-      vectorStore.asRetriever(),
-      {
-        questionGeneratorTemplate: CONDENSE_TEMPLATE,
-        qaTemplate: QA_TEMPLATE,
-      }
-    );
-
-    setChain(conversationalChain);
-
-    console.log("DONE 🔥");
-
-    setFileLoading(false);
+    if (file.type === "application/pdf") {
+      setFileLoading(true);
+      console.log("pdf");
+      const loader = new PDFLoader(file);
+      const docs = await loader.loadAndSplit();
+      // embeddings(docs);
+      const vectorStore = await createEmbeddings(docs);
+      const conversationalChain = await createChain(model, vectorStore);
+      setChain(conversationalChain);
+      console.log("DONE 🔥");
+      setFileLoading(false);
+    } else if (file.type === "application/epub+zip") {
+      console.log("epub");
+    } else {
+      console.log("Unsupported file type");
+    }
   };
 
   return (
@@ -319,6 +317,12 @@ export default function Home() {
             placeholder="URL of the site you want to cognite 🔗"
             onChange={(e) => setUserUrl(e.target.value)}
             className="w-full font-normal resize-none mt-8 hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
+          />
+          <input
+            type="text"
+            placeholder="Youtube URL of the site you want to cognite 🔗"
+            onChange={(e) => setYoutubeUrl(e.target.value)}
+            className="w-full font-normal resize-none mt-4 hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
           />
           <div
             className={`mt-4 ${
