@@ -135,7 +135,7 @@ export default function Home() {
   const QA_TEMPLATE = `
   You are Cognition, a large language model.
   Carefully heed the user's instructions.
-  Respond using Markdown. Only use heading 3 for the title. Make sure to use emojis throughout when necessary.
+  Respond using Markdown. When using a title, only use heading 3. Make sure to use emojis throughout when necessary.
 
   {context}
 
