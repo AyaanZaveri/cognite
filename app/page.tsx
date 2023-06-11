@@ -294,7 +294,7 @@ export default function Home() {
         <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2 mt-6">
           <span
             className={
-              space_grotesk.className + " font-medium text-zinc-700 pb-2"
+              space_grotesk.className + " font-semibold text-zinc-700 pb-2"
             }
           >
             Cognition
