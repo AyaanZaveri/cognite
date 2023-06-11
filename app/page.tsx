@@ -135,7 +135,7 @@ export default function Home() {
   const QA_TEMPLATE = `
   You are Cognition, a large language model.
   Carefully heed the user's instructions.
-  Respond using Markdown. When using a title, only use heading 3. Make sure to use emojis throughout when necessary.
+  Respond using Markdown. Make sure to use emojis throughout.
 
   {context}
 
@@ -294,7 +294,8 @@ export default function Home() {
         <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2 mt-6">
           <span
             className={
-              space_grotesk.className + " font-semibold text-zinc-700 pb-2"
+              space_grotesk.className +
+              " font-semibold text-zinc-700 pb-2 hover:bg-gradient-to-r hover:from-zinc-700 hover:to-zinc-500 hover:bg-clip-text hover:text-transparent"
             }
           >
             Cognition
