@@ -29,6 +29,7 @@ import { createEmbeddings } from "@/utils/embed";
 import { createChain } from "@/utils/chain";
 import { saveAs } from "file-saver";
 import { getVideoId } from "@/utils/ytTranscript";
+import { Innertube } from "youtubei.js";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -46,7 +47,6 @@ export default function Home() {
   const [answerText, setAnswerText] = useState<any>();
   const [streamedAnswer, setStreamedAnswer] = useState<string>("");
   const [userUrl, setUserUrl] = useState<string>("");
-  const [youtubeUrl, setYoutubeUrl] = useState<string>("");
   const [ytTranscript, setYtTranscript] = useState<string>("");
   const [chain, setChain] = useState<any>(null);
   const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
@@ -99,18 +99,18 @@ export default function Home() {
     },
     {
       id: 4,
-      title: "You",
-      img: "https://www.raycast.com/_next/image?url=https%3A%2F%2Ffiles.raycast.com%2Fp83cp3dpry9ktfemji1dcy4af5jp&w=128&q=75",
-      description: "Your own cog",
+      title: "Website",
+      img: "https://em-content.zobj.net/thumbs/240/apple/354/globe-with-meridians_1f310.png",
+      description: "Custom Website",
       urls: [userUrl],
     },
     {
       id: 5,
       title: "Youtube",
       img: "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
-      description: "Youtube",
+      description: "Youtube Video",
       urls: [
-        "https://youtubetranscript.com/?server_vid=" + getVideoId(youtubeUrl),
+        "https://youtubetranscript.com/?server_vid=" + getVideoId(userUrl),
       ],
     },
   ];
@@ -293,7 +293,7 @@ export default function Home() {
           <span
             className={
               space_grotesk.className +
-              " font-semibold text-zinc-700 pb-2 hover:bg-gradient-to-r hover:from-zinc-700 hover:to-zinc-500 hover:bg-clip-text hover:text-transparent"
+              " font-semibold pb-2 animate-text bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text text-transparent"
             }
           >
             Cognition
@@ -317,12 +317,6 @@ export default function Home() {
             placeholder="URL of the site you want to cognite 🔗"
             onChange={(e) => setUserUrl(e.target.value)}
             className="w-full font-normal resize-none mt-8 hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
-          />
-          <input
-            type="text"
-            placeholder="Youtube URL of the site you want to cognite 🔗"
-            onChange={(e) => setYoutubeUrl(e.target.value)}
-            className="w-full font-normal resize-none mt-4 hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
           />
           <div
             className={`mt-4 ${
@@ -357,7 +351,7 @@ export default function Home() {
           {streamedAnswer.length > 0 ? (
             <div className="mb-4 flex justify-start">
               <div
-                className={`bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words transition-all duration-300 ${
+                className={`bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words transition-all duration-1000 ${
                   streaming ? "ring-[2.5px] ring-zinc-200" : ""
                 }`}
               >

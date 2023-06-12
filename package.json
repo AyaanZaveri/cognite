@@ -37,7 +37,8 @@
     "recoil": "^0.7.7",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4",
-    "youtube-transcript": "^1.0.6"
+    "youtube-transcript": "^1.0.6",
+    "youtubei.js": "^5.1.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.9",

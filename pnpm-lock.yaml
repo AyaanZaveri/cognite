@@ -88,6 +88,9 @@ dependencies:
   youtube-transcript:
     specifier: ^1.0.6
     version: 1.0.6
+  youtubei.js:
+    specifier: ^5.1.0
+    version: 5.1.0
 
 devDependencies:
   '@tailwindcss/typography':
@@ -2221,6 +2224,12 @@ packages:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: false
 
+  /jintr@1.0.0:
+    resolution: {integrity: sha512-Kbyb5jiIzmTrbhbdjQGt+jjVzn9BPluvL3mZU5ihFQIEGjCHUA4+rsXE2PNDKmg1UlfdTn3947aSwWOVnc5UIw==}
+    dependencies:
+      acorn: 8.8.2
+    dev: false
+
   /jiti@1.18.2:
     resolution: {integrity: sha512-QAdOptna2NYiSSpv0O/BwoHBSmz4YhpzJHyi+fnMRTXFjp7B8i/YG5Z8IfusxB1ufjcD2Sre1F3R+nX3fvy7gg==}
     hasBin: true
@@ -3932,6 +3941,13 @@ packages:
       which-boxed-primitive: 1.0.2
     dev: false
 
+  /undici@5.22.1:
+    resolution: {integrity: sha512-Ji2IJhFXZY0x/0tVBXeQwgPlLWw13GVzpsWPQ3rV50IFMMof2I55PZZxtm4P6iNq+L5znYN9nSTAq0ZyE6lSJw==}
+    engines: {node: '>=14.0'}
+    dependencies:
+      busboy: 1.6.0
+    dev: false
+
   /unified@10.1.2:
     resolution: {integrity: sha512-pUSWAi/RAnVy1Pif2kAoeWNBa3JVrx0MId2LASj8G+7AiHWoKZNTomq6LG326T68U7/e263X6fTdcXIy7XnF7Q==}
     dependencies:
@@ -4126,6 +4142,15 @@ packages:
     resolution: {integrity: sha512-k/6uxB9voj/5astl6+q+VArX/aWHhnmle8BucvUCTYTQQEOSVlBiXkrI0KD3o8A0b44MV6q0bmVNiJFIpTlcZA==}
     dependencies:
       phin: 3.7.0
+    dev: false
+
+  /youtubei.js@5.1.0:
+    resolution: {integrity: sha512-Rbe71rqqSVGj2kBv7FeIDbod+AEcd84F/7inSLWjt6jv8tmTGLjXr8cjlqzY5WhpNKMJuSUVKLFgCb3V0SHTUA==}
+    dependencies:
+      jintr: 1.0.0
+      linkedom: 0.14.26
+      tslib: 2.5.1
+      undici: 5.22.1
     dev: false
 
   /zod-to-json-schema@3.21.1(zod@3.21.4):
