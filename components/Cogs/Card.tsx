@@ -36,7 +36,7 @@ const Card = ({ cog, fetchSite, isSiteFetching }: CardProps) => {
             alt={cog.title}
             layout="fill"
             objectFit="contain"
-            className="p-1 rounded-lg"
+            className="p-1.5 rounded-lg"
           />
         </div>
         <h5
