@@ -12,6 +12,9 @@ const poppins = Poppins({
 export const metadata = {
   title: "Cognition",
   description: "Chat with any website",
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default function RootLayout({
