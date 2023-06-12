@@ -30,6 +30,7 @@ import { createChain } from "@/utils/chain";
 import { saveAs } from "file-saver";
 import { getVideoId } from "@/utils/ytTranscript";
 import { Innertube } from "youtubei.js";
+import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -171,29 +172,20 @@ export default function Home() {
     return docs;
   };
 
-  const embeddings = async (docs: any) => {
-    await fetch("/api/embeddings", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify({
-        docs: docs,
-      }),
-    });
-  };
-
   const fetchSite = async (cogId: number) => {
     setIsSiteFetching(cogId);
 
     const docs = await getTextChunks(cogId);
 
-    // embeddings(docs);
-
-    console.log(docs);
-
     const vectorStore = await createEmbeddings(docs);
+
+    // const vectorStore = await fetch("/api/embeddings", {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json",
+    //   },
+    //   body: JSON.stringify({ model, docs }),
+    // }).then((res) => res.json());
 
     const conversationalChain = await createChain(model, vectorStore);
 

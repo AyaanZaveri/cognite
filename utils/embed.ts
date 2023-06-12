@@ -2,6 +2,8 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
 export const createEmbeddings = async (docs: any) => {
+  // console.log("docs", docs);
+
   const vectorStore = await MemoryVectorStore.fromDocuments(
     docs,
     new OpenAIEmbeddings(
@@ -16,6 +18,8 @@ export const createEmbeddings = async (docs: any) => {
     )
     // new HuggingFaceInferenceEmbeddings()
   );
+
+  console.log("vectorStore")
 
   return vectorStore;
 };

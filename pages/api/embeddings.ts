@@ -1,21 +1,15 @@
-// import { prisma } from '@/lib/prisma'
 import { NextApiRequest, NextApiResponse } from "next";
-import { addModels } from "@/lib/makeVector";
+import { createEmbeddings } from "@/utils/embed";
+import { createChain } from "@/utils/chain";
 
 const embedding = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { docs } = req.body;
+  const { model, docs } = req.body;
 
-  return new Promise((resolve, reject) => {
-    addModels(docs, "docusoar")
-      .then((result) => {
-        res.status(200).json(result);
-        resolve(result);
-      })
-      .catch((err) => {
-        res.status(500).json(err);
-        reject(err);
-      });
-  });
+  const vectorStore = await createEmbeddings(docs);
+
+  // const conversationalChain = await createChain(model, vectorStore);
+
+  res.status(200).json({ vectorStore });
 };
 
 export default embedding;
