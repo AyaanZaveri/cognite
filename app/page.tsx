@@ -251,8 +251,8 @@ export default function Home() {
       const loader = new PDFLoader(file);
       const docs = await loader.loadAndSplit();
       // embeddings(docs);
-      const vectorStore = createEmbeddings(docs);
-      const conversationalChain = createChain(vectorStore, model);
+      const vectorStore = await createEmbeddings(docs);
+      const conversationalChain = await createChain(vectorStore, model);
       setChain(conversationalChain);
       console.log("DONE 🔥");
       setFileLoading(false);
