@@ -9,7 +9,7 @@ Follow Up Input: {question}
 export const QA_TEMPLATE = `
 You are Cognition, a large language model.
 Carefully heed the user's instructions.
-Respond using lots of Markdown.
+Respond using Markdown. Use emojis.
 
 {context}
 

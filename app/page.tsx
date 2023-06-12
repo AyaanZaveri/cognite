@@ -29,7 +29,6 @@ import { createEmbeddings } from "@/utils/embed";
 import { createChain } from "@/utils/chain";
 import { saveAs } from "file-saver";
 import { getVideoId } from "@/utils/ytTranscript";
-import { Innertube } from "youtubei.js";
 import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -178,16 +177,7 @@ export default function Home() {
     const docs = await getTextChunks(cogId);
 
     const vectorStore = await createEmbeddings(docs);
-
-    // const vectorStore = await fetch("/api/embeddings", {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json",
-    //   },
-    //   body: JSON.stringify({ model, docs }),
-    // }).then((res) => res.json());
-
-    const conversationalChain = await createChain(model, vectorStore);
+    const conversationalChain = await createChain(vectorStore, model);
 
     setChain(conversationalChain);
 
@@ -261,8 +251,8 @@ export default function Home() {
       const loader = new PDFLoader(file);
       const docs = await loader.loadAndSplit();
       // embeddings(docs);
-      const vectorStore = await createEmbeddings(docs);
-      const conversationalChain = await createChain(model, vectorStore);
+      const vectorStore = createEmbeddings(docs);
+      const conversationalChain = createChain(vectorStore, model);
       setChain(conversationalChain);
       console.log("DONE 🔥");
       setFileLoading(false);
@@ -281,7 +271,7 @@ export default function Home() {
           paddingLeft: sidebarWidth,
         }}
       >
-        <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2 mt-6">
+        <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2 mt-6 hover:scale-110 transition duration-1000 ease-in-out">
           <span
             className={
               space_grotesk.className +

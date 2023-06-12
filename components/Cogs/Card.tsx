@@ -9,8 +9,8 @@ interface CardProps {
     img: string;
     description: string;
   };
-  fetchSite: (id: number) => void;
   isSiteFetching: number | null | undefined;
+  fetchSite: (id: number) => void;
 }
 
 const space_grotesk = Space_Grotesk({
@@ -18,7 +18,7 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-const Card = ({ cog, fetchSite, isSiteFetching }: CardProps) => {
+const Card = ({ cog, isSiteFetching, fetchSite }: CardProps) => {
   return (
     <div
       key={cog.id}

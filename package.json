@@ -18,7 +18,7 @@
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "cheerio": "1.0.0-rc.12",
-    "chromadb": "^1.5.0",
+    "chromadb": "^1.5.2",
     "epub2": "^3.0.1",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",

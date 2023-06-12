@@ -1,11 +1,14 @@
 import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { BaseLanguageModel } from "langchain/dist/base_language";
+import { Document } from "langchain/dist/document";
 import { VectorStore } from "langchain/dist/vectorstores/base";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
 export const createChain = async (
-  model: BaseLanguageModel,
-  vectorStore: VectorStore
+  vectorStore: any,
+  model: BaseLanguageModel
 ) => {
   const conversationalChain = ConversationalRetrievalQAChain.fromLLM(
     model,
