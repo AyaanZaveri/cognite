@@ -20,7 +20,7 @@ import { sidebarWidthState } from "@/atoms/sidebar";
 import { useRecoilState } from "recoil";
 import { BufferMemory } from "langchain/memory";
 import { writeFile } from "fs/promises";
-import Card from "@/components/Cogs/Card";
+import WebCard from "@/components/Cogs/WebCard";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { EPubLoader } from "langchain/document_loaders/fs/epub";
 import FileInput from "@/components/FileInput";
@@ -30,6 +30,7 @@ import { createChain } from "@/utils/chain";
 import { saveAs } from "file-saver";
 import { getVideoId } from "@/utils/ytTranscript";
 import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
+import FileCard from "@/components/Cogs/FileCard";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -39,9 +40,6 @@ const space_grotesk = Space_Grotesk({
 
 export default function Home() {
   const [isAnswerLoading, setIsAnswerLoading] = useState(false);
-  const [isSiteFetching, setIsSiteFetching] = useState<
-    number | null | undefined
-  >();
   const [notesText, setNotesText] = useState("");
   const [question, setQuestion] = useState("");
   const [answerText, setAnswerText] = useState<any>();
@@ -50,7 +48,7 @@ export default function Home() {
   const [ytTranscript, setYtTranscript] = useState<string>("");
   const [chain, setChain] = useState<any>(null);
   const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
-  const [fileLoading, setFileLoading] = useState(false);
+  const [fileCogLoading, setFileCogLoading] = useState(false);
   const [history, setHistory] = useState([]);
   const [streaming, setStreaming] = useState(false);
   const [messages, setMessages] = useState([
@@ -59,6 +57,7 @@ export default function Home() {
       type: "apiMessage",
     },
   ]);
+
   const cogs = [
     {
       id: 1,
@@ -72,6 +71,7 @@ export default function Home() {
         "https://en.wikipedia.org/wiki/The_Woodlands_School_(Mississauga)",
         "https://sites.google.com/pdsb.net/twsstudentservices/important-links-and-info?authuser=0",
       ],
+      type: "web",
     },
     {
       id: 2,
@@ -83,6 +83,7 @@ export default function Home() {
         "https://johnfrasersac.com/allclubs/",
         "https://en.wikipedia.org/wiki/John_Fraser_Secondary_School",
       ],
+      type: "web",
     },
     {
       id: 3,
@@ -96,6 +97,7 @@ export default function Home() {
         "https://www.ligue1.com/ranking/assists",
         "https://www.ligue1.com/fixtures-results",
       ],
+      type: "web",
     },
     {
       id: 4,
@@ -103,6 +105,7 @@ export default function Home() {
       img: "https://em-content.zobj.net/thumbs/240/apple/354/globe-with-meridians_1f310.png",
       description: "Custom Website",
       urls: [userUrl],
+      type: "web",
     },
     {
       id: 5,
@@ -112,6 +115,7 @@ export default function Home() {
       urls: [
         "https://youtubetranscript.com/?server_vid=" + getVideoId(userUrl),
       ],
+      type: "web",
     },
   ];
 
@@ -140,49 +144,6 @@ export default function Home() {
       basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
     }
   );
-
-  const scrapeSite = async (urls: string[]) => {
-    const res = await fetch(`/api/extract`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ urls }),
-    });
-
-    const data = await res.json();
-
-    console.log(data);
-
-    return data.extracted_text;
-  };
-
-  const getTextChunks = async (cogId: number) => {
-    const siteText = await scrapeSite(cogs[cogId].urls);
-
-    console.log(siteText);
-
-    const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
-
-    const docs = await splitter.createDocuments([siteText as string]);
-
-    console.log(docs);
-
-    return docs;
-  };
-
-  const fetchSite = async (cogId: number) => {
-    setIsSiteFetching(cogId);
-
-    const docs = await getTextChunks(cogId);
-
-    const vectorStore = await createEmbeddings(docs);
-    const conversationalChain = await createChain(vectorStore, model);
-
-    setChain(conversationalChain);
-
-    setIsSiteFetching(null);
-  };
 
   const handleChatSubmit = async (prompt: string) => {
     setStreamedAnswer("");
@@ -218,44 +179,19 @@ export default function Home() {
     }
   }, [messages]);
 
-  // const handleFileSelected = async (file: File) => {
-  //   setFileLoading(true);
-
-  //   console.log("Running");
-  //   const loader = new PDFLoader(file);
-  //   console.log("Made PDF");
-  //   const docs = await loader.loadAndSplit();
-  //   console.log("Loaded PDF");
-  //   // const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
-  //   // const docs = await splitter.splitDocuments(loadedDocs);
-
-  //   embeddings(docs);
-
-  //   console.log(docs);
-
-  //   const vectorStore = await createEmbeddings(docs);
-
-  //   const conversationalChain = await createChain(model, vectorStore);
-
-  //   setChain(conversationalChain);
-
-  //   console.log("DONE 🔥");
-
-  //   setFileLoading(false);
-  // };
-
-  const handleFileSelected = async (file: File) => {
+  const handleFileCog = async (file: File) => {
     if (file.type === "application/pdf") {
-      setFileLoading(true);
-      console.log("pdf");
+      setFileCogLoading(true);
+
       const loader = new PDFLoader(file);
       const docs = await loader.loadAndSplit();
-      // embeddings(docs);
+
       const vectorStore = await createEmbeddings(docs);
       const conversationalChain = await createChain(vectorStore, model);
+
       setChain(conversationalChain);
       console.log("DONE 🔥");
-      setFileLoading(false);
+      setFileCogLoading(false);
     } else if (file.type === "application/epub+zip") {
       console.log("epub");
     } else {
@@ -271,7 +207,7 @@ export default function Home() {
           paddingLeft: sidebarWidth,
         }}
       >
-        <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2 mt-6 hover:scale-110 transition duration-1000 ease-in-out">
+        <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2 mt-6 hover:scale-105 transition duration-1000 ease-in-out">
           <span
             className={
               space_grotesk.className +
@@ -285,12 +221,18 @@ export default function Home() {
         <div className="w-full px-8 select-none">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
             {cogs.map((cog, idx) => (
-              <Card
-                key={idx}
-                cog={cog}
-                fetchSite={fetchSite}
-                isSiteFetching={isSiteFetching}
-              />
+              <>
+                {cog.type == "web" ? (
+                  <WebCard
+                    key={idx}
+                    cog={cog}
+                    model={model}
+                    setChain={setChain}
+                  />
+                ) : (
+                  <div></div>
+                )}
+              </>
             ))}
           </div>
 
@@ -300,12 +242,13 @@ export default function Home() {
             onChange={(e) => setUserUrl(e.target.value)}
             className="w-full font-normal resize-none mt-8 hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
           />
+
           <div
             className={`mt-4 ${
-              fileLoading ? "text-green-500" : "text-orange-500"
+              fileCogLoading ? "text-green-500" : "text-orange-500"
             }`}
           >
-            <FileInput onFileSelected={handleFileSelected} />
+            <FileInput onFileSelected={handleFileCog} />
           </div>
         </div>
 

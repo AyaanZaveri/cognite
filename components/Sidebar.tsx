@@ -4,7 +4,7 @@
 import { sidebarWidthState } from "@/atoms/sidebar";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import Card from "./Cogs/Card";
+import Card from "./Cogs/WebCard";
 
 const Sidebar = () => {
   const [cogs, setCogs] = useState<any>([
