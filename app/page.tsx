@@ -127,7 +127,7 @@ export default function Home() {
     {
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
       streaming: true,
-      modelName: "gpt-4",
+      modelName: "gpt-3.5-turbo",
       temperature: 0.7,
       topP: 1,
       callbacks: [
