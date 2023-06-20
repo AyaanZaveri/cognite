@@ -1,5 +1,6 @@
 import { createChain } from "@/utils/chain";
 import { createEmbeddings } from "@/utils/embed";
+import { BaseChatModel } from "langchain/dist/chat_models/base";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
@@ -13,7 +14,8 @@ interface WebCardProps {
     description: string;
     urls: string[];
   };
-  model: any;
+  streamingModel: BaseChatModel;
+  nonStreamingModel: BaseChatModel;
   setChain: any;
 }
 
@@ -22,7 +24,12 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-const WebCard = ({ cog, model, setChain }: WebCardProps) => {
+const WebCard = ({
+  cog,
+  streamingModel,
+  nonStreamingModel,
+  setChain,
+}: WebCardProps) => {
   const [webCogLoading, setWebCogLoading] = useState<boolean>(false);
 
   const handleWebCog = async () => {
@@ -46,7 +53,14 @@ const WebCard = ({ cog, model, setChain }: WebCardProps) => {
     const docs = await splitter.createDocuments([siteText as string]);
 
     const vectorStore = await createEmbeddings(docs);
-    const conversationalChain = await createChain(vectorStore, model);
+
+    const conversationalChain = await createChain(
+      vectorStore,
+      streamingModel,
+      nonStreamingModel
+    );
+
+    console.log(conversationalChain);
 
     setChain(conversationalChain);
 

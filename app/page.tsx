@@ -31,6 +31,8 @@ import { saveAs } from "file-saver";
 import { getVideoId } from "@/utils/ytTranscript";
 import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
 import FileCard from "@/components/Cogs/FileCard";
+import { useChat } from "ai/react";
+import remarkGfm from "remark-gfm";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -51,12 +53,6 @@ export default function Home() {
   const [fileCogLoading, setFileCogLoading] = useState(false);
   const [history, setHistory] = useState([]);
   const [streaming, setStreaming] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      message: "Hi there! How can I help?",
-      type: "apiMessage",
-    },
-  ]);
 
   const cogs = [
     {
@@ -101,6 +97,14 @@ export default function Home() {
     },
     {
       id: 4,
+      title: "LangChain",
+      img: "https://em-content.zobj.net/thumbs/240/apple/354/parrot_1f99c.png",
+      description: "LangChain JS Documentation",
+      urls: [],
+      type: "web",
+    },
+    {
+      id: 5,
       title: "Website",
       img: "https://em-content.zobj.net/thumbs/240/apple/354/globe-with-meridians_1f310.png",
       description: "Custom Website",
@@ -108,7 +112,7 @@ export default function Home() {
       type: "web",
     },
     {
-      id: 5,
+      id: 6,
       title: "Youtube",
       img: "https://cdn-icons-png.flaticon.com/512/1384/1384060.png",
       description: "Youtube Video",
@@ -119,11 +123,11 @@ export default function Home() {
     },
   ];
 
-  const model = new ChatOpenAI(
+  const streamingModel = new ChatOpenAI(
     {
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
       streaming: true,
-      modelName: "gpt-3.5-turbo",
+      modelName: "gpt-4",
       temperature: 0.7,
       topP: 1,
       callbacks: [
@@ -145,39 +149,28 @@ export default function Home() {
     }
   );
 
+  const nonStreamingModel = new ChatOpenAI({
+    openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+  });
+
   const handleChatSubmit = async (prompt: string) => {
     setStreamedAnswer("");
     setQuestion(prompt);
     setIsAnswerLoading(true);
 
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { message: prompt, type: "userMessage" },
-    ]);
-
     const res = await chain.call({
       question: prompt,
-      chat_history: [],
+      chat_history: history,
     });
 
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      { message: res.text, type: "apiMessage" },
-    ]);
+    console.log(res);
 
     setIsAnswerLoading(false);
   };
 
-  useEffect(() => {
-    if (messages.length >= 3) {
-      setHistory([
-        [
-          messages[messages.length - 2].message,
-          messages[messages.length - 1].message,
-        ],
-      ] as any);
-    }
-  }, [messages]);
+  // console.log(streamedAnswer);
+
+  console.log(chain);
 
   const handleFileCog = async (file: File) => {
     if (file.type === "application/pdf") {
@@ -187,7 +180,11 @@ export default function Home() {
       const docs = await loader.loadAndSplit();
 
       const vectorStore = await createEmbeddings(docs);
-      const conversationalChain = await createChain(vectorStore, model);
+      const conversationalChain = await createChain(
+        vectorStore,
+        streamingModel,
+        nonStreamingModel
+      );
 
       setChain(conversationalChain);
       console.log("DONE 🔥");
@@ -198,6 +195,8 @@ export default function Home() {
       console.log("Unsupported file type");
     }
   };
+
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
 
   return (
     <main>
@@ -226,7 +225,8 @@ export default function Home() {
                   <WebCard
                     key={idx}
                     cog={cog}
-                    model={model}
+                    streamingModel={streamingModel}
+                    nonStreamingModel={nonStreamingModel}
                     setChain={setChain}
                   />
                 ) : (
@@ -276,12 +276,14 @@ export default function Home() {
           {streamedAnswer.length > 0 ? (
             <div className="mb-4 flex justify-start">
               <div
-                className={`bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-xl break-words transition-all duration-1000 ${
+                className={`bg-zinc-100/75 rounded-xl px-4 py-3 text-zinc-700 max-w-2xl break-words transition-all duration-1000 ${
                   streaming ? "ring-[2.5px] ring-zinc-200" : ""
                 }`}
               >
                 <span className="prose transition-all duration-300">
-                  <ReactMarkdown>{streamedAnswer}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {streamedAnswer}
+                  </ReactMarkdown>
                 </span>
               </div>
             </div>

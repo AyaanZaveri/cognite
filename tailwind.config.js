@@ -30,6 +30,27 @@ module.exports = {
           },
         },
       },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            // Custom table styles
+            table: {
+              width: '100%',
+              textAlign: 'left',
+              borderCollapse: 'collapse',
+              color: theme('colors.zinc.600'),
+            },
+            th: {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.zinc.300'),
+            },
+            td: {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.zinc.200'),
+            },
+          },
+        },
+      }),
     },
   },
   plugins: [
