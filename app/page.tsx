@@ -33,6 +33,8 @@ import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
 import FileCard from "@/components/Cogs/FileCard";
 import { useChat } from "ai/react";
 import remarkGfm from "remark-gfm";
+import { BaseLanguageModel } from "langchain/dist/base_language";
+import { BaseChatModel } from "langchain/dist/chat_models/base";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -46,6 +48,7 @@ export default function Home() {
   const [question, setQuestion] = useState("");
   const [answerText, setAnswerText] = useState<any>();
   const [streamedAnswer, setStreamedAnswer] = useState<string>("");
+  const [streamingModel, setStreamingModel] = useState<BaseChatModel>();
   const [userUrl, setUserUrl] = useState<string>("");
   const [ytTranscript, setYtTranscript] = useState<string>("");
   const [chain, setChain] = useState<any>(null);
@@ -53,6 +56,7 @@ export default function Home() {
   const [fileCogLoading, setFileCogLoading] = useState(false);
   const [history, setHistory] = useState([]);
   const [streaming, setStreaming] = useState(false);
+  const [boosted, setBoosted] = useState(false);
 
   const cogs = [
     {
@@ -123,31 +127,35 @@ export default function Home() {
     },
   ];
 
-  const streamingModel = new ChatOpenAI(
-    {
-      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-      streaming: true,
-      modelName: "gpt-3.5-turbo",
-      temperature: 0.7,
-      topP: 1,
-      callbacks: [
-        {
-          handleLLMStart() {
-            setStreaming(true);
+  useEffect(() => {
+    const model = new ChatOpenAI(
+      {
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        streaming: true,
+        modelName: boosted ? "gpt-4" : "gpt-3.5-turbo",
+        temperature: 0.7,
+        topP: 1,
+        callbacks: [
+          {
+            handleLLMStart() {
+              setStreaming(true);
+            },
+            handleLLMNewToken(token: string) {
+              setStreamedAnswer((prev) => prev + token);
+            },
+            handleLLMEnd() {
+              setStreaming(false);
+            },
           },
-          handleLLMNewToken(token: string) {
-            setStreamedAnswer((prev) => prev + token);
-          },
-          handleLLMEnd() {
-            setStreaming(false);
-          },
-        },
-      ],
-    },
-    {
-      basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-    }
-  );
+        ],
+      },
+      {
+        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+      }
+    );
+
+    setStreamingModel(model);
+  }, [boosted]);
 
   const nonStreamingModel = new ChatOpenAI({
     openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
@@ -182,7 +190,7 @@ export default function Home() {
       const vectorStore = await createEmbeddings(docs);
       const conversationalChain = await createChain(
         vectorStore,
-        streamingModel,
+        streamingModel as BaseLanguageModel,
         nonStreamingModel
       );
 
@@ -196,7 +204,9 @@ export default function Home() {
     }
   };
 
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  // const { messages, input, handleInputChange, handleSubmit } = useChat();
+
+  console.log(boosted, streamingModel)
 
   return (
     <main>
@@ -225,7 +235,7 @@ export default function Home() {
                   <WebCard
                     key={idx}
                     cog={cog}
-                    streamingModel={streamingModel}
+                    streamingModel={streamingModel as BaseChatModel}
                     nonStreamingModel={nonStreamingModel}
                     setChain={setChain}
                   />
@@ -236,12 +246,37 @@ export default function Home() {
             ))}
           </div>
 
-          <input
-            type="text"
-            placeholder="URL of the site you want to cognite 🔗"
-            onChange={(e) => setUserUrl(e.target.value)}
-            className="w-full font-normal resize-none mt-8 hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
-          />
+          <div className="flex flex-col gap-3">
+            <input
+              type="text"
+              placeholder="URL of the site you want to cognite 🔗"
+              onChange={(e) => setUserUrl(e.target.value)}
+              className="w-full font-normal resize-none border-none mt-8 hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
+            />
+
+            {/* make a checkbox */}
+
+            <div className={`relative flex flex-col`}>
+              <div className="flex h-6 items-center gap-x-2">
+                <input
+                  id="boosted"
+                  name="boosted"
+                  type="checkbox"
+                  checked={boosted}
+                  onChange={() => setBoosted(!boosted)}
+                  className="h-4 w-4 rounded ring-zinc-200 ring-1 text-orange-500 focus:ring-orange-500 hover:cursor-pointer border-none hover:bg-zinc-100 hover:ring-2 hover:ring-zinc-300 transition-all duration-300"
+                />
+                <div className="text-sm leading-6 select-none">
+                  <label
+                    htmlFor="boosted"
+                    className="text-zinc-700"
+                  >
+                    Boosted Model
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <div
             className={`mt-4 ${
