@@ -20,7 +20,7 @@ import { sidebarWidthState } from "@/atoms/sidebar";
 import { useRecoilState } from "recoil";
 import { BufferMemory } from "langchain/memory";
 import { writeFile } from "fs/promises";
-import WebCard from "@/components/Cogs/WebCard";
+import WebCard from "@/components/Cogs/Web";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { EPubLoader } from "langchain/document_loaders/fs/epub";
 import FileInput from "@/components/FileInput";
@@ -30,11 +30,12 @@ import { createChain } from "@/utils/chain";
 import { saveAs } from "file-saver";
 import { getVideoId } from "@/utils/ytTranscript";
 import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
-import FileCard from "@/components/Cogs/FileCard";
+import FileCard from "@/components/Cogs/File";
 import { useChat } from "ai/react";
 import remarkGfm from "remark-gfm";
 import { BaseLanguageModel } from "langchain/dist/base_language";
 import { BaseChatModel } from "langchain/dist/chat_models/base";
+import NotionCard from "@/components/Cogs/Notion";
 
 const inter = Inter({ subsets: ["latin"] });
 const space_grotesk = Space_Grotesk({
@@ -125,6 +126,14 @@ export default function Home() {
       ],
       type: "web",
     },
+    {
+      id: 7,
+      title: "Notion",
+      img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Notion-logo.svg/1024px-Notion-logo.svg.png",
+      description: "Notion Page",
+      urls: ["/Users/ayaanzaveri/Code/cognition/NotionDB"],
+      type: "notion",
+    },
   ];
 
   useEffect(() => {
@@ -157,9 +166,14 @@ export default function Home() {
     setStreamingModel(model);
   }, [boosted]);
 
-  const nonStreamingModel = new ChatOpenAI({
-    openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-  });
+  const nonStreamingModel = new ChatOpenAI(
+    {
+      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+    },
+    {
+      basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+    }
+  );
 
   const handleChatSubmit = async (prompt: string) => {
     setStreamedAnswer("");
@@ -168,7 +182,7 @@ export default function Home() {
 
     const res = await chain.call({
       question: prompt,
-      chat_history: history,
+      // chat_history: history,
     });
 
     console.log(res);
@@ -206,7 +220,7 @@ export default function Home() {
 
   // const { messages, input, handleInputChange, handleSubmit } = useChat();
 
-  console.log(boosted, streamingModel)
+  console.log(boosted, streamingModel);
 
   return (
     <main>
@@ -239,9 +253,15 @@ export default function Home() {
                     nonStreamingModel={nonStreamingModel}
                     setChain={setChain}
                   />
-                ) : (
-                  <div></div>
-                )}
+                ) : cog.type == "notion" ? (
+                  <NotionCard
+                    key={idx}
+                    cog={cog}
+                    streamingModel={streamingModel as BaseChatModel}
+                    nonStreamingModel={nonStreamingModel}
+                    setChain={setChain}
+                  />
+                ) : null}
               </>
             ))}
           </div>
@@ -253,29 +273,6 @@ export default function Home() {
               onChange={(e) => setUserUrl(e.target.value)}
               className="w-full font-normal resize-none border-none mt-8 hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
             />
-
-            {/* make a checkbox */}
-
-            <div className={`relative flex flex-col`}>
-              <div className="flex h-6 items-center gap-x-2">
-                <input
-                  id="boosted"
-                  name="boosted"
-                  type="checkbox"
-                  checked={boosted}
-                  onChange={() => setBoosted(!boosted)}
-                  className="h-4 w-4 rounded ring-zinc-200 ring-1 text-orange-500 focus:ring-orange-500 hover:cursor-pointer border-none hover:bg-zinc-100 hover:ring-2 hover:ring-zinc-300 transition-all duration-300"
-                />
-                <div className="text-sm leading-6 select-none">
-                  <label
-                    htmlFor="boosted"
-                    className="text-zinc-700"
-                  >
-                    Boosted Model
-                  </label>
-                </div>
-              </div>
-            </div>
           </div>
 
           <div

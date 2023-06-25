@@ -2,6 +2,7 @@ import "./globals.css";
 import { Barlow, Inter, Poppins } from "next/font/google";
 import Sidebar from "../components/Sidebar";
 import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -13,7 +14,7 @@ export const metadata = {
   title: "Cognition",
   description: "Chat with any website",
   icons: {
-    icon: '/icon.png',
+    icon: "/icon.png",
   },
 };
 
@@ -29,6 +30,7 @@ export default function RootLayout({
           <Sidebar />
           {children}
         </RecoilRootWrapper>
+        <Analytics />
       </body>
     </html>
   );
