@@ -345,7 +345,7 @@ export default function Home() {
               ></input>
               {/* make a black button that says make question */}
               <button
-                className="w-max rounded-md select-none outline-none bg-zinc-900 px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:scale-105 active:scale-105 hover:bg-zinc-800 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
+                className="w-max rounded-md select-none outline-none bg-black px-8 py-2 font-medium text-white shadow-sm transition-all duration-300 hover:bg-zinc-900 focus:ring focus:ring-orange-500 active:ring active:ring-orange-500"
                 type="submit"
                 style={{
                   marginRight: sidebarWidth / 2,

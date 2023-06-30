@@ -15,15 +15,11 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 export const runtime = "edge";
 
 export default async function POST(req: Request) {
-  const { messages, combinedText } = await req.json();
+  const { messages, vectorStore } = await req.json();
 
   const { stream, handlers } = LangChainStream();
 
   const question = messages[messages.length - 1].content;
-
-  const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
-
-  const docs = await splitter.createDocuments([combinedText as string]);
 
   const model = new ChatOpenAI(
     {
@@ -37,28 +33,6 @@ export default async function POST(req: Request) {
     {
       basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
     }
-  );
-
-  const vectorStore = await MemoryVectorStore.fromDocuments(
-    docs,
-    new OpenAIEmbeddings(
-      {
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-      },
-      {
-        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-      }
-    )
-  );
-
-  const nonStreamingModel = new ChatOpenAI(
-    {
-      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-      modelName: "gpt-3.5-turbo",
-      temperature: 0.7,
-      topP: 1,
-    },
-    {}
   );
 
   const chain = ConversationalRetrievalQAChain.fromLLM(
