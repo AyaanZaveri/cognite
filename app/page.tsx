@@ -9,7 +9,6 @@ import WebCard from "@/components/Cogs/Card";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import remarkGfm from "remark-gfm";
 import { BaseChatModel } from "langchain/dist/chat_models/base";
-import dbConnect from "../lib/dbConnect";
 import Card from "@/components/Cogs/Card";
 import Cog from "@/models/Cog";
 
@@ -18,16 +17,6 @@ const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
-
-async function retrieveCogs() {
-  await dbConnect();
-
-  const cogs = await Cog.find({});
-
-  console.log("Hi")
-
-  return cogs;
-}
 
 export default async function Home() {
   const [isAnswerLoading, setIsAnswerLoading] = useState(false);
@@ -41,8 +30,6 @@ export default async function Home() {
   const [streaming, setStreaming] = useState(false);
 
   const cogs: any = [];
-
-  const cogList = await retrieveCogs();
 
   return (
     <main>
