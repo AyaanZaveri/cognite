@@ -4,7 +4,7 @@
 import { sidebarWidthState } from "@/atoms/sidebar";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import Card from "./Cogs/Web";
+import Card from "./Cogs/Card";
 
 const Sidebar = () => {
   const [cogs, setCogs] = useState<any>([
@@ -114,7 +114,7 @@ const Sidebar = () => {
         alt=""
       /> */}
       <div
-        className="border-r border-zinc-200 dark:border-zinc-800 to-orange-500/20 h-full flex flex-col justify-start items-start"
+        className="border-r border-zinc-200 to-orange-500/20 h-full flex flex-col justify-start items-start"
         ref={sidebarRef}
         style={{ width: sidebarWidth }}
         onMouseDown={(e) => e.preventDefault()}
