@@ -50,3 +50,27 @@ model User {
 
   @@index([createDate])
 }
+
+model Cog {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  user        String      @default("")
+  name        String      @default("")
+  description String      @default("")
+  embeddings  Embedding[]
+  date        DateTime    @default(now())
+  raw         String      @default("")
+  type        String      @default("")
+  slug        String      @unique @default("")
+  imgUrl      String?     @default("https://github.com/AyaanZaveri/cognition/blob/main/app/icon.png?raw=true")
+
+  @@map("cogs")
+}
+
+model Embedding {
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  dimensions Int     @default(0)
+  similarity String  @default("")
+  type       String  @default("")
+  Cog        Cog?    @relation(fields: [cogId], references: [id])
+  cogId      String? @db.ObjectId
+}

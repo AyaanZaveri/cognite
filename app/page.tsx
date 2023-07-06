@@ -1,14 +1,5 @@
-"use client";
-
-import { Space_Grotesk, Inter } from "next/font/google";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import ListCogs from "@/components/ListCogs";
-
-const inter = Inter({ subsets: ["latin"] });
-const space_grotesk = Space_Grotesk({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-});
+import Logo from "@/components/Logo";
 
 export default function Home() {
   return (
@@ -19,17 +10,7 @@ export default function Home() {
           paddingLeft: 240,
         }}
       >
-        <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2 mt-6">
-          <span
-            className={
-              space_grotesk.className +
-              " font-semibold pb-2 animate-text bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text text-transparent"
-            }
-          >
-            Cognition
-          </span>
-          <span className="pb-2">🔥</span>
-        </div>
+        <Logo />
         <div className="w-full px-8 select-none">
           <ListCogs />
         </div>
@@ -40,12 +21,7 @@ export default function Home() {
           }}
         >
           <div className="flex w-full flex-row gap-6 px-8">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-              }}
-              className="flex w-full flex-row gap-3"
-            >
+            <form className="flex w-full flex-row gap-3">
               <input
                 name=""
                 id=""

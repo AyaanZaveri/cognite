@@ -2,7 +2,8 @@ import "./globals.css";
 import { Barlow, Inter, Poppins } from "next/font/google";
 import Sidebar from "../components/Sidebar";
 import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper";
-import Provider from "@/components/Provider";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -18,18 +19,18 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <Provider>
-          <Sidebar />
-          {children}
-        </Provider>
+        <Sidebar session={session?.user ? session : null} />
+        {children}
       </body>
     </html>
   );
