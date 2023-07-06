@@ -11,24 +11,24 @@ export const createChain = async (
 ) => {
   const chain = ConversationalRetrievalQAChain.fromLLM(
     streamingModel,
-    vectorStore.asRetriever(),
-    {
-      qaChainOptions: {
-        type: "stuff",
-        prompt: PromptTemplate.fromTemplate(QA_TEMPLATE),
-      },
-      questionGeneratorChainOptions: {
-        llm: nonStreamingModel,
-        template: CONDENSE_TEMPLATE,
-      },
-      returnSourceDocuments: true,
-      memory: new BufferMemory({
-        memoryKey: "chat_history",
-        inputKey: "question", // The key for the input to the chain
-        outputKey: "text", // The key for the final conversational output of the chain
-        returnMessages: true, // If using with a chat model
-      }),
-    }
+    vectorStore.asRetriever()
+    // {
+    //   qaChainOptions: {
+    //     type: "stuff",
+    //     prompt: PromptTemplate.fromTemplate(QA_TEMPLATE),
+    //   },
+    //   questionGeneratorChainOptions: {
+    //     llm: nonStreamingModel,
+    //     template: CONDENSE_TEMPLATE,
+    //   },
+    //   returnSourceDocuments: true,
+    //   memory: new BufferMemory({
+    //     memoryKey: "chat_history",
+    //     inputKey: "question", // The key for the input to the chain
+    //     outputKey: "text", // The key for the final conversational output of the chain
+    //     returnMessages: true, // If using with a chat model
+    //   }),
+    // }
   );
 
   return chain;
