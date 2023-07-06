@@ -2,6 +2,7 @@ import "./globals.css";
 import { Barlow, Inter, Poppins } from "next/font/google";
 import Sidebar from "../components/Sidebar";
 import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper";
+import Provider from "@/components/Provider";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -25,10 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <RecoilRootWrapper>
+        <Provider>
           <Sidebar />
           {children}
-        </RecoilRootWrapper>
+        </Provider>
       </body>
     </html>
   );

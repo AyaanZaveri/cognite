@@ -1,130 +1,43 @@
 "use client";
 
-/* eslint-disable react-hooks/exhaustive-deps */
-import { sidebarWidthState } from "@/atoms/sidebar";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
-import Card from "./Cogs/Card";
+import { useSession } from "next-auth/react";
+import { Space_Grotesk } from "next/font/google";
+import Image from "next/image";
 
 const Sidebar = () => {
-  const [cogs, setCogs] = useState<any>([
-    {
-      id: 1,
-      title: "The Woodlands",
-      emoji: "🏫",
-      urls: [
-        "https://sites.google.com/pdsb.net/twsstudentservices/woodlands-club-hub",
-        "https://sites.google.com/pdsb.net/twsstudentservices/student-services",
-        "https://en.wikipedia.org/wiki/The_Woodlands_School_(Mississauga)",
-      ],
-    },
-  ]);
+  const { data: session } = useSession();
 
-  const sidebarRef = useRef<any>(null);
-  const [isResizing, setIsResizing] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useRecoilState(sidebarWidthState);
-
-  const startResizing = useCallback((mouseDownEvent: any) => {
-    setIsResizing(true);
-  }, []);
-
-  const stopResizing = useCallback(() => {
-    setIsResizing(false);
-  }, []);
-
-  const resize = useCallback(
-    (mouseMoveEvent: any) => {
-      if (isResizing) {
-        setSidebarWidth(
-          mouseMoveEvent.clientX -
-            sidebarRef.current.getBoundingClientRect().left
-        );
-      }
-    },
-    [isResizing]
-  );
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.addEventListener("mousemove", resize);
-      window.addEventListener("mouseup", stopResizing);
-    }
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener("mousemove", resize);
-        window.removeEventListener("mouseup", stopResizing);
-      }
-    };
-  }, [resize, stopResizing]);
-
-  // console.log(sidebarWidth);
-
-  const constrainSidebarWidth = (num: number) => {
-    if (window.innerWidth > 768) {
-      if (num < 220) {
-        setSidebarWidth(220);
-      }
-
-      if (num > 280) {
-        setSidebarWidth(280);
-      }
-    }
-
-    return num;
-  };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      constrainSidebarWidth(sidebarWidth);
-    }
-  }, [sidebarWidth]);
-
-  useEffect(() => {
-    const updateSidebarWidth = () => {
-      if (window.innerWidth < 768) {
-        setSidebarWidth(0);
-      } else {
-        setSidebarWidth(240);
-      }
-    };
-
-    updateSidebarWidth();
-    window.addEventListener("resize", updateSidebarWidth);
-
-    return () => {
-      window.removeEventListener("resize", updateSidebarWidth);
-    };
-  }, []);
+  console.log(session);
 
   return (
     <div
-      className={`flex items-center h-full z-20 fixed select-none bg-zinc-50`}
+      className={`h-full z-20 fixed select-none bg-zinc-50 w-[240px] border-r border-zinc-200`}
     >
-      {/* <img
-        draggable="false"
-        onClick={() => router.push("/")}
-        src={`${
-          resolvedTheme == "dark"
-            ? "/FinodyLogoDark.svg"
-            : resolvedTheme == "light"
-            ? "/FinodyLogoLight.svg"
-            : "/FinodyLogoDark.svg"
-        }`}
-        className="absolute left-3 top-0 block h-16 select-none py-4 mt-1 pl-2 hover:cursor-pointer"
-        alt=""
-      /> */}
-      <div
-        className="border-r border-zinc-200 to-orange-500/20 h-full flex flex-col justify-start items-start"
-        ref={sidebarRef}
-        style={{ width: sidebarWidth }}
-        onMouseDown={(e) => e.preventDefault()}
-      ></div>
-      <div
-        className={`absolute top-0 h-full w-[3px] transition-colors duration-300 cursor-col-resize hover:bg-orange-500 active:bg-orange-600`}
-        onMouseDown={startResizing}
-        onDoubleClick={() => setSidebarWidth(240)}
-        style={{ left: sidebarWidth }}
-      ></div>
+      {/* show the user image and username at the bottom */}
+      <div className="bottom-0 absolute p-3 w-full">
+        {session ? (
+          <div className="gap-8 h-full p-2 px-3 hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 w-full rounded-full transition-all duration-200 ease-in-out hover:cursor-pointer">
+            <div className="flex flex-row gap-2 items-center w-full rounded-full">
+              <div className="w-9 h-9 relative">
+                <Image
+                  src={session?.user?.image as string}
+                  alt="user"
+                  className="rounded-full"
+                  fill={true}
+                />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium">
+                  {session?.user?.name ?? session?.user?.email}
+                </span>
+                <span className="text-sm font-light text-zinc-500">
+                  Profile
+                </span>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 };
