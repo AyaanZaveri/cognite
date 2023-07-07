@@ -1,5 +1,6 @@
 "use client";
 
+import { SignIn, SignInSmaller } from "@/app/actions";
 import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,7 +12,12 @@ const Sidebar = ({ session }: { session: Session | null }) => {
     <div
       className={`h-full z-20 fixed select-none bg-zinc-50 w-[240px] border-r border-zinc-200`}
     >
-      <span className="text-4xl p-3 top-0 absolute">🔥</span>
+      <Link
+        href={`/`}
+        className="text-4xl mx-3 my-4 top-0 absolute hover:opacity-80 transition-all duration-300"
+      >
+        🔥
+      </Link>
       {/* show the user image and username at the bottom */}
       <div className="bottom-0 absolute py-3 px-2 w-full">
         {session ? (
@@ -35,7 +41,11 @@ const Sidebar = ({ session }: { session: Session | null }) => {
               </div>
             </div>
           </Link>
-        ) : null}
+        ) : (
+          <div className="p-2">
+            <SignInSmaller />
+          </div>
+        )}
       </div>
     </div>
   );

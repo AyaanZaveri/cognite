@@ -4,7 +4,7 @@ import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { SignIn, SignOut } from "../actions";
 
-export default async function Protected() {
+export default async function Page() {
   const session = await getServerSession(authOptions);
 
   if (session) {
