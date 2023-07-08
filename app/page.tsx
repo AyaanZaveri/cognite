@@ -1,5 +1,7 @@
-import ListCogs from "@/components/ListCogs";
-import Logo from "@/components/Logo";
+import dynamic from "next/dynamic";
+
+const ListCogs = dynamic(() => import("@/components/ListCogs"));
+const Logo = dynamic(() => import("@/components/Logo"));
 
 export default function Home() {
   return (
