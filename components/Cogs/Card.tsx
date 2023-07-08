@@ -1,15 +1,6 @@
-import { createChain } from "@/utils/chain";
-import { createEmbeddings } from "@/utils/embed";
-import { BaseChatModel } from "langchain/dist/chat_models/base";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { BSON, MongoClient } from "mongodb";
 import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
-import React, { useState } from "react";
-import mongoose, { ConnectOptions } from "mongoose";
 import Link from "next/link";
-import { GetServerSideProps } from "next";
 
 interface CardProps {
   cog: {

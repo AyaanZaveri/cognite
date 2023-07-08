@@ -1,9 +1,18 @@
+import { Cogs } from "@/types";
 import dynamic from "next/dynamic";
 
 const ListCogs = dynamic(() => import("@/components/ListCogs"));
 const Logo = dynamic(() => import("@/components/Logo"));
 
-export default function Home() {
+async function getListCogs() {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`);
+  const { data } = await res.json();
+  return data;
+}
+
+export default async function Home() {
+  const cogs: Cogs[] = await getListCogs();
+
   return (
     <main>
       <div
@@ -14,7 +23,7 @@ export default function Home() {
       >
         <Logo />
         <div className="w-full px-8 select-none">
-          <ListCogs />
+          <ListCogs cogs={cogs} />
         </div>
         <div
           className="bottom-6 w-full fixed"
