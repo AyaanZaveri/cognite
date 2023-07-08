@@ -2,8 +2,14 @@
 
 import { SignIn, SignInSmaller } from "@/app/actions";
 import { Session } from "next-auth";
+import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import { TbTelescope } from "react-icons/tb";
+
+const space_grotesk = Space_Grotesk({
+  subsets: ["latin"],
+});
 
 const Sidebar = ({ session }: { session: Session | null }) => {
   console.log(session);
@@ -18,6 +24,16 @@ const Sidebar = ({ session }: { session: Session | null }) => {
       >
         🔥
       </Link>
+      <div
+        className={`flex flex-col gap-2 items-center justify-center pt-16 px-2 mt-8`}
+      >
+        <div className="w-full px-3 py-2 rounded-lg inline-flex gap-2 hover:gap-2.5 items-center hover:cursor-pointer hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98] transition-all duration-200 ease-in-out">
+          <TbTelescope />
+          <span className={`${space_grotesk.className} font-medium`}>
+            Explore
+          </span>
+        </div>
+      </div>
       {/* show the user image and username at the bottom */}
       <div className="bottom-0 absolute py-3 px-2 w-full">
         {session ? (

@@ -42,8 +42,7 @@ model User {
   email         String?   @unique // Add unique constraint here
   emailVerified DateTime?
   image         String?
-
-  createDate DateTime @default(now())
+  createDate    DateTime  @default(now())
 
   accounts Account[]
   sessions Session[]
@@ -54,11 +53,11 @@ model User {
 model Cog {
   id          String      @id @default(auto()) @map("_id") @db.ObjectId
   user        String      @default("")
+  userId      String      @db.ObjectId
   name        String      @default("")
   description String      @default("")
   embeddings  Embedding[]
   date        DateTime    @default(now())
-  raw         String      @default("")
   type        String      @default("")
   slug        String      @unique @default("")
   imgUrl      String?     @default("https://github.com/AyaanZaveri/cognition/blob/main/app/icon.png?raw=true")
@@ -67,10 +66,9 @@ model Cog {
 }
 
 model Embedding {
-  id         String  @id @default(auto()) @map("_id") @db.ObjectId
-  dimensions Int     @default(0)
-  similarity String  @default("")
-  type       String  @default("")
-  Cog        Cog?    @relation(fields: [cogId], references: [id])
-  cogId      String? @db.ObjectId
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  content String  @default("")
+  value   Float[]
+  Cog     Cog?    @relation(fields: [cogId], references: [id])
+  cogId   String? @db.ObjectId
 }
