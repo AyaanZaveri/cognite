@@ -1,11 +1,5 @@
 import type { DefaultUser } from "next-auth";
 
-export interface IUser {
-  _id: string;
-  email: string;
-  name: string;
-}
-
 interface Document {
   pageContent: string;
   metadata?: Record<string, any>;

@@ -16,41 +16,8 @@ async function getListCogs() {
   return data;
 }
 
-async function createCog(cogData: Cogs) {
-  try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/create`, {
-      method: "POST",
-      headers: headers(),
-      body: JSON.stringify(cogData),
-    });
-
-    if (!res.ok) {
-      throw new Error("Network response was not ok" + res.statusText);
-    }
-
-    const response = await res.json();
-    console.log(response);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-
 export default async function Home() {
   const cogs: Cogs[] = await getListCogs();
-
-  const session = await getServerSession(authOptions);
-
-  await createCog({
-    user: session?.user?.name as string,
-    userId: session?.user?.id as unknown as number,
-    name: "John Fraser",
-    description:
-      "John Fraser Secondary School is a school in Mississauga, Ontario, Canada",
-    type: "web",
-    slug: "rew",
-    imgUrl: "https://johnfraser.peelschools.org/images/logo.svg",
-    docs: [{ pageContent: "John" }, { pageContent: "Fraser" }],
-  });
 
   return (
     <main>

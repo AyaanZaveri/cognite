@@ -23,10 +23,8 @@ export default async function handler(
     return; // This will stop further execution if the user is not authenticated
   }
 
-  const JSONbody = JSON.parse(req.body);
-
   const { user, userId, name, description, type, slug, imgUrl, docs }: Cog =
-    JSONbody;
+    req.body;
 
   const cog = await db?.cog.create({
     data: {
@@ -39,6 +37,8 @@ export default async function handler(
       imgUrl,
     },
   });
+
+  console.log("Created Cog");
 
   const embeddingsModel = new OpenAIEmbeddings(
     {
@@ -79,6 +79,8 @@ export default async function handler(
       )
     )
   );
+
+  console.log("Created Embeddings");
 
   res.status(200).json({ cog: cog, embeddings: embeddings });
 

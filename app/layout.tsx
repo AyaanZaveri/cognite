@@ -4,6 +4,7 @@ import Sidebar from "../components/Sidebar";
 import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
+import { headers } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -25,6 +26,8 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
+  const headersList = headers();
+  const activePath = headersList.get("x-invoke-path");
 
   return (
     <html lang="en">
