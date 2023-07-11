@@ -12,6 +12,9 @@ const space_grotesk = Space_Grotesk({
 });
 
 const Sidebar = ({ session }: { session: Session | null }) => {
+
+  console.log("session", session)
+
   return (
     <div
       className={`h-full z-20 fixed select-none bg-zinc-50 w-[240px] border-r border-zinc-200`}

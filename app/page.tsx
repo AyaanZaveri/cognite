@@ -1,17 +1,56 @@
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { Cogs } from "@/types";
+import { getServerSession } from "next-auth";
+import { headers } from "next/dist/client/components/headers";
 import dynamic from "next/dynamic";
 
 const ListCogs = dynamic(() => import("@/components/ListCogs"));
 const Logo = dynamic(() => import("@/components/Logo"));
 
 async function getListCogs() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`);
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`, {
+    cache: "no-store",
+  });
   const { data } = await res.json();
+  console.log("data", data);
   return data;
+}
+
+async function createCog(cogData: Cogs) {
+  try {
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/create`, {
+      method: "POST",
+      headers: headers(),
+      body: JSON.stringify(cogData),
+    });
+
+    if (!res.ok) {
+      throw new Error("Network response was not ok" + res.statusText);
+    }
+
+    const response = await res.json();
+    console.log(response);
+  } catch (error) {
+    console.error("Error:", error);
+  }
 }
 
 export default async function Home() {
   const cogs: Cogs[] = await getListCogs();
+
+  const session = await getServerSession(authOptions);
+
+  await createCog({
+    user: "aytoz",
+    userId: session?.user?.id as unknown as number,
+    name: "The Woodlands",
+    description:
+      "The Woodlands Secondary School is a school in Mississauga, Ontario, Canada",
+    type: "web",
+    slug: "rew",
+    imgUrl: "https://thewoodlandsss.peelschools.org/images/logo.svg",
+    docs: [{ pageContent: "foo" }, { pageContent: "bar" }],
+  });
 
   return (
     <main>

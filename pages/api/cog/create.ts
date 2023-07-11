@@ -5,35 +5,7 @@ import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
-
-interface Document {
-  pageContent: string;
-  metadata: Record<string, any>;
-}
-
-interface Cog {
-  id: number;
-  user: string;
-  userId: number;
-  name: string;
-  description: string;
-  createdDate: Date;
-  type: string;
-  slug: string;
-  imgUrl: string;
-  content: string;
-  embeddings: string;
-  docs: Document[];
-}
-
-interface Embeddings {
-  id: number;
-  content: string;
-  content_title: string;
-  content_url: string;
-  content_tokens: number;
-  cog_id: number;
-}
+import { Cog, Embeddings } from "@/types";
 
 const db = new PrismaClient();
 
@@ -43,14 +15,18 @@ export default async function handler(
 ) {
   const session = await getServerSession(req, res, authOptions);
 
+  console.log("session", session);
+
   if (!session) {
-    return res.status(401).json({
-      error: "Unauthorized",
-    });
+    // Not Signed in
+    res.status(401).json({ error: "Unauthorized" });
+    return; // This will stop further execution if the user is not authenticated
   }
 
+  const JSONbody = JSON.parse(req.body);
+
   const { user, userId, name, description, type, slug, imgUrl, docs }: Cog =
-    req.body;
+    JSONbody;
 
   const cog = await db?.cog.create({
     data: {
