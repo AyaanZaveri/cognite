@@ -49,7 +49,7 @@ export interface Embeddings {
 declare module "next-auth" {
   interface Session {
     user?: DefaultUser & {
-      id: number;
+      id: string;
     };
   }
 }
