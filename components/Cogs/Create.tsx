@@ -22,7 +22,7 @@ const Create = (session: { session: Session | null }) => {
     slug: "",
     imgUrl: "",
     docs: [],
-    user: session?.session?.user?.name as string,
+    user: session?.session?.user?.name?.split(" ")[0] as string,
     userId: session?.session?.user?.id as any,
   });
 
@@ -96,7 +96,9 @@ const Create = (session: { session: Session | null }) => {
       {/* Do one for website */}
       <div className="flex flex-col gap-3 pt-3">
         <div>
-          <span className={`font-semibold text-xl text-zinc-800`}>Website 🌐</span>
+          <span className={`font-semibold text-xl text-zinc-800`}>
+            Website 🌐
+          </span>
           <p
             className={`text-zinc-500 font-light text-sm ${
               websiteLoaded ? "text-green-500" : ""

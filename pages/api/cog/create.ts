@@ -70,9 +70,9 @@ export default async function handler(
         db.embeddings.create({
           data: {
             content: content.pageContent,
-            content_title: "hello",
-            content_url: "yep",
-            content_tokens: 0,
+            content_title: "title",
+            content_url: "url",
+            content_tokens: 200,
             cog_id: cog?.id,
           } as Embeddings,
         })
