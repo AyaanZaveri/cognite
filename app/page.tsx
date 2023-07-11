@@ -40,17 +40,17 @@ export default async function Home() {
 
   const session = await getServerSession(authOptions);
 
-  // await createCog({
-  //   user: "aytoz",
-  //   userId: session?.user?.id as unknown as number,
-  //   name: "The Woodlands",
-  //   description:
-  //     "The Woodlands Secondary School is a school in Mississauga, Ontario, Canada",
-  //   type: "web",
-  //   slug: "rew",
-  //   imgUrl: "https://thewoodlandsss.peelschools.org/images/logo.svg",
-  //   docs: [{ pageContent: "foo" }, { pageContent: "bar" }],
-  // });
+  await createCog({
+    user: session?.user?.name as string,
+    userId: session?.user?.id as unknown as number,
+    name: "John Fraser",
+    description:
+      "John Fraser Secondary School is a school in Mississauga, Ontario, Canada",
+    type: "web",
+    slug: "rew",
+    imgUrl: "https://johnfraser.peelschools.org/images/logo.svg",
+    docs: [{ pageContent: "John" }, { pageContent: "Fraser" }],
+  });
 
   return (
     <main>
