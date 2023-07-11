@@ -42,7 +42,7 @@ const Card = ({ cog }: { cog: Cog }) => {
           </span>
         </h5>
       </div>
-      <p className="text-sm font-light text-zinc-600">{cog.description}</p>
+<p className="text-sm font-light text-zinc-600">{cog.description}</p>
     </Link>
   );
 };
