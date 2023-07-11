@@ -15,7 +15,7 @@ dependencies:
     version: 0.1.6
   '@prisma/client':
     specifier: 4.15.0
-    version: 4.15.0(prisma@4.15.0)
+    version: 4.15.0(prisma@4.16.2)
   '@tailwindcss/forms':
     specifier: ^0.5.3
     version: 0.5.3(tailwindcss@3.3.2)
@@ -68,8 +68,8 @@ dependencies:
     specifier: ^2.2.3
     version: 2.2.3
   langchain:
-    specifier: ^0.0.83
-    version: 0.0.83(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.2)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.6.0)(pdf-parse@1.1.1)(typeorm@0.3.17)
+    specifier: ^0.0.104
+    version: 0.0.104(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.2)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.6.0)(pdf-parse@1.1.1)(typeorm@0.3.17)
   mongodb:
     specifier: ^5.6.0
     version: 5.6.0
@@ -166,8 +166,8 @@ devDependencies:
     specifier: ^0.3.0
     version: 0.3.0(prettier@2.8.8)
   prisma:
-    specifier: 4.15.0
-    version: 4.15.0
+    specifier: 4.16.2
+    version: 4.16.2
 
 packages:
 
@@ -239,8 +239,8 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: false
 
-  /@babel/parser@7.22.5:
-    resolution: {integrity: sha512-DFZMC9LJUG9PLOclRC32G63UXwzqS2koQC8dkx+PLdmt1xSePYpbT/NbsrJy8Q/muXz7o/h/d4A7Fuyixm559Q==}
+  /@babel/parser@7.22.7:
+    resolution: {integrity: sha512-7NF8pOkHP5o2vpmGgNGcfAeCvOYhGLyA3Z4eBQkT1RJlWu47n63bCs93QfJ2hIAFCil7L5P2IWhs1oToVgrL0Q==}
     engines: {node: '>=6.0.0'}
     hasBin: true
     dependencies:
@@ -377,7 +377,7 @@ packages:
       '@prisma/client': '>=2.26.0 || >=3'
       next-auth: ^4
     dependencies:
-      '@prisma/client': 4.15.0(prisma@4.15.0)
+      '@prisma/client': 4.15.0(prisma@4.16.2)
       next-auth: 4.22.1(next@13.4.8)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
@@ -515,7 +515,7 @@ packages:
       tslib: 2.6.0
     dev: false
 
-  /@prisma/client@4.15.0(prisma@4.15.0):
+  /@prisma/client@4.15.0(prisma@4.16.2):
     resolution: {integrity: sha512-xnROvyABcGiwqRNdrObHVZkD9EjkJYHOmVdlKy1yGgI+XOzvMzJ4tRg3dz1pUlsyhKxXGCnjIQjWW+2ur+YXuw==}
     engines: {node: '>=14.17'}
     requiresBuild: true
@@ -526,15 +526,15 @@ packages:
         optional: true
     dependencies:
       '@prisma/engines-version': 4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944
-      prisma: 4.15.0
+      prisma: 4.16.2
     dev: false
 
   /@prisma/engines-version@4.15.0-28.8fbc245156db7124f997f4cecdd8d1219e360944:
     resolution: {integrity: sha512-sVOig4tjGxxlYaFcXgE71f/rtFhzyYrfyfNFUsxCIEJyVKU9rdOWIlIwQ2NQ7PntvGnn+x0XuFo4OC1jvPJKzg==}
     dev: false
 
-  /@prisma/engines@4.15.0:
-    resolution: {integrity: sha512-FTaOCGs0LL0OW68juZlGxFtYviZa4xdQj/rQEdat2txw0s3Vu/saAPKjNVXfIgUsGXmQ72HPgNr6935/P8FNAA==}
+  /@prisma/engines@4.16.2:
+    resolution: {integrity: sha512-vx1nxVvN4QeT/cepQce68deh/Turxy5Mr+4L4zClFuK1GlxN3+ivxfuv+ej/gvidWn1cE1uAhW7ALLNlYbRUAw==}
     requiresBuild: true
 
   /@rushstack/eslint-patch@1.3.2:
@@ -675,6 +675,10 @@ packages:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: false
 
+  /@types/uuid@9.0.2:
+    resolution: {integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==}
+    dev: false
+
   /@types/validator@13.7.17:
     resolution: {integrity: sha512-aqayTNmeWrZcvnG2MG9eGYI6b7S5fl+yKgPs6bAjOTwPS316R5SxBGKvtSExfyoJU7pIeHJfsHI0Ji41RVMkvQ==}
     dev: true
@@ -755,7 +759,7 @@ packages:
   /@vue/compiler-core@3.3.4:
     resolution: {integrity: sha512-cquyDNvZ6jTbf/+x+AgM2Arrp6G4Dzbb0R64jiG804HRMfRiFXWI6kqUVqZ6ZR0bQhIoQjB4+2bhNtVwndW15g==}
     dependencies:
-      '@babel/parser': 7.22.5
+      '@babel/parser': 7.22.7
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
       source-map-js: 1.0.2
@@ -771,14 +775,14 @@ packages:
   /@vue/compiler-sfc@3.3.4:
     resolution: {integrity: sha512-6y/d8uw+5TkCuzBkgLS0v3lSM3hJDntFEiUORM11pQ/hKvkhSKZrXW6i69UyXlJQisJxuUEJKAWEqWbWsLeNKQ==}
     dependencies:
-      '@babel/parser': 7.22.5
+      '@babel/parser': 7.22.7
       '@vue/compiler-core': 3.3.4
       '@vue/compiler-dom': 3.3.4
       '@vue/compiler-ssr': 3.3.4
       '@vue/reactivity-transform': 3.3.4
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
-      magic-string: 0.30.0
+      magic-string: 0.30.1
       postcss: 8.4.23
       source-map-js: 1.0.2
     dev: false
@@ -793,11 +797,11 @@ packages:
   /@vue/reactivity-transform@3.3.4:
     resolution: {integrity: sha512-MXgwjako4nu5WFLAjpBnCj/ieqcjE2aJBINUNQzkZQfzIZA4xn+0fV1tIYBJvvva3N3OvKGofRLvQIwEQPpaXw==}
     dependencies:
-      '@babel/parser': 7.22.5
+      '@babel/parser': 7.22.7
       '@vue/compiler-core': 3.3.4
       '@vue/shared': 3.3.4
       estree-walker: 2.0.2
-      magic-string: 0.30.0
+      magic-string: 0.30.1
     dev: false
 
   /@vue/reactivity@3.3.4:
@@ -1175,6 +1179,11 @@ packages:
     resolution: {integrity: sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==}
     engines: {node: '>= 6'}
 
+  /camelcase@6.3.0:
+    resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
+    engines: {node: '>=10'}
+    dev: false
+
   /caniuse-lite@1.0.30001511:
     resolution: {integrity: sha512-NaWPJawcoedlghN4P7bDNeADD7K+rZaY6V8ZcME7PkEZo/nfOg+lnrUgRWiKbNxcQ4/toFKSxnS4WdbyPZnKkw==}
     dev: false
@@ -1297,6 +1306,11 @@ packages:
     resolution: {integrity: sha512-Fu4hJdvzeylCfQPp9SGWidpzrMs7tTrlu6Vb8XGaRGck8QSNZJJp538Wrb60Lax4fPwR64ViY468OIUTbRlGZg==}
     dev: false
 
+  /commander@10.0.1:
+    resolution: {integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==}
+    engines: {node: '>=14'}
+    dev: false
+
   /commander@4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
     engines: {node: '>= 6'}
@@ -1394,6 +1408,11 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
+    dev: false
+
+  /decamelize@1.2.0:
+    resolution: {integrity: sha512-z2S+W9X73hAUUki+N+9Za2lBlun89zigOyGrsax+KUQ6wKW4ZoWpEYBkGhQjwAjjDCkWxhY0VKEhk8wzY7F5cA==}
+    engines: {node: '>=0.10.0'}
     dev: false
 
   /decode-named-character-reference@1.0.2:
@@ -2643,42 +2662,53 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /langchain@0.0.83(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.2)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.6.0)(pdf-parse@1.1.1)(typeorm@0.3.17):
-    resolution: {integrity: sha512-XS5H7g2/JRIi70D3UjfYpYlnkl5Q0lnsU9wT3fHexPazopUr4yvfg8ocHi+IyAQUOKSoEuyQQxxgaPsh2iyyxg==}
+  /langchain@0.0.104(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.2)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.6.0)(pdf-parse@1.1.1)(typeorm@0.3.17):
+    resolution: {integrity: sha512-VmRMvUQt7599XU68fpMNY3eT3fY+MPgzxSf8tRP31WMs5GRv8A61mDRYWCY1KPBONxDvJqySGVMEIOb16aQebg==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0
       '@aws-sdk/client-lambda': ^3.310.0
       '@aws-sdk/client-s3': ^3.310.0
       '@aws-sdk/client-sagemaker-runtime': ^3.310.0
+      '@aws-sdk/client-sfn': ^3.310.0
       '@clickhouse/client': ^0.0.14
+      '@elastic/elasticsearch': ^8.4.0
       '@getmetal/metal-sdk': '*'
+      '@getzep/zep-js': ^0.4.1
+      '@gomomento/sdk': ^1.23.0
+      '@google-cloud/storage': ^6.10.1
       '@huggingface/inference': ^1.5.1
+      '@notionhq/client': ^2.2.5
       '@opensearch-project/opensearch': '*'
       '@pinecone-database/pinecone': '*'
       '@qdrant/js-client-rest': ^1.2.0
+      '@supabase/postgrest-js': ^1.1.1
       '@supabase/supabase-js': ^2.10.0
       '@tensorflow-models/universal-sentence-encoder': '*'
       '@tensorflow/tfjs-converter': '*'
       '@tensorflow/tfjs-core': '*'
+      '@tigrisdata/vector': ^1.1.0
       '@upstash/redis': ^1.20.6
       '@zilliz/milvus2-sdk-node': '>=2.2.7'
       apify-client: ^2.7.1
       axios: '*'
       cheerio: ^1.0.0-rc.12
-      chromadb: ^1.4.2
+      chromadb: ^1.5.2
       cohere-ai: ^5.0.2
       d3-dsv: ^2.0.0
       epub2: ^3.0.1
-      faiss-node: ^0.1.1
+      faiss-node: ^0.2.1
       google-auth-library: ^8.8.0
       hnswlib-node: ^1.4.2
       html-to-text: ^9.0.5
       ignore: ^5.2.0
       mammoth: '*'
-      meriyah: '*'
       mongodb: ^5.2.0
+      mysql2: ^3.3.3
+      notion-to-md: ^3.1.0
       pdf-parse: 1.1.1
+      peggy: ^3.0.2
+      pg: ^8.11.0
       pickleparser: ^0.1.0
       playwright: ^1.32.1
       puppeteer: ^19.7.2
@@ -2686,6 +2716,8 @@ packages:
       replicate: ^0.9.0
       srt-parser-2: ^1.2.2
       typeorm: ^0.3.12
+      typesense: ^1.5.3
+      vectordb: ^0.1.4
       weaviate-ts-client: ^1.0.0
     peerDependenciesMeta:
       '@aws-sdk/client-dynamodb':
@@ -2696,17 +2728,31 @@ packages:
         optional: true
       '@aws-sdk/client-sagemaker-runtime':
         optional: true
+      '@aws-sdk/client-sfn':
+        optional: true
       '@clickhouse/client':
+        optional: true
+      '@elastic/elasticsearch':
         optional: true
       '@getmetal/metal-sdk':
         optional: true
+      '@getzep/zep-js':
+        optional: true
+      '@gomomento/sdk':
+        optional: true
+      '@google-cloud/storage':
+        optional: true
       '@huggingface/inference':
+        optional: true
+      '@notionhq/client':
         optional: true
       '@opensearch-project/opensearch':
         optional: true
       '@pinecone-database/pinecone':
         optional: true
       '@qdrant/js-client-rest':
+        optional: true
+      '@supabase/postgrest-js':
         optional: true
       '@supabase/supabase-js':
         optional: true
@@ -2715,6 +2761,8 @@ packages:
       '@tensorflow/tfjs-converter':
         optional: true
       '@tensorflow/tfjs-core':
+        optional: true
+      '@tigrisdata/vector':
         optional: true
       '@upstash/redis':
         optional: true
@@ -2746,11 +2794,17 @@ packages:
         optional: true
       mammoth:
         optional: true
-      meriyah:
-        optional: true
       mongodb:
         optional: true
+      mysql2:
+        optional: true
+      notion-to-md:
+        optional: true
       pdf-parse:
+        optional: true
+      peggy:
+        optional: true
+      pg:
         optional: true
       pickleparser:
         optional: true
@@ -2766,6 +2820,10 @@ packages:
         optional: true
       typeorm:
         optional: true
+      typesense:
+        optional: true
+      vectordb:
+        optional: true
       weaviate-ts-client:
         optional: true
     dependencies:
@@ -2774,19 +2832,24 @@ packages:
       ansi-styles: 5.2.0
       axios: 1.4.0
       binary-extensions: 2.2.0
+      camelcase: 6.3.0
       cheerio: 1.0.0-rc.12
       chromadb: 1.5.2
+      decamelize: 1.2.0
       epub2: 3.0.1(ts-toolbelt@9.6.0)
       expr-eval: 2.0.2
       flat: 5.0.2
       hnswlib-node: 1.4.2
       html-to-text: 9.0.5
       js-tiktoken: 1.0.7
+      js-yaml: 4.1.0
       jsonpointer: 5.0.1
+      langchainplus-sdk: 0.0.19
       ml-distance: 4.0.1
       mongodb: 5.6.0
       object-hash: 3.0.0
-      openai: 3.2.1
+      openai: 3.3.0
+      openapi-types: 12.1.3
       p-queue: 6.6.2
       p-retry: 4.6.2
       pdf-parse: 1.1.1
@@ -2798,6 +2861,17 @@ packages:
     transitivePeerDependencies:
       - debug
       - encoding
+    dev: false
+
+  /langchainplus-sdk@0.0.19:
+    resolution: {integrity: sha512-WKMN90E8M/JWO9lajbw8sv32xVHUZM+fN9I4LUveffBoX4qoJFi6uzYeDH0loW2SjnOSh3Tnzlz+Qp6ZenCu6g==}
+    hasBin: true
+    dependencies:
+      '@types/uuid': 9.0.2
+      commander: 10.0.1
+      p-queue: 6.6.2
+      p-retry: 4.6.2
+      uuid: 9.0.0
     dev: false
 
   /language-subtag-registry@0.3.22:
@@ -2879,8 +2953,8 @@ packages:
       yallist: 4.0.0
     dev: false
 
-  /magic-string@0.30.0:
-    resolution: {integrity: sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==}
+  /magic-string@0.30.1:
+    resolution: {integrity: sha512-mbVKXPmS0z0G4XqFDCTllmDQ6coZzn94aMlb0o/A4HEHJCKcanlDZwYJgwnkmgD3jyWhUgj9VsPrfd972yPffA==}
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -3727,6 +3801,19 @@ packages:
       - debug
     dev: false
 
+  /openai@3.3.0:
+    resolution: {integrity: sha512-uqxI/Au+aPRnsaQRe8CojU0eCR7I0mBiKjD3sNMzY6DaC1ZVrc85u98mtJW6voDug8fgGN+DIZmTDxTthxb7dQ==}
+    dependencies:
+      axios: 0.26.1
+      form-data: 4.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /openapi-types@12.1.3:
+    resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
+    dev: false
+
   /openid-client@5.4.2:
     resolution: {integrity: sha512-lIhsdPvJ2RneBm3nGBBhQchpe3Uka//xf7WPHTIglery8gnckvW7Bd9IaQzekzXJvWthCMyi/xVEyGW0RFPytw==}
     dependencies:
@@ -4074,13 +4161,13 @@ packages:
     resolution: {integrity: sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==}
     dev: false
 
-  /prisma@4.15.0:
-    resolution: {integrity: sha512-iKZZpobPl48gTcSZVawLMQ3lEy6BnXwtoMj7hluoGFYu2kQ6F9LBuBrUyF95zRVnNo8/3KzLXJXJ5TEnLSJFiA==}
+  /prisma@4.16.2:
+    resolution: {integrity: sha512-SYCsBvDf0/7XSJyf2cHTLjLeTLVXYfqp7pG5eEVafFLeT0u/hLFz/9W196nDRGUOo1JfPatAEb+uEnTQImQC1g==}
     engines: {node: '>=14.17'}
     hasBin: true
     requiresBuild: true
     dependencies:
-      '@prisma/engines': 4.15.0
+      '@prisma/engines': 4.16.2
 
   /prop-types@15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}

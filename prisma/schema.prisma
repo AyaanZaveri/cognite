@@ -1,15 +1,17 @@
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector]
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId            String  @db.ObjectId
+  id                Int     @id @default(autoincrement())
+  userId            Int
   type              String
   provider          String
   providerAccountId String
@@ -27,9 +29,9 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  id           Int      @id @default(autoincrement())
   sessionToken String   @unique
-  userId       String   @db.ObjectId
+  userId       Int
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -37,9 +39,9 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  id            Int       @id @default(autoincrement())
   name          String?
-  email         String?   @unique // Add unique constraint here
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   createDate    DateTime  @default(now())
@@ -50,25 +52,29 @@ model User {
   @@index([createDate])
 }
 
-model Cog {
-  id          String      @id @default(auto()) @map("_id") @db.ObjectId
-  user        String      @default("")
-  userId      String      @db.ObjectId
-  name        String      @default("")
-  description String      @default("")
-  embeddings  Embedding[]
-  date        DateTime    @default(now())
-  type        String      @default("")
-  slug        String      @unique @default("")
-  imgUrl      String?     @default("https://github.com/AyaanZaveri/cognition/blob/main/app/icon.png?raw=true")
+model Embeddings {
+  id             Int                    @id @default(autoincrement())
+  content_title  String?
+  content_url    String?
+  content        String?
+  content_tokens Int?
+  cog_id         Int
+  embedding      Unsupported("vector")?
+  meta           String?
+  cog            Cog                    @relation(fields: [cog_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@map("cogs")
+  @@unique([content, cog_id])
 }
 
-model Embedding {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  content String  @default("")
-  value   Float[]
-  Cog     Cog?    @relation(fields: [cogId], references: [id])
-  cogId   String? @db.ObjectId
+model Cog {
+  id          Int          @id @default(autoincrement())
+  user        String       @default("")
+  userId      Int
+  name        String       @default("")
+  description String       @default("")
+  createdDate DateTime     @default(now())
+  type        String       @default("")
+  slug        String       @unique
+  imgUrl      String?      @default("https://github.com/AyaanZaveri/cognition/blob/main/app/icon.png?raw=true")
+  embeddings  Embeddings[]
 }

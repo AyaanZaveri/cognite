@@ -8,6 +8,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const cogs = await getCogs(id);
 
+  console.log(cogs)
+
   return (
     <div
       style={{

@@ -10,6 +10,7 @@ export interface Cogs {
   userId: string;
   name: string;
   description: string;
+  embeddings: [];
   date: string;
   type: string;
   slug: string;

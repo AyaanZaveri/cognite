@@ -5,15 +5,13 @@ import { Session } from "next-auth";
 import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { TbTelescope } from "react-icons/tb";
+import { TbSquareRoundedPlus, TbTelescope } from "react-icons/tb";
 
 const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
 const Sidebar = ({ session }: { session: Session | null }) => {
-  console.log(session);
-
   return (
     <div
       className={`h-full z-20 fixed select-none bg-zinc-50 w-[240px] border-r border-zinc-200`}
@@ -25,12 +23,19 @@ const Sidebar = ({ session }: { session: Session | null }) => {
         🔥
       </Link>
       <div
-        className={`flex flex-col gap-2 items-center justify-center pt-16 px-2 mt-8`}
+        className={`flex flex-col gap-1 items-center justify-center pt-16 px-2 mt-8`}
       >
-        <div className="w-full px-3 py-2 rounded-lg inline-flex gap-2 hover:gap-2.5 items-center hover:cursor-pointer hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98] transition-all duration-200 ease-in-out">
-          <TbTelescope />
+        <div className="w-full px-3 py-1.5 rounded-lg inline-flex gap-2 hover:gap-2.5 items-center hover:cursor-pointer hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98] transition-all duration-200 ease-in-out">
+          <TbTelescope className="w-5 h-5" />
           <span className={`${space_grotesk.className} font-medium`}>
             Explore
+          </span>
+        </div>
+
+        <div className="w-full px-3 py-1.5 rounded-lg inline-flex gap-2 hover:gap-2.5 items-center hover:cursor-pointer hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98] transition-all duration-200 ease-in-out">
+          <TbSquareRoundedPlus className="w-5 h-5" />
+          <span className={`${space_grotesk.className} font-medium`}>
+            Create
           </span>
         </div>
       </div>
