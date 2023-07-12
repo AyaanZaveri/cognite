@@ -24,17 +24,17 @@ export default async function Home() {
   return (
     <main>
       <div
-        className="flex flex-col w-full items-center justify-center gap-8 h-full"
+        className="flex h-full w-full flex-col items-center justify-center gap-8"
         style={{
           paddingLeft: 240,
         }}
       >
         <Logo />
-        <div className="w-full px-8 select-none">
+        <div className="w-full select-none px-8">
           <ListCogs cogs={cogs} />
         </div>
         <div
-          className="bottom-6 w-full fixed"
+          className="fixed bottom-6 w-full"
           style={{
             paddingLeft: 240 / 2,
           }}
@@ -45,11 +45,11 @@ export default async function Home() {
                 name=""
                 id=""
                 placeholder="What would you like to cognite 🔥"
-                className="w-full font-normal select-none resize-none hover:bg-zinc-50 rounded-md py-3 px-4 shadow-sm outline-none ring-1 ring-zinc-200 hover:ring-2 transition-all duration-300 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500 placeholder:text-zinc-500/60"
+                className="w-full select-none resize-none rounded-md px-4 py-3 font-normal shadow-sm outline-none ring-1 ring-zinc-200 transition-all duration-300 placeholder:text-zinc-500/60 hover:bg-zinc-50 hover:ring-2 hover:ring-zinc-300 focus:ring-2 focus:ring-orange-500"
               ></input>
               {/* make a black button that says make question */}
               <button
-                className="w-max rounded-md select-none outline-none bg-black px-8 py-2 font-medium text-white transition-all duration-300 hover:bg-zinc-800 hover:shadow-2xl hover:shadow-zinc-500/10 active:scale-[0.98]"
+                className="w-max select-none rounded-md bg-black px-8 py-2 font-medium text-white outline-none transition-all duration-300 hover:bg-zinc-800 hover:shadow-2xl hover:shadow-zinc-500/10 active:scale-[0.98]"
                 type="submit"
                 style={{
                   marginRight: 240 / 2,

@@ -26,6 +26,8 @@ export default async function handler(
   const { user, userId, name, description, type, slug, imgUrl, docs }: Cog =
     req.body;
 
+  console.log("Working on Cog");
+
   const cog = await db?.cog.create({
     data: {
       user,
@@ -51,6 +53,8 @@ export default async function handler(
     }
   );
 
+  console.log("Create Embeddings Model");
+
   const vectorStore = PrismaVectorStore.withModel<any>(db).create(
     embeddingsModel,
     {
@@ -64,25 +68,29 @@ export default async function handler(
     }
   );
 
-  const embeddings = await vectorStore.addModels(
-    await db.$transaction(
-      docs.map((content) =>
-        db.embeddings.create({
-          data: {
-            content: content.pageContent,
-            content_title: "title",
-            content_url: "url",
-            content_tokens: 200,
-            cog_id: cog?.id,
-          } as Embeddings,
-        })
-      )
-    )
+  console.log("Created Vector Store");
+
+  const embeddingsData = docs.map((content) => ({
+    data: {
+      content: content.pageContent,
+      content_title: "title",
+      content_url: "url",
+      content_tokens: 200,
+      cog_id: cog?.id,
+    } as Embeddings,
+  }));
+
+  console.log("Created Embeddings Data");
+
+  const createdEmbeddings = await db.$transaction(
+    embeddingsData.map((data) => db.embeddings.create(data))
   );
 
   console.log("Created Embeddings");
 
-  res.status(200).json({ cog: cog, embeddings: embeddings });
+  await vectorStore.addModels(createdEmbeddings);
 
-  res.end();
+  res.status(200).json({
+    cog,
+  });
 }

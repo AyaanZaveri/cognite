@@ -11,25 +11,6 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-async function createCog(cogData: Cogs) {
-  try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/create`, {
-      method: "POST",
-      headers: headers(),
-      body: JSON.stringify(cogData),
-    });
-
-    if (!res.ok) {
-      throw new Error("Network response was not ok: " + res.statusText);
-    }
-
-    const response = await res.json();
-    console.log(response);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-
 const Page = async () => {
   const session = await getServerSession(authOptions);
 
@@ -39,9 +20,9 @@ const Page = async () => {
         paddingLeft: 240,
       }}
     >
-      <div className="p-8 flex flex-col gap-3">
+      <div className="flex flex-col gap-6 px-8 py-10">
         <h1
-          className={`${space_grotesk.className} select-none text-4xl font-semibold pb-2 animate-text bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text text-transparent`}
+          className={`${space_grotesk.className} animate-text select-none bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text pb-2 text-4xl font-semibold text-transparent`}
         >
           Create
         </h1>
