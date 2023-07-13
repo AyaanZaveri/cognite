@@ -49,25 +49,29 @@ const Create = (session: { session: Session | null }) => {
     await getTextChunks([website]);
 
     try {
+      console.log("Creating cog...");
+
       const response = await axios.post(`/api/cog/create`, cogData);
 
       console.log(response);
+
+      console.log("Done!");
     } catch (error) {
       console.error("Error:", error);
     }
   }
 
   return (
-    <div className="bg-zinc-50 p-5 rounded-lg flex flex-col gap-4">
+    <div className="flex flex-col gap-4 rounded-lg">
       <div className="flex flex-col gap-3">
         <div>
-          <span className={`font-semibold text-xl text-zinc-800`}>Name 🏷️</span>
-          <p className="text-zinc-500 font-light text-sm">
+          <span className={`text-xl font-semibold text-zinc-800`}>Name 🏷️</span>
+          <p className="text-sm font-light text-zinc-500">
             This is the name of the cog
           </p>
         </div>
         <input
-          className="bg-white border-none rounded-md py-2 px-3 ring-1 ring-zinc-200 focus:ring-zinc-300 hover:ring-2 focus:ring-2 transition duration-200 ease-in-out outline-none"
+          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Name"
           onChange={(e) => {
@@ -77,15 +81,15 @@ const Create = (session: { session: Session | null }) => {
       </div>
       <div className="flex flex-col gap-3 pt-3">
         <div>
-          <span className={`font-semibold text-xl text-zinc-800`}>
+          <span className={`text-xl font-semibold text-zinc-800`}>
             Description 📝
           </span>
-          <p className="text-zinc-500 font-light text-sm">
+          <p className="text-sm font-light text-zinc-500">
             This is the description of the cog
           </p>
         </div>
         <input
-          className="bg-white border-none rounded-md py-2 px-3 ring-1 ring-zinc-200 focus:ring-zinc-300 hover:ring-2 focus:ring-2 transition duration-200 ease-in-out outline-none"
+          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Description"
           onChange={(e) => {
@@ -96,19 +100,19 @@ const Create = (session: { session: Session | null }) => {
       {/* Do one for website */}
       <div className="flex flex-col gap-3 pt-3">
         <div>
-          <span className={`font-semibold text-xl text-zinc-800`}>
+          <span className={`text-xl font-semibold text-zinc-800`}>
             Website 🌐
           </span>
           <p
-            className={`text-zinc-500 font-light text-sm ${
+            className={`text-sm font-light text-zinc-500 ${
               websiteLoaded ? "text-green-500" : ""
             }`}
           >
-            This is the website to train the cognition on
+            This is the website you want to train the cog on
           </p>
         </div>
         <input
-          className="bg-white border-none rounded-md py-2 px-3 ring-1 ring-zinc-200 focus:ring-zinc-300 hover:ring-2 focus:ring-2 transition duration-200 ease-in-out outline-none"
+          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Website URL"
           onChange={(e) => {
@@ -118,13 +122,13 @@ const Create = (session: { session: Session | null }) => {
       </div>
       <div className="flex flex-col gap-3 pt-3">
         <div>
-          <span className={`font-semibold text-xl text-zinc-800`}>Slug 🔖</span>
-          <p className="text-zinc-500 font-light text-sm">
-            This is the slug of the cog (like /:cog-slug:)
+          <span className={`text-xl font-semibold text-zinc-800`}>Slug 🔖</span>
+          <p className="text-sm font-light text-zinc-500">
+            {"This is the slug of the cog (like /slug)"}
           </p>
         </div>
         <input
-          className="bg-white border-none rounded-md py-2 px-3 ring-1 ring-zinc-200 focus:ring-zinc-300 hover:ring-2 focus:ring-2 transition duration-200 ease-in-out outline-none"
+          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Slug"
           onChange={(e) => {
@@ -134,15 +138,15 @@ const Create = (session: { session: Session | null }) => {
       </div>
       <div className="flex flex-col gap-3 pt-3">
         <div>
-          <span className={`font-semibold text-xl text-zinc-800`}>
+          <span className={`text-xl font-semibold text-zinc-800`}>
             Image URL 🖼️
           </span>
-          <p className="text-zinc-500 font-light text-sm">
+          <p className="text-sm font-light text-zinc-500">
             This is the image URL of the cog
           </p>
         </div>
         <input
-          className="bg-white border-none rounded-md py-2 px-3 ring-1 ring-zinc-200 focus:ring-zinc-300 hover:ring-2 focus:ring-2 transition duration-200 ease-in-out outline-none"
+          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Image URL"
           onChange={(e) => {
@@ -155,7 +159,7 @@ const Create = (session: { session: Session | null }) => {
         onClick={() => {
           createCog(cogData);
         }}
-        className="flex justify-center items-center bg-white text-zinc-800 mt-2 px-6 py-2 self-start rounded-md text-center font-semibold text-sm hover:bg-zinc-100/50 transition-all ring-1 duration-200 ring-zinc-200 hover:ring-zinc-300 active:scale-[0.98]"
+        className="mt-2 flex items-center justify-center self-start rounded-md bg-zinc-50 px-6 py-2 text-center text-sm font-semibold text-zinc-800 ring-1 ring-zinc-200 transition-all duration-200 hover:bg-zinc-100 hover:ring-zinc-300 active:scale-[0.98]"
       >
         Create
       </button>

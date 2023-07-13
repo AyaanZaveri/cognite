@@ -70,27 +70,37 @@ export default async function handler(
 
   console.log("Created Vector Store");
 
-  const embeddingsData = docs.map((content) => ({
-    data: {
-      content: content.pageContent,
-      content_title: "title",
-      content_url: "url",
-      content_tokens: 200,
-      cog_id: cog?.id,
-    } as Embeddings,
-  }));
+  const addEmbeddings = async (docs: any[]) => {
+    await vectorStore.addModels(
+      await db.$transaction(
+        docs.map((content) =>
+          db.embeddings.create({
+            data: {
+              content: content.pageContent,
+              content_title: "title",
+              content_url: "url",
+              content_tokens: 200,
+              cog_id: cog?.id,
+            } as Embeddings,
+          })
+        )
+      )
+    );
+  };
 
-  console.log("Created Embeddings Data");
+  console.log("Add Embeddings");
 
-  const createdEmbeddings = await db.$transaction(
-    embeddingsData.map((data) => db.embeddings.create(data))
-  );
+  await addEmbeddings(docs);
 
-  console.log("Created Embeddings");
-
-  await vectorStore.addModels(createdEmbeddings);
+  console.log("Added Embeddings");
 
   res.status(200).json({
     cog,
   });
 }
+
+// Name: iOS 17
+// Description: iOS 17 is the latest version of iOS
+// Website: https://www.apple.com/ca/ios/ios-17-preview/
+// Slug: ios17
+// Image URL: https://upload.wikimedia.org/wikipedia/commons/9/96/IOS_17_logo.png
