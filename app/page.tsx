@@ -8,9 +8,7 @@ const ListCogs = dynamic(() => import("@/components/ListCogs"));
 const Logo = dynamic(() => import("@/components/Logo"));
 
 async function getListCogs() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`, {
-    cache: "no-cache",
-  });
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`);
   const { data } = await res.json();
   console.log("data", data);
   return data;
