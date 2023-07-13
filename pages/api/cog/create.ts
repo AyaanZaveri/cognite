@@ -70,27 +70,24 @@ export default async function handler(
 
   console.log("Created Vector Store");
 
-  const addEmbeddings = async (docs: any[]) => {
+  if (docs) {
     await vectorStore.addModels(
       await db.$transaction(
         docs.map((content) =>
           db.embeddings.create({
             data: {
-              content: content.pageContent,
-              content_title: "title",
-              content_url: "url",
-              content_tokens: 200,
+              content: content?.pageContent,
+              content_title: "hello",
+              content_url: "yep",
+              content_tokens: 0,
               cog_id: cog?.id,
             } as Embeddings,
           })
         )
       )
     );
-  };
-
-  console.log("Add Embeddings");
-
-  await addEmbeddings(docs);
+    console.log("Added Embeddings");
+  }
 
   console.log("Added Embeddings");
 

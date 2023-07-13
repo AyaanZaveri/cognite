@@ -18,7 +18,7 @@ const Create = (session: { session: Session | null }) => {
   const [cogData, setCogData] = useState<Cogs>({
     name: "",
     description: "",
-    type: "",
+    type: "web",
     slug: "",
     imgUrl: "",
     docs: [],
@@ -26,35 +26,45 @@ const Create = (session: { session: Session | null }) => {
     userId: session?.session?.user?.id as any,
   });
 
+  console.log(cogData.docs);
+
   const [website, setWebsite] = useState<string>("");
   const [websiteLoaded, setWebsiteLoaded] = useState<boolean>(false);
 
   const getTextChunks = async (sites: string[]) => {
-    const siteText = await scrapeSite(sites);
+    return new Promise(async (resolve, reject) => {
+      try {
+        const siteText = await scrapeSite(sites);
+        console.log(siteText);
 
-    console.log(siteText);
+        const splitter = new RecursiveCharacterTextSplitter({
+          chunkSize: 1000,
+        });
+        const docs = await splitter.createDocuments([siteText as string]);
 
-    const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 1000 });
+        console.log(docs);
 
-    const docs = await splitter.createDocuments([siteText as string]);
+        setCogData((prevState) => {
+          const updatedState = { ...prevState, docs: docs };
+          resolve(updatedState);
+          return updatedState;
+        });
 
-    console.log(docs);
-
-    setCogData({ ...cogData, docs: docs });
-
-    setWebsiteLoaded(true);
+        setWebsiteLoaded(true);
+      } catch (error) {
+        reject(error);
+      }
+    });
   };
 
   async function createCog(cogData: Cogs) {
-    await getTextChunks([website]);
-
     try {
       console.log("Creating cog...");
 
-      const response = await axios.post(`/api/cog/create`, cogData);
+      const updatedCogData = await getTextChunks([website]);
+      const response = await axios.post(`/api/cog/create`, updatedCogData);
 
       console.log(response);
-
       console.log("Done!");
     } catch (error) {
       console.error("Error:", error);
@@ -74,6 +84,7 @@ const Create = (session: { session: Session | null }) => {
           className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Name"
+          value={cogData.name}
           onChange={(e) => {
             setCogData({ ...cogData, name: e.target.value });
           }}
@@ -92,6 +103,7 @@ const Create = (session: { session: Session | null }) => {
           className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Description"
+          value={cogData.description}
           onChange={(e) => {
             setCogData({ ...cogData, description: e.target.value });
           }}
@@ -115,6 +127,7 @@ const Create = (session: { session: Session | null }) => {
           className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Website URL"
+          value={website}
           onChange={(e) => {
             setWebsite(e.target.value);
           }}
@@ -131,6 +144,7 @@ const Create = (session: { session: Session | null }) => {
           className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Slug"
+          value={cogData.slug}
           onChange={(e) => {
             setCogData({ ...cogData, slug: e.target.value });
           }}
@@ -149,6 +163,7 @@ const Create = (session: { session: Session | null }) => {
           className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
           type="text"
           placeholder="Image URL"
+          value={cogData.imgUrl}
           onChange={(e) => {
             setCogData({ ...cogData, imgUrl: e.target.value });
           }}
