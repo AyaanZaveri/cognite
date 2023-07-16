@@ -1,14 +1,20 @@
-import { PrismaClient } from "@prisma/client/edge";
+import { PrismaClient as PrismaClientDev } from "@prisma/client/edge";
+/**
+ * Prisma client with production/development mode.
+ * @returns {PrismaClientDev}
+ */
+let prisma: PrismaClientDev;
 
-declare global {
-  var prisma: PrismaClient | undefined;
+if (process.env.NODE_ENV === "development") {
+  prisma = new PrismaClientDev();
+} else {
+  let globalWithPrisma = global as typeof globalThis & {
+    prisma: PrismaClientDev;
+  };
+  if (!globalWithPrisma.prisma) {
+    globalWithPrisma.prisma = new PrismaClientDev();
+  }
+  prisma = globalWithPrisma.prisma;
 }
-
-let prisma: PrismaClient =
-  process.env.NODE_ENV === "production"
-    ? new PrismaClient()
-    : global.prisma || new PrismaClient();
-
-if (process.env.NODE_ENV !== "production") global.prisma = prisma;
 
 export default prisma;
