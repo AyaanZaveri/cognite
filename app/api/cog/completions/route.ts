@@ -10,7 +10,7 @@ import { NextResponse } from "next/server";
 import { StreamingTextResponse, LangChainStream, Message } from "ai";
 import { CallbackManager } from "langchain/callbacks";
 import { AIMessage, HumanMessage, MessageType } from "langchain/schema";
-import prisma from "@/lib/prismadb";
+import prisma from "@/lib/prisma-edge";
 
 export const runtime = "edge";
 

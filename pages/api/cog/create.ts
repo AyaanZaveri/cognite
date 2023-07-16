@@ -1,5 +1,5 @@
-import { Prisma } from "@prisma/client/edge";
-import prisma from "@/lib/prismadb";
+import { Prisma } from "@prisma/client";
+import prisma from "@/lib/prisma";
 import { createEmbeddings } from "@/utils/embed";
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
