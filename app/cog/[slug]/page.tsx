@@ -54,12 +54,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </h1>
           <p className="text-zinc-500">{cogs?.description}</p>
         </div>
-        <h1 className="text-3xl font-bold text-zinc-800">Chat</h1>
-        <div className="h-48">
-          <Chat id={id?.id!} />
-        </div>
-        <ChatBox />
       </div>
+      <Chat id={id?.id!} />
     </div>
   );
 }

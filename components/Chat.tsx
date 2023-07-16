@@ -1,38 +1,73 @@
 "use client";
 
+import remarkGfm from "remark-gfm";
+import ReactMarkdown from "react-markdown";
+
 import { useChat } from "ai/react";
+import ChatBox from "./ChatBox";
+import { useState } from "react";
 
 export default function Chat({ id }: { id: number }) {
+  const [isStreaming, setIsStreaming] = useState(false);
+
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "/api/cog/completions",
     body: {
       id: id,
     },
-    onResponse: (res) => {
-      console.log(res);
+    onResponse: () => {
+      setIsStreaming(true);
+    },
+    onFinish: () => {
+      setIsStreaming(false);
     },
   });
 
   return (
-    <div className="flex w-full max-w-md flex-col">
-      {messages.map((m) => (
-        <div key={m.id}>
-          {m.role === "user" ? "User: " : "AI: "}
-          {m.content}
-        </div>
-      ))}
-
-      <form onSubmit={handleSubmit}>
-        <label>
-          Say something...
-          <input
-            className="mb-8 w-full max-w-md rounded border border-gray-300 p-2 shadow-xl"
-            value={input}
-            onChange={handleInputChange}
+    <div className="pb-28">
+      <div className="flex w-full flex-col gap-5">
+        {messages.map((m) => (
+          <div key={m.id} className="w-full px-8">
+            {m.role === "user" ? (
+              <div className="flex flex-row justify-end gap-3">
+                <div
+                  className={`rounded-md bg-orange-50 px-4 py-3 ring-1 ring-orange-100`}
+                >
+                  <span className="prose transition-all duration-300">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {m.content}
+                    </ReactMarkdown>
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="flex max-w-xl flex-row justify-start gap-3">
+                <div
+                  className={`rounded-md bg-zinc-50 px-4 py-3 ${
+                    isStreaming ? "ring-2" : "ring-1"
+                  } ring-zinc-200`}
+                >
+                  <span className="prose transition-all duration-300">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {m.content}
+                    </ReactMarkdown>
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+      <div className="fixed bottom-6 w-full">
+        <div className="flex w-full flex-row gap-6 px-8">
+          <ChatBox
+            input={input}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+            isStreaming={isStreaming}
           />
-        </label>
-        <button type="submit">Send</button>
-      </form>
+        </div>
+      </div>
     </div>
   );
 }
