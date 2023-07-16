@@ -1,4 +1,5 @@
-import { PrismaClient, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client/edge";
+import prisma from "@/lib/prismadb";
 import { createEmbeddings } from "@/utils/embed";
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
@@ -7,15 +8,11 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
 import { Cog, Embeddings } from "@/types";
 
-const db = new PrismaClient();
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const session = await getServerSession(req, res, authOptions);
-
-  console.log("session", session);
 
   if (!session) {
     // Not Signed in
@@ -26,9 +23,7 @@ export default async function handler(
   const { user, userId, name, description, type, slug, imgUrl, docs }: Cog =
     req.body;
 
-  console.log("Working on Cog");
-
-  const cog = await db?.cog.create({
+  const cog = await prisma?.cog.create({
     data: {
       user,
       userId,
@@ -39,8 +34,6 @@ export default async function handler(
       imgUrl,
     },
   });
-
-  console.log("Created Cog");
 
   const embeddingsModel = new OpenAIEmbeddings(
     {
@@ -53,9 +46,7 @@ export default async function handler(
     }
   );
 
-  console.log("Create Embeddings Model");
-
-  const vectorStore = PrismaVectorStore.withModel<any>(db).create(
+  const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
     embeddingsModel,
     {
       prisma: Prisma,
@@ -68,28 +59,20 @@ export default async function handler(
     }
   );
 
-  console.log("Created Vector Store");
-
   if (docs) {
     await vectorStore.addModels(
-      await db.$transaction(
+      await prisma!.$transaction(
         docs.map((content) =>
-          db.embeddings.create({
+          prisma!.embeddings.create({
             data: {
               content: content?.pageContent,
-              content_title: "hello",
-              content_url: "yep",
-              content_tokens: 0,
               cog_id: cog?.id,
             } as Embeddings,
           })
         )
       )
     );
-    console.log("Added Embeddings");
   }
-
-  console.log("Added Embeddings");
 
   res.status(200).json({
     cog,

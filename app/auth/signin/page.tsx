@@ -26,11 +26,11 @@ export default async function SignIn() {
   return (
     <div className="flex min-h-screen flex-col items-center p-24">
       <div className="mb-8">
-        <Logo />
+        <Logo size={"text-5xl"} />
       </div>
       {Object.values(resp).map((provider) => {
         return (
-          <div key={provider.id} className="[&:not(:first-child)]:mt-4 w-1/4">
+          <div key={provider.id} className="w-1/4 [&:not(:first-child)]:mt-4">
             <LoginButton auth={provider} />
           </div>
         );

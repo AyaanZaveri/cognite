@@ -1,12 +1,11 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const prisma = new PrismaClient();
+import prisma from "@/lib/prismadb";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      const cogs = await prisma.cog.findMany();
+      const cogs = await prisma!.cog.findMany();
       return res.status(200).json({
         success: true,
         data: cogs,

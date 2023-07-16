@@ -11,12 +11,12 @@ const space_grotesk = Space_Grotesk({
 const Card = ({ cog }: { cog: Cog }) => {
   return (
     <Link
-      href={`/cog/${cog.id}`}
+      href={`/cog/${cog.slug}`}
       key={cog.id}
-      className={`relative h-36 select-none flex flex-col w-full rounded-xl p-5 transition-all duration-300 cursor-pointer transform active:scale-[0.98] bg-zinc-50 hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 hover:shadow-2xl hover:shadow-zinc-500/10`}
+      className={`relative flex h-36 w-full transform cursor-pointer select-none flex-col rounded-xl bg-zinc-50 p-5 transition-all duration-300 hover:bg-zinc-100 hover:shadow-2xl hover:shadow-zinc-500/10 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]`}
     >
-      <div className="flex items-center mb-2">
-        <div className="relative w-8 h-8 bg-white rounded-md ring-1 ring-zinc-200">
+      <div className="mb-2 flex items-center">
+        <div className="relative h-8 w-8 rounded-md bg-white ring-1 ring-zinc-200">
           <Image
             src={cog.imgUrl}
             alt={"Image of " + cog.name}
@@ -24,20 +24,20 @@ const Card = ({ cog }: { cog: Cog }) => {
             style={{
               objectFit: "contain",
             }}
-            className="p-1.5 rounded-lg"
+            className="rounded-lg p-1.5"
             draggable={false}
           />
         </div>
         <h5
           className={
             space_grotesk.className +
-            " ml-3 font-semibold text-lg text-zinc-800"
+            " ml-3 text-lg font-semibold text-zinc-800"
           }
         >
           {cog.name}
         </h5>
-        <h5 className="bottom-0 right-0 m-3 absolute">
-          <span className="text-zinc-400 text-sm transition-colors duration-200 ease-in-out hover:text-zinc-500">
+        <h5 className="absolute bottom-0 right-0 m-3">
+          <span className="text-sm text-zinc-400 transition-colors duration-200 ease-in-out hover:text-zinc-500">
             {"@" + cog?.user}
           </span>
         </h5>

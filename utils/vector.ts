@@ -1,11 +1,10 @@
 import { QA_TEMPLATE } from "@/lib/prompts";
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client/edge";
 import { OpenAI } from "langchain";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/prismadb";
 
 export const makeChain = (
   vectorstore: PrismaVectorStore<any, any, any, any>
@@ -41,7 +40,7 @@ export const createVectorStore = () => {
     }
   );
 
-  const vectorStore = PrismaVectorStore.withModel<any>(prisma).create(
+  const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
     embeddings,
     {
       prisma: Prisma,

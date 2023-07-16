@@ -14,6 +14,11 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
+interface ButtonState {
+  text: string;
+  loading: boolean;
+}
+
 const Create = (session: { session: Session | null }) => {
   const [cogData, setCogData] = useState<Cogs>({
     name: "",
@@ -26,46 +31,57 @@ const Create = (session: { session: Session | null }) => {
     userId: session?.session?.user?.id as any,
   });
 
-  console.log(cogData.docs);
-
   const [website, setWebsite] = useState<string>("");
-  const [websiteLoaded, setWebsiteLoaded] = useState<boolean>(false);
+  const [buttonState, setButtonState] = useState<ButtonState>({
+    text: "Create",
+    loading: false,
+  });
+
+  const router = useRouter();
 
   const getTextChunks = async (sites: string[]) => {
     return new Promise(async (resolve, reject) => {
       try {
+        setButtonState({
+          text: "Getting website 🌐",
+          loading: true,
+        });
+
         const siteText = await scrapeSite(sites);
-        console.log(siteText);
 
         const splitter = new RecursiveCharacterTextSplitter({
           chunkSize: 1000,
         });
         const docs = await splitter.createDocuments([siteText as string]);
 
-        console.log(docs);
-
         setCogData((prevState) => {
           const updatedState = { ...prevState, docs: docs };
           resolve(updatedState);
           return updatedState;
         });
-
-        setWebsiteLoaded(true);
       } catch (error) {
         reject(error);
       }
     });
   };
 
-  async function createCog(cogData: Cogs) {
+  async function createCog() {
     try {
-      console.log("Creating cog...");
-
       const updatedCogData = await getTextChunks([website]);
+      setButtonState({
+        text: "Creating cog 🧠",
+        loading: true,
+      });
       const response = await axios.post(`/api/cog/create`, updatedCogData);
 
-      console.log(response);
-      console.log("Done!");
+      if (response.status === 200) {
+        setButtonState({
+          text: "Cog created! 🎉",
+          loading: false,
+        });
+
+        router.push(`/cog/${response.data.slug}`);
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -115,11 +131,7 @@ const Create = (session: { session: Session | null }) => {
           <span className={`text-xl font-semibold text-zinc-800`}>
             Website 🌐
           </span>
-          <p
-            className={`text-sm font-light text-zinc-500 ${
-              websiteLoaded ? "text-green-500" : ""
-            }`}
-          >
+          <p className={`text-sm font-light text-zinc-500`}>
             This is the website you want to train the cog on
           </p>
         </div>
@@ -172,11 +184,15 @@ const Create = (session: { session: Session | null }) => {
 
       <button
         onClick={() => {
-          createCog(cogData);
+          createCog();
         }}
-        className="mt-2 flex items-center justify-center self-start rounded-md bg-zinc-50 px-6 py-2 text-center text-sm font-semibold text-zinc-800 ring-1 ring-zinc-200 transition-all duration-200 hover:bg-zinc-100 hover:ring-zinc-300 active:scale-[0.98]"
+        className={`mt-2 flex items-center justify-center self-start rounded-md bg-zinc-50 px-6 py-2 text-center text-sm font-semibold text-zinc-800 ring-1 ring-zinc-200 transition-all duration-200 hover:bg-zinc-100 hover:ring-zinc-300 active:scale-[0.98] ${
+          buttonState.loading
+            ? "animate-pulse cursor-not-allowed"
+            : "cursor-pointer"
+        }`}
       >
-        Create
+        {buttonState.text}
       </button>
     </div>
   );

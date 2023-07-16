@@ -12,7 +12,6 @@ const space_grotesk = Space_Grotesk({
 });
 
 const Sidebar = ({ session }: { session: Session | null }) => {
-  console.log("session", session);
 
   return (
     <div

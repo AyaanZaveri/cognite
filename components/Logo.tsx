@@ -8,13 +8,13 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-const Logo = () => {
+const Logo = ({ size }: { size: string }) => {
   return (
-    <div className="items-center pt-12 pb-4 text-5xl select-none inline-flex gap-2 mt-6">
+    <div className={`inline-flex select-none items-center gap-2 ${size}`}>
       <span
         className={
           space_grotesk.className +
-          " font-semibold pb-2 animate-text bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text text-transparent"
+          " animate-text bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text pb-2 font-semibold text-transparent"
         }
       >
         Cognition
