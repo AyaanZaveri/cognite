@@ -2,11 +2,11 @@
 
 import { useChat } from "ai/react";
 
-export default function Chat() {
+export default function Chat({ id }: { id: number }) {
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "/api/cog/completions",
     body: {
-      id: 45,
+      id: id,
     },
     onResponse: (res) => {
       console.log(res);

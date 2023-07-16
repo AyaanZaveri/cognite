@@ -3,23 +3,34 @@ import Image from "next/image";
 import { Space_Grotesk } from "next/font/google";
 import ChatBox from "@/components/ChatBox";
 import Chat from "@/components/Chat";
+import prisma from "@/lib/prisma";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
-async function getCogs(slug: string) {
-  const res = await fetch(
-    `${process.env.NEXTAUTH_URL}/api/cog/info?slug=${slug}`
-  );
+async function getCogs(id: number) {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/info?id=${id}`);
   return res.json();
+}
+
+async function getIdFromSlug(slug: string) {
+  // return the id from the slug with prisma find
+  const res = await prisma.cog.findUnique({
+    where: {
+      slug: slug,
+    },
+  });
+  return res;
 }
 
 export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
 
-  const cogsData = await getCogs(slug);
+  const id = await getIdFromSlug(slug);
+
+  const cogsData = await getCogs(id?.id!);
 
   const cogs = cogsData.data;
 
@@ -45,7 +56,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </div>
         <h1 className="text-3xl font-bold text-zinc-800">Chat</h1>
         <div className="h-48">
-          <Chat />
+          <Chat id={id?.id!} />
         </div>
         <ChatBox />
       </div>
