@@ -91,8 +91,8 @@ export async function POST(req: Request) {
       }
     );
 
-    console.log("Got chain");
-
+    console.log("Created chain");
+    
     console.log(id);
 
     const history = messages.map((m: any) => {
@@ -101,7 +101,6 @@ export async function POST(req: Request) {
         : new AIMessage(m.content.split("\n__META_JSON__\n")[0]);
     });
 
-    console.log("Created chain");
 
     const prompt = history.pop().text.trim().replaceAll("\n", " ");
 
