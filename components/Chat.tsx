@@ -6,6 +6,12 @@ import ReactMarkdown from "react-markdown";
 import { useChat } from "ai/react";
 import ChatBox from "./ChatBox";
 import { useState } from "react";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
 
 export default function Chat({ id }: { id: number }) {
   const [isStreaming, setIsStreaming] = useState(false);
@@ -47,7 +53,7 @@ export default function Chat({ id }: { id: number }) {
                 <div
                   className={`rounded-md bg-zinc-50 px-4 py-3 ${
                     isStreaming ? "ring-2" : "ring-1"
-                  } ring-zinc-200`}
+                  } ring-zinc-200 ${inter.className}`}
                 >
                   <span className="prose transition-all duration-300">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>

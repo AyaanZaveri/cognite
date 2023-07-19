@@ -48,6 +48,13 @@ export async function POST(req: Request) {
       }
     );
 
+    // teach me more
+    // what is this
+    
+    // add recipe books
+    // add menus
+    // make create button big at top so people click it
+
     console.log("Created vector store");
 
     const streamingModel = new ChatOpenAI(
