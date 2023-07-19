@@ -9,7 +9,5 @@ export const scrapeSite = async (urls: string[]) => {
 
   const data = await res.json();
 
- 
-
   return data.extracted_text;
 };

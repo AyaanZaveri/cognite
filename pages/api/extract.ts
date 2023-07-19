@@ -2,6 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 const cheerio = require("cheerio");
 
+type CheerioElement = {
+  type: string;
+  name: string;
+  data?: string;
+  children: CheerioElement[];
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -13,6 +20,18 @@ export default async function handler(
       .status(400)
       .json({ error: "URLs array is required in the request body" });
     return;
+  }
+
+  function extractText(element: CheerioElement): string {
+    if (element.type === "text") {
+      return element.data!.trim();
+    }
+
+    if (element.type === "tag" || element.type === "root") {
+      return element.children.map((child) => extractText(child)).join(" ");
+    }
+
+    return "";
   }
 
   try {
@@ -29,10 +48,13 @@ export default async function handler(
       const title = $("title").text();
 
       // Extract the text content from the body
-      let extractedText = "";
-      $("body").each((_i: any, elem: any) => {
-        extractedText += $(elem).text();
-      });
+      let extractedText = extractText($("body")[0]);
+
+      // Remove unnecessary white spaces, new line characters, and tab characters
+      extractedText = extractedText
+        .replace(/\s\s+/g, " ")
+        .replace(/\n/g, "")
+        .replace(/\t/g, "");
 
       combinedText += `${title}\n${extractedText}\n`;
     }

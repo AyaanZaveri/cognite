@@ -15,11 +15,13 @@ export default function Chat({ id }: { id: number }) {
     body: {
       id: id,
     },
-    onResponse: () => {
+    onResponse: (res) => {
       setIsStreaming(true);
+      console.log(res);
     },
-    onFinish: () => {
+    onFinish: (msg) => {
       setIsStreaming(false);
+      console.log(msg);
     },
   });
 

@@ -47,14 +47,29 @@ export default async function Page({ params }: { params: { slug: string } }) {
         <Logo size="text-3xl" />
       </div>
       <div className="flex flex-col items-center justify-center gap-6 p-5">
-        <Image src={cogs?.imgUrl} alt={cogs?.slug} width={128} height={128} />
+        <Image
+          src={cogs?.imgUrl}
+          alt={cogs?.slug}
+          width={128}
+          height={128}
+          draggable={false}
+          className="transition-all duration-1000 ease-in-out hover:scale-110"
+        />
         <div className="flex flex-col items-center gap-2">
           <h1
-            className={`text-6xl font-bold text-zinc-800 ${space_grotesk.className}`}
+            className={`text-7xl font-bold text-zinc-800 ${space_grotesk.className}`}
           >
             {cogs?.name}
           </h1>
-          <p className="text-zinc-500">{cogs?.description}</p>
+          <div className="flex flex-col items-center">
+            <p className="text-lg text-zinc-500">{cogs?.description}</p>
+            <span className="text-zinc-700">
+              Created by{" "}
+              <b className="cursor-pointer font-semibold transition-colors duration-500 ease-in-out hover:text-orange-500 active:text-orange-500">
+                @{cogs?.user}
+              </b>
+            </span>
+          </div>
         </div>
       </div>
       <Chat id={id?.id!} />

@@ -26,8 +26,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-  const headersList = headers();
-  const activePath = headersList.get("x-invoke-path");
 
   return (
     <html lang="en">

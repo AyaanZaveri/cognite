@@ -10,9 +10,8 @@ export interface Cogs {
   userId: number;
   name: string;
   description: string;
-  type: string;
-  slug: string;
   imgUrl: string;
+  slug: string;
   docs: Document[];
 }
 
@@ -23,7 +22,6 @@ export interface Cog {
   name: string;
   description: string;
   createdDate: Date;
-  type: string;
   slug: string;
   imgUrl: string;
   content: string;

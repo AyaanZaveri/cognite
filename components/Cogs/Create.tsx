@@ -7,7 +7,11 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { Session, User } from "next-auth";
 import { Space_Grotesk } from "next/font/google";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
+import { InputFile } from "../InputFile";
+import { Document } from "langchain/dist/document";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+import slugify from "slugify";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -23,15 +27,16 @@ const Create = (session: { session: Session | null }) => {
   const [cogData, setCogData] = useState<Cogs>({
     name: "",
     description: "",
-    type: "web",
-    slug: "",
     imgUrl: "",
+    slug: "",
     docs: [],
     user: session?.session?.user?.name?.split(" ")[0] as string,
     userId: session?.session?.user?.id as any,
   });
 
   const [website, setWebsite] = useState<string>("");
+  const [file, setFile] = useState<Blob>();
+
   const [buttonState, setButtonState] = useState<ButtonState>({
     text: "Create",
     loading: false,
@@ -39,23 +44,42 @@ const Create = (session: { session: Session | null }) => {
 
   const router = useRouter();
 
-  const getTextChunks = async (sites: string[]) => {
+  const getSources = async (sources: {
+    sites: string[];
+    file: Blob | undefined;
+  }) => {
     return new Promise(async (resolve, reject) => {
       try {
         setButtonState({
-          text: "Getting website 🌐",
+          text: "Getting sources 🌐",
           loading: true,
         });
 
-        const siteText = await scrapeSite(sites);
+        const docs: Document[] = [];
 
-        const splitter = new RecursiveCharacterTextSplitter({
-          chunkSize: 1000,
-        });
-        const docs = await splitter.createDocuments([siteText as string]);
+        if (sources?.sites && sources?.sites.length > 0) {
+          const siteText = await scrapeSite(sources?.sites);
+
+          const splitter = new RecursiveCharacterTextSplitter({
+            chunkSize: 1000,
+          });
+
+          const siteDocs = await splitter.createDocuments([siteText as string]);
+
+          docs.push(...siteDocs);
+        }
+
+        if (sources?.file) {
+          if (sources.file.type === "application/pdf") {
+            const loader = new PDFLoader(file as Blob);
+            const pdfDocs = await loader.loadAndSplit();
+
+            docs.push(...pdfDocs);
+          }
+        }
 
         setCogData((prevState) => {
-          const updatedState = { ...prevState, docs: docs };
+          const updatedState = { ...prevState, docs };
           resolve(updatedState);
           return updatedState;
         });
@@ -67,12 +91,37 @@ const Create = (session: { session: Session | null }) => {
 
   async function createCog() {
     try {
-      const updatedCogData = await getTextChunks([website]);
+      let sources: {
+        sites: string[];
+        file: Blob | undefined;
+      };
+
+      if (website && file) {
+        // Both inputs provided
+        sources = { sites: [website], file };
+      } else if (website) {
+        sources = { sites: [website], file: undefined };
+      } else {
+        sources = { sites: [], file };
+      }
+
+      const updatedData = await getSources(sources);
       setButtonState({
         text: "Creating cog 🧠",
         loading: true,
       });
-      const response = await axios.post(`/api/cog/create`, updatedCogData);
+
+      setCogData((prevState) => {
+        const updatedState = {
+          ...prevState,
+          slug: slugify(prevState.name, { lower: true }),
+        };
+        return updatedState;
+      });
+
+      const response = await axios.post(`/api/cog/create`, {
+        cog: updatedData,
+      });
 
       if (response.status === 200) {
         setButtonState({
@@ -80,7 +129,7 @@ const Create = (session: { session: Session | null }) => {
           loading: false,
         });
 
-        router.push(`/cog/${response.data.slug}`);
+        // router.push(`/cog/${response?.data?.cog?.slug}`);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -144,23 +193,7 @@ const Create = (session: { session: Session | null }) => {
             setWebsite(e.target.value);
           }}
         />
-      </div>
-      <div className="flex flex-col gap-3 pt-3">
-        <div>
-          <span className={`text-xl font-semibold text-zinc-800`}>Slug 🔖</span>
-          <p className="text-sm font-light text-zinc-500">
-            {"This is the slug of the cog (like /slug)"}
-          </p>
-        </div>
-        <input
-          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
-          type="text"
-          placeholder="Slug"
-          value={cogData.slug}
-          onChange={(e) => {
-            setCogData({ ...cogData, slug: e.target.value });
-          }}
-        />
+        <InputFile setFile={setFile} />
       </div>
       <div className="flex flex-col gap-3 pt-3">
         <div>

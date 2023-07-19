@@ -9,8 +9,9 @@ import { PromptTemplate } from "langchain/prompts";
 import { NextResponse } from "next/server";
 import { StreamingTextResponse, LangChainStream, Message } from "ai";
 import { CallbackManager } from "langchain/callbacks";
-import { AIMessage, HumanMessage, MessageType } from "langchain/schema";
+import { AIMessage, HumanMessage } from "langchain/schema";
 import prisma from "@/lib/prisma-edge";
+import { Document } from "langchain/dist/document";
 
 export const runtime = "edge";
 
@@ -91,8 +92,16 @@ export async function POST(req: Request) {
       }
     );
 
+    const stringifySources = (docs: Document[] | undefined) => {
+      if (docs) {
+        const stringifiedSources = JSON.stringify(docs.map((x) => x.metadata));
+        return stringifiedSources;
+      }
+      return "";
+    };
+
     console.log("Created chain");
-    
+
     console.log(id);
 
     const history = messages.map((m: any) => {
@@ -101,13 +110,18 @@ export async function POST(req: Request) {
         : new AIMessage(m.content.split("\n__META_JSON__\n")[0]);
     });
 
-
     const prompt = history.pop().text.trim().replaceAll("\n", " ");
 
-    chain.call({
-      question: prompt,
-      chat_history: history,
-    });
+    chain
+      .call({
+        question: prompt,
+        chat_history: history,
+      })
+      .then((response) => {
+        console.log("Got response");
+        const { sourceDocuments } = response;
+        console.log(sourceDocuments);
+      });
 
     console.log("Called chain");
 
