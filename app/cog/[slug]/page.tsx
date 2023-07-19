@@ -61,9 +61,9 @@ export default async function Page({
           draggable={false}
           className="transition-all duration-1000 ease-in-out hover:scale-110"
         />
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-5">
           <h1
-            className={`text-7xl font-bold text-zinc-800 ${space_grotesk.className}`}
+            className={`text-7xl text-center font-bold text-zinc-800 ${space_grotesk.className}`}
           >
             {cogs?.name}
           </h1>

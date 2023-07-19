@@ -60,8 +60,6 @@ model Embeddings {
   cog_id    Int
   embedding Unsupported("vector")?
   cog       Cog                    @relation(fields: [cog_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@unique([content, cog_id])
 }
 
 model Cog {
