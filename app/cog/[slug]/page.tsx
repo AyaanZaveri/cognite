@@ -32,6 +32,8 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
   const id = await getIdFromSlug(slug);
 
+  console.log(id)
+
   const cogsData = await getCogs(id?.id!);
 
   const cogs = cogsData.data;

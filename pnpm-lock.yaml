@@ -62,6 +62,9 @@ dependencies:
   file-saver:
     specifier: ^2.0.5
     version: 2.0.5
+  friendly-username-generator:
+    specifier: ^2.0.4
+    version: 2.0.4
   html-to-text:
     specifier: ^9.0.5
     version: 9.0.5
@@ -2175,6 +2178,10 @@ packages:
 
   /fraction.js@4.2.0:
     resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
+    dev: false
+
+  /friendly-username-generator@2.0.4:
+    resolution: {integrity: sha512-718y2+j8A28eEsR3AOK4Tp0U/69svwnE6CMtXAvleXHubDim/CsOc2EU4MGBkShB1WzMTO4iO/10JrKaiCc2Sw==}
     dev: false
 
   /fs.realpath@1.0.0:
