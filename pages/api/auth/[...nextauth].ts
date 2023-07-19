@@ -4,12 +4,22 @@ import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/lib/prisma";
+import { generateUsername } from "friendly-username-generator";
 
 export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      async profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          username: generateUsername(),
+          email: profile.email,
+          image: profile.picture,
+        };
+      },
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID as string,

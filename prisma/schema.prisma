@@ -45,6 +45,7 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
+  username      String    @unique
   createDate    DateTime  @default(now())
 
   accounts Account[]
