@@ -20,9 +20,10 @@ export default async function handler(
     return; // This will stop further execution if the user is not authenticated
   }
 
-  const { user, userId, name, description, slug, imgUrl, docs }: Cog = req.body;
+  const { user, userId, name, description, slug, imgUrl, docs }: Cog =
+    req.body.data;
 
-  console.log(req.body);
+  console.log("boiody", req.body.data);
 
   const cog = await prisma?.cog.create({
     data: {

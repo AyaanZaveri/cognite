@@ -111,16 +111,16 @@ const Create = (session: { session: Session | null }) => {
         loading: true,
       });
 
-      setCogData((prevState) => {
-        const updatedState = {
-          ...prevState,
-          slug: slugify(prevState.name, { lower: true }),
-        };
-        return updatedState;
-      });
+      // setCogData((prevState) => {
+      //   const updatedState = {
+      //     ...prevState,
+      //     slug: slugify(prevState.name, { lower: true }),
+      //   };
+      //   return updatedState;
+      // });
 
       const response = await axios.post(`/api/cog/create`, {
-        cog: updatedData,
+        data: updatedData,
       });
 
       if (response.status === 200) {
@@ -128,8 +128,6 @@ const Create = (session: { session: Session | null }) => {
           text: "Cog created! 🎉",
           loading: false,
         });
-
-        // router.push(`/cog/${response?.data?.cog?.slug}`);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -194,6 +192,23 @@ const Create = (session: { session: Session | null }) => {
           }}
         />
         <InputFile setFile={setFile} />
+      </div>
+      <div className="flex flex-col gap-3 pt-3">
+        <div>
+          <span className={`text-xl font-semibold text-zinc-800`}>Slug</span>
+          <p className="text-sm font-light text-zinc-500">
+            This is the slug of the cog
+          </p>
+        </div>
+        <input
+          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
+          type="text"
+          placeholder="Slug"
+          value={cogData.slug}
+          onChange={(e) => {
+            setCogData({ ...cogData, slug: e.target.value });
+          }}
+        />
       </div>
       <div className="flex flex-col gap-3 pt-3">
         <div>

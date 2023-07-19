@@ -27,7 +27,11 @@ async function getIdFromSlug(slug: string) {
   return res;
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const { slug } = params;
 
   const id = await getIdFromSlug(slug);
