@@ -38,7 +38,7 @@ const Card = ({ cog }: { cog: Cog }) => {
         </h5>
         <h5 className="absolute bottom-0 right-0 m-3">
           <span className="text-sm text-zinc-400 transition-colors duration-200 ease-in-out hover:text-zinc-500">
-            {"@" + cog?.user}
+            {"@" + cog?.user?.username}
           </span>
         </h5>
       </div>

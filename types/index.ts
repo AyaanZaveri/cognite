@@ -6,7 +6,6 @@ interface Document {
 }
 
 export interface Cogs {
-  user: User;
   userId: string;
   name: string;
   description: string;

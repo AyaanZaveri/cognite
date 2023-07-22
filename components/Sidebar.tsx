@@ -12,25 +12,24 @@ const space_grotesk = Space_Grotesk({
 });
 
 const Sidebar = ({ session }: { session: Session | null }) => {
-
   return (
     <div
-      className={`h-full z-20 fixed select-none bg-zinc-50 w-[240px] border-r border-zinc-200`}
+      className={`fixed z-20 h-full w-[240px] select-none border-r border-zinc-200 bg-zinc-50`}
     >
       <Link
         href={`/`}
-        className="text-4xl mx-3 my-4 top-0 absolute hover:opacity-80 transition-all duration-300"
+        className="absolute top-0 mx-3 my-4 text-4xl transition-all duration-300 hover:opacity-80"
       >
         🔥
       </Link>
       <div
-        className={`flex flex-col gap-1 items-center justify-center pt-16 px-2 mt-8`}
+        className={`mt-8 flex flex-col items-center justify-center gap-1 px-2 pt-16`}
       >
         <Link
           href={"/explore"}
-          className="w-full px-3 py-1.5 rounded-lg inline-flex gap-2 hover:gap-2.5 items-center hover:cursor-pointer hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98] transition-all duration-200 ease-in-out"
+          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]"
         >
-          <TbTelescope className="w-5 h-5" />
+          <TbTelescope className="h-5 w-5" />
           <span className={`${space_grotesk.className} font-medium`}>
             Explore
           </span>
@@ -38,20 +37,20 @@ const Sidebar = ({ session }: { session: Session | null }) => {
 
         <Link
           href={"/create"}
-          className="w-full px-3 py-1.5 rounded-lg inline-flex gap-2 hover:gap-2.5 items-center hover:cursor-pointer hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98] transition-all duration-200 ease-in-out"
+          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]"
         >
-          <TbSquareRoundedPlus className="w-5 h-5" />
+          <TbSquareRoundedPlus className="h-5 w-5" />
           <span className={`${space_grotesk.className} font-medium`}>
             Create
           </span>
         </Link>
       </div>
-      <div className="bottom-0 absolute py-3 px-2 w-full">
+      <div className="absolute bottom-0 w-full px-2 py-3">
         {session ? (
           <Link href={`/profile`}>
-            <div className="gap-8 h-full p-2 px-3 hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 w-full rounded-full transition-all duration-200 ease-in-out active:scale-[0.98] hover:cursor-pointer">
-              <div className="flex flex-row gap-2 items-center w-full rounded-full">
-                <div className="w-9 h-9 relative">
+            <div className="h-full w-full gap-8 rounded-full p-2 px-3 transition-all duration-200 ease-in-out hover:cursor-pointer hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]">
+              <div className="flex w-full flex-row items-center gap-2 rounded-full">
+                <div className="relative h-9 w-9">
                   <Image
                     src={session?.user?.image as string}
                     alt="user"

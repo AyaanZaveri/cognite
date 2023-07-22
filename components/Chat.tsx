@@ -13,7 +13,7 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
-export default function Chat({ id }: { id: number }) {
+export default function Chat({ id }: { id: string }) {
   const [isStreaming, setIsStreaming] = useState(false);
 
   const { messages, input, handleInputChange, handleSubmit } = useChat({

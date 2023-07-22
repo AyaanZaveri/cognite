@@ -1,24 +1,15 @@
-import { Prisma } from "@prisma/client";
+import { Prisma } from '@prisma/client';
 import prisma from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { Cog, Embeddings } from "@/types";
-import { getAuthSession } from "@/lib/auth";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getAuthSession();
-
-  if (!session) {
-    // Not Signed in
-    res.status(401).json({ error: "Unauthorized" });
-    return; // This will stop further execution if the user is not authenticated
-  }
-
-  const { user, userId, name, description, slug, imgUrl, docs }: Cog =
+  const { userId, name, description, slug, imgUrl, docs }: Cog =
     req.body.data;
 
   console.log("boiody", req.body.data);

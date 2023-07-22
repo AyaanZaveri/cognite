@@ -4,14 +4,13 @@ import { Cogs } from "@/types";
 import { scrapeSite } from "@/utils/scrapeSite";
 import axios from "axios";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
-import { Session, User } from "next-auth";
+import { Session } from "next-auth";
 import { Space_Grotesk } from "next/font/google";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import { InputFile } from "../InputFile";
 import { Document } from "langchain/dist/document";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
-import slugify from "slugify";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -30,7 +29,6 @@ const Create = (session: { session: Session | null }) => {
     imgUrl: "",
     slug: "",
     docs: [],
-    user: session?.session?.user?.name?.split(" ")[0] as string,
     userId: session?.session?.user?.id as any,
   });
 

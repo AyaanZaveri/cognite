@@ -10,7 +10,7 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-async function getCogs(id: number) {
+async function getCogs(id: string) {
   const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/info?id=${id}`, {
     cache: "no-store",
   });
@@ -27,16 +27,12 @@ async function getIdFromSlug(slug: string) {
   return res;
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const { slug } = params;
 
   const id = await getIdFromSlug(slug);
 
-  console.log(id)
+  console.log(id);
 
   const cogsData = await getCogs(id?.id!);
 
@@ -63,7 +59,7 @@ export default async function Page({
         />
         <div className="flex flex-col items-center gap-5">
           <h1
-            className={`text-7xl text-center font-bold text-zinc-800 ${space_grotesk.className}`}
+            className={`text-center text-7xl font-bold text-zinc-800 ${space_grotesk.className}`}
           >
             {cogs?.name}
           </h1>
@@ -72,7 +68,7 @@ export default async function Page({
             <span className="text-zinc-700">
               Created by{" "}
               <b className="cursor-pointer font-semibold transition-colors duration-500 ease-in-out hover:text-orange-500 active:text-orange-500">
-                @{cogs?.user}
+                @{cogs?.user?.username}
               </b>
             </span>
           </div>

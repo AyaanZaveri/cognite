@@ -5,7 +5,11 @@ import prisma from "@/lib/prisma";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "GET") {
     try {
-      const cogs = await prisma!.cog.findMany();
+      const cogs = await prisma!.cog.findMany({
+        include: {
+          user: true,
+        },
+      });
       return res.status(200).json({
         success: true,
         data: cogs,

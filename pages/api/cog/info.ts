@@ -11,7 +11,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const cog = await prisma.cog.findUnique({
         where: {
-          id: Number(req.query.id) || undefined,
+          id: String(req.query.id) || undefined,
+        },
+        include: {
+          user: true,
         },
       });
       return res.status(200).json({
