@@ -1,11 +1,9 @@
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
 import Image from "next/image";
 import { SignIn, SignOut } from "../actions";
+import { getAuthSession } from "@/lib/auth";
 
 export default async function Page() {
-  const session = await getServerSession(authOptions);
+  const session = await getAuthSession()
 
   if (session) {
     return (

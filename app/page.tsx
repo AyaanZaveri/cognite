@@ -1,7 +1,4 @@
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { Cogs } from "@/types";
-import { getServerSession } from "next-auth";
-import { headers } from "next/dist/client/components/headers";
 import dynamic from "next/dynamic";
 
 const ListCogs = dynamic(() => import("@/components/ListCogs"));

@@ -1,12 +1,8 @@
 import "./globals.css";
-import { Barlow, Inter, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 import Sidebar from "../components/Sidebar";
-import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession } from "next-auth";
-import { headers } from "next/headers";
+import { getAuthSession } from "@/lib/auth";
 
-const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
@@ -25,7 +21,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getServerSession(authOptions);
+  const session = await getAuthSession();
 
   return (
     <html lang="en">

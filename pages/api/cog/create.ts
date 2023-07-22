@@ -1,18 +1,16 @@
 import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
-import { createEmbeddings } from "@/utils/embed";
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
 import { Cog, Embeddings } from "@/types";
+import { getAuthSession } from "@/lib/auth";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const session = await getServerSession(req, res, authOptions);
+  const session = await getAuthSession();
 
   if (!session) {
     // Not Signed in
@@ -27,7 +25,6 @@ export default async function handler(
 
   const cog = await prisma?.cog.create({
     data: {
-      user,
       userId,
       name,
       description,

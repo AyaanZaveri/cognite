@@ -41,12 +41,14 @@
     "lucide-react": "^0.260.0",
     "mongodb": "^5.6.0",
     "mongoose": "7.1.1",
+    "nanoid": "^4.0.2",
     "next": "13.4.8",
     "next-auth": "^4.22.1",
     "openai": "^3.2.1",
     "openai-edge": "^1.0.0",
     "pdf-parse": "^1.1.1",
     "postcss": "8.4.23",
+    "prisma": "^5.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
@@ -74,7 +76,6 @@
     "@types/validator": "^13.7.17",
     "hnswlib-node": "^1.4.2",
     "prettier": "^2.8.8",
-    "prettier-plugin-tailwindcss": "^0.3.0",
-    "prisma": "4.16.2"
+    "prettier-plugin-tailwindcss": "^0.3.0"
   }
 }

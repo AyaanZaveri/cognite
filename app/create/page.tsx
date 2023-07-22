@@ -1,8 +1,5 @@
 import Create from "@/components/Cogs/Create";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { Cogs } from "@/types";
-import { Session, getServerSession } from "next-auth";
-import { headers } from "next/dist/client/components/headers";
+import { authOptions, getAuthSession } from "@/lib/auth";
 import { Space_Grotesk } from "next/font/google";
 import React from "react";
 
@@ -12,7 +9,7 @@ const space_grotesk = Space_Grotesk({
 });
 
 const Page = async () => {
-  const session = await getServerSession(authOptions);
+  const session = await getAuthSession()
 
   return (
     <div

@@ -1,7 +1,6 @@
 import Logo from "@/components/Logo";
 import LoginButton from "@/components/buttons/LoginButton";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession } from "next-auth";
+import { getAuthSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 async function getProviders() {
@@ -17,7 +16,7 @@ async function getProviders() {
 export default async function SignIn() {
   const resp: ReturnType<typeof getProviders> = (await getProviders()) || {};
 
-  const session = await getServerSession(authOptions);
+  const session = await getAuthSession()
 
   if (session?.user) {
     return redirect("/");

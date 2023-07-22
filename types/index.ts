@@ -1,4 +1,4 @@
-import type { DefaultUser } from "next-auth";
+import { User } from "next-auth";
 
 interface Document {
   pageContent: string;
@@ -6,8 +6,8 @@ interface Document {
 }
 
 export interface Cogs {
-  user: string;
-  userId: number;
+  user: User;
+  userId: string;
   name: string;
   description: string;
   imgUrl: string;
@@ -16,9 +16,9 @@ export interface Cogs {
 }
 
 export interface Cog {
-  id: number;
-  user: string;
-  userId: number;
+  id: string;
+  user: User;
+  userId: string;
   name: string;
   description: string;
   createdDate: Date;
@@ -30,18 +30,10 @@ export interface Cog {
 }
 
 export interface Embeddings {
-  id: number;
+  id: string;
   content: string;
   content_title: string;
   content_url: string;
   content_tokens: number;
-  cog_id: number;
-}
-
-declare module "next-auth" {
-  interface Session {
-    user?: DefaultUser & {
-      id: string;
-    };
-  }
+  cog_id: string;
 }
