@@ -13,10 +13,10 @@ const Card = ({ cog }: { cog: Cog }) => {
     <Link
       href={`/cog/${cog?.user?.username}/${cog.slug}`}
       key={cog.id}
-      className={`relative flex h-36 w-full transform cursor-pointer select-none flex-col rounded-xl bg-zinc-50 p-5 transition-all duration-300 hover:bg-zinc-100 hover:shadow-2xl hover:shadow-zinc-500/10 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]`}
+      className={`relative flex w-full transform cursor-pointer select-none flex-col rounded-xl bg-zinc-50 p-5 transition-all duration-300 hover:bg-zinc-100 hover:shadow-2xl hover:shadow-zinc-500/10 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]`}
     >
       <div className="mb-2 flex items-center">
-        <div className="relative h-8 w-8 rounded-md bg-white ring-1 ring-zinc-200">
+        <div className="relative aspect-square h-8 w-8 rounded-md bg-white ring-1 ring-zinc-200">
           <Image
             src={cog.imgUrl}
             alt={"Image of " + cog.name}
