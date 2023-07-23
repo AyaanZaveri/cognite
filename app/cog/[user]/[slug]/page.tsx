@@ -17,20 +17,27 @@ async function getCogs(id: string) {
   return res.json();
 }
 
-async function getIdFromSlug(slug: string) {
+async function getId(username: string, slug: string) {
   // return the id from the slug with prisma find
-  const res = await prisma.cog.findUnique({
+  const res = await prisma.cog.findFirst({
     where: {
       slug: slug,
+      user: {
+        username: username,
+      },
     },
   });
   return res;
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
-  const { slug } = params;
+export default async function Page({
+  params,
+}: {
+  params: { slug: string; user: string };
+}) {
+  const { user, slug } = params;
 
-  const id = await getIdFromSlug(slug);
+  const id = await getId(user, slug);
 
   console.log(id);
 

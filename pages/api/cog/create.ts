@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
@@ -9,10 +9,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { userId, name, description, slug, imgUrl, docs }: Cog =
-    req.body.data;
+  const { userId, name, description, slug, imgUrl, docs }: Cog = req.body.data;
 
-  console.log("boiody", req.body.data);
+  console.log("body", req.body.data);
 
   const cog = await prisma?.cog.create({
     data: {
@@ -22,7 +21,9 @@ export default async function handler(
       slug,
       imgUrl,
     },
-  });
+  }).catch(err => {
+    console.log("Create Error", err, "Done!")
+  })
 
   const embeddingsModel = new OpenAIEmbeddings(
     {

@@ -67,7 +67,10 @@ model Cog {
   name        String       @default("")
   description String       @default("")
   createdDate DateTime     @default(now())
-  slug        String       @unique
+  slug        String
   imgUrl      String?      @default("https://github.com/AyaanZaveri/cognition/blob/main/app/icon.png?raw=true")
   embeddings  Embeddings[]
+
+  @@unique([userId, slug])
+  @@index([userId])
 }

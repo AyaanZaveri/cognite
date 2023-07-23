@@ -11,7 +11,7 @@ const space_grotesk = Space_Grotesk({
 const Card = ({ cog }: { cog: Cog }) => {
   return (
     <Link
-      href={`/cog/${cog.slug}`}
+      href={`/cog/${cog?.user?.username}/${cog.slug}`}
       key={cog.id}
       className={`relative flex h-36 w-full transform cursor-pointer select-none flex-col rounded-xl bg-zinc-50 p-5 transition-all duration-300 hover:bg-zinc-100 hover:shadow-2xl hover:shadow-zinc-500/10 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]`}
     >

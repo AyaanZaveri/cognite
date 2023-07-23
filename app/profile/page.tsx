@@ -1,14 +1,22 @@
 import Image from "next/image";
 import { SignIn, SignOut } from "../actions";
 import { getAuthSession } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import ProfileForm from "@/components/ProfileForm";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
 
 export default async function Page() {
-  const session = await getAuthSession()
+  const session = await getAuthSession();
 
   if (session) {
     return (
       <div
-        className="flex flex-col w-full items-center justify-center gap-8 h-full"
+        className={`flex h-full w-full flex-col items-center justify-center gap-8 ${inter.className}`}
         style={{
           paddingLeft: 240,
         }}
@@ -19,8 +27,10 @@ export default async function Page() {
           up.
         </p>
 
+        <ProfileForm session={session} />
+
         <div className="flex flex-col gap-5">
-          <div className="flex flex-row gap-3 items-center justify-center">
+          <div className="flex flex-row items-center justify-center gap-3">
             <Image
               src={session.user?.image as string}
               className="rounded-full"
@@ -40,7 +50,7 @@ export default async function Page() {
 
   return (
     <div
-      className="flex flex-col w-full items-center justify-center gap-8 h-full"
+      className="flex h-full w-full flex-col items-center justify-center gap-8"
       style={{
         paddingLeft: 240,
       }}
