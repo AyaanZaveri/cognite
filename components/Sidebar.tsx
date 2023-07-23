@@ -60,7 +60,7 @@ const Sidebar = ({ session }: { session: Session | null }) => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-medium">
-                    {session?.user?.name ?? session?.user?.email}
+                    {"@" + session?.user?.username ?? session?.user?.email}
                   </span>
                   <span className={`text-xs text-zinc-500`}>Profile</span>
                 </div>

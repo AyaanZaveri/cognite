@@ -1,36 +1,20 @@
 "use client";
 
-import { signIn, signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
 
-export function SignOut() {
+export function SignIn() {
   return (
-    <button
-      className="flex justify-center items-center bg-zinc-50 text-zinc-800 px-8 py-3 rounded-md text-center font-semibold text-sm hover:bg-zinc-100 transition-all ring-1 duration-200 ring-zinc-200 hover:ring-zinc-300 active:scale-[0.98] shadow-sm"
-      onClick={() => signOut()}
-    >
-      Sign out
-    </button>
+    <Button className="mt-12" size={"lg"} onClick={() => signIn()}>
+      Sign In
+    </Button>
   );
 }
 
-export function SignIn({ label = "Sign in" }: { label?: string }) {
+export function SignInSmaller() {
   return (
-    <button
-      className="flex justify-center items-center bg-zinc-50 text-zinc-800 px-8 py-3 rounded-md text-center font-semibold text-sm hover:bg-zinc-100 transition-all ring-1 duration-200 ring-zinc-200 hover:ring-zinc-300 active:scale-[0.98] shadow-sm"
-      onClick={() => signIn()}
-    >
-      <div>{label}</div>
-    </button>
-  );
-}
-
-export function SignInSmaller({ label = "Sign in" }: { label?: string }) {
-  return (
-    <button
-      className="flex justify-center items-center bg-white text-zinc-800 px-6 py-2 self-end rounded-md text-center font-semibold text-sm hover:bg-zinc-100/50 transition-all ring-1 duration-200 ring-zinc-200 hover:ring-zinc-300 active:scale-[0.98]"
-      onClick={() => signIn()}
-    >
-      <div>{label}</div>
-    </button>
+    <Button variant={"outline"} onClick={() => signIn()}>
+      Sign In
+    </Button>
   );
 }

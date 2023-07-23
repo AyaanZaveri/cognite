@@ -17,6 +17,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Session } from "next-auth";
 import axios from "axios";
 import { useToast } from "./ui/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { signOut } from "next-auth/react";
 
 const updateUser = async (data: ProfileFormValues, session: Session) => {
   const res = await axios.post(
@@ -70,49 +72,58 @@ const ProfileForm = ({ session }: { session: Session }) => {
     await updateUser(data, session);
 
     toast({
-      title: "You submitted the following values:",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          Hello
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
+        <>
+          You updated your username to <b>{data.username}</b>
+        </>
       ),
     });
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Update profile</Button>
-      </form>
-      <Button
-        variant="outline"
-        onClick={() => {
-          toast({
-            description: "Your message has been sent.",
-          });
-        }}
-      >
-        Show Toast
+    <div className="mt-12 space-y-8">
+      <div className="flex items-center">
+        <Avatar className="h-9 w-9">
+          <AvatarImage src={session?.user?.image} alt="Avatar" />
+          <AvatarFallback>
+            {session?.user?.username?.charAt(0).toUpperCase()}
+          </AvatarFallback>
+        </Avatar>
+        <div className="ml-4 space-y-1">
+          <p className="text-sm font-medium leading-none">
+            @{session?.user?.username}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {session?.user?.email}
+          </p>
+        </div>
+      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="shadcn" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public display name. It can be your real name or
+                  a pseudonym. You can only change this once every 30 days.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Update profile</Button>
+        </form>
+      </Form>
+      <Button variant={"outline"} onClick={() => signOut()}>
+        Sign Out
       </Button>
-    </Form>
+    </div>
   );
 };
 
