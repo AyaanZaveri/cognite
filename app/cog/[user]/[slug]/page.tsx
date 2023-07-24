@@ -11,7 +11,12 @@ const space_grotesk = Space_Grotesk({
 });
 
 async function getCogs(id: string) {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/info?id=${id}`, {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/info`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ id: id }),
     cache: "no-store",
   });
   return res.json();

@@ -1,29 +1,30 @@
-import { Prisma } from "@prisma/client";
-import prisma from "@/lib/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
-import { PrismaVectorStore } from "langchain/vectorstores/prisma";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { Cog, Embeddings } from "@/types";
+import { Prisma } from "@prisma/client";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { PrismaVectorStore } from "langchain/vectorstores/prisma";
+import { NextResponse } from "next/server";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { userId, name, description, slug, imgUrl, docs }: Cog = req.body.data;
+export async function POST(req: Request) {
+  
+  const { data } = await req.json();
+  
+  const { userId, name, description, slug, imgUrl, docs }: Cog = data;
+  
+  console.log("Creating cog ", data);
 
-  console.log("body", req.body.data);
-
-  const cog = await prisma?.cog.create({
-    data: {
-      userId,
-      name,
-      description,
-      slug,
-      imgUrl,
-    },
-  }).catch(err => {
-    console.log("Create Error", err, "Done!")
-  })
+  const cog = await prisma?.cog
+    .create({
+      data: {
+        userId,
+        name,
+        description,
+        slug,
+        imgUrl,
+      },
+    })
+    .catch((err) => {
+      console.log("Create Error", err, "Done!");
+    });
 
   const embeddingsModel = new OpenAIEmbeddings(
     {
@@ -64,13 +65,8 @@ export default async function handler(
     );
   }
 
-  res.status(200).json({
+  return NextResponse.json({
+    success: true,
     cog,
   });
 }
-
-// Name: iOS 17
-// Description: iOS 17 is the latest version of iOS
-// Website: https://www.apple.com/ca/ios/ios-17-preview/
-// Slug: ios17
-// Image URL: https://upload.wikimedia.org/wikipedia/commons/9/96/IOS_17_logo.png

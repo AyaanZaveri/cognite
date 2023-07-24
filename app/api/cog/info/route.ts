@@ -1,21 +1,29 @@
-import prisma from "@/lib/prisma";
+import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+const prisma = new PrismaClient();
+
+export async function POST(req: Request) {
+  const { id } = await req.json();
+
   try {
-    const cogs = await prisma!.cog.findMany({
+    const cog = await prisma.cog.findUnique({
+      where: {
+        id: String(id) || undefined,
+      },
       include: {
         user: true,
       },
     });
 
+    console.log("Cogoola", cog)
+
     return NextResponse.json({
       success: true,
-      data: cogs,
+      data: cog,
     });
   } catch (error) {
     let errorMessage = "An error occurred";
-    console.error('Error happened here!', error);
     if (error instanceof Error) {
       errorMessage = error.message;
     }

@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { CalendarDays } from "lucide-react";
 import timestampDate from "@/utils/timestampDate";
 import Link from "next/link";
+import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 const UserHoverCard = ({ user }: { user: User }) => {
   console.log(user);
@@ -15,10 +16,11 @@ const UserHoverCard = ({ user }: { user: User }) => {
 
   return (
     <HoverCard>
-      <HoverCardTrigger className="text-sm text-zinc-400 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:text-zinc-500" asChild>
-        <Link href={`/user/${user?.username}`}>
-          @{user?.username}
-        </Link>
+      <HoverCardTrigger
+        className="text-sm text-zinc-400 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:text-zinc-500"
+        asChild
+      >
+        <Link href={`/user/${user?.username}`}>@{user?.username}</Link>
       </HoverCardTrigger>
       <HoverCardContent className="w-80">
         <div className="flex space-x-4">
@@ -28,7 +30,9 @@ const UserHoverCard = ({ user }: { user: User }) => {
           </Avatar>
           <div className="space-y-1 self-start">
             <h4 className="text-sm font-semibold">@{user?.username}</h4>
-            <p className="text-sm">{user?.bio ?? "Cognition bio"}</p>
+            <p className="text-sm">
+              {<ReactMarkdown>{user?.bio}</ReactMarkdown> ?? "Cognition bio"}
+            </p>
             <div className="flex items-center pt-2">
               <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
               <span className="text-xs text-muted-foreground">

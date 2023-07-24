@@ -11,7 +11,7 @@ export const makeChain = (
 ) => {
   const model = new OpenAI(
     {
-      temperature: 0.5,
+      temperature: 0,
       modelName: "gpt-3.5-turbo",
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
     },

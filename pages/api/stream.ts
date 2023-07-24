@@ -27,7 +27,7 @@ export default async function POST(req: Request) {
       callbackManager: CallbackManager.fromHandlers(handlers),
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
       modelName: "gpt-4",
-      temperature: 0.7,
+      temperature: 0,
       topP: 1,
     },
     {

@@ -49,8 +49,8 @@ const profileFormSchema = z.object({
       message: "It's a username, not a novel (max 30 characters)",
     })
     .toLowerCase(),
-  bio: z.string().max(60, {
-    message: "It's a bio, not an autobiography (max 60 characters)",
+  bio: z.string().max(80, {
+    message: "It's a bio, not an autobiography (max 80 characters)",
   }),
 });
 
@@ -80,7 +80,7 @@ const ProfileForm = ({ session }: { session: Session }) => {
     toast({
       title: "You are now:",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-x-scroll">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
@@ -134,7 +134,7 @@ const ProfileForm = ({ session }: { session: Session }) => {
                   <Textarea placeholder="It's a bio" {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is your public bio. Just tell us about yourself.
+                  This is your public bio. Just tell us about yourself. You can use Markdown.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
