@@ -19,6 +19,7 @@ import axios from "axios";
 import { useToast } from "./ui/use-toast";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { signOut } from "next-auth/react";
+import { Textarea } from "./ui/textarea";
 
 const updateUser = async (data: ProfileFormValues, session: Session) => {
   const res = await axios.post(
@@ -26,6 +27,7 @@ const updateUser = async (data: ProfileFormValues, session: Session) => {
     {
       id: session?.user?.id,
       username: data.username,
+      bio: data.bio,
     },
     {
       headers: {
@@ -47,6 +49,9 @@ const profileFormSchema = z.object({
       message: "It's a username, not a novel (max 30 characters)",
     })
     .toLowerCase(),
+  bio: z.string().max(60, {
+    message: "It's a bio, not an autobiography (max 60 characters)",
+  }),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -56,6 +61,7 @@ const ProfileForm = ({ session }: { session: Session }) => {
 
   const defaultValues: Partial<ProfileFormValues> = {
     username: session.user?.username!,
+    bio: session.user?.bio!,
   };
 
   const form = useForm<ProfileFormValues>({
@@ -72,16 +78,17 @@ const ProfileForm = ({ session }: { session: Session }) => {
     await updateUser(data, session);
 
     toast({
+      title: "You are now:",
       description: (
-        <>
-          You updated your username to <b>{data.username}</b>
-        </>
+        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+        </pre>
       ),
     });
   }
 
   return (
-    <div className="mt-12 space-y-8">
+    <div className="mt-12 w-full space-y-8 px-12">
       <div className="flex items-center">
         <Avatar className="h-9 w-9">
           <AvatarImage src={session?.user?.image as string} alt="Avatar" />
@@ -107,11 +114,27 @@ const ProfileForm = ({ session }: { session: Session }) => {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="It's a username" {...field} />
                 </FormControl>
                 <FormDescription>
                   This is your public display name. It can be your real name or
-                  a pseudonym. You can only change this once every 30 days.
+                  a pseudonym.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="bio"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bio</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="It's a bio" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is your public bio. Just tell us about yourself.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

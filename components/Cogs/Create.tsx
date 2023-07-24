@@ -11,6 +11,8 @@ import { useState } from "react";
 import { InputFile } from "../InputFile";
 import { Document } from "langchain/dist/document";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -70,7 +72,12 @@ const Create = (session: { session: Session | null }) => {
         if (sources?.file) {
           if (sources.file.type === "application/pdf") {
             const loader = new PDFLoader(file as Blob);
-            const pdfDocs = await loader.loadAndSplit();
+            const pdfDocs = await loader.loadAndSplit(
+              new RecursiveCharacterTextSplitter({
+                chunkSize: 1000,
+                chunkOverlap: 200,
+              })
+            );
 
             docs.push(...pdfDocs);
           }
@@ -144,8 +151,7 @@ const Create = (session: { session: Session | null }) => {
             This is the name of the cog
           </p>
         </div>
-        <input
-          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
+        <Input
           type="text"
           placeholder="Name"
           value={cogData.name}
@@ -163,8 +169,7 @@ const Create = (session: { session: Session | null }) => {
             This is the description of the cog
           </p>
         </div>
-        <input
-          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
+        <Input
           type="text"
           placeholder="Description"
           value={cogData.description}
@@ -183,8 +188,7 @@ const Create = (session: { session: Session | null }) => {
             This is the website you want to train the cog on
           </p>
         </div>
-        <input
-          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
+        <Input
           type="text"
           placeholder="Website URL"
           value={website}
@@ -201,8 +205,7 @@ const Create = (session: { session: Session | null }) => {
             This is the slug of the cog
           </p>
         </div>
-        <input
-          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
+        <Input
           type="text"
           placeholder="Slug"
           value={cogData.slug}
@@ -220,8 +223,7 @@ const Create = (session: { session: Session | null }) => {
             This is the image URL of the cog
           </p>
         </div>
-        <input
-          className="rounded-md border-none bg-white px-3 py-2 outline-none ring-1 ring-zinc-200 transition duration-200 ease-in-out hover:ring-2 focus:ring-2 focus:ring-zinc-300"
+        <Input
           type="text"
           placeholder="Image URL"
           value={cogData.imgUrl}
@@ -231,18 +233,14 @@ const Create = (session: { session: Session | null }) => {
         />
       </div>
 
-      <button
+      <Button
         onClick={() => {
           createCog();
         }}
-        className={`mt-2 flex items-center justify-center self-start rounded-md bg-zinc-50 px-6 py-2 text-center text-sm font-semibold text-zinc-800 ring-1 ring-zinc-200 transition-all duration-200 hover:bg-zinc-100 hover:ring-zinc-300 active:scale-[0.98] ${
-          buttonState.loading
-            ? "animate-pulse cursor-not-allowed"
-            : "cursor-pointer"
-        }`}
+        className="self-start"
       >
         {buttonState.text}
-      </button>
+      </Button>
     </div>
   );
 };

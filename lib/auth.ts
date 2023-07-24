@@ -39,6 +39,8 @@ export const authOptions: NextAuthOptions = {
         session.user.email = token.email;
         session.user.image = token.picture;
         session.user.username = token.username as string;
+        session.user.bio = token.bio as string;
+        session.user.createdDate = token.createdDate as string;
       }
 
       return session;
@@ -72,6 +74,8 @@ export const authOptions: NextAuthOptions = {
         email: dbUser.email,
         picture: dbUser.image,
         username: dbUser.username,
+        bio: dbUser.bio,
+        createdDate: dbUser.createdDate,
       };
     },
   },

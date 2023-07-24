@@ -5,12 +5,10 @@ const ListCogs = dynamic(() => import("@/components/ListCogs"));
 const Logo = dynamic(() => import("@/components/Logo"));
 
 async function getListCogs() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`, {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/list`, {
     cache: "no-store",
   });
   const { data } = await res.json();
-
-  console.log(data)
 
   return data;
 }
@@ -26,7 +24,7 @@ export default async function Home() {
           paddingLeft: 240,
         }}
       >
-        <div className="mt-20 pb-4">
+        <div className="mt-16 pb-4">
           <Logo size="text-5xl" />
         </div>
         <div className="w-full select-none px-8">
