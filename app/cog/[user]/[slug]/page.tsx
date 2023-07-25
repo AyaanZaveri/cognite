@@ -65,7 +65,7 @@ export default async function Page({
           width={128}
           height={128}
           draggable={false}
-          className="transition-all duration-1000 ease-in-out hover:scale-110"
+          className="transition-all duration-1000 ease-in-out hover:scale-110 rounded-lg"
         />
         <div className="flex flex-col items-center gap-5">
           <h1

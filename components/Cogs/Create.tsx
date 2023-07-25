@@ -71,13 +71,14 @@ const Create = (session: { session: Session | null }) => {
 
         if (sources?.file) {
           if (sources.file.type === "application/pdf") {
+            const splitter = new RecursiveCharacterTextSplitter({
+              chunkSize: 700,
+              chunkOverlap: 0,
+              // separators: ["\n## ", "\n###", "\n\n", "\n", " "],
+            });
+
             const loader = new PDFLoader(file as Blob);
-            const pdfDocs = await loader.loadAndSplit(
-              new RecursiveCharacterTextSplitter({
-                chunkSize: 1000,
-                chunkOverlap: 200,
-              })
-            );
+            const pdfDocs = await loader.loadAndSplit(splitter);
 
             docs.push(...pdfDocs);
           }

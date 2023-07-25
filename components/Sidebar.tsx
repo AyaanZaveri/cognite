@@ -18,9 +18,26 @@ const Sidebar = ({ session }: { session: Session | null }) => {
     >
       <Link
         href={`/`}
-        className="absolute top-0 mx-3 my-4 text-4xl transition-all duration-300 hover:opacity-80"
+        className="absolute top-0 mx-3 my-4"
       >
-        🔥
+        <div className="group relative transition-all duration-1000 ease-in-out">
+          <Image
+            src="/fire_3d.png"
+            alt={"Cognition Logo"}
+            width={42}
+            height={42}
+            className="block group-hover:hidden transition-all duration-1000 ease-in-out"
+            draggable={false}
+          />
+          <Image
+            src="/fire_animated.png"
+            alt={"Cognition Logo"}
+            width={42}
+            height={42}
+            className="hidden group-hover:block transition-all duration-1000 ease-in-out"
+            draggable={false}
+          />
+        </div>
       </Link>
       <div
         className={`mt-8 flex flex-col items-center justify-center gap-1 px-2 pt-16`}

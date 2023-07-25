@@ -1,6 +1,5 @@
-"use client";
-
 import { Space_Grotesk } from "next/font/google";
+import Image from "next/image";
 import React from "react";
 
 const space_grotesk = Space_Grotesk({
@@ -19,7 +18,9 @@ const Logo = ({ size }: { size: string }) => {
       >
         Cognition
       </span>
-      <span className="pb-2">🔥</span>
+      <div className="pb-2">
+        <Image src="/fire_3d.png" alt={"Cognition Logo"} width={54} height={54} />
+      </div>
     </div>
   );
 };

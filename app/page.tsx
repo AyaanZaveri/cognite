@@ -1,6 +1,6 @@
+import Card from "@/components/Cogs/Card";
 import { Cogs } from "@/types";
 import dynamic from "next/dynamic";
-const ListCogs = dynamic(() => import("@/components/ListCogs"));
 const Logo = dynamic(() => import("@/components/Logo"));
 
 async function getListCogs() {
@@ -27,7 +27,13 @@ export default async function Home() {
           <Logo size="text-5xl" />
         </div>
         <div className="w-full select-none px-8">
-          <ListCogs cogs={cogs} />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+            {cogs?.length >= 1 ? (
+              cogs?.map((cog: any, idx: number) => <Card key={idx} cog={cog} />)
+            ) : (
+              <div className="h-36 w-full animate-pulse rounded-md bg-zinc-100"></div>
+            )}
+          </div>
         </div>
       </div>
     </main>
