@@ -2,14 +2,16 @@ import Card from "@/components/Cogs/Card";
 import { Cogs } from "@/types";
 import dynamic from "next/dynamic";
 const Logo = dynamic(() => import("@/components/Logo"));
+import prisma from "@/lib/prisma";
 
 async function getListCogs() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`, {
-    cache: "no-store",
+  const cogs = await prisma!.cog.findMany({
+    include: {
+      user: true,
+    },
   });
-  const { data } = await res.json();
 
-  return data;
+  return cogs;
 }
 
 export default async function Home() {
