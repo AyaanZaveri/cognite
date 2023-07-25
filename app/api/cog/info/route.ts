@@ -16,8 +16,6 @@ export async function POST(req: Request) {
       },
     });
 
-    console.log("Cogoola", cog)
-
     return NextResponse.json({
       success: true,
       data: cog,

@@ -23,11 +23,9 @@ export default function Chat({ id }: { id: string }) {
     },
     onResponse: (res) => {
       setIsStreaming(true);
-      console.log(res);
     },
     onFinish: (msg) => {
       setIsStreaming(false);
-      console.log(msg);
     },
   });
 

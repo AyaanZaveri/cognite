@@ -112,8 +112,6 @@ const Create = (session: { session: Session | null }) => {
 
       const updatedData = await getSources(sources);
 
-      console.log(updatedData);
-
       setButtonState({
         text: "Creating cog 🧠",
         loading: true,

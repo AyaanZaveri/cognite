@@ -9,8 +9,6 @@ export async function POST(req: Request) {
   const { data } = await req.json();
   
   const { userId, name, description, slug, imgUrl, docs }: Cog = data;
-  
-  console.log("Creating cog ", data);
 
   const cog = await prisma?.cog
     .create({

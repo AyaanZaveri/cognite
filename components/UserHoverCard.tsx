@@ -10,8 +10,6 @@ import Link from "next/link";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
 const UserHoverCard = ({ user }: { user: User }) => {
-  console.log(user);
-
   const date = timestampDate(user?.createdDate);
 
   return (
@@ -26,7 +24,9 @@ const UserHoverCard = ({ user }: { user: User }) => {
         <div className="flex space-x-4">
           <Avatar>
             <AvatarImage src={user?.image as string} />
-            <AvatarFallback>VC</AvatarFallback>
+            <AvatarFallback>
+              {user?.username?.charAt(0).toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div className="space-y-1 self-start">
             <h4 className="text-sm font-semibold">@{user?.username}</h4>

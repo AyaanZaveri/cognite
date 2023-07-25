@@ -44,8 +44,6 @@ export default async function Page({
 
   const id = await getId(user, slug);
 
-  console.log(id);
-
   const cogsData = await getCogs(id?.id!);
 
   const cogs = cogsData.data;

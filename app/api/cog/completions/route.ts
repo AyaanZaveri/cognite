@@ -55,8 +55,6 @@ export async function POST(req: Request) {
     // add menus
     // make create button big at top so people click it
 
-    console.log("Created vector store");
-
     const streamingModel = new ChatOpenAI(
       {
         streaming: true,
@@ -80,8 +78,6 @@ export async function POST(req: Request) {
         basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
       }
     );
-
-    console.log("Created model");
 
     const chain = ConversationalRetrievalQAChain.fromLLM(
       streamingModel,
@@ -107,10 +103,6 @@ export async function POST(req: Request) {
       return "";
     };
 
-    console.log("Created chain");
-
-    console.log(id);
-
     const history = messages.map((m: any) => {
       return m.role === "user"
         ? new HumanMessage(m.content)
@@ -125,12 +117,9 @@ export async function POST(req: Request) {
         chat_history: history,
       })
       .then((response) => {
-        console.log("Got response");
         const { sourceDocuments } = response;
         console.log(sourceDocuments);
       });
-
-    console.log("Called chain");
 
     return new StreamingTextResponse(stream);
     // return stream as readable stream

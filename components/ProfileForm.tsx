@@ -35,8 +35,6 @@ const updateUser = async (data: ProfileFormValues, session: Session) => {
       },
     }
   );
-
-  console.log(res);
 };
 
 const profileFormSchema = z.object({
@@ -71,9 +69,6 @@ const ProfileForm = ({ session }: { session: Session }) => {
   });
 
   async function onSubmit(data: ProfileFormValues) {
-    console.log("data");
-
-    console.log(data.username);
 
     await updateUser(data, session);
 
