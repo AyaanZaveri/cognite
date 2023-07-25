@@ -1,6 +1,5 @@
 import { Cogs } from "@/types";
 import dynamic from "next/dynamic";
-
 const ListCogs = dynamic(() => import("@/components/ListCogs"));
 const Logo = dynamic(() => import("@/components/Logo"));
 
