@@ -38,7 +38,7 @@ const Sidebar = ({ session }: { session: Session | null }) => {
       >
         <Link
           href={"/create"}
-          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]"
+          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:ring-1 hover:ring-accent active:scale-[0.98]"
         >
           <TbSquareRoundedPlus className="h-5 w-5" />
           <span className={`${space_grotesk.className} font-medium`}>
@@ -48,7 +48,7 @@ const Sidebar = ({ session }: { session: Session | null }) => {
 
         <Link
           href={"/explore"}
-          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]"
+          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:ring-1 hover:ring-accent active:scale-[0.98]"
         >
           <TbTelescope className="h-5 w-5" />
           <span className={`${space_grotesk.className} font-medium`}>
@@ -58,13 +58,15 @@ const Sidebar = ({ session }: { session: Session | null }) => {
 
         <Link
           href={"/me"}
-          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]"
+          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:ring-1 hover:ring-accent active:scale-[0.98]"
         >
           <TbUserCircle className="h-5 w-5" />
           <span className={`${space_grotesk.className} font-medium`}>Me</span>
         </Link>
       </div>
-      <ModeToggle />
+      <div className="absolute bottom-16 p-3">
+        <ModeToggle />
+      </div>
       <div className="absolute bottom-0 w-full px-2 py-3">
         {session ? (
           <Link href={`/profile`}>
