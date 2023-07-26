@@ -64,6 +64,7 @@ export default async function Page() {
               src={session?.user?.image as string}
               alt="Profile Image"
               fill={true}
+              unoptimized={true}
               className="rounded-xl ring-4 ring-white transition-all duration-200 ease-in-out hover:rotate-6"
               draggable={false}
             />

@@ -26,6 +26,7 @@ const Logo = ({ size }: { size: string }) => {
         <Image
           src="/fire_animated.png"
           alt={"Cognition Logo"}
+          unoptimized={true}
           width={size == "5xl" ? 54 : size == "3xl" ? 36 : 0}
           height={size == "5xl" ? 54 : size == "3xl" ? 36 : 0}
         />

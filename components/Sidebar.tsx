@@ -20,12 +20,14 @@ const Sidebar = ({ session }: { session: Session | null }) => {
             alt={"Cognition Logo"}
             width={42}
             height={42}
+            unoptimized={true}
             className="block transition-all duration-1000 ease-in-out group-hover:hidden"
             draggable={false}
           />
           <Image
             src="/fire_animated.png"
             alt={"Cognition Logo"}
+            unoptimized={true}
             width={42}
             height={42}
             className="hidden transition-all duration-1000 ease-in-out group-hover:block"
@@ -77,6 +79,7 @@ const Sidebar = ({ session }: { session: Session | null }) => {
                     src={session?.user?.image as string}
                     alt="user"
                     className="rounded-full"
+                    unoptimized={true}
                     fill={true}
                   />
                 </div>

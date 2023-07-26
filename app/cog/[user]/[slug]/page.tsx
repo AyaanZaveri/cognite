@@ -65,6 +65,7 @@ export default async function Page({
         <Image
           src={cogs?.imgUrl}
           alt={cogs?.slug}
+          unoptimized={true}
           width={128}
           height={128}
           draggable={false}
