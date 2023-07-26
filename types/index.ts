@@ -9,6 +9,13 @@ export interface Cogs {
   userId: string;
   name: string;
   description: string;
+  slug: string;
+}
+
+export interface CogDocs {
+  userId: string;
+  name: string;
+  description: string;
   imgUrl: string;
   slug: string;
   docs: Document[];

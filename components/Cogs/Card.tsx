@@ -2,19 +2,24 @@ import { Cog } from "@/types";
 import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../ui/hover-card";
 import UserHoverCard from "../UserHoverCard";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "../ui/button";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
-const Card = ({ cog }: { cog: Cog }) => {
+const Cardtainer = ({ cog }: { cog: Cog }) => {
   return (
     <div key={cog.id} className="relative">
       <Link
@@ -54,4 +59,4 @@ const Card = ({ cog }: { cog: Cog }) => {
   );
 };
 
-export default Card;
+export default Cardtainer;

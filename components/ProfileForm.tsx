@@ -69,13 +69,12 @@ const ProfileForm = ({ session }: { session: Session }) => {
   });
 
   async function onSubmit(data: ProfileFormValues) {
-
     await updateUser(data, session);
 
     toast({
       title: "You are now:",
       description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4 overflow-x-scroll">
+        <pre className="mt-2 w-[340px] overflow-x-scroll rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(data, null, 2)}</code>
         </pre>
       ),
@@ -129,7 +128,8 @@ const ProfileForm = ({ session }: { session: Session }) => {
                   <Textarea placeholder="It's a bio" {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is your public bio. Just tell us about yourself. You can use Markdown.
+                  This is your public bio. Just tell us about yourself. You can
+                  use Markdown.
                 </FormDescription>
                 <FormMessage />
               </FormItem>

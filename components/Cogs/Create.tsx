@@ -1,6 +1,6 @@
 "use client";
 
-import { Cogs } from "@/types";
+import { CogDocs, Cogs } from "@/types";
 import { scrapeSite } from "@/utils/scrapeSite";
 import axios from "axios";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -25,7 +25,7 @@ interface ButtonState {
 }
 
 const Create = (session: { session: Session | null }) => {
-  const [cogData, setCogData] = useState<Cogs>({
+  const [cogData, setCogData] = useState<CogDocs>({
     name: "",
     description: "",
     imgUrl: "",
