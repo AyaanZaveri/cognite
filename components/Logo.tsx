@@ -9,7 +9,11 @@ const space_grotesk = Space_Grotesk({
 
 const Logo = ({ size }: { size: string }) => {
   return (
-    <div className={`inline-flex select-none items-center gap-2 ${size}`}>
+    <div
+      className={`inline-flex select-none items-center gap-2 ${
+        size == "5xl" ? "text-5xl" : size == "3xl" ? "text-3xl" : null
+      }`}
+    >
       <span
         className={
           space_grotesk.className +
@@ -19,7 +23,12 @@ const Logo = ({ size }: { size: string }) => {
         Cognition
       </span>
       <div className="pb-2">
-        <Image src="/fire_3d.png" alt={"Cognition Logo"} width={54} height={54} />
+        <Image
+          src="/fire_animated.png"
+          alt={"Cognition Logo"}
+          width={size == "5xl" ? 54 : size == "3xl" ? 36 : 0}
+          height={size == "5xl" ? 54 : size == "3xl" ? 36 : 0}
+        />
       </div>
     </div>
   );

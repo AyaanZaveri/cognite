@@ -4,6 +4,7 @@ import { Space_Grotesk } from "next/font/google";
 import ChatBox from "@/components/ChatBox";
 import Chat from "@/components/Chat";
 import prisma from "@/lib/prisma";
+import Link from "next/link";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -56,7 +57,9 @@ export default async function Page({
     >
       {/* <h1>{JSON.stringify(cogs)}</h1> */}
       <div className="p-5">
-        <Logo size="text-3xl" />
+        <Link href={"/"}>
+          <Logo size="3xl" />
+        </Link>
       </div>
       <div className="flex flex-col items-center justify-center gap-6 p-5">
         <Image
@@ -65,7 +68,7 @@ export default async function Page({
           width={128}
           height={128}
           draggable={false}
-          className="transition-all duration-1000 ease-in-out hover:scale-110 rounded-lg"
+          className="rounded-lg transition-all duration-1000 ease-in-out hover:scale-110"
         />
         <div className="flex flex-col items-center gap-5">
           <h1
