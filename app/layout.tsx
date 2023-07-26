@@ -4,18 +4,24 @@ import Sidebar from "../components/Sidebar";
 import { getAuthSession } from "@/lib/auth";
 import { Toaster } from "@/components/ui/toaster";
 import { Analytics } from "@vercel/analytics/react";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Metadata } from "next";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
 });
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Cognition",
   description: "Chat with any website",
   icons: {
     icon: "/icon.png",
   },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 };
 
 export default async function RootLayout({
@@ -28,8 +34,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Sidebar session={session?.user ? session : null} />
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Sidebar session={session?.user ? session : null} />
+          {children}
+        </ThemeProvider>
         <Toaster />
         <Analytics />
       </body>

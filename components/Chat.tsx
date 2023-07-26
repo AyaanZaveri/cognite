@@ -33,35 +33,39 @@ export default function Chat({ id }: { id: string }) {
     <div className="pb-28">
       <div className="flex w-full flex-col gap-5">
         {messages.map((m) => (
-          <div key={m.id} className="w-full px-8">
+          <>
             {m.role === "user" ? (
-              <div className="flex flex-row justify-end gap-3">
-                <div
-                  className={`rounded-md bg-orange-50 px-4 py-3 ring-1 ring-orange-100`}
-                >
-                  <span className="prose transition-all duration-300">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {m.content}
-                    </ReactMarkdown>
-                  </span>
+              <div key={m.id} className="flex w-full justify-end px-8">
+                <div className="max-w-xl gap-3">
+                  <div
+                    className={`rounded-md bg-secondary px-4 py-3 ring-1 ring-secondary`}
+                  >
+                    <span className="prose transition-all duration-300">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {m.content}
+                      </ReactMarkdown>
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : (
-              <div className="flex max-w-xl flex-row justify-start gap-3">
-                <div
-                  className={`rounded-md bg-zinc-50 px-4 py-3 ${
-                    isStreaming ? "ring-2" : "ring-1"
-                  } ring-zinc-200 ${inter.className}`}
-                >
-                  <span className="prose transition-all duration-300">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {m.content}
-                    </ReactMarkdown>
-                  </span>
+              <div key={m.id} className="flex w-full px-8">
+                <div className="max-w-xl gap-3">
+                  <div
+                    className={`rounded-md bg-accent px-4 py-3 ${
+                      isStreaming ? "ring-2" : "ring-1"
+                    } ring-muted ${inter.className}`}
+                  >
+                    <span className="prose transition-all duration-300">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {m.content}
+                      </ReactMarkdown>
+                    </span>
+                  </div>
                 </div>
               </div>
             )}
-          </div>
+          </>
         ))}
       </div>
       <div className="fixed bottom-6 w-full">

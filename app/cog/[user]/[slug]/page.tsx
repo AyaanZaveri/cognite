@@ -70,15 +70,15 @@ export default async function Page({
           draggable={false}
           className="rounded-lg transition-all duration-1000 ease-in-out hover:scale-110"
         />
-        <div className="flex flex-col items-center gap-5">
+        <div className="flex flex-col items-center gap-4">
           <h1
-            className={`text-center text-7xl font-bold text-zinc-800 ${space_grotesk.className}`}
+            className={`text-center text-7xl font-bold ${space_grotesk.className}`}
           >
             {cogs?.name}
           </h1>
           <div className="flex flex-col items-center">
-            <p className="text-lg text-zinc-500">{cogs?.description}</p>
-            <span className="text-zinc-700">
+            <p className="text-lg text-muted-foreground">{cogs?.description}</p>
+            <span className="text-accent-foreground">
               Created by{" "}
               <b className="cursor-pointer font-semibold transition-colors duration-500 ease-in-out hover:text-orange-500 active:text-orange-500">
                 @{cogs?.user?.username}

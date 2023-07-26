@@ -1,9 +1,10 @@
-import {SignInSmaller } from "@/app/actions";
+import { SignInSmaller } from "@/app/actions";
 import { Session } from "next-auth";
 import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import { TbSquareRoundedPlus, TbTelescope, TbUserCircle } from "react-icons/tb";
+import { ModeToggle } from "./ModeToggle";
 
 const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -11,9 +12,7 @@ const space_grotesk = Space_Grotesk({
 
 const Sidebar = ({ session }: { session: Session | null }) => {
   return (
-    <div
-      className={`fixed z-20 h-full w-[240px] select-none border-r border-zinc-200 bg-zinc-50`}
-    >
+    <div className={`fixed z-20 h-full w-[240px] select-none border-r`}>
       <Link href={`/`} className="absolute top-0 mx-3 my-4">
         <div className="group relative transition-all duration-1000 ease-in-out">
           <Image
@@ -62,15 +61,14 @@ const Sidebar = ({ session }: { session: Session | null }) => {
           className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]"
         >
           <TbUserCircle className="h-5 w-5" />
-          <span className={`${space_grotesk.className} font-medium`}>
-            Me
-          </span>
+          <span className={`${space_grotesk.className} font-medium`}>Me</span>
         </Link>
       </div>
+      <ModeToggle />
       <div className="absolute bottom-0 w-full px-2 py-3">
         {session ? (
           <Link href={`/profile`}>
-            <div className="h-full w-full gap-8 rounded-full p-2 px-3 transition-all duration-200 ease-in-out hover:cursor-pointer hover:bg-zinc-100 hover:ring-1 hover:ring-zinc-200 active:scale-[0.98]">
+            <div className="h-full w-full gap-8 rounded-full p-2 px-3 transition-all duration-200 ease-in-out hover:cursor-pointer hover:bg-muted hover:ring-1 hover:ring-accent active:scale-[0.98]">
               <div className="flex w-full flex-row items-center gap-2 rounded-full">
                 <div className="relative h-9 w-9">
                   <Image
