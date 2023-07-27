@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { TbSquareRoundedPlus, TbTelescope, TbUserCircle } from "react-icons/tb";
 import { ModeToggle } from "./ModeToggle";
+import { Button } from "./ui/button";
 
 const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -71,8 +72,8 @@ const Sidebar = ({ session }: { session: Session | null }) => {
       </div>
       <div className="absolute bottom-0 w-full px-2 py-3">
         {session ? (
-          <Link href={`/profile`}>
-            <div className="h-full w-full gap-8 rounded-full p-2 px-3 transition-all duration-200 ease-in-out hover:cursor-pointer hover:bg-muted hover:ring-1 hover:ring-accent active:scale-[0.98]">
+          <Button variant={"outline"} className="w-full rounded-full border-none hover:border-input" asChild>
+            <Link href={`/profile`} className="self-start py-7">
               <div className="flex w-full flex-row items-center gap-2 rounded-full">
                 <div className="relative h-9 w-9">
                   <Image
@@ -87,11 +88,13 @@ const Sidebar = ({ session }: { session: Session | null }) => {
                   <span className="text-sm font-medium">
                     {"@" + session?.user?.username ?? session?.user?.email}
                   </span>
-                  <span className={`text-xs text-zinc-500`}>Profile</span>
+                  <span className={`text-xs text-muted-foreground`}>
+                    Profile
+                  </span>
                 </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </Button>
         ) : (
           <div className="p-2">
             <SignInSmaller />

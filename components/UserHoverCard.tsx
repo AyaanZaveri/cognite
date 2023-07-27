@@ -15,7 +15,7 @@ const UserHoverCard = ({ user }: { user: User }) => {
   return (
     <HoverCard>
       <HoverCardTrigger
-        className="text-sm text-zinc-400 transition-colors duration-200 ease-in-out hover:cursor-pointer hover:text-zinc-500"
+        className="text-sm text-muted-foreground transition-colors duration-200 ease-in-out hover:cursor-pointer hover:text-accent-foreground"
         asChild
       >
         <Link href={`/user/${user?.username}`}>@{user?.username}</Link>

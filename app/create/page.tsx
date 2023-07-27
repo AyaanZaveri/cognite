@@ -9,7 +9,7 @@ const space_grotesk = Space_Grotesk({
 });
 
 const Page = async () => {
-  const session = await getAuthSession()
+  const session = await getAuthSession();
 
   return (
     <div
@@ -17,17 +17,12 @@ const Page = async () => {
         paddingLeft: 240,
       }}
     >
-      <div className="flex flex-col gap-6 px-8 py-10">
-        <div className="flex flex-col">
-          <h1
-            className={`${space_grotesk.className} animate-text select-none bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text pb-2 text-4xl font-semibold text-transparent`}
-          >
-            Create
-          </h1>
-          <span className="ml-0.5 text-sm text-zinc-500">
-            Create your own Cog and share it with the world.
-          </span>
-        </div>
+      <div className="flex flex-col gap-4 px-8 py-10">
+        <h1
+          className={`${space_grotesk.className} animate-text select-none bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text pb-2 text-4xl font-semibold text-transparent`}
+        >
+          Create
+        </h1>
         <Create session={session!} />
       </div>
     </div>

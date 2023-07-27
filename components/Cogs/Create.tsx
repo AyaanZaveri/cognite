@@ -145,8 +145,8 @@ const Create = (session: { session: Session | null }) => {
     <div className="flex flex-col gap-4 rounded-lg">
       <div className="flex flex-col gap-3">
         <div>
-          <span className={`text-xl font-semibold text-zinc-800`}>Name 🏷️</span>
-          <p className="text-sm font-light text-zinc-500">
+          <span className={`text-xl font-semibold text-accent-foreground`}>Name 🏷️</span>
+          <p className="text-sm font-light text-muted-foreground">
             This is the name of the cog
           </p>
         </div>
@@ -161,10 +161,10 @@ const Create = (session: { session: Session | null }) => {
       </div>
       <div className="flex flex-col gap-3 pt-3">
         <div>
-          <span className={`text-xl font-semibold text-zinc-800`}>
+          <span className={`text-xl font-semibold text-accent-foreground`}>
             Description 📝
           </span>
-          <p className="text-sm font-light text-zinc-500">
+          <p className="text-sm font-light text-muted-foreground">
             This is the description of the cog
           </p>
         </div>
@@ -180,10 +180,10 @@ const Create = (session: { session: Session | null }) => {
       {/* Do one for website */}
       <div className="flex flex-col gap-3 pt-3">
         <div>
-          <span className={`text-xl font-semibold text-zinc-800`}>
+          <span className={`text-xl font-semibold text-accent-foreground`}>
             Website 🌐
           </span>
-          <p className={`text-sm font-light text-zinc-500`}>
+          <p className={`text-sm font-light text-muted-foreground`}>
             This is the website you want to train the cog on
           </p>
         </div>
@@ -199,8 +199,8 @@ const Create = (session: { session: Session | null }) => {
       </div>
       <div className="flex flex-col gap-3 pt-3">
         <div>
-          <span className={`text-xl font-semibold text-zinc-800`}>Slug</span>
-          <p className="text-sm font-light text-zinc-500">
+          <span className={`text-xl font-semibold text-accent-foreground`}>Slug</span>
+          <p className="text-sm font-light text-muted-foreground">
             This is the slug of the cog
           </p>
         </div>
@@ -215,10 +215,10 @@ const Create = (session: { session: Session | null }) => {
       </div>
       <div className="flex flex-col gap-3 pt-3">
         <div>
-          <span className={`text-xl font-semibold text-zinc-800`}>
+          <span className={`text-xl font-semibold text-accent-foreground`}>
             Image URL 🖼️
           </span>
-          <p className="text-sm font-light text-zinc-500">
+          <p className="text-sm font-light text-muted-foreground">
             This is the image URL of the cog
           </p>
         </div>
