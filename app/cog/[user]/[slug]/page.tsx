@@ -5,26 +5,24 @@ import ChatBox from "@/components/ChatBox";
 import Chat from "@/components/Chat";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import { Cog } from "@/types";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
-async function getCogs(id: string) {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/info`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
+async function getCog(id: string) {
+  const cog = await prisma.cog.findUnique({
+    where: {
+      id: id,
     },
-    body: JSON.stringify({ id: id }),
-    cache: "no-store",
   });
-  return res.json();
+
+  return cog;
 }
 
 async function getId(username: string, slug: string) {
-  // return the id from the slug with prisma find
   const res = await prisma.cog.findFirst({
     where: {
       slug: slug,
@@ -45,9 +43,7 @@ export default async function Page({
 
   const id = await getId(user, slug);
 
-  const cogsData = await getCogs(id?.id!);
-
-  const cogs = cogsData.data;
+  const cog = (await getCog(id?.id!)) as Cog;
 
   return (
     <div
@@ -63,8 +59,8 @@ export default async function Page({
       </div>
       <div className="flex flex-col items-center justify-center gap-6 p-5">
         <Image
-          src={cogs?.imgUrl}
-          alt={cogs?.slug}
+          src={cog?.imgUrl}
+          alt={cog?.slug}
           unoptimized={true}
           width={128}
           height={128}
@@ -75,14 +71,14 @@ export default async function Page({
           <h1
             className={`text-center text-7xl font-bold ${space_grotesk.className}`}
           >
-            {cogs?.name}
+            {cog?.name}
           </h1>
           <div className="flex flex-col items-center">
-            <p className="text-lg text-muted-foreground">{cogs?.description}</p>
+            <p className="text-lg text-muted-foreground">{cog?.description}</p>
             <span className="text-accent-foreground">
               Created by{" "}
               <b className="cursor-pointer font-semibold transition-colors duration-500 ease-in-out hover:text-orange-500 active:text-orange-500">
-                @{cogs?.user?.username}
+                @{cog?.user?.username}
               </b>
             </span>
           </div>

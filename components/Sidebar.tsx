@@ -66,7 +66,7 @@ const Sidebar = ({ session }: { session: Session | null }) => {
           <span className={`${space_grotesk.className} font-medium`}>Me</span>
         </Link>
       </div>
-      <div className="absolute bottom-16 p-3">
+      <div className="absolute bottom-16 p-5">
         <ModeToggle />
       </div>
       <div className="absolute bottom-0 w-full px-2 py-3">
