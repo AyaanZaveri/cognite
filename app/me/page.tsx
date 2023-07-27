@@ -16,6 +16,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Space_Grotesk } from "next/font/google";
 import UserHoverCard from "@/components/UserHoverCard";
+import prisma from "@/lib/prisma";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -60,9 +61,12 @@ export default async function Page() {
         </div>
         <div className="ml-6 flex flex-col items-start justify-end">
           <div className="relative h-20 w-20 rounded-lg">
-            <Avatar className="rounded-xl ring-4 ring-white dark:ring-black transition-all duration-200 ease-in-out hover:rotate-6 h-20 w-20">
-              <AvatarImage src={session?.user.image as string} draggable={false} />
-              <AvatarFallback className="rounded-xl ring-4 ring-white dark:ring-black transition-all duration-200 ease-in-out hover:rotate-6 text-xl">
+            <Avatar className="h-20 w-20 rounded-xl ring-4 ring-white transition-all duration-200 ease-in-out hover:rotate-6 dark:ring-black">
+              <AvatarImage
+                src={session?.user.image as string}
+                draggable={false}
+              />
+              <AvatarFallback className="rounded-xl text-xl ring-4 ring-white transition-all duration-200 ease-in-out hover:rotate-6 dark:ring-black">
                 {session?.user?.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
