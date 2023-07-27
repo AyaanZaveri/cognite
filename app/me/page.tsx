@@ -60,21 +60,19 @@ export default async function Page() {
         </div>
         <div className="ml-6 flex flex-col items-start justify-end">
           <div className="relative h-20 w-20 rounded-lg">
-            <Image
-              src={session?.user?.image as string}
-              alt="Profile Image"
-              fill={true}
-              unoptimized={true}
-              className="rounded-xl ring-4 ring-white transition-all duration-200 ease-in-out hover:rotate-6"
-              draggable={false}
-            />
+            <Avatar className="rounded-xl ring-4 ring-white dark:ring-black transition-all duration-200 ease-in-out hover:rotate-6 h-20 w-20">
+              <AvatarImage src={session?.user.image as string} draggable={false} />
+              <AvatarFallback className="rounded-xl ring-4 ring-white dark:ring-black transition-all duration-200 ease-in-out hover:rotate-6 text-xl">
+                {session?.user?.username.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
           </div>
           <div className="flex items-center pt-3">
             <span className="text-xs text-muted-foreground">Joined {date}</span>
             <CalendarDays className="ml-1 h-3 w-3 opacity-70" />{" "}
           </div>
 
-          <span className={`mt-1 text-3xl font-bold text-zinc-700`}>
+          <span className={`mt-1 text-3xl font-bold text-primary`}>
             @{session?.user?.username}
           </span>
 
@@ -89,7 +87,7 @@ export default async function Page() {
             cogs?.map((cog: any, idx: number) => (
               <Card
                 key={cog.id}
-                className="duaration-300 relative transition duration-300 ease-in-out hover:cursor-pointer hover:bg-zinc-50 active:scale-[0.98]"
+                className="duaration-300 relative transition duration-300 ease-in-out hover:cursor-pointer hover:bg-accent active:scale-[0.98]"
               >
                 <Link
                   href={`/cog/${cog?.user?.username}/${cog.slug}`}
@@ -105,8 +103,7 @@ export default async function Page() {
                       </Avatar>
                       <CardTitle
                         className={
-                          space_grotesk.className +
-                          " text-lg font-semibold text-zinc-800"
+                          space_grotesk.className + " text-lg font-semibold "
                         }
                       >
                         {cog.name}
