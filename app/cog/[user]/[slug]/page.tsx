@@ -5,17 +5,30 @@ import ChatBox from "@/components/ChatBox";
 import Chat from "@/components/Chat";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
-import { Cog } from "@/types";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
+interface Cog {
+  id: string;
+  name: string;
+  description: string;
+  imgUrl: string;
+  slug: string;
+  user: {
+    username: string;
+  };
+}
+
 async function getCog(id: string) {
   const cog = await prisma.cog.findUnique({
     where: {
       id: id,
+    },
+    include: {
+      user: true,
     },
   });
 
@@ -43,7 +56,7 @@ export default async function Page({
 
   const id = await getId(user, slug);
 
-  const cog = (await getCog(id?.id!)) as Cog;
+  const cog: Cog = await getCog(id?.id!) as Cog;
 
   return (
     <div
