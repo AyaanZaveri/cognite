@@ -15,10 +15,7 @@ export default async function Page() {
   if (session) {
     return (
       <div
-        className={`flex h-full w-full flex-col items-center justify-center gap-8 ${inter.className}`}
-        style={{
-          paddingLeft: 240,
-        }}
+        className={`flex h-full w-full flex-col items-center justify-center gap-8 ${inter.className} p-0 md:pl-[240px]`}
       >
         <ProfileForm session={session} />
       </div>
@@ -27,7 +24,7 @@ export default async function Page() {
 
   return (
     <div
-      className="flex h-full w-full flex-col items-center justify-center gap-8"
+      className="flex h-full w-full flex-col items-center justify-center gap-8 p-0 md:pl-[240px]"
       style={{
         paddingLeft: 240,
       }}

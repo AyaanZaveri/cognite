@@ -1,9 +1,7 @@
 export default function Loading() {
   return (
     <div
-      style={{
-        paddingLeft: 240,
-      }}
+      className="p-0 md:pl-[240px]"
     >
       Loading
     </div>

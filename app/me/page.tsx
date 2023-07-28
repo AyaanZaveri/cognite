@@ -45,9 +45,7 @@ export default async function Page() {
 
   return (
     <div
-      style={{
-        paddingLeft: 240,
-      }}
+className="p-0 md:pl-[240px]"
     >
       <div className="-space-y-10 p-5">
         <div className="relative h-48 w-full">

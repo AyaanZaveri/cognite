@@ -28,10 +28,7 @@ const ChatBox = ({
       {/* make a black button that says make question */}
       <Button
         type="submit"
-        style={{
-          marginRight: 240,
-        }}
-        className="h-12 text-base px-6"
+        className="h-12 text-base px-6 m-0 md:mr-[240px]"
       >
         {isStreaming ? (
           <span className="inline-flex animate-pulse gap-2">

@@ -37,10 +37,7 @@ export default async function Home() {
   return (
     <main>
       <div
-        className="flex h-full w-full flex-col items-center justify-center gap-8"
-        style={{
-          paddingLeft: 240,
-        }}
+        className="flex h-full w-full flex-col items-center justify-center gap-8 p-0 md:pl-[240px]"
       >
         <div className="mt-16 pb-4">
           <Logo size="5xl" />

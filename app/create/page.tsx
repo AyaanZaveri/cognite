@@ -13,9 +13,7 @@ const Page = async () => {
 
   return (
     <div
-      style={{
-        paddingLeft: 240,
-      }}
+className="p-0 md:pl-[240px]"
     >
       <div className="flex flex-col gap-4 px-8 py-10">
         <h1

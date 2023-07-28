@@ -13,7 +13,7 @@ const space_grotesk = Space_Grotesk({
 
 const Sidebar = ({ session }: { session: Session | null }) => {
   return (
-    <div className={`fixed z-20 h-full w-[240px] select-none border-r`}>
+    <div className={`fixed z-20 h-full w-[240px] hidden md:block select-none border-r`}>
       <Link href={`/`} className="absolute top-0 mx-3 my-4">
         <div className="group relative transition-all duration-1000 ease-in-out">
           <Image

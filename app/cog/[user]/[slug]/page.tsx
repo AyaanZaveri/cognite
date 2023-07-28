@@ -60,9 +60,7 @@ export default async function Page({
 
   return (
     <div
-      style={{
-        paddingLeft: 240,
-      }}
+      className="p-0 md:pl-[240px]"
     >
       {/* <h1>{JSON.stringify(cogs)}</h1> */}
       <div className="p-5">
