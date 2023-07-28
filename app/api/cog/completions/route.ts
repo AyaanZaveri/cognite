@@ -20,17 +20,19 @@ export async function POST(req: Request) {
 
     const { stream, handlers } = LangChainStream();
 
+    const embeddingsModel = new OpenAIEmbeddings(
+      {
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        stripNewLines: true,
+        verbose: true,
+      },
+      {
+        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+      }
+    );
+
     const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
-      new OpenAIEmbeddings(
-        {
-          openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-          stripNewLines: true,
-          verbose: true,
-        },
-        {
-          basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-        }
-      ),
+      embeddingsModel,
       {
         prisma: Prisma,
         tableName: "Embeddings",
@@ -61,8 +63,8 @@ export async function POST(req: Request) {
         streaming: true,
         callbackManager: CallbackManager.fromHandlers(handlers),
         temperature: 1,
-        modelName: "gpt-3.5-turbo",
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT
+        modelName: "gpt-3.5-turbo-16k",
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
       },
       {
         basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
@@ -73,14 +75,14 @@ export async function POST(req: Request) {
       {
         temperature: 0.3,
         modelName: "gpt-3.5-turbo",
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
       },
       {
         basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
       }
     );
 
-    console.log("Created models")
+    console.log("Created models");
 
     const chain = ConversationalRetrievalQAChain.fromLLM(
       streamingModel,
@@ -98,7 +100,7 @@ export async function POST(req: Request) {
       }
     );
 
-    console.log("Created chain")
+    console.log("Created chain");
 
     const stringifySources = (docs: Document[] | undefined) => {
       if (docs) {
@@ -116,7 +118,7 @@ export async function POST(req: Request) {
 
     const prompt = history.pop().text.trim().replaceAll("\n", " ");
 
-    console.log("Calling chain")
+    console.log("Calling chain");
 
     chain
       .call({
