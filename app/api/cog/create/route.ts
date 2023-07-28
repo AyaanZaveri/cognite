@@ -24,49 +24,54 @@ export async function POST(req: Request) {
       console.log("Create Error", err, "Done!");
     });
 
-  const embeddingsModel = new OpenAIEmbeddings(
-    {
-      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-      stripNewLines: true,
-      verbose: true,
-    },
-    {
-      basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-    }
-  );
-
-  
-
-  const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
-    embeddingsModel,
-    {
-      prisma: Prisma,
-      tableName: "Embeddings",
-      vectorColumnName: "embedding",
-      columns: {
-        id: PrismaVectorStore.IdColumn,
-        content: PrismaVectorStore.ContentColumn,
+  try {
+    const embeddingsModel = new OpenAIEmbeddings(
+      {
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        stripNewLines: true,
+        verbose: true,
       },
-    }
-  );
-
-  if (docs) {
-    await vectorStore.addModels(
-      await prisma!.$transaction(
-        docs.map((content) =>
-          prisma!.embeddings.create({
-            data: {
-              content: content?.pageContent,
-              cog_id: cog?.id,
-            } as Embeddings,
-          })
-        )
-      )
+      {
+        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+      }
     );
-  }
 
-  return NextResponse.json({
-    success: true,
-    cog,
-  });
+    const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
+      embeddingsModel,
+      {
+        prisma: Prisma,
+        tableName: "Embeddings",
+        vectorColumnName: "embedding",
+        columns: {
+          id: PrismaVectorStore.IdColumn,
+          content: PrismaVectorStore.ContentColumn,
+        },
+      }
+    );
+
+    if (docs) {
+      await vectorStore.addModels(
+        await prisma!.$transaction(
+          docs.map((content) =>
+            prisma!.embeddings.create({
+              data: {
+                content: content?.pageContent,
+                cog_id: cog?.id,
+              } as Embeddings,
+            })
+          )
+        )
+      );
+    }
+
+    return NextResponse.json({
+      success: true,
+      cog,
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({
+      error: error,
+    });
+  }
 }
