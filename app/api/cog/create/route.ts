@@ -35,6 +35,8 @@ export async function POST(req: Request) {
     }
   );
 
+  
+
   const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
     embeddingsModel,
     {

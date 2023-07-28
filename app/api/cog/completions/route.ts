@@ -60,7 +60,7 @@ export async function POST(req: Request) {
       {
         streaming: true,
         callbackManager: CallbackManager.fromHandlers(handlers),
-        temperature: 0.3,
+        temperature: 1,
         modelName: "gpt-3.5-turbo",
         openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT
       },
@@ -71,7 +71,7 @@ export async function POST(req: Request) {
 
     const nonStreamingModel = new ChatOpenAI(
       {
-        temperature: 0.9,
+        temperature: 0.3,
         modelName: "gpt-3.5-turbo",
         openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT
       },
