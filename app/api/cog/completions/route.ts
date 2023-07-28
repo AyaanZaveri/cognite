@@ -1,7 +1,6 @@
-import { PrismaClient, Prisma } from "@prisma/client/edge";
+import { Prisma } from "@prisma/client/edge";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { BufferMemory } from "langchain/memory";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
@@ -48,9 +47,11 @@ export async function POST(req: Request) {
       }
     );
 
+    console.log("Created vector store");
+
     // teach me more
     // what is this
-    
+
     // add recipe books
     // add menus
     // make create button big at top so people click it
@@ -61,10 +62,10 @@ export async function POST(req: Request) {
         callbackManager: CallbackManager.fromHandlers(handlers),
         temperature: 0.3,
         modelName: "gpt-3.5-turbo",
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT
       },
       {
-        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
       }
     );
 
@@ -72,12 +73,14 @@ export async function POST(req: Request) {
       {
         temperature: 0.9,
         modelName: "gpt-3.5-turbo",
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT
       },
       {
-        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
       }
     );
+
+    console.log("Created models")
 
     const chain = ConversationalRetrievalQAChain.fromLLM(
       streamingModel,
@@ -95,6 +98,8 @@ export async function POST(req: Request) {
       }
     );
 
+    console.log("Created chain")
+
     const stringifySources = (docs: Document[] | undefined) => {
       if (docs) {
         const stringifiedSources = JSON.stringify(docs.map((x) => x.metadata));
@@ -110,6 +115,8 @@ export async function POST(req: Request) {
     });
 
     const prompt = history.pop().text.trim().replaceAll("\n", " ");
+
+    console.log("Calling chain")
 
     chain
       .call({
