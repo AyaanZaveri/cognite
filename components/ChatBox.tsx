@@ -23,7 +23,7 @@ const ChatBox = ({
         value={input}
         onChange={handleInputChange}
         placeholder="What would you like to cognite 🔥"
-        className="h-12 text-base"
+        className="h-12 text-base bg-background/50 backdrop-blur-md"
       />
       {/* make a black button that says make question */}
       <Button
