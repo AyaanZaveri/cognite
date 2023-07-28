@@ -71,7 +71,7 @@ export default async function Page() {
               </AvatarFallback>
             </Avatar>
           </div>
-          <div className="flex items-center pt-3">
+          <div className="flex   items-center pt-3">
             <span className="text-xs text-muted-foreground">Joined {date}</span>
             <CalendarDays className="ml-1 h-3 w-3 text-muted-foreground" />{" "}
           </div>
