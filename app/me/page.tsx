@@ -73,7 +73,7 @@ export default async function Page() {
           </div>
           <div className="flex items-center pt-3">
             <span className="text-xs text-muted-foreground">Joined {date}</span>
-            <CalendarDays className="ml-1 h-3 w-3 opacity-70" />{" "}
+            <CalendarDays className="ml-1 h-3 w-3 text-muted-foreground" />{" "}
           </div>
 
           <span className={`mt-1 text-3xl font-bold text-primary`}>
