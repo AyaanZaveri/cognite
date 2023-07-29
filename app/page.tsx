@@ -1,7 +1,7 @@
 import { Cogs } from "@/types";
 import dynamic from "next/dynamic";
 const Logo = dynamic(() => import("@/components/Logo"));
-import prisma from "@/lib/prisma";
+import prisma from "@/lib/prisma-edge";
 import Image from "next/image";
 import Link from "next/link";
 import {
