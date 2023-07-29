@@ -22,13 +22,12 @@ const space_grotesk = Space_Grotesk({
 });
 
 async function getListCogs() {
-  const cogs = await prisma!.cog.findMany({
-    include: {
-      user: true,
-    },
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`, {
+    cache: "no-store",
   });
+  const { data } = await res.json();
 
-  return cogs;
+  return data;
 }
 
 export default async function Home() {
@@ -36,9 +35,7 @@ export default async function Home() {
 
   return (
     <main>
-      <div
-        className="flex h-full w-full flex-col items-center justify-center gap-8 p-0 md:pl-[240px]"
-      >
+      <div className="flex h-full w-full flex-col items-center justify-center gap-8 p-0 md:pl-[240px]">
         <div className="mt-16 pb-4">
           <Logo size="5xl" />
         </div>
