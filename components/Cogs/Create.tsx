@@ -1,18 +1,24 @@
 "use client";
 
-import { CogDocs, Cogs } from "@/types";
-import { scrapeSite } from "@/utils/scrapeSite";
-import axios from "axios";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Session } from "next-auth";
 import { Space_Grotesk } from "next/font/google";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { InputFile } from "../InputFile";
-import { Document } from "langchain/dist/document";
-import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+import { useFieldArray, useForm } from "react-hook-form";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -24,222 +30,152 @@ interface ButtonState {
   loading: boolean;
 }
 
-const Create = (session: { session: Session | null }) => {
-  const [cogData, setCogData] = useState<CogDocs>({
-    name: "",
-    description: "",
-    imgUrl: "",
-    slug: "",
-    docs: [],
-    userId: session?.session?.user?.id as any,
-  });
-
-  const [website, setWebsite] = useState<string>("");
-  const [file, setFile] = useState<Blob>();
-
-  const [buttonState, setButtonState] = useState<ButtonState>({
-    text: "Create",
-    loading: false,
-  });
-
-  const router = useRouter();
-
-  const getSources = async (sources: {
-    sites: string[];
-    file: Blob | undefined;
-  }) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        setButtonState({
-          text: "Getting sources 🌐",
-          loading: true,
-        });
-
-        const docs: Document[] = [];
-
-        if (sources?.sites && sources?.sites.length > 0) {
-          const siteText = await scrapeSite(sources?.sites);
-
-          const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 1000,
-          });
-
-          const siteDocs = await splitter.createDocuments([siteText as string]);
-
-          docs.push(...siteDocs);
-        }
-
-        if (sources?.file) {
-          if (sources.file.type === "application/pdf") {
-            const splitter = new RecursiveCharacterTextSplitter({
-              chunkSize: 700,
-              chunkOverlap: 0,
-              // separators: ["\n## ", "\n###", "\n\n", "\n", " "],
-            });
-
-            const loader = new PDFLoader(file as Blob);
-            const pdfDocs = await loader.loadAndSplit(splitter);
-
-            docs.push(...pdfDocs);
-          }
-        }
-
-        setCogData((prevState) => {
-          const updatedState = { ...prevState, docs };
-          resolve(updatedState);
-          return updatedState;
-        });
-      } catch (error) {
-        reject(error);
-      }
-    });
-  };
-
-  async function createCog() {
-    try {
-      let sources: {
-        sites: string[];
-        file: Blob | undefined;
-      };
-
-      if (website && file) {
-        // Both inputs provided
-        sources = { sites: [website], file };
-      } else if (website) {
-        sources = { sites: [website], file: undefined };
-      } else {
-        sources = { sites: [], file };
-      }
-
-      const updatedData = await getSources(sources);
-
-      setButtonState({
-        text: "Creating cog 🧠",
-        loading: true,
+const tagsSchema = z
+  .array(
+    z.object({
+      value: z
+        .string()
+        .min(2, { message: "Tag must be at least 2 characters long" })
+        .max(20, { message: "Tag must be at most 20 characters long" }),
+    })
+  )
+  .max(5, { message: "You can only have up to 5 tags" })
+  .superRefine((tags, ctx) => {
+    const tagValues = tags.map((tag) => tag.value);
+    if (tagValues.length !== new Set(tagValues).size) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Tags should not be duplicated`,
       });
-
-      // setCogData((prevState) => {
-      //   const updatedState = {
-      //     ...prevState,
-      //     slug: slugify(prevState.name, { lower: true }),
-      //   };
-      //   return updatedState;
-      // });
-
-      const response = await axios.post(`/api/cog/create`, {
-        data: updatedData,
-      });
-
-      if (response.status === 200) {
-        setButtonState({
-          text: "Cog created! 🎉",
-          loading: false,
-        });
-      }
-    } catch (error) {
-      console.error("Error:", error);
     }
-  }
+  });
+
+const createFormSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: "Your name must be at least 3 characters long" })
+    .max(30, { message: "It's a name, not a poem (max 30 characters)" }),
+  description: z.string().max(80, {
+    message: "It's a description, not an essay (max 80 characters)",
+  }),
+  imgUrl: z
+    .string()
+    .max(200, { message: "Your image URL is too long (max 200 characters)" }),
+  tags: tagsSchema,
+  // .max(5, { message: "You can only have a maximum of 5 tags" })
+  // .optional(),
+  websites: z
+    .array(z.string().url({ message: "Not a valid URL" }))
+    .max(5, { message: "You can only have a maximum of 5 websites" }),
+  files: z
+    .array(z.any())
+    .max(5, { message: "You can only have a maximum of 5 files" }),
+});
+
+type CreateFormValues = z.infer<typeof createFormSchema>;
+
+const Create = (session: { session: Session | null }) => {
+  const form = useForm<CreateFormValues>({
+    resolver: zodResolver(createFormSchema),
+    mode: "onChange",
+  });
+
+  console.log(form.formState.errors);
+
+  const { fields, append } = useFieldArray({
+    name: "tags",
+    control: form.control,
+  });
 
   return (
-    <div className="flex flex-col gap-4 rounded-lg">
-      <div className="flex flex-col gap-3">
-        <div>
-          <span className={`text-xl font-semibold text-accent-foreground`}>Name 🏷️</span>
-          <p className="text-sm font-light text-muted-foreground">
-            This is the name of the cog
-          </p>
-        </div>
-        <Input
-          type="text"
-          placeholder="Name"
-          value={cogData.name}
-          onChange={(e) => {
-            setCogData({ ...cogData, name: e.target.value });
-          }}
-        />
-      </div>
-      <div className="flex flex-col gap-3 pt-3">
-        <div>
-          <span className={`text-xl font-semibold text-accent-foreground`}>
-            Description 📝
-          </span>
-          <p className="text-sm font-light text-muted-foreground">
-            This is the description of the cog
-          </p>
-        </div>
-        <Input
-          type="text"
-          placeholder="Description"
-          value={cogData.description}
-          onChange={(e) => {
-            setCogData({ ...cogData, description: e.target.value });
-          }}
-        />
-      </div>
-      {/* Do one for website */}
-      <div className="flex flex-col gap-3 pt-3">
-        <div>
-          <span className={`text-xl font-semibold text-accent-foreground`}>
-            Website 🌐
-          </span>
-          <p className={`text-sm font-light text-muted-foreground`}>
-            This is the website you want to train the cog on
-          </p>
-        </div>
-        <Input
-          type="text"
-          placeholder="Website URL"
-          value={website}
-          onChange={(e) => {
-            setWebsite(e.target.value);
-          }}
-        />
-        <InputFile setFile={setFile} />
-      </div>
-      <div className="flex flex-col gap-3 pt-3">
-        <div>
-          <span className={`text-xl font-semibold text-accent-foreground`}>Slug</span>
-          <p className="text-sm font-light text-muted-foreground">
-            This is the slug of the cog
-          </p>
-        </div>
-        <Input
-          type="text"
-          placeholder="Slug"
-          value={cogData.slug}
-          onChange={(e) => {
-            setCogData({ ...cogData, slug: e.target.value });
-          }}
-        />
-      </div>
-      <div className="flex flex-col gap-3 pt-3">
-        <div>
-          <span className={`text-xl font-semibold text-accent-foreground`}>
-            Image URL 🖼️
-          </span>
-          <p className="text-sm font-light text-muted-foreground">
-            This is the image URL of the cog
-          </p>
-        </div>
-        <Input
-          type="text"
-          placeholder="Image URL"
-          value={cogData.imgUrl}
-          onChange={(e) => {
-            setCogData({ ...cogData, imgUrl: e.target.value });
-          }}
-        />
-      </div>
-
-      <Button
-        onClick={() => {
-          createCog();
-        }}
-        className="self-start"
-      >
-        {buttonState.text}
-      </Button>
+    <div className="space-y-8">
+      <Form {...form}>
+        <form className="space-y-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Name" {...field} />
+                </FormControl>
+                <FormDescription>
+                  This is the name of the cog. It can be anything you want.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Description" {...field} />
+                </FormControl>
+                <FormDescription>
+                  A short description of the cog. It can be anything you want.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div>
+            {fields.map((field, index) => (
+              <FormField
+                control={form.control}
+                key={field.id}
+                name={`tags.${index}.value`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={cn(index !== 0 && "sr-only")}>
+                      Tags
+                    </FormLabel>
+                    <FormDescription className={cn(index !== 0 && "sr-only")}>
+                      Tags are used to help people find your cog.
+                    </FormDescription>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage>
+                      {form.formState.errors.tags?.[index]?.value?.message}
+                    </FormMessage>
+                  </FormItem>
+                )}
+              />
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-2"
+              onClick={() => append({ value: "" })}
+            >
+              Add Tag
+            </Button>
+          </div>
+          <FormField
+            control={form.control}
+            name="imgUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Image URL</FormLabel>
+                <FormControl>
+                  <Input placeholder="Image URL" {...field} />
+                </FormControl>
+                <FormDescription>
+                  A URL to an image of the cog. It can be anything you want.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Create</Button>
+        </form>
+      </Form>
     </div>
   );
 };

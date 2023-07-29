@@ -5,8 +5,9 @@ import ReactMarkdown from "react-markdown";
 
 import { useChat } from "ai/react";
 import ChatBox from "./ChatBox";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Inter } from "next/font/google";
+import { ChatRequestOptions } from "ai";
 
 const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
@@ -14,6 +15,7 @@ const inter = Inter({
 });
 
 export default function Chat({ id }: { id: string }) {
+  const [isThinking, setIsThinking] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
 
   const { messages, input, handleInputChange, handleSubmit } = useChat({
@@ -26,8 +28,17 @@ export default function Chat({ id }: { id: string }) {
     },
     onFinish: (msg) => {
       setIsStreaming(false);
+      setIsThinking(false);
     },
   });
+
+  const handleThinking = (
+    e: FormEvent<HTMLFormElement>,
+    chatRequestOptions?: ChatRequestOptions | undefined
+  ) => {
+    setIsThinking(true);
+    handleSubmit(e, chatRequestOptions);
+  };
 
   return (
     <div className="pb-28">
@@ -73,7 +84,8 @@ export default function Chat({ id }: { id: string }) {
           <ChatBox
             input={input}
             handleInputChange={handleInputChange}
-            handleSubmit={handleSubmit}
+            handleThinking={handleThinking}
+            isThinking={isThinking}
             isStreaming={isStreaming}
           />
         </div>

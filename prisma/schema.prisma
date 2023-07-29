@@ -71,7 +71,14 @@ model Cog {
   slug        String
   imgUrl      String?      @default("https://github.com/AyaanZaveri/cognition/blob/main/app/icon.png?raw=true")
   embeddings  Embeddings[]
+  tags        Tag[]        @relation("CogToTag")
 
   @@unique([userId, slug])
   @@index([userId])
+}
+
+model Tag {
+  id   String @id @default(cuid())
+  name String @unique
+  cogs Cog[]  @relation("CogToTag")
 }
