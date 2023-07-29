@@ -23,6 +23,9 @@ export default function Chat({ id }: { id: string }) {
     body: {
       id: id,
     },
+    onError: (err) => {
+      console.log(err);
+    },
     onResponse: (res) => {
       setIsStreaming(true);
     },
