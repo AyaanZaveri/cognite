@@ -133,9 +133,11 @@ export async function POST(req: Request) {
     return new StreamingTextResponse(stream);
     // return stream as readable stream
   } catch (error) {
-    console.log(error);
+    // get the first 2000 characters of the error
+    const errorString = error!.toString().substring(0, 2000);
+    console.log(errorString);
     return NextResponse.json({
-      error: error,
+      error: errorString,
     });
   }
 
