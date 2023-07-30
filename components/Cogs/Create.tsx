@@ -19,15 +19,34 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { scrapeSite } from "@/utils/scrapeSite";
+import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+import slugify from "slugify";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
+interface Sources {
+  sites?: string[] | undefined;
+  files?: string | undefined;
+}
+
 interface ButtonState {
   text: string;
   loading: boolean;
+}
+
+const MAX_FILE_SIZE = 5000000; // 5MB
+
+function checkFileType(file: File) {
+  if (file?.name) {
+    const fileType = file.name.split(".").pop();
+    return fileType === "pdf";
+  }
+  return false;
 }
 
 const tagsSchema = z
@@ -39,16 +58,7 @@ const tagsSchema = z
         .max(20, { message: "Tag must be at most 20 characters long" }),
     })
   )
-  .max(5, { message: "You can only have up to 5 tags" })
-  .superRefine((tags, ctx) => {
-    const tagValues = tags.map((tag) => tag.value);
-    if (tagValues.length !== new Set(tagValues).size) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `Tags should not be duplicated`,
-      });
-    }
-  });
+  .optional();
 
 const createFormSchema = z.object({
   name: z
@@ -60,16 +70,17 @@ const createFormSchema = z.object({
   }),
   imgUrl: z
     .string()
-    .max(200, { message: "Your image URL is too long (max 200 characters)" }),
+    .max(200, { message: "Your image URL is too long (max 200 characters)" })
+    .optional(),
   tags: tagsSchema,
-  // .max(5, { message: "You can only have a maximum of 5 tags" })
-  // .optional(),
   websites: z
-    .array(z.string().url({ message: "Not a valid URL" }))
-    .max(5, { message: "You can only have a maximum of 5 websites" }),
-  files: z
-    .array(z.any())
-    .max(5, { message: "You can only have a maximum of 5 files" }),
+    .array(
+      z.object({
+        value: z.string().url({ message: "Please enter a valid URL." }),
+      })
+    )
+    .optional(),
+  file: z.string().optional(),
 });
 
 type CreateFormValues = z.infer<typeof createFormSchema>;
@@ -80,17 +91,38 @@ const Create = (session: { session: Session | null }) => {
     mode: "onChange",
   });
 
-  console.log(form.formState.errors);
-
-  const { fields, append } = useFieldArray({
+  const { fields: tagFields, append: appendTag } = useFieldArray({
     name: "tags",
     control: form.control,
   });
 
+  const { fields: websiteFields, append: appendWebsite } = useFieldArray({
+    name: "websites",
+    control: form.control,
+  });
+
+  async function onSubmit(data: CreateFormValues) {
+    // console.log("data", data);
+
+    const sources: Sources = {
+      sites: data.websites?.map((website) => website.value),
+      files: data.file,
+    };
+
+    const updatedData = {
+      ...data,
+      slug: slugify(data.name, { lower: true }),
+    };
+
+    console.log("updatedData", updatedData);
+
+    // getSources(sources);
+  }
+
   return (
     <div className="space-y-8">
       <Form {...form}>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="name"
@@ -100,9 +132,7 @@ const Create = (session: { session: Session | null }) => {
                 <FormControl>
                   <Input placeholder="Name" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is the name of the cog. It can be anything you want.
-                </FormDescription>
+                <FormDescription>This is the name of the cog.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -117,14 +147,60 @@ const Create = (session: { session: Session | null }) => {
                   <Textarea placeholder="Description" {...field} />
                 </FormControl>
                 <FormDescription>
-                  A short description of the cog. It can be anything you want.
+                  A short description of the cog.
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
           <div>
-            {fields.map((field, index) => (
+            {websiteFields.map((field, index) => (
+              <FormField
+                control={form.control}
+                key={field.id}
+                name={`websites.${index}.value`}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={cn(index !== 0 && "sr-only")}>
+                      Websites
+                    </FormLabel>
+                    <FormDescription className={cn(index !== 0 && "sr-only")}>
+                      Websites you want to train the cog on.
+                    </FormDescription>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="mt-2"
+              onClick={() => appendWebsite({ value: "" })}
+            >
+              Add Website
+            </Button>
+          </div>
+          <FormField
+            control={form.control}
+            name="file"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Files</FormLabel>
+                <FormControl>
+                  <Input type="file" {...field} />
+                </FormControl>
+                <FormDescription>Upload your cog here.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div>
+            {tagFields.map((field, index) => (
               <FormField
                 control={form.control}
                 key={field.id}
@@ -152,7 +228,7 @@ const Create = (session: { session: Session | null }) => {
               variant="outline"
               size="sm"
               className="mt-2"
-              onClick={() => append({ value: "" })}
+              onClick={() => appendTag({ value: "" })}
             >
               Add Tag
             </Button>
@@ -166,9 +242,7 @@ const Create = (session: { session: Session | null }) => {
                 <FormControl>
                   <Input placeholder="Image URL" {...field} />
                 </FormControl>
-                <FormDescription>
-                  A URL to an image of the cog. It can be anything you want.
-                </FormDescription>
+                <FormDescription>A URL to an image of the cog.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
