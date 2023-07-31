@@ -1,8 +1,6 @@
 import { Cogs } from "@/types";
 import dynamic from "next/dynamic";
 const Logo = dynamic(() => import("@/components/Logo"));
-import prisma from "@/lib/prisma-edge";
-import Image from "next/image";
 import Link from "next/link";
 import {
   Card,
@@ -14,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Space_Grotesk } from "next/font/google";
-import UserHoverCard from "@/components/UserHoverCard";
+const UserHoverCard = dynamic(() => import("@/components/UserHoverCard"));
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -22,9 +20,7 @@ const space_grotesk = Space_Grotesk({
 });
 
 async function getListCogs() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`, {
-    cache: "no-store",
-  });
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`);
   const { data } = await res.json();
 
   return data;

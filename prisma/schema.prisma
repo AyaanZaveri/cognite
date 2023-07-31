@@ -69,7 +69,7 @@ model Cog {
   description String       @default("")
   createdDate DateTime     @default(now())
   slug        String
-  imgUrl      String?      @default("https://github.com/AyaanZaveri/cognition/blob/main/app/icon.png?raw=true")
+  imgUrl      String?      @default("https://em-content.zobj.net/thumbs/240/apple/354/fire_1f525.png")
   embeddings  Embeddings[]
   tags        Tag[]        @relation("CogToTag")
 

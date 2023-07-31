@@ -50,7 +50,7 @@
     "html-to-text": "^9.0.5",
     "is-array-buffer": "^3.0.2",
     "json5": "^2.2.3",
-    "langchain": "^0.0.119",
+    "langchain": "^0.0.120",
     "lucide-react": "^0.260.0",
     "mongodb": "^5.7.0",
     "mongoose": "7.1.1",

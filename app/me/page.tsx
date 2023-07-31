@@ -44,9 +44,7 @@ export default async function Page() {
   const date = timestampDate(session?.user?.createdDate as string);
 
   return (
-    <div
-className="p-0 md:pl-[240px]"
-    >
+    <div className="p-0 md:pl-[240px]">
       <div className="-space-y-10 p-5">
         <div className="relative h-48 w-full">
           <Image

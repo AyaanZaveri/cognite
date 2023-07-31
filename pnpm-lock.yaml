@@ -126,8 +126,8 @@ dependencies:
     specifier: ^2.2.3
     version: 2.2.3
   langchain:
-    specifier: ^0.0.119
-    version: 0.0.119(@huggingface/inference@1.8.0)(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)
+    specifier: ^0.0.120
+    version: 0.0.120(@huggingface/inference@1.8.0)(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)
   lucide-react:
     specifier: ^0.260.0
     version: 0.260.0(react@18.2.0)
@@ -7785,8 +7785,8 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
-  /langchain@0.0.119(@huggingface/inference@1.8.0)(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17):
-    resolution: {integrity: sha512-LIABHsHgtTVW6IqRofpdcThnPwqlTdak+vfC6moewg871qiSPQlA31mh3CMEvXAJ6HU+jzJz05uqO1BPEGgYYA==}
+  /langchain@0.0.120(@huggingface/inference@1.8.0)(@pinecone-database/pinecone@0.1.6)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17):
+    resolution: {integrity: sha512-QDtoluHiyZnOWsweb3b7rW9ULj2HzGJqgWhxaGviwnA3SrE1om9BMKCY5eI0NMIL/dd5MutenGGlD+VGL0MVWA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.310.0

@@ -17,12 +17,15 @@ import {
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { scrapeSite } from "@/utils/scrapeSite";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import slugify from "slugify";
+import { InputFile } from "../InputFile";
+import axios from "axios";
+import { Document } from "langchain/dist/document";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -65,8 +68,8 @@ const createFormSchema = z.object({
     .string()
     .min(3, { message: "Your name must be at least 3 characters long" })
     .max(30, { message: "It's a name, not a poem (max 30 characters)" }),
-  description: z.string().max(80, {
-    message: "It's a description, not an essay (max 80 characters)",
+  description: z.string().max(300, {
+    message: "It's a description, not an essay (max 300 characters)",
   }),
   imgUrl: z
     .string()
@@ -101,23 +104,90 @@ const Create = (session: { session: Session | null }) => {
     control: form.control,
   });
 
-  async function onSubmit(data: CreateFormValues) {
-    // console.log("data", data);
+  const [file, setFile] = useState<any | null>(null);
 
+  async function getSources(sources: Sources) {
+    try {
+      const docs: Document[] = [];
+
+      if (sources?.sites && sources?.sites.length > 0) {
+        const siteText = await scrapeSite(sources?.sites);
+
+        console.log(siteText);
+
+        const splitter = new RecursiveCharacterTextSplitter({
+          chunkSize: 2000,
+          chunkOverlap: 0,
+        });
+
+        const siteDocs = await splitter.createDocuments([siteText]);
+
+        docs.push(...siteDocs);
+      }
+
+      if (file) {
+        const splitter = new RecursiveCharacterTextSplitter({
+          chunkSize: 2000,
+          chunkOverlap: 0,
+        });
+
+        const loader = new PDFLoader(file as Blob);
+        const pdfDocs = await loader.loadAndSplit(splitter);
+
+        docs.push(...pdfDocs);
+      }
+
+      console.log(docs);
+
+      return docs;
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  async function onSubmit(data: CreateFormValues) {
     const sources: Sources = {
       sites: data.websites?.map((website) => website.value),
       files: data.file,
     };
 
+    const theDocs = await getSources(sources);
+
     const updatedData = {
-      ...data,
+      name: data.name,
+      description: data.description,
+      imgUrl: data.imgUrl,
+      // tags: data.tags?.map((tag) => tag.value),
+      docs: theDocs,
       slug: slugify(data.name, { lower: true }),
+      userId: session?.session?.user?.id,
     };
 
-    console.log("updatedData", updatedData);
+    console.log(session?.session?.user?.id);
 
-    // getSources(sources);
+    const response = await axios.post(`/api/cog/create`, {
+      data: updatedData,
+    });
+
+    console.log("response", response);
   }
+
+  const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      try {
+        const file = event.target.files?.[0];
+        if (file) {
+          const arrayBuffer = await file.arrayBuffer();
+          const blob = new Blob([new Uint8Array(arrayBuffer)], {
+            type: file.type,
+          });
+          setFile(blob);
+        }
+      } catch (err) {
+        console.log("err", err);
+      }
+    }
+  };
 
   return (
     <div className="space-y-8">
@@ -192,7 +262,12 @@ const Create = (session: { session: Session | null }) => {
               <FormItem>
                 <FormLabel>Files</FormLabel>
                 <FormControl>
-                  <Input type="file" {...field} />
+                  <Input
+                    type="file"
+                    placeholder="File"
+                    {...field}
+                    onChange={handleFile}
+                  />
                 </FormControl>
                 <FormDescription>Upload your cog here.</FormDescription>
                 <FormMessage />

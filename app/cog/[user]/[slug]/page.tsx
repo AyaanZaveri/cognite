@@ -56,12 +56,10 @@ export default async function Page({
 
   const id = await getId(user, slug);
 
-  const cog: Cog = await getCog(id?.id!) as Cog;
+  const cog: Cog = (await getCog(id?.id!)) as Cog;
 
   return (
-    <div
-      className="p-0 md:pl-[240px]"
-    >
+    <div className="p-0 md:pl-[240px]">
       {/* <h1>{JSON.stringify(cogs)}</h1> */}
       <div className="p-5">
         <Link href={"/"}>

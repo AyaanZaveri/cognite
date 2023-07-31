@@ -10,6 +10,8 @@ export async function POST(req: Request) {
 
   const { userId, name, description, slug, imgUrl, docs }: Cog = data;
 
+  console.log(data)
+
   const cog = await prisma?.cog
     .create({
       data: {
@@ -36,6 +38,8 @@ export async function POST(req: Request) {
       }
     );
 
+    console.log("Initalized Embeddings Model");
+
     const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
       embeddingsModel,
       {
@@ -48,6 +52,8 @@ export async function POST(req: Request) {
         },
       }
     );
+
+    console.log("Initalized Vector Store");
 
     if (docs) {
       await vectorStore.addModels(
@@ -63,6 +69,8 @@ export async function POST(req: Request) {
         )
       );
     }
+
+    console.log("Added Models");
 
     return NextResponse.json({
       success: true,
