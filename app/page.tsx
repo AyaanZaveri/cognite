@@ -20,7 +20,9 @@ const space_grotesk = Space_Grotesk({
 });
 
 async function getListCogs() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`);
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`, {
+    cache: "no-store",
+  });
   const { data } = await res.json();
 
   return data;
