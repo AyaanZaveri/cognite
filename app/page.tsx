@@ -1,6 +1,4 @@
 import { Cogs } from "@/types";
-import dynamic from "next/dynamic";
-const Logo = dynamic(() => import("@/components/Logo"));
 import Link from "next/link";
 import {
   Card,
@@ -11,7 +9,11 @@ import {
 } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Space_Grotesk } from "next/font/google";
-const UserHoverCard = dynamic(() => import("@/components/UserHoverCard"));
+import Logo from "@/components/Logo";
+import UserHoverCard from "@/components/UserHoverCard";
+
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
