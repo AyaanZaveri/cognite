@@ -7,7 +7,6 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import Link from "next/link";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -17,6 +16,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Space_Grotesk } from "next/font/google";
 import UserHoverCard from "@/components/UserHoverCard";
 import prisma from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],

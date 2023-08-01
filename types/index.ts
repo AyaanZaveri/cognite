@@ -21,6 +21,11 @@ export interface CogDocs {
   docs: Document[];
 }
 
+export interface Tag {
+  id: string;
+  name: string;
+}
+
 export interface Cog {
   id: string;
   user: User;
@@ -32,6 +37,7 @@ export interface Cog {
   imgUrl: string;
   content: string;
   embeddings: string;
+  tags: Tag[];
   docs: Document[];
 }
 

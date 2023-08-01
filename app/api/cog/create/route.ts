@@ -5,12 +5,16 @@ import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+interface Tag {
+  name: string;
+}
+
 export async function POST(req: Request) {
   const { data } = await req.json();
 
-  const { userId, name, description, slug, imgUrl, docs }: Cog = data;
+  const { userId, name, description, slug, imgUrl, docs, tags }: Cog = data;
 
-  console.log(data)
+  console.log(data);
 
   const cog = await prisma?.cog
     .create({
@@ -20,6 +24,12 @@ export async function POST(req: Request) {
         description,
         slug,
         imgUrl,
+        tags: {
+          connectOrCreate: tags.map((tag: Tag) => ({
+            where: { name: tag.name },
+            create: { name: tag.name },
+          })),
+        },
       },
     })
     .catch((err) => {

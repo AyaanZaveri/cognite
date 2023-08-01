@@ -6,6 +6,8 @@ import Chat from "@/components/Chat";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],

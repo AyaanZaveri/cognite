@@ -157,7 +157,7 @@ const Create = (session: { session: Session | null }) => {
       name: data.name,
       description: data.description,
       imgUrl: data.imgUrl,
-      // tags: data.tags?.map((tag) => tag.value),
+      tags: data.tags?.map((tag) => tag.value),
       docs: theDocs,
       slug: slugify(data.name, { lower: true }),
       userId: session?.session?.user?.id,

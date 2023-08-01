@@ -1,4 +1,4 @@
-import { Cogs } from "@/types";
+import { Cogs, Tag } from "@/types";
 import Link from "next/link";
 import {
   Card,
@@ -11,9 +11,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Space_Grotesk } from "next/font/google";
 import Logo from "@/components/Logo";
 import UserHoverCard from "@/components/UserHoverCard";
+import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -47,7 +47,7 @@ export default async function Home() {
               >
                 <Link
                   href={`/cog/${cog?.user?.username}/${cog.slug}`}
-                  className="p-6"
+                  className="px-6 pt-6"
                 >
                   <CardHeader className="relative p-0 px-6">
                     <div className="flex flex-row items-center gap-x-3">
@@ -68,6 +68,13 @@ export default async function Home() {
                     <CardDescription>{cog.description}</CardDescription>
                   </CardHeader>
                 </Link>
+                {cog?.tags?.length > 0 ? (
+                  <div className="flex flex-row flex-wrap gap-2 px-6 pb-6">
+                    {cog.tags?.map((tag: Tag) => (
+                      <Badge key={tag?.id}>{tag?.name}</Badge>
+                    ))}
+                  </div>
+                ) : null}
                 <CardFooter className="absolute bottom-0 right-0 p-3">
                   <UserHoverCard user={cog?.user} />
                 </CardFooter>

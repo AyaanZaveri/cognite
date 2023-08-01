@@ -6,6 +6,7 @@ export async function GET() {
     const cogs = await prisma!.cog.findMany({
       include: {
         user: true,
+        tags: true,
       },
     });
 
