@@ -25,9 +25,9 @@ export async function POST(req: Request) {
         slug,
         imgUrl,
         tags: {
-          connectOrCreate: tags.map((tag: Tag) => ({
-            where: { name: tag.name },
-            create: { name: tag.name },
+          connectOrCreate: tags.map((tag: string) => ({
+            where: { name: tag },
+            create: { name: tag },
           })),
         },
       },

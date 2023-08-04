@@ -17,7 +17,7 @@ import {
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { scrapeSite } from "@/utils/scrapeSite";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -39,18 +39,10 @@ interface Sources {
 
 interface ButtonState {
   text: string;
-  loading: boolean;
+  disabled: boolean;
 }
 
 const MAX_FILE_SIZE = 5000000; // 5MB
-
-function checkFileType(file: File) {
-  if (file?.name) {
-    const fileType = file.name.split(".").pop();
-    return fileType === "pdf";
-  }
-  return false;
-}
 
 const tagsSchema = z
   .array(
@@ -104,10 +96,17 @@ const Create = (session: { session: Session | null }) => {
     control: form.control,
   });
 
+  const [buttonStatus, setButtonStatus] = useState<ButtonState>({
+    text: "Create",
+    disabled: false,
+  });
+
   const [file, setFile] = useState<any | null>(null);
 
   async function getSources(sources: Sources) {
     try {
+      setButtonStatus({ text: "Getting sources 🌎", disabled: true });
+
       const docs: Document[] = [];
 
       if (sources?.sites && sources?.sites.length > 0) {
@@ -165,11 +164,19 @@ const Create = (session: { session: Session | null }) => {
 
     console.log(session?.session?.user?.id);
 
-    const response = await axios.post(`/api/cog/create`, {
-      data: updatedData,
-    });
+    setButtonStatus({ text: "Creating cog 🧠", disabled: true });
 
-    console.log("response", response);
+    const response = await axios
+      .post(`/api/cog/create`, {
+        data: updatedData,
+      })
+      .then((res) => {
+        setButtonStatus({ text: "Cog created! 🎉", disabled: true });
+      })
+      .catch((err) => {
+        setButtonStatus({ text: "Error creating cog 😢", disabled: false });
+        console.log(err);
+      });
   }
 
   const handleFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -322,7 +329,9 @@ const Create = (session: { session: Session | null }) => {
               </FormItem>
             )}
           />
-          <Button type="submit">Create</Button>
+          <Button type="submit" className={`${buttonStatus.disabled ? "cursor-not-allowed" : "cursor-pointer"}`}>
+            {buttonStatus.text}
+          </Button>
         </form>
       </Form>
     </div>

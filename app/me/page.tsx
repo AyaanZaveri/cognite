@@ -5,29 +5,29 @@ import Image from "next/image";
 import React from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import Link from "next/link";
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Space_Grotesk } from "next/font/google";
 import UserHoverCard from "@/components/UserHoverCard";
 import prisma from "@/lib/prisma";
+import MeCard from "@/components/me/Card";
+import { Tag, User } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
-const space_grotesk = Space_Grotesk({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-});
+interface Cog {
+  id: string;
+  name: string;
+  description: string;
+  imgUrl: string | null;
+  slug: string;
+  tags: Tag[];
+}
 
 async function getUserCogs(userId: string) {
   const cogs = await prisma!.cog.findMany({
     include: {
-      user: true,
+      tags: true,
     },
     where: {
       userId: userId,
@@ -68,7 +68,7 @@ export default async function Page() {
               </AvatarFallback>
             </Avatar>
           </div>
-          <div className="flex   items-center pt-3">
+          <div className="flex items-center pt-3">
             <span className="text-xs text-muted-foreground">Joined {date}</span>
             <CalendarDays className="ml-1 h-3 w-3 text-muted-foreground" />{" "}
           </div>
@@ -84,38 +84,8 @@ export default async function Page() {
       </div>
       <div className="w-full select-none px-8">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
-          {cogs?.map((cog: any, idx: number) => (
-            <Card
-              key={cog.id}
-              className="duaration-300 relative transition duration-300 ease-in-out hover:cursor-pointer hover:bg-accent active:scale-[0.98]"
-            >
-              <Link
-                href={`/cog/${cog?.user?.username}/${cog.slug}`}
-                className="p-6"
-              >
-                <CardHeader className="relative p-0 px-6">
-                  <div className="flex flex-row items-center gap-x-3">
-                    <Avatar className="h-7 w-7 rounded-sm">
-                      <AvatarImage src={cog.imgUrl} draggable={false} />
-                      <AvatarFallback className="h-7 w-7 rounded-sm">
-                        {cog.name.charAt(0).toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <CardTitle
-                      className={
-                        space_grotesk.className + " text-lg font-semibold "
-                      }
-                    >
-                      {cog.name}
-                    </CardTitle>
-                  </div>
-                  <CardDescription>{cog.description}</CardDescription>
-                </CardHeader>
-              </Link>
-              <CardFooter className="absolute bottom-0 right-0 p-3">
-                <UserHoverCard user={cog?.user} />
-              </CardFooter>
-            </Card>
+          {cogs.map((cog: Cog) => (
+            <MeCard key={cog?.id} cog={cog} session={session} />
           ))}
         </div>
       </div>

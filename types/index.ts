@@ -37,7 +37,7 @@ export interface Cog {
   imgUrl: string;
   content: string;
   embeddings: string;
-  tags: Tag[];
+  tags: string[];
   docs: Document[];
 }
 
