@@ -40,6 +40,7 @@ interface Sources {
 interface ButtonState {
   text: string;
   disabled: boolean;
+  pulse: boolean;
 }
 
 const MAX_FILE_SIZE = 5000000; // 5MB
@@ -99,13 +100,18 @@ const Create = (session: { session: Session | null }) => {
   const [buttonStatus, setButtonStatus] = useState<ButtonState>({
     text: "Create",
     disabled: false,
+    pulse: false,
   });
 
   const [file, setFile] = useState<any | null>(null);
 
   async function getSources(sources: Sources) {
     try {
-      setButtonStatus({ text: "Getting sources 🌎", disabled: true });
+      setButtonStatus({
+        text: "Getting sources 🌎",
+        disabled: true,
+        pulse: true,
+      });
 
       const docs: Document[] = [];
 
@@ -138,9 +144,17 @@ const Create = (session: { session: Session | null }) => {
 
       console.log(docs);
 
+      setButtonStatus({ text: "Creating cog 🧠", disabled: true, pulse: true });
+
       return docs;
     } catch (error) {
       console.log("error", error);
+
+      setButtonStatus({
+        text: "Error getting sources 😢",
+        disabled: false,
+        pulse: false,
+      });
     }
   }
 
@@ -164,17 +178,23 @@ const Create = (session: { session: Session | null }) => {
 
     console.log(session?.session?.user?.id);
 
-    setButtonStatus({ text: "Creating cog 🧠", disabled: true });
-
     const response = await axios
       .post(`/api/cog/create`, {
         data: updatedData,
       })
       .then((res) => {
-        setButtonStatus({ text: "Cog created! 🎉", disabled: true });
+        setButtonStatus({
+          text: "Cog created! 🎉",
+          disabled: true,
+          pulse: false,
+        });
       })
       .catch((err) => {
-        setButtonStatus({ text: "Error creating cog 😢", disabled: false });
+        setButtonStatus({
+          text: "Error creating cog 😢",
+          disabled: false,
+          pulse: false,
+        });
         console.log(err);
       });
   }
@@ -329,8 +349,13 @@ const Create = (session: { session: Session | null }) => {
               </FormItem>
             )}
           />
-          <Button type="submit" className={`${buttonStatus.disabled ? "cursor-not-allowed" : "cursor-pointer"}`}>
-            {buttonStatus.text}
+          <Button type="submit">
+            <span
+              className={cn(
+                buttonStatus.pulse && "animate-pulse",
+                buttonStatus.disabled && "cursor-not-allowed",
+              )}
+            >{buttonStatus.text}</span>
           </Button>
         </form>
       </Form>

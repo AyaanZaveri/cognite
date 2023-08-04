@@ -5,6 +5,7 @@ import ChatBox from "@/components/ChatBox";
 import Chat from "@/components/Chat";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import UserHoverCard from "@/components/UserHoverCard";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +23,13 @@ interface Cog {
   user: {
     username: string;
   };
+}
+
+interface User {
+  username: string;
+  id: string;
+  createdDate: string;
+  bio: string;
 }
 
 async function getCog(id: string) {
@@ -88,9 +96,10 @@ export default async function Page({
             <p className="text-lg text-muted-foreground">{cog?.description}</p>
             <span className="text-accent-foreground">
               Created by{" "}
-              <b className="cursor-pointer font-semibold transition-colors duration-500 ease-in-out hover:text-orange-500 active:text-orange-500">
-                @{cog?.user?.username}
-              </b>
+              <UserHoverCard
+                user={cog?.user as User}
+                nameClass="cursor-pointer font-semibold transition-colors duration-300 ease-in-out hover:text-orange-500 active:text-orange-500"
+              />
             </span>
           </div>
         </div>

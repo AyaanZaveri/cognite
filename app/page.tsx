@@ -76,7 +76,10 @@ export default async function Home() {
                   </div>
                 ) : null}
                 <CardFooter className="absolute bottom-0 right-0 p-3">
-                  <UserHoverCard user={cog?.user} />
+                  <UserHoverCard
+                    user={cog?.user}
+                    nameClass="text-sm text-muted-foreground transition-colors duration-200 ease-in-out hover:cursor-pointer hover:text-accent-foreground"
+                  />
                 </CardFooter>
               </Card>
             ))}

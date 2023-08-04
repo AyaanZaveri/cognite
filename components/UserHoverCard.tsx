@@ -9,15 +9,18 @@ import timestampDate from "@/utils/timestampDate";
 import Link from "next/link";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 
-const UserHoverCard = ({ user }: { user: User }) => {
+const UserHoverCard = ({
+  user,
+  nameClass,
+}: {
+  user: User;
+  nameClass: string;
+}) => {
   const date = timestampDate(user?.createdDate);
 
   return (
     <HoverCard>
-      <HoverCardTrigger
-        className="text-sm text-muted-foreground transition-colors duration-200 ease-in-out hover:cursor-pointer hover:text-accent-foreground"
-        asChild
-      >
+      <HoverCardTrigger className={nameClass} asChild>
         <Link href={`/user/${user?.username}`}>@{user?.username}</Link>
       </HoverCardTrigger>
       <HoverCardContent className="w-80">
