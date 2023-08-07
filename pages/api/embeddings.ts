@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { createEmbeddings } from "@/utils/embed";
 import { createChain } from "@/utils/chain";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
-import { CONDENSE_TEMPLATE, QA_PROMPT } from "@/lib/prompts";
+import { CONDENSE_PROMPT, QA_PROMPT } from "@/lib/prompts";
 
 const embedding = async (req: NextApiRequest, res: NextApiResponse) => {
   const { docs } = req.body;
