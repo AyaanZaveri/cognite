@@ -1,4 +1,4 @@
-import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
+import { CONDENSE_TEMPLATE, QA_PROMPT } from "@/lib/prompts";
 import { StreamingTextResponse, LangChainStream, Message } from "ai";
 import axios from "axios";
 import { PromptTemplate } from "langchain";
@@ -41,7 +41,7 @@ export default async function POST(req: Request) {
     {
       returnSourceDocuments: true,
       questionGeneratorTemplate: CONDENSE_TEMPLATE,
-      qaTemplate: QA_TEMPLATE,
+      qaTemplate: QA_PROMPT,
     }
   );
 

@@ -34,10 +34,10 @@ export default async function Home() {
 
   return (
     <main>
-      <div className="flex h-full w-full flex-col items-center justify-center gap-8 p-0 md:pl-[240px]">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-8 p-0 md:pl-[240px] pb-8">
         <div className="mt-16 pb-4">
           <Logo size="5xl" />
-        </div>
+      </div>
         <div className="w-full select-none px-8">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
             {cogs?.map((cog: any, idx: number) => (

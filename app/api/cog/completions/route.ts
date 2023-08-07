@@ -3,7 +3,6 @@ import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
 import { PromptTemplate } from "langchain/prompts";
 import { NextResponse } from "next/server";
 import { StreamingTextResponse, LangChainStream, Message } from "ai";
@@ -13,6 +12,26 @@ import prisma from "@/lib/prisma-edge";
 import { Document } from "langchain/dist/document";
 
 export const runtime = "edge";
+
+const CONDENSE_PROMPT = `Your task as an AI language model is to create a clear and concise standalone question based on the given conversation history and a related follow-up question. Ensure that your rephrased question captures the essence of the follow-up question without relying on the context of the conversation.
+System message: You are ChatGPT, a large language model trained by OpenAI. Carefully heed the user's instructions. Respond using Markdown.
+Conversation history:
+{chat_history}
+Related follow-up question: {question}
+Rephrased standalone question:`;
+
+const QA_PROMPT = `As a highly advanced AI language model, your task is to provide a comprehensive and accurate response in a conversational manner, based on the context provided below. The following excerpt from a document is given, along with a question related to it. Please ensure that your answer is well-structured and directly addresses the question.
+Guidelines:
+- Use information from the provided context to support your answer. Do not include information from external sources.
+- If the question is exactly "tl;dr" try your hardest to summarize the document in 100 words or less.
+- If the question is unrelated to the context, kindly inform that your responses are limited to the information provided in the given context.
+
+
+Question: {question}
+=========
+{context}
+=========
+Answer in Markdown format:`;
 
 export async function POST(req: Request) {
   try {
@@ -62,7 +81,7 @@ export async function POST(req: Request) {
       {
         streaming: true,
         callbackManager: CallbackManager.fromHandlers(handlers),
-        temperature: 1,
+        temperature: 0,
         modelName: "gpt-3.5-turbo-16k",
         openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
       },
@@ -91,10 +110,10 @@ export async function POST(req: Request) {
         returnSourceDocuments: true,
         qaChainOptions: {
           type: "stuff",
-          prompt: PromptTemplate.fromTemplate(QA_TEMPLATE),
+          prompt: PromptTemplate.fromTemplate(QA_PROMPT),
         },
         questionGeneratorChainOptions: {
-          template: CONDENSE_TEMPLATE,
+          template: CONDENSE_PROMPT,
           llm: nonStreamingModel,
         },
       }

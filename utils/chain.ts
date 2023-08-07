@@ -1,4 +1,4 @@
-import { CONDENSE_TEMPLATE, QA_TEMPLATE } from "@/lib/prompts";
+import { CONDENSE_TEMPLATE, QA_PROMPT } from "@/lib/prompts";
 import { PromptTemplate } from "langchain";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { BaseLanguageModel } from "langchain/dist/base_language";
@@ -15,7 +15,7 @@ export const createChain = async (
     // {
     //   qaChainOptions: {
     //     type: "stuff",
-    //     prompt: PromptTemplate.fromTemplate(QA_TEMPLATE),
+    //     prompt: PromptTemplate.fromTemplate(QA_PROMPT),
     //   },
     //   questionGeneratorChainOptions: {
     //     llm: nonStreamingModel,

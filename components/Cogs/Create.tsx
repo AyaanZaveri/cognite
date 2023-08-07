@@ -121,8 +121,8 @@ const Create = (session: { session: Session | null }) => {
         console.log(siteText);
 
         const splitter = new RecursiveCharacterTextSplitter({
-          chunkSize: 2000,
-          chunkOverlap: 0,
+          chunkSize: 1000,
+          chunkOverlap: 200,
         });
 
         const siteDocs = await splitter.createDocuments([siteText]);
@@ -132,8 +132,8 @@ const Create = (session: { session: Session | null }) => {
 
       if (file) {
         const splitter = new RecursiveCharacterTextSplitter({
-          chunkSize: 2000,
-          chunkOverlap: 0,
+          chunkSize: 1000,
+          chunkOverlap: 200,
         });
 
         const loader = new PDFLoader(file as Blob);
@@ -353,9 +353,11 @@ const Create = (session: { session: Session | null }) => {
             <span
               className={cn(
                 buttonStatus.pulse && "animate-pulse",
-                buttonStatus.disabled && "cursor-not-allowed",
+                buttonStatus.disabled && "cursor-not-allowed"
               )}
-            >{buttonStatus.text}</span>
+            >
+              {buttonStatus.text}
+            </span>
           </Button>
         </form>
       </Form>

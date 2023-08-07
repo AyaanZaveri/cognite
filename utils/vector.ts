@@ -1,4 +1,4 @@
-import { QA_TEMPLATE } from "@/lib/prompts";
+import { QA_PROMPT } from "@/lib/prompts";
 import { Prisma } from "@prisma/client/edge";
 import { OpenAI } from "langchain";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
@@ -24,7 +24,7 @@ export const makeChain = (
     model,
     vectorstore.asRetriever(),
     {
-      qaTemplate: QA_TEMPLATE,
+      qaTemplate: QA_PROMPT,
       // questionGeneratorTemplate: CONDENSE_PROMPT,
       returnSourceDocuments: true, //The number of source documents returned is 4 by default
     }
