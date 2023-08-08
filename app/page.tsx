@@ -13,8 +13,6 @@ import Logo from "@/components/Logo";
 import UserHoverCard from "@/components/UserHoverCard";
 import { Badge } from "@/components/ui/badge";
 
-export const dynamic = "force-dynamic";
-
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],

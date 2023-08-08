@@ -4,10 +4,10 @@ import { User } from "next-auth";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { CalendarDays } from "lucide-react";
 import timestampDate from "@/utils/timestampDate";
 import Link from "next/link";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
+import { CalendarDays } from "lucide-react";
 
 const UserHoverCard = ({
   user,

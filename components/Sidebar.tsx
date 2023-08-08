@@ -51,7 +51,7 @@ const Sidebar = ({ session }: { session: Session | null }) => {
 
         <Link
           href={"/explore"}
-          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:ring-1 hover:ring-accent active:scale-[0.98]"
+          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:ring-1 hover:ring-muted active:scale-[0.98]"
         >
           <TbTelescope className="h-5 w-5" />
           <span className={`${space_grotesk.className} font-medium`}>
