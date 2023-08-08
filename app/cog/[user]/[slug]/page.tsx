@@ -89,12 +89,12 @@ export default async function Page({
         
         <div className="flex flex-col items-center gap-4">
           <h1
-            className={`text-center text-7xl font-bold ${space_grotesk.className}`}
+            className={`text-center text-5xl sm:text-6xl md:text-7xl font-bold ${space_grotesk.className}`}
           >
             {cog?.name}
           </h1>
           <div className="flex flex-col items-center">
-            <p className="text-lg text-muted-foreground">{cog?.description}</p>
+            <p className="text-lg text-muted-foreground text-center">{cog?.description}</p>
             <span className="text-accent-foreground">
               Created by{" "}
               <UserHoverCard
