@@ -316,7 +316,7 @@ const Create = (session: { session: Session | null }) => {
                       Tags are used to help people find your cog.
                     </FormDescription>
                     <FormControl>
-                      <Input {...field} />
+                      <Input className="rounded-full" {...field} />
                     </FormControl>
                     <FormMessage>
                       {form.formState.errors.tags?.[index]?.value?.message}
@@ -349,7 +349,7 @@ const Create = (session: { session: Session | null }) => {
               </FormItem>
             )}
           />
-          <Button type="submit">
+          <Button type="submit" className={`${space_grotesk.className}`}>
             <span
               className={cn(
                 buttonStatus.pulse && "animate-pulse",
