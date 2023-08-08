@@ -1,6 +1,7 @@
 import React from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { Space_Grotesk } from "next/font/google";
 
 interface ChatBoxProps {
   input: string;
@@ -9,6 +10,10 @@ interface ChatBoxProps {
   isThinking: boolean;
   isStreaming: boolean;
 }
+
+const space_grotesk = Space_Grotesk({
+  subsets: ["latin"],
+});
 
 const ChatBox = ({
   input,
@@ -28,7 +33,7 @@ const ChatBox = ({
         className="h-12 bg-background/50 text-base backdrop-blur-md"
       />
       {/* make a black button that says make question */}
-      <Button type="submit" className="m-0 h-12 px-6 text-base md:mr-[240px]">
+      <Button type="submit" className={`m-0 h-12 px-6 text-base md:mr-[240px] ${space_grotesk.className}`}>
         {isStreaming && isThinking ? (
           <span className="inline-flex animate-pulse gap-2">
             Going <p>🚀</p>
@@ -38,9 +43,7 @@ const ChatBox = ({
             Thinking <p>🧠</p>
           </span>
         ) : (
-          <span className="inline-flex gap-2">
-            Cognite <p>🔥</p>
-          </span>
+          <span className="inline-flex gap-2">Cognite <p>⚡️</p></span>
         )}
       </Button>
     </form>

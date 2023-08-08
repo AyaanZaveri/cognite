@@ -86,6 +86,7 @@ export default async function Page({
           draggable={false}
           className="rounded-lg transition-all duration-1000 ease-in-out hover:scale-110"
         />
+        
         <div className="flex flex-col items-center gap-4">
           <h1
             className={`text-center text-7xl font-bold ${space_grotesk.className}`}
