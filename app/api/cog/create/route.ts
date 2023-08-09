@@ -14,6 +14,10 @@ export async function POST(req: Request) {
 
   const { userId, name, description, slug, imgUrl, docs, tags }: Cog = data;
 
+  if (!userId || !name || !slug || !docs) {
+    return NextResponse.error()
+  }
+
   console.log(data);
 
   const cog = await prisma?.cog

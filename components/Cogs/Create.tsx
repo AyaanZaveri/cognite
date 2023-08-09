@@ -107,15 +107,19 @@ const Create = (session: { session: Session | null }) => {
     pulse: false,
   });
 
-  const [file, setFile] = useState<any | null>(null);
+  const [file, setFile] = useState<Blob | null>(null);
 
   async function getSources(sources: Sources) {
     try {
+      if (sources?.sites!.length > 0 || file) {
       setButtonStatus({
         text: "Getting sources 🌎",
         disabled: true,
         pulse: true,
       });
+
+      console.log(sources)
+
 
       const docs: Document[] = [];
 
@@ -151,7 +155,15 @@ const Create = (session: { session: Session | null }) => {
       setButtonStatus({ text: "Creating cog 🧠", disabled: true, pulse: true });
 
       return docs;
-    } catch (error) {
+    }
+      else {
+        setButtonStatus({
+          text: "No sources provided 😢",
+          disabled: false,
+          pulse: false,
+        });
+      }
+  } catch (error) {
       console.log("error", error);
 
       setButtonStatus({
@@ -187,6 +199,7 @@ const Create = (session: { session: Session | null }) => {
         data: updatedData,
       })
       .then((res) => {
+        console.log(res)
         setButtonStatus({
           text: "Cog created! 🎉",
           disabled: true,
