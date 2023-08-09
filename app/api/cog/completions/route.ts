@@ -14,7 +14,7 @@ import { Document } from "langchain/dist/document";
 export const runtime = "edge";
 
 const CONDENSE_PROMPT = `Your task as an AI language model is to create a clear and concise standalone question based on the given conversation history and a related follow-up question. Ensure that your rephrased question captures the essence of the follow-up question without relying on the context of the conversation.
-System message: You are ChatGPT, a large language model trained by OpenAI. Carefully heed the user's instructions. Respond using Markdown.
+System message: You are Cognition, a large language model trained by OpenAI. Carefully heed the user's instructions. Respond using Markdown.
 Conversation history:
 {chat_history}
 Related follow-up question: {question}
@@ -81,7 +81,7 @@ export async function POST(req: Request) {
       {
         streaming: true,
         callbackManager: CallbackManager.fromHandlers(handlers),
-        temperature: 0,
+        temperature: 0.7,
         modelName: "gpt-3.5-turbo-16k",
         openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
       },
