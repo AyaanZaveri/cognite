@@ -57,7 +57,11 @@ export default function Chat({ id }: { id: string }) {
                 : "bg-muted"
             )}
           >
-            {message.content}
+            <span className="prose transition-all">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {message.content}
+              </ReactMarkdown>
+            </span>
           </div>
         ))}
       </div>

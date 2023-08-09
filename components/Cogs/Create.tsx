@@ -26,6 +26,7 @@ import slugify from "slugify";
 import { InputFile } from "../InputFile";
 import axios from "axios";
 import { Document } from "langchain/dist/document";
+import Link from "next/link";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -61,9 +62,12 @@ const createFormSchema = z.object({
     .string()
     .min(3, { message: "Your name must be at least 3 characters long" })
     .max(30, { message: "It's a name, not a poem (max 30 characters)" }),
-  description: z.string().max(300, {
-    message: "It's a description, not an essay (max 300 characters)",
-  }),
+  description: z
+    .string()
+    .max(300, {
+      message: "It's a description, not an essay (max 300 characters)",
+    })
+    .optional(),
   imgUrl: z
     .string()
     .max(200, { message: "Your image URL is too long (max 200 characters)" })
@@ -234,22 +238,6 @@ const Create = (session: { session: Session | null }) => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="Description" {...field} />
-                </FormControl>
-                <FormDescription>
-                  A short description of the cog.
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div>
             {websiteFields.map((field, index) => (
               <FormField
@@ -297,6 +285,22 @@ const Create = (session: { session: Session | null }) => {
                   />
                 </FormControl>
                 <FormDescription>Upload your cog here.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Textarea placeholder="Description" {...field} />
+                </FormControl>
+                <FormDescription>
+                  A short description of the cog.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -349,16 +353,26 @@ const Create = (session: { session: Session | null }) => {
               </FormItem>
             )}
           />
-          <Button type="submit" className={`${space_grotesk.className}`}>
-            <span
-              className={cn(
-                buttonStatus.pulse && "animate-pulse",
-                buttonStatus.disabled && "cursor-not-allowed"
-              )}
-            >
-              {buttonStatus.text}
-            </span>
-          </Button>
+          {session?.session?.user?.id ? (
+            <Button type="submit" className={`${space_grotesk.className}`}>
+              <span
+                className={cn(
+                  buttonStatus.pulse && "animate-pulse",
+                  buttonStatus.disabled && "cursor-not-allowed"
+                )}
+              >
+                {buttonStatus.text}
+              </span>
+            </Button>
+          ) : (
+            <div>
+              <Link href="/api/auth/signin">
+                <Button type="button" className={`${space_grotesk.className}`}>
+                  Sign in to create a cog
+                </Button>
+              </Link>
+            </div>
+          )}
         </form>
       </Form>
     </div>
