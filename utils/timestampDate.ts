@@ -1,5 +1,5 @@
-const timestampDate = (timestamp: string) => {
-  const date = new Date(timestamp);
+const timestampDate = (timestamp: Date | undefined) => {
+  const date = new Date(timestamp!);
 
   function formatDate(date: Date): string {
     const monthNames = [

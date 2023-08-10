@@ -6,36 +6,17 @@ import { ChatOpenAI } from "langchain/chat_models/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { NextResponse } from "next/server";
 import { StreamingTextResponse, LangChainStream, Message } from "ai";
-import { CallbackManager } from "langchain/callbacks";
+import { CallbackManager, ConsoleCallbackHandler } from "langchain/callbacks";
 import { AIMessage, HumanMessage } from "langchain/schema";
 import prisma from "@/lib/prisma-edge";
 import { Document } from "langchain/dist/document";
+import { prompts } from "@/lib/prompts";
 
 export const runtime = "edge";
 
-const CONDENSE_PROMPT = `Your task as an AI language model is to create a clear and concise standalone question based on the given conversation history and a related follow-up question. Ensure that your rephrased question captures the essence of the follow-up question without relying on the context of the conversation.
-System message: You are Cognition, a large language model trained by OpenAI. Carefully heed the user's instructions. Respond using Markdown.
-Conversation history:
-{chat_history}
-Related follow-up question: {question}
-Rephrased standalone question:`;
-
-const QA_PROMPT = `As a highly advanced AI language model, your task is to provide a comprehensive and accurate response in a conversational manner, based on the context provided below. The following excerpt from a document is given, along with a question related to it. Please ensure that your answer is well-structured and directly addresses the question.
-Guidelines:
-- Use information from the provided context to support your answer. Do not include information from external sources.
-- If the question is exactly "tl;dr" try your hardest to summarize the document in 100 words or less.
-- If the question is unrelated to the context, kindly inform that your responses are limited to the information provided in the given context.
-
-
-Question: {question}
-=========
-{context}
-=========
-Answer in Markdown format:`;
-
 export async function POST(req: Request) {
   try {
-    const { id, messages } = await req.json();
+    const { id, messages, style } = await req.json();
 
     const { stream, handlers } = LangChainStream();
 
@@ -103,6 +84,8 @@ export async function POST(req: Request) {
 
     console.log("Created models");
 
+    console.log(prompts[style].qa, prompts[style].condense);
+
     const chain = ConversationalRetrievalQAChain.fromLLM(
       streamingModel,
       vectorStore.asRetriever(),
@@ -110,10 +93,10 @@ export async function POST(req: Request) {
         returnSourceDocuments: true,
         qaChainOptions: {
           type: "stuff",
-          prompt: PromptTemplate.fromTemplate(QA_PROMPT),
+          prompt: PromptTemplate.fromTemplate(prompts[style].qa),
         },
         questionGeneratorChainOptions: {
-          template: CONDENSE_PROMPT,
+          template: prompts[style].condense,
           llm: nonStreamingModel,
         },
       }
@@ -146,7 +129,7 @@ export async function POST(req: Request) {
       })
       .then((response) => {
         const { sourceDocuments } = response;
-        console.log(sourceDocuments);
+        // console.log(sourceDocuments);
       });
 
     return new StreamingTextResponse(stream);

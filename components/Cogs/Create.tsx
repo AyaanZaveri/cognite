@@ -17,7 +17,7 @@ import {
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { cn } from "@/lib/utils";
 import { scrapeSite } from "@/utils/scrapeSite";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
@@ -333,7 +333,7 @@ const Create = (session: { session: Session | null }) => {
                       Tags are used to help people find your cog.
                     </FormDescription>
                     <FormControl>
-                      <Input className="rounded-full" {...field} />
+                      <Input {...field} />
                     </FormControl>
                     <FormMessage>
                       {form.formState.errors.tags?.[index]?.value?.message}

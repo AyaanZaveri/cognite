@@ -12,6 +12,7 @@ import { Space_Grotesk } from "next/font/google";
 import Logo from "@/components/Logo";
 import UserHoverCard from "@/components/UserHoverCard";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -19,29 +20,42 @@ const space_grotesk = Space_Grotesk({
 });
 
 async function getListCogs() {
-  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`, {
-    cache: "no-store",
-  });
-  const { data } = await res.json();
+  // const res = await fetch(`${process.env.NEXTAUTH_URL}/api/cog/list`, {
+  //   cache: "no-store",
+  // });
+  // const { data } = await res.json();
 
-  return data;
+  // return data;
+
+  try {
+    const cogs = await prisma!.cog.findMany({
+      include: {
+        user: true,
+        tags: true,
+      },
+    });
+
+    return cogs;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export default async function Home() {
-  const cogs: Cogs[] = await getListCogs();
+  const cogs: Cogs[] | undefined = await getListCogs();
 
   return (
     <main>
-      <div className="flex h-full w-full flex-col items-center justify-center gap-8 p-0 md:pl-[240px] pb-8">
+      <div className="flex h-full w-full flex-col items-center justify-center gap-8 p-0 pb-8 md:pl-[240px]">
         <div className="mt-16 pb-4">
           <Logo size="5xl" />
-      </div>
+        </div>
         <div className="w-full select-none px-8">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
-            {cogs?.map((cog: any, idx: number) => (
+            {cogs?.map((cog: any) => (
               <Card
                 key={cog.id}
-                className="duaration-300 relative transition duration-300 ease-in-out hover:cursor-pointer hover:bg-accent active:scale-[0.98]"
+                className="duaration-300 relative h-44 transition duration-300 ease-in-out hover:cursor-pointer hover:bg-accent active:scale-[0.98]"
               >
                 <Link
                   href={`/cog/${cog?.user?.username}/${cog.slug}`}
@@ -57,13 +71,16 @@ export default async function Home() {
                       </Avatar>
                       <CardTitle
                         className={
-                          space_grotesk.className + " text-lg font-semibold "
+                          space_grotesk.className +
+                          " truncate text-lg font-semibold"
                         }
                       >
                         {cog.name}
                       </CardTitle>
                     </div>
-                    <CardDescription>{cog.description}</CardDescription>
+                    <CardDescription className="line-clamp-2">
+                      {cog.description}
+                    </CardDescription>
                   </CardHeader>
                 </Link>
                 {cog?.tags?.length > 0 ? (

@@ -1,6 +1,5 @@
 "use client";
 
-import { User } from "next-auth";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
@@ -8,12 +7,13 @@ import timestampDate from "@/utils/timestampDate";
 import Link from "next/link";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { CalendarDays } from "lucide-react";
+import { User } from "@prisma/client";
 
 const UserHoverCard = ({
   user,
   nameClass,
 }: {
-  user: User;
+  user: User | undefined;
   nameClass: string;
 }) => {
   const date = timestampDate(user?.createdDate);
@@ -34,7 +34,8 @@ const UserHoverCard = ({
           <div className="space-y-1 self-start">
             <h4 className="text-sm font-semibold">@{user?.username}</h4>
             <p className="text-sm">
-              {<ReactMarkdown>{user?.bio}</ReactMarkdown> ?? "Cognition bio"}
+              {<ReactMarkdown>{user?.bio as string}</ReactMarkdown> ??
+                "Cognition bio"}
             </p>
             <div className="flex items-center pt-2">
               <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}

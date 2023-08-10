@@ -6,11 +6,13 @@ import ReactMarkdown from "react-markdown";
 import { useChat } from "ai/react";
 import ChatBox from "./ChatBox";
 import { FormEvent, useState } from "react";
-import { Inter } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import { ChatRequestOptions } from "ai";
 import { cn } from "@/lib/utils";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "./ui/badge";
 
-const inter = Inter({
+const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
@@ -18,11 +20,13 @@ const inter = Inter({
 export default function Chat({ id }: { id: string }) {
   const [isThinking, setIsThinking] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [selectedStyle, setSelectedStyle] = useState("neutral");
 
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "/api/cog/completions",
     body: {
       id: id,
+      style: selectedStyle,
     },
     onError: (err) => {
       console.log(err);
@@ -44,8 +48,52 @@ export default function Chat({ id }: { id: string }) {
     handleSubmit(e, chatRequestOptions);
   };
 
+  const styles = [
+    {
+      id: "friendly",
+      name: "Friendly 👋",
+      description: "A nice and friendly conversation style.",
+    },
+    {
+      id: "neutral",
+      name: "Neutral 🤔",
+      description: "A casual and neutral conversation style.",
+    },
+    {
+      id: "focused",
+      name: "Focused 🧠",
+      description: "A very precise and focused conversation style.",
+    },
+  ];
+
   return (
     <div className="pb-28">
+      {messages.length === 0 && (
+        <div className={`mt-20 flex flex-col items-center gap-y-3`}>
+          <div className={`${space_grotesk.className} space-x-1.5`}>
+            <span className="font-medium">Pick a conversation style</span>
+            <Badge
+              variant={"secondary"}
+              className="select-none text-accent-foreground/70"
+            >
+              BETA
+            </Badge>
+          </div>
+          <Tabs defaultValue="neutral">
+            <TabsList>
+              {styles.map((style) => (
+                <TabsTrigger
+                  key={style.id}
+                  value={style.id}
+                  onClick={() => setSelectedStyle(style.id)}
+                >
+                  {style.name}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+        </div>
+      )}
       <div className="flex w-full flex-col gap-5 px-8">
         {messages.map((message) => (
           <div
