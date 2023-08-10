@@ -1,4 +1,4 @@
-const timestampDate = (timestamp: Date | undefined) => {
+const timestampDate = (timestamp: Date | string | undefined) => {
   const date = new Date(timestamp!);
 
   function formatDate(date: Date): string {

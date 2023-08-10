@@ -42,7 +42,7 @@ export default async function Page() {
 
   const cogs = await getUserCogs(session?.user?.id as string);
 
-  const date = timestampDate(session?.user?.createdDate as string);
+  const date = timestampDate(session?.user?.createdDate);
 
   return (
     <div className="p-0 md:pl-[240px]">

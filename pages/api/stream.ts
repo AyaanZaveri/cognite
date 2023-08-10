@@ -1,4 +1,3 @@
-import { CONDENSE_PROMPT, QA_PROMPT } from "@/lib/prompts";
 import { StreamingTextResponse, LangChainStream, Message } from "ai";
 import axios from "axios";
 import { PromptTemplate } from "langchain";
@@ -40,8 +39,6 @@ export default async function POST(req: Request) {
     vectorStore.asRetriever(),
     {
       returnSourceDocuments: true,
-      questionGeneratorTemplate: CONDENSE_PROMPT,
-      qaTemplate: QA_PROMPT,
     }
   );
 
