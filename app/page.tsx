@@ -2,6 +2,7 @@ import { Cogs } from "@/types";
 import { Space_Grotesk } from "next/font/google";
 import Logo from "@/components/Logo";
 import ListCogs from "@/components/ListCogs";
+import prisma from "@/lib/prisma-edge";
 
 export default async function Home() {
   const cogs = await prisma!.cog.findMany({
