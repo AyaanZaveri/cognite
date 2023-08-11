@@ -72,9 +72,11 @@ model Cog {
   imgUrl      String?      @default("https://em-content.zobj.net/thumbs/240/apple/354/fire_1f525.png")
   embeddings  Embeddings[]
   tags        Tag[]        @relation("CogToTag")
+  private     Boolean      @default(false)
 
   @@unique([userId, slug])
   @@index([userId])
+  @@index([private])
 }
 
 model Tag {

@@ -13,6 +13,9 @@ export default async function Home() {
       user: true,
       tags: true,
     },
+    where: {
+      private: false,
+    }
   });
 
   return (

@@ -12,7 +12,7 @@ interface Tag {
 export async function POST(req: Request) {
   const { data } = await req.json();
 
-  const { userId, name, description, slug, imgUrl, docs, tags }: Cog = data;
+  const { userId, name, description, slug, imgUrl, docs, tags, isPrivate }: Cog = data;
 
   if (!userId || !name || !slug || !docs) {
     return NextResponse.error()
@@ -34,6 +34,7 @@ export async function POST(req: Request) {
             create: { name: tag },
           })),
         },
+        private: isPrivate,
       },
     })
     .catch((err) => {

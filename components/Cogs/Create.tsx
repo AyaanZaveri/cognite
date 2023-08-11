@@ -27,6 +27,7 @@ import { InputFile } from "../InputFile";
 import axios from "axios";
 import { Document } from "langchain/dist/document";
 import Link from "next/link";
+import { Switch } from "@/components/ui/switch";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -81,6 +82,7 @@ const createFormSchema = z.object({
     )
     .optional(),
   file: z.string().optional(),
+  private: z.boolean().optional(),
 });
 
 type CreateFormValues = z.infer<typeof createFormSchema>;
@@ -90,6 +92,8 @@ const Create = (session: { session: Session | null }) => {
     resolver: zodResolver(createFormSchema),
     mode: "onChange",
   });
+
+  console.log(form.control._fields)
 
   const { fields: tagFields, append: appendTag } = useFieldArray({
     name: "tags",
@@ -112,58 +116,60 @@ const Create = (session: { session: Session | null }) => {
   async function getSources(sources: Sources) {
     try {
       if (sources?.sites!.length > 0 || file) {
-      setButtonStatus({
-        text: "Getting sources 🌎",
-        disabled: true,
-        pulse: true,
-      });
-
-      console.log(sources)
-
-
-      const docs: Document[] = [];
-
-      if (sources?.sites && sources?.sites.length > 0) {
-        const siteText = await scrapeSite(sources?.sites);
-
-        console.log(siteText);
-
-        const splitter = new RecursiveCharacterTextSplitter({
-          chunkSize: 1000,
-          chunkOverlap: 200,
+        setButtonStatus({
+          text: "Getting sources 🌎",
+          disabled: true,
+          pulse: true,
         });
 
-        const siteDocs = await splitter.createDocuments([siteText]);
+        console.log(sources);
 
-        docs.push(...siteDocs);
-      }
+        const docs: Document[] = [];
 
-      if (file) {
-        const splitter = new RecursiveCharacterTextSplitter({
-          chunkSize: 1000,
-          chunkOverlap: 200,
+        if (sources?.sites && sources?.sites.length > 0) {
+          const siteText = await scrapeSite(sources?.sites);
+
+          console.log(siteText);
+
+          const splitter = new RecursiveCharacterTextSplitter({
+            chunkSize: 1000,
+            chunkOverlap: 200,
+          });
+
+          const siteDocs = await splitter.createDocuments([siteText]);
+
+          docs.push(...siteDocs);
+        }
+
+        if (file) {
+          const splitter = new RecursiveCharacterTextSplitter({
+            chunkSize: 1000,
+            chunkOverlap: 200,
+          });
+
+          const loader = new PDFLoader(file as Blob);
+          const pdfDocs = await loader.loadAndSplit(splitter);
+
+          docs.push(...pdfDocs);
+        }
+
+        console.log(docs);
+
+        setButtonStatus({
+          text: "Creating cog 🧠",
+          disabled: true,
+          pulse: true,
         });
 
-        const loader = new PDFLoader(file as Blob);
-        const pdfDocs = await loader.loadAndSplit(splitter);
-
-        docs.push(...pdfDocs);
-      }
-
-      console.log(docs);
-
-      setButtonStatus({ text: "Creating cog 🧠", disabled: true, pulse: true });
-
-      return docs;
-    }
-      else {
+        return docs;
+      } else {
         setButtonStatus({
           text: "No sources provided 😢",
           disabled: false,
           pulse: false,
         });
       }
-  } catch (error) {
+    } catch (error) {
       console.log("error", error);
 
       setButtonStatus({
@@ -190,6 +196,7 @@ const Create = (session: { session: Session | null }) => {
       docs: theDocs,
       slug: slugify(data.name, { lower: true }),
       userId: session?.session?.user?.id,
+      isPrivate: data.private,
     };
 
     console.log(session?.session?.user?.id);
@@ -199,7 +206,7 @@ const Create = (session: { session: Session | null }) => {
         data: updatedData,
       })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         setButtonStatus({
           text: "Cog created! 🎉",
           disabled: true,
@@ -298,6 +305,27 @@ const Create = (session: { session: Session | null }) => {
                   />
                 </FormControl>
                 <FormDescription>Upload your cog here.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="private"
+            render={({ field }) => (
+              <FormItem>
+                <div className="inline-flex items-center gap-2">
+                  <FormLabel>Private</FormLabel>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </div>
+                <FormDescription>
+                  Make your cog private so only you can see it.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

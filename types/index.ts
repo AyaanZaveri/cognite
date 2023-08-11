@@ -39,6 +39,7 @@ export interface Cog {
   embeddings: string;
   tags: string[];
   docs: Document[];
+  isPrivate: boolean;
 }
 
 export interface Embeddings {

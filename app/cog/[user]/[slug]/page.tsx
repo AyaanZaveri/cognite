@@ -5,6 +5,8 @@ import Chat from "@/components/Chat";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
 import UserHoverCard from "@/components/UserHoverCard";
+import { getAuthSession } from "@/lib/auth";
+import { Session } from "next-auth";
 
 export const dynamic = "force-dynamic";
 
@@ -13,18 +15,28 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-async function getCog(username: string, slug: string) {
+async function getCog(username: string, slug: string, session: Session | null) {
   const cog = await prisma.cog.findFirst({
     where: {
       slug: slug,
       user: {
         username: username,
       },
+      OR: [
+        {
+          private: false, // Include public cogs
+        },
+        {
+          private: true, // Include private cogs owned by the given user
+          userId: session?.user?.id ? session.user.id : "bob",
+        },
+      ],
     },
     include: {
       user: true,
     },
   });
+
   return cog;
 }
 
@@ -35,7 +47,9 @@ export default async function Page({
 }) {
   const { user, slug } = params;
 
-  const cog = await getCog(user, slug);
+  const session = await getAuthSession();
+
+  const cog = await getCog(user, slug, session);
 
   return (
     <div className="p-0 md:pl-[240px]">
