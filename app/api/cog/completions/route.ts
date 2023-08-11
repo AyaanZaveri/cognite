@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client/edge";
+import { Prisma, PrismaClient } from "@prisma/client/edge";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
@@ -8,9 +8,11 @@ import { NextResponse } from "next/server";
 import { StreamingTextResponse, LangChainStream, Message } from "ai";
 import { CallbackManager, ConsoleCallbackHandler } from "langchain/callbacks";
 import { AIMessage, HumanMessage } from "langchain/schema";
-import prisma from "@/lib/prisma-edge";
+import { withAccelerate } from '@prisma/extension-accelerate';
 import { Document } from "langchain/dist/document";
 import { prompts } from "@/lib/prompts";
+
+const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate())
 
 export const runtime = "edge";
 
@@ -31,7 +33,7 @@ export async function POST(req: Request) {
       }
     );
 
-    const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
+    const vectorStore = PrismaVectorStore.withModel<any>(prismaWithAccelerate!).create(
       embeddingsModel,
       {
         prisma: Prisma,

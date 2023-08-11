@@ -9,7 +9,7 @@ const CoolBlur = () => {
   console.log(theme);
 
   return (
-    <div className={`${resolvedTheme == "light" ? "hidden": "fixed"} fixed top-0 -z-50 h-16 w-full bg-gradient-to-r from-orange-500/75 via-amber-500/75 to-red-500/75 blur-[100px]`} />
+    <div className={`fixed top-0 -z-50 h-16 w-full bg-gradient-to-r from-orange-500/75 via-amber-500/75 to-red-500/75 blur-[100px]`} />
   );
 };
 

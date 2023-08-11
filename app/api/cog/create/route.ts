@@ -1,13 +1,11 @@
 import { Cog, Embeddings } from "@/types";
-import { Prisma } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { withAccelerate } from "@prisma/extension-accelerate";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
 
-interface Tag {
-  name: string;
-}
+const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
 
 export async function POST(req: Request) {
   const { data } = await req.json();
@@ -20,7 +18,7 @@ export async function POST(req: Request) {
 
   console.log(data);
 
-  const cog = await prisma?.cog
+  const cog = await prismaWithAccelerate?.cog
     .create({
       data: {
         userId,

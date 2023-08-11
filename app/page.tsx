@@ -1,15 +1,16 @@
-import { Cogs } from "@/types";
-import { Space_Grotesk } from "next/font/google";
 import Logo from "@/components/Logo";
 import ListCogs from "@/components/ListCogs";
-import prisma from "@/lib/prisma-edge";
 import { getTheme } from "@/helpers/getTheme";
 import CoolBlur from "@/components/CoolBlur";
+import { withAccelerate } from "@prisma/extension-accelerate";
+import { PrismaClient } from "@prisma/client/edge";
+
+const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
 
 export default async function Home() {
   const theme = getTheme();
 
-  const cogs = await prisma!.cog.findMany({
+  const cogs = await prismaWithAccelerate!.cog.findMany({
     orderBy: {
       createdDate: "desc",
     },

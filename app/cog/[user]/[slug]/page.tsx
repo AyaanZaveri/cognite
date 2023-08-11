@@ -8,6 +8,8 @@ import UserHoverCard from "@/components/UserHoverCard";
 import { getAuthSession } from "@/lib/auth";
 import { Session } from "next-auth";
 import CoolBlur from "@/components/CoolBlur";
+import { PrismaClient } from "@prisma/client";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
 export const dynamic = "force-dynamic";
 
@@ -16,8 +18,10 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
+const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
+
 async function getCog(username: string, slug: string, session: Session | null) {
-  const cog = await prisma.cog.findFirst({
+  const cog = await prismaWithAccelerate.cog.findFirst({
     where: {
       slug: slug,
       user: {
