@@ -23,7 +23,7 @@ const UserHoverCard = ({
       <HoverCardTrigger className={nameClass} asChild>
         <Link href={`/user/${user?.username}`}>@{user?.username}</Link>
       </HoverCardTrigger>
-      <HoverCardContent className="w-80">
+      <HoverCardContent className="w-80 bg-background/75 backdrop-blur-md">
         <div className="flex space-x-4">
           <Avatar>
             <AvatarImage src={user?.image as string} />

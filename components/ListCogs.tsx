@@ -30,7 +30,7 @@ const ListCogs = ({ cogs }: ListCogsProps) => {
       {cogs?.map((cog: any) => (
         <Card
           key={cog.id}
-          className="duaration-300 relative h-44 transition duration-300 ease-in-out hover:cursor-pointer hover:bg-accent active:scale-[0.98]"
+          className="duaration-300 relative h-44 transition duration-300 ease-in-out hover:cursor-pointer hover:bg-accent/25 active:scale-[0.98]"
         >
           <Link
             href={`/cog/${cog?.user?.username}/${cog.slug}`}
