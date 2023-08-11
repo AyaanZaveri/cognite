@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   title: "Cognition",
   description: "Chat with any website",
   icons: {
-    icon: "/icon.png",
+    icon: "/favicon.ico",
   },
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },

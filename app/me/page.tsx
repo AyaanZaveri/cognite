@@ -12,6 +12,7 @@ import UserHoverCard from "@/components/UserHoverCard";
 import prisma from "@/lib/prisma";
 import MeCard from "@/components/me/Card";
 import { Tag, User } from "@prisma/client";
+import CoolBlur from "@/components/CoolBlur";
 
 export const dynamic = "force-dynamic";
 
@@ -46,6 +47,7 @@ export default async function Page() {
 
   return (
     <div className="p-0 md:pl-[240px]">
+      <CoolBlur />
       <div className="-space-y-10 p-5">
         <div className="relative h-48 w-full">
           <Image

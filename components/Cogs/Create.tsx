@@ -93,7 +93,7 @@ const Create = (session: { session: Session | null }) => {
     mode: "onChange",
   });
 
-  console.log(form.control._fields)
+  console.log(form.control._fields);
 
   const { fields: tagFields, append: appendTag } = useFieldArray({
     name: "tags",
@@ -304,7 +304,7 @@ const Create = (session: { session: Session | null }) => {
                     onChange={handleFile}
                   />
                 </FormControl>
-                <FormDescription>Upload your cog here.</FormDescription>
+                <FormDescription>You can also upload a PDF</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -324,7 +324,9 @@ const Create = (session: { session: Session | null }) => {
                   </FormControl>
                 </div>
                 <FormDescription>
-                  Make your cog private so only you can see it.
+                  {field.value
+                    ? "Your cog is private ~ Only you can see it 👀"
+                    : "Your cog is public ~ It can be discovered 🌎"}
                 </FormDescription>
                 <FormMessage />
               </FormItem>

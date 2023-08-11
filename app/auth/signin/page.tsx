@@ -1,3 +1,4 @@
+import CoolBlur from "@/components/CoolBlur";
 import Logo from "@/components/Logo";
 import LoginButton from "@/components/buttons/LoginButton";
 import { getAuthSession } from "@/lib/auth";
@@ -16,7 +17,7 @@ async function getProviders() {
 export default async function SignIn() {
   const resp: ReturnType<typeof getProviders> = (await getProviders()) || {};
 
-  const session = await getAuthSession()
+  const session = await getAuthSession();
 
   if (session?.user) {
     return redirect("/");

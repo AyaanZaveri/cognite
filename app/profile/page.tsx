@@ -3,6 +3,7 @@ import { SignIn } from "../actions";
 import { getAuthSession } from "@/lib/auth";
 import ProfileForm from "@/components/ProfileForm";
 import { Inter } from "next/font/google";
+import CoolBlur from "@/components/CoolBlur";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,7 @@ export default async function Page() {
         paddingLeft: 240,
       }}
     >
+      <CoolBlur />
       <SignIn />
     </div>
   );

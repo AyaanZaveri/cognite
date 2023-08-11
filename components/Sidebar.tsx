@@ -14,7 +14,7 @@ const space_grotesk = Space_Grotesk({
 
 const Sidebar = ({ session }: { session: Session | null }) => {
   return (
-    <div className={`fixed z-20 h-full w-[240px] hidden md:block select-none border-r`}>
+    <div className={`fixed z-20 h-full w-[240px] hidden md:block select-none border-r bg-accent/25`}>
       <Link href={`/`} className="absolute top-0 mx-3 my-4">
         <div className="group relative transition-all duration-1000 ease-in-out">
           <Image
@@ -74,7 +74,7 @@ const Sidebar = ({ session }: { session: Session | null }) => {
       <div className="absolute bottom-0 w-full px-2 py-3">
         {session ? (
           <Button variant={"outline"} className="w-full rounded-full border-none hover:border-input" asChild>
-            <Link href={`/profile`} className="self-start py-7">
+            <Link href={`/profile`} className="self-start py-7 bg-transparent">
               <div className="flex w-full flex-row items-center gap-2 rounded-full">
                 <div className="relative h-9 w-9">
                   <Image

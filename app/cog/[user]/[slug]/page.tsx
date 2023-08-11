@@ -7,6 +7,7 @@ import Link from "next/link";
 import UserHoverCard from "@/components/UserHoverCard";
 import { getAuthSession } from "@/lib/auth";
 import { Session } from "next-auth";
+import CoolBlur from "@/components/CoolBlur";
 
 export const dynamic = "force-dynamic";
 
@@ -53,7 +54,7 @@ export default async function Page({
 
   return (
     <div className="p-0 md:pl-[240px]">
-      {/* <h1>{JSON.stringify(cogs)}</h1> */}
+      <CoolBlur />
       <div className="p-5">
         <Link href={"/"}>
           <Logo size="3xl" />
