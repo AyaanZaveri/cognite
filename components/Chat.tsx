@@ -101,8 +101,8 @@ export default function Chat({ id }: { id: string }) {
             className={cn(
               "flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-4 py-3",
               message.role === "user"
-                ? "ml-auto bg-primary text-primary-foreground"
-                : "bg-muted"
+                ? "ml-auto bg-primary text-primary-foreground shadow-xl shadow-primary/20"
+                : "bg-muted shadow-xl shadow-muted/20"
             )}
           >
             <span className="prose transition-all">

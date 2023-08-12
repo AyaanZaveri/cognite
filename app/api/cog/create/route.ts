@@ -10,10 +10,19 @@ const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
 export async function POST(req: Request) {
   const { data } = await req.json();
 
-  const { userId, name, description, slug, imgUrl, docs, tags, isPrivate }: Cog = data;
+  const {
+    userId,
+    name,
+    description,
+    slug,
+    imgUrl,
+    docs,
+    tags,
+    isPrivate,
+  }: Cog = data;
 
   if (!userId || !name || !slug || !docs) {
-    return NextResponse.error()
+    return NextResponse.error();
   }
 
   console.log(data);

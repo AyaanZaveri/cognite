@@ -4,13 +4,18 @@ import { getTheme } from "@/helpers/getTheme";
 import CoolBlur from "@/components/CoolBlur";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { PrismaClient } from "@prisma/client/edge";
+import QuickCreate from "@/components/QuickCreate";
+import { getAuthSession } from "@/lib/auth";
 
 const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
 
 export default async function Home() {
+  const session = await getAuthSession();
+
   const theme = getTheme();
 
   const cogs = await prismaWithAccelerate!.cog.findMany({
+    cacheStrategy: { ttl: 3_600 },
     orderBy: {
       createdDate: "desc",
     },
@@ -33,6 +38,9 @@ export default async function Home() {
           <Logo size="5xl" />
         </div>
         <div className="w-full select-none px-8">
+          <div className="mb-4">
+            <QuickCreate session={session} />
+          </div>
           <ListCogs cogs={cogs} />
         </div>
       </div>

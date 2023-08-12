@@ -23,7 +23,7 @@ const Page = async () => {
         >
           Create
         </h1>
-        <Create session={session!} />
+        <Create session={session} />
       </div>
     </div>
   );
