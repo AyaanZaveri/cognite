@@ -3,22 +3,27 @@ import ListCogs from "@/components/ListCogs";
 import { getTheme } from "@/helpers/getTheme";
 import CoolBlur from "@/components/CoolBlur";
 import { withAccelerate } from "@prisma/extension-accelerate";
-import { PrismaClient } from "@prisma/client/edge";
+import { User } from "@prisma/client";
 import QuickCreate from "@/components/QuickCreate";
 import { getAuthSession } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import CogCard from "@/components/cog/Card";
+import { Tag } from "@/types";
 
-const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
+interface Cog {
+  id: string;
+  name: string;
+  description: string;
+  imgUrl: string;
+  slug: string;
+  tags: Tag[];
+  user: User;
+}
 
 export default async function Home() {
   const session = await getAuthSession();
 
-  const theme = getTheme();
-
-  const cogs = await prismaWithAccelerate!.cog.findMany({
-    cacheStrategy: { ttl: 3_600 },
-    orderBy: {
-      createdDate: "desc",
-    },
+  const cogs = await prisma.cog.findMany({
     include: {
       user: true,
       tags: true,
@@ -26,9 +31,10 @@ export default async function Home() {
     where: {
       private: false,
     },
+    orderBy: {
+      createdDate: "desc",
+    },
   });
-
-  console.log(theme);
 
   return (
     <main className="md:pl-[240px]">
@@ -41,7 +47,11 @@ export default async function Home() {
           <div className="mb-4">
             <QuickCreate session={session} />
           </div>
-          <ListCogs cogs={cogs} />
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
+            {cogs.map((cog) => (
+              <CogCard key={cog?.id} cog={cog as Cog} />
+            ))}
+          </div>
         </div>
       </div>
     </main>

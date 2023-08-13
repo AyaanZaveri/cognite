@@ -93,8 +93,6 @@ const Create = (session: { session: Session | null }) => {
     mode: "onChange",
   });
 
-  console.log(form.control._fields);
-
   const { fields: tagFields, append: appendTag } = useFieldArray({
     name: "tags",
     control: form.control,
@@ -122,14 +120,14 @@ const Create = (session: { session: Session | null }) => {
           pulse: true,
         });
 
-        console.log(sources);
+        // console.log(sources);
 
         const docs: Document[] = [];
 
         if (sources?.sites && sources?.sites.length > 0) {
           const siteText = await scrapeSite(sources?.sites);
 
-          console.log(siteText);
+          // console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
             chunkSize: 1000,
@@ -153,7 +151,7 @@ const Create = (session: { session: Session | null }) => {
           docs.push(...pdfDocs);
         }
 
-        console.log(docs);
+        // console.log(docs);
 
         setButtonStatus({
           text: "Creating cog 🧠",
@@ -199,14 +197,14 @@ const Create = (session: { session: Session | null }) => {
       isPrivate: data.private,
     };
 
-    console.log(session?.session?.user?.id);
+    // console.log(session?.session?.user?.id);
 
     const response = await axios
       .post(`/api/cog/create`, {
         data: updatedData,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setButtonStatus({
           text: "Cog created! 🎉",
           disabled: true,

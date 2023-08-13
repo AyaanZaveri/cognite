@@ -11,7 +11,7 @@ import { Space_Grotesk } from "next/font/google";
 import UserHoverCard from "@/components/UserHoverCard";
 import prisma from "@/lib/prisma";
 import MeCard from "@/components/me/Card";
-import { Tag, User } from "@prisma/client";
+import { Tag, User } from "@prisma/client"
 import CoolBlur from "@/components/CoolBlur";
 
 export const dynamic = "force-dynamic";
@@ -25,23 +25,20 @@ interface Cog {
   tags: Tag[];
 }
 
-async function getUserCogs(userId: string) {
-  const cogs = await prisma!.cog.findMany({
+export default async function Page() {
+  const session = await getAuthSession();
+
+  const cogs = await prisma.cog.findMany({
     include: {
       tags: true,
     },
     where: {
-      userId: userId,
+      userId: session?.user?.id,
     },
+    orderBy: {
+      createdDate: "desc",
+    }
   });
-
-  return cogs;
-}
-
-export default async function Page() {
-  const session = await getAuthSession();
-
-  const cogs = await getUserCogs(session?.user?.id as string);
 
   const date = timestampDate(session?.user?.createdDate);
 
@@ -75,7 +72,7 @@ export default async function Page() {
             <CalendarDays className="ml-1 h-3 w-3 text-muted-foreground" />{" "}
           </div>
 
-          <span className={`mt-1 text-3xl font-bold text-primary`}>
+          <span className={`mt-1 text-3xl font-bold`}>
             @{session?.user?.username}
           </span>
 

@@ -36,6 +36,7 @@ import { Session } from "next-auth";
 import slugify from "slugify";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const quickCreateFormSchema = z.object({
   name: z
@@ -93,14 +94,14 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
           pulse: true,
         });
 
-        console.log(sources);
+        // console.log(sources);
 
         const docs: Document[] = [];
 
         if (sources?.sites && sources?.sites.length > 0) {
           const siteText = await scrapeSite(sources?.sites);
 
-          console.log(siteText);
+          // console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
             chunkSize: 1000,
@@ -124,7 +125,7 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
           docs.push(...pdfDocs);
         }
 
-        console.log(docs);
+        // console.log(docs);
 
         setButtonStatus({
           text: "Creating cog 🧠",
@@ -170,19 +171,23 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
       imgUrl: "",
     };
 
-    console.log(updatedData);
+    // console.log(updatedData);
 
     const response = await axios
       .post(`/api/cog/create`, {
         data: updatedData,
       })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setButtonStatus({
           text: "Cog created! 🎉",
           disabled: true,
           pulse: false,
         });
+
+        console.log(res);
+
+        redirect(`/cog/${session?.user.username}/${res.data.cog.slug}`);
       })
       .catch((err) => {
         setButtonStatus({
