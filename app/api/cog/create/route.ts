@@ -25,8 +25,6 @@ export async function POST(req: Request) {
     return NextResponse.error();
   }
 
-  console.log(data);
-
   const cog = await prismaWithAccelerate?.cog
     .create({
       data: {
