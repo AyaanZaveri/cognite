@@ -62,26 +62,25 @@ export async function POST(req: Request) {
 
     console.log("Initalized Embeddings Model");
 
-    const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
-      embeddingsModel,
-      {
-        prisma: Prisma,
-        tableName: "Embeddings",
-        vectorColumnName: "embedding",
-        columns: {
-          id: PrismaVectorStore.IdColumn,
-          content: PrismaVectorStore.ContentColumn,
-        },
-      }
-    );
+    const vectorStore = PrismaVectorStore.withModel<any>(
+      prismaWithAccelerate!
+    ).create(embeddingsModel, {
+      prisma: Prisma,
+      tableName: "Embeddings",
+      vectorColumnName: "embedding",
+      columns: {
+        id: PrismaVectorStore.IdColumn,
+        content: PrismaVectorStore.ContentColumn,
+      },
+    });
 
     console.log("Initalized Vector Store");
 
     if (docs) {
       await vectorStore.addModels(
-        await prisma!.$transaction(
+        await prismaWithAccelerate!.$transaction(
           docs.map((content) =>
-            prisma!.embeddings.create({
+            prismaWithAccelerate!.embeddings.create({
               data: {
                 content: content?.pageContent,
                 cog_id: cog?.id,
