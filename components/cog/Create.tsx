@@ -28,6 +28,7 @@ import axios from "axios";
 import { Document } from "langchain/dist/document";
 import Link from "next/link";
 import { Switch } from "@/components/ui/switch";
+import { useRouter } from "next/navigation";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -108,6 +109,8 @@ const Create = (session: { session: Session | null }) => {
     disabled: false,
     pulse: false,
   });
+
+  const router = useRouter();
 
   const [file, setFile] = useState<Blob | null>(null);
 
@@ -210,6 +213,8 @@ const Create = (session: { session: Session | null }) => {
           disabled: true,
           pulse: false,
         });
+
+        router.push(`/cog/${session?.session?.user.username}/${res.data.cog.slug}`);
       })
       .catch((err) => {
         setButtonStatus({

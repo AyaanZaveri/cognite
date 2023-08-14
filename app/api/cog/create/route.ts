@@ -1,11 +1,9 @@
 import { Cog, Embeddings } from "@/types";
-import { Prisma, PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { Prisma } from "@prisma/client";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { NextResponse } from "next/server";
-
-const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   const { data } = await req.json();
@@ -25,7 +23,7 @@ export async function POST(req: Request) {
     return NextResponse.error();
   }
 
-  const cog = await prismaWithAccelerate?.cog
+  const cog = await prisma?.cog
     .create({
       data: {
         userId,
@@ -60,25 +58,26 @@ export async function POST(req: Request) {
 
     console.log("Initalized Embeddings Model");
 
-    const vectorStore = PrismaVectorStore.withModel<any>(
-      prismaWithAccelerate!
-    ).create(embeddingsModel, {
-      prisma: Prisma,
-      tableName: "Embeddings",
-      vectorColumnName: "embedding",
-      columns: {
-        id: PrismaVectorStore.IdColumn,
-        content: PrismaVectorStore.ContentColumn,
-      },
-    });
+    const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
+      embeddingsModel,
+      {
+        prisma: Prisma,
+        tableName: "Embeddings",
+        vectorColumnName: "embedding",
+        columns: {
+          id: PrismaVectorStore.IdColumn,
+          content: PrismaVectorStore.ContentColumn,
+        },
+      }
+    );
 
     console.log("Initalized Vector Store");
 
     if (docs) {
       await vectorStore.addModels(
-        await prismaWithAccelerate!.$transaction(
+        await prisma!.$transaction(
           docs.map((content) =>
-            prismaWithAccelerate!.embeddings.create({
+            prisma!.embeddings.create({
               data: {
                 content: content?.pageContent,
                 cog_id: cog?.id,

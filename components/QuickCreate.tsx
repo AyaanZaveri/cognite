@@ -36,7 +36,7 @@ import { Session } from "next-auth";
 import slugify from "slugify";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const quickCreateFormSchema = z.object({
   name: z
@@ -82,6 +82,8 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
     disabled: false,
     pulse: false,
   });
+
+  const router = useRouter();
 
   const [file, setFile] = useState<Blob | null>(null);
 
@@ -167,8 +169,8 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
       userId: session?.user?.id,
       tags: [],
       isPrivate: true,
-      description: "",
-      imgUrl: "",
+      description: `Cog about ${data.name}`,
+      imgUrl: "https://em-content.zobj.net/thumbs/240/apple/354/fire_1f525.png",
     };
 
     // console.log(updatedData);
@@ -187,7 +189,9 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
 
         console.log(res);
 
-        redirect(`/cog/${session?.user.username}/${res.data.cog.slug}`);
+        console.log(`/cog/${session?.user.username}/${res.data.cog.slug}`);
+
+        router.push(`/cog/${session?.user.username}/${res.data.cog.slug}`);
       })
       .catch((err) => {
         setButtonStatus({
