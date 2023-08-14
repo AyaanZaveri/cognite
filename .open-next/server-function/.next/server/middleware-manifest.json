@@ -29,22 +29,6 @@
     }
   },
   "functions": {
-    "/api/stream": {
-      "files": [
-        "server/edge-runtime-webpack.js",
-        "server/pages/api/stream.js"
-      ],
-      "name": "pages/api/stream",
-      "page": "/api/stream",
-      "matchers": [
-        {
-          "regexp": "^/api/stream$",
-          "originalSource": "/api/stream"
-        }
-      ],
-      "wasm": [],
-      "assets": []
-    },
     "/api/cog/completions/route": {
       "files": [
         "server/middleware-build-manifest.js",

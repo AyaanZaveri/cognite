@@ -955,18 +955,22 @@ Textarea.displayName = "Textarea";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   T: () => (/* binding */ scrapeSite)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30386);
+
 const scrapeSite = async (urls)=>{
-    const res = await fetch(`/api/extract`, {
-        method: "POST",
-        headers: {
-            "content-type": "application/json"
-        },
-        body: JSON.stringify({
+    try {
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z.post("/api/extract", {
             urls
-        })
-    });
-    const data = await res.json();
-    return data.extracted_text;
+        });
+        console.log("response", response);
+        return response.data.extracted_text;
+    } catch (err) {
+        if (err instanceof Error) {
+            console.log(err.message);
+        } else {
+            console.log("Unexpected error", err);
+        }
+    }
 };
 
 
@@ -1052,7 +1056,7 @@ const Page = async ()=>{
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [7942,8682,5935,3201,8708,7648,6298,2102,633,6612], () => (__webpack_exec__(55967)));
+var __webpack_exports__ = __webpack_require__.X(0, [7942,8682,5935,3201,8708,7648,6298,9579,633,6612], () => (__webpack_exec__(55967)));
 module.exports = __webpack_exports__;
 
 })();

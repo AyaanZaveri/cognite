@@ -1,7 +1,7 @@
 // runtime can't be in strict mode because a global variable is assign and maybe created.
 (self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([[826],{
 
-/***/ 8101:
+/***/ 6443:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21,16 +21,707 @@ __webpack_require__.d(middleware_namespaceObject_0, {
   "default": () => (middleware_0)
 });
 
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/globals.js
-var globals = __webpack_require__(866);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/adapter.js + 6 modules
-var adapter = __webpack_require__(4374);
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/globals.js
+async function registerInstrumentation() {
+    if ("_ENTRIES" in globalThis && _ENTRIES.middleware_instrumentation && _ENTRIES.middleware_instrumentation.register) {
+        try {
+            await _ENTRIES.middleware_instrumentation.register();
+        } catch (err) {
+            err.message = `An error occurred while loading instrumentation hook: ${err.message}`;
+            throw err;
+        }
+    }
+}
+let registerInstrumentationPromise = null;
+function ensureInstrumentationRegistered() {
+    if (!registerInstrumentationPromise) {
+        registerInstrumentationPromise = registerInstrumentation();
+    }
+    return registerInstrumentationPromise;
+}
+function getUnsupportedModuleErrorMessage(module) {
+    // warning: if you change these messages, you must adjust how react-dev-overlay's middleware detects modules not found
+    return `The edge runtime does not support Node.js '${module}' module.
+Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime`;
+}
+function __import_unsupported(moduleName) {
+    const proxy = new Proxy(function() {}, {
+        get (_obj, prop) {
+            if (prop === "then") {
+                return {};
+            }
+            throw new Error(getUnsupportedModuleErrorMessage(moduleName));
+        },
+        construct () {
+            throw new Error(getUnsupportedModuleErrorMessage(moduleName));
+        },
+        apply (_target, _this, args) {
+            if (typeof args[0] === "function") {
+                return args[0](proxy);
+            }
+            throw new Error(getUnsupportedModuleErrorMessage(moduleName));
+        }
+    });
+    return new Proxy({}, {
+        get: ()=>proxy
+    });
+}
+function enhanceGlobals() {
+    // The condition is true when the "process" module is provided
+    if (process !== __webpack_require__.g.process) {
+        // prefer local process but global.process has correct "env"
+        process.env = __webpack_require__.g.process.env;
+        __webpack_require__.g.process = process;
+    }
+    // to allow building code that import but does not use node.js modules,
+    // webpack will expect this function to exist in global scope
+    Object.defineProperty(globalThis, "__import_unsupported", {
+        value: __import_unsupported,
+        enumerable: false,
+        configurable: false
+    });
+    // Eagerly fire instrumentation hook to make the startup faster.
+    void ensureInstrumentationRegistered();
+}
+enhanceGlobals(); //# sourceMappingURL=globals.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/error.js
+class PageSignatureError extends Error {
+    constructor({ page }){
+        super(`The middleware "${page}" accepts an async API directly with the form:
+  
+  export function middleware(request, event) {
+    return NextResponse.redirect('/new-location')
+  }
+  
+  Read more: https://nextjs.org/docs/messages/middleware-new-signature
+  `);
+    }
+}
+class RemovedPageError extends Error {
+    constructor(){
+        super(`The request.page has been deprecated in favour of \`URLPattern\`.
+  Read more: https://nextjs.org/docs/messages/middleware-request-page
+  `);
+    }
+}
+class RemovedUAError extends Error {
+    constructor(){
+        super(`The request.ua has been removed in favour of \`userAgent\` function.
+  Read more: https://nextjs.org/docs/messages/middleware-parse-user-agent
+  `);
+    }
+} //# sourceMappingURL=error.js.map
+
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/utils.js
+var utils = __webpack_require__(773);
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/fetch-event.js
+
+const responseSymbol = Symbol("response");
+const passThroughSymbol = Symbol("passThrough");
+const waitUntilSymbol = Symbol("waitUntil");
+class FetchEvent {
+    // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+    constructor(_request){
+        this[waitUntilSymbol] = [];
+        this[passThroughSymbol] = false;
+    }
+    respondWith(response) {
+        if (!this[responseSymbol]) {
+            this[responseSymbol] = Promise.resolve(response);
+        }
+    }
+    passThroughOnException() {
+        this[passThroughSymbol] = true;
+    }
+    waitUntil(promise) {
+        this[waitUntilSymbol].push(promise);
+    }
+}
+class NextFetchEvent extends FetchEvent {
+    constructor(params){
+        super(params.request);
+        this.sourcePage = params.page;
+    }
+    /**
+   * @deprecated The `request` is now the first parameter and the API is now async.
+   *
+   * Read more: https://nextjs.org/docs/messages/middleware-new-signature
+   */ get request() {
+        throw new PageSignatureError({
+            page: this.sourcePage
+        });
+    }
+    /**
+   * @deprecated Using `respondWith` is no longer needed.
+   *
+   * Read more: https://nextjs.org/docs/messages/middleware-new-signature
+   */ respondWith() {
+        throw new PageSignatureError({
+            page: this.sourcePage
+        });
+    }
+} //# sourceMappingURL=fetch-event.js.map
+
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/next-url.js + 12 modules
+var next_url = __webpack_require__(9169);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/cookies.js
+var cookies = __webpack_require__(1769);
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/request.js
+
+
+
+
+const INTERNALS = Symbol("internal request");
+class NextRequest extends Request {
+    constructor(input, init = {}){
+        const url = typeof input !== "string" && "url" in input ? input.url : String(input);
+        (0,utils/* validateURL */.r4)(url);
+        super(url, init);
+        const nextUrl = new next_url/* NextURL */.c(url, {
+            headers: (0,utils/* toNodeOutgoingHttpHeaders */.lb)(this.headers),
+            nextConfig: init.nextConfig
+        });
+        this[INTERNALS] = {
+            cookies: new cookies/* RequestCookies */.q(this.headers),
+            geo: init.geo || {
+        country: this.headers.get("cloudfront-viewer-country"),
+        countryName: this.headers.get("cloudfront-viewer-country-name"),
+        region: this.headers.get("cloudfront-viewer-country-region"),
+        regionName: this.headers.get("cloudfront-viewer-country-region-name"),
+        city: this.headers.get("cloudfront-viewer-city"),
+        postalCode: this.headers.get("cloudfront-viewer-postal-code"),
+        timeZone: this.headers.get("cloudfront-viewer-time-zone"),
+        latitude: this.headers.get("cloudfront-viewer-latitude"),
+        longitude: this.headers.get("cloudfront-viewer-longitude"),
+        metroCode: this.headers.get("cloudfront-viewer-metro-code"),
+      },
+            ip: init.ip,
+            nextUrl,
+            url:  false ? 0 : nextUrl.toString()
+        };
+    }
+    [Symbol.for("edge-runtime.inspect.custom")]() {
+        return {
+            cookies: this.cookies,
+            geo: this.geo,
+            ip: this.ip,
+            nextUrl: this.nextUrl,
+            url: this.url,
+            // rest of props come from Request
+            bodyUsed: this.bodyUsed,
+            cache: this.cache,
+            credentials: this.credentials,
+            destination: this.destination,
+            headers: Object.fromEntries(this.headers),
+            integrity: this.integrity,
+            keepalive: this.keepalive,
+            method: this.method,
+            mode: this.mode,
+            redirect: this.redirect,
+            referrer: this.referrer,
+            referrerPolicy: this.referrerPolicy,
+            signal: this.signal
+        };
+    }
+    get cookies() {
+        return this[INTERNALS].cookies;
+    }
+    get geo() {
+        return this[INTERNALS].geo;
+    }
+    get ip() {
+        return this[INTERNALS].ip;
+    }
+    get nextUrl() {
+        return this[INTERNALS].nextUrl;
+    }
+    /**
+   * @deprecated
+   * `page` has been deprecated in favour of `URLPattern`.
+   * Read more: https://nextjs.org/docs/messages/middleware-request-page
+   */ get page() {
+        throw new RemovedPageError();
+    }
+    /**
+   * @deprecated
+   * `ua` has been removed in favour of \`userAgent\` function.
+   * Read more: https://nextjs.org/docs/messages/middleware-parse-user-agent
+   */ get ua() {
+        throw new RemovedUAError();
+    }
+    get url() {
+        return this[INTERNALS].url;
+    }
+} //# sourceMappingURL=request.js.map
+
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/response.js
+var spec_extension_response = __webpack_require__(4668);
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/relativize-url.js
+/**
+ * Given a URL as a string and a base URL it will make the URL relative
+ * if the parsed protocol and host is the same as the one in the base
+ * URL. Otherwise it returns the same URL string.
+ */ function relativizeURL(url, base) {
+    const baseURL = typeof base === "string" ? new URL(base) : base;
+    const relative = new URL(url, base);
+    const origin = baseURL.protocol + "//" + baseURL.host;
+    return relative.protocol + "//" + relative.host === origin ? relative.toString().replace(origin, "") : relative.toString();
+} //# sourceMappingURL=relativize-url.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/client/components/app-router-headers.js
+const RSC = "RSC";
+const ACTION = "Next-Action";
+const NEXT_ROUTER_STATE_TREE = "Next-Router-State-Tree";
+const NEXT_ROUTER_PREFETCH = "Next-Router-Prefetch";
+const NEXT_URL = "Next-Url";
+const FETCH_CACHE_HEADER = "x-vercel-sc-headers";
+const RSC_CONTENT_TYPE_HEADER = "text/x-component";
+const RSC_VARY_HEADER = RSC + ", " + NEXT_ROUTER_STATE_TREE + ", " + NEXT_ROUTER_PREFETCH;
+const FLIGHT_PARAMETERS = [
+    [
+        RSC
+    ],
+    [
+        NEXT_ROUTER_STATE_TREE
+    ],
+    [
+        NEXT_ROUTER_PREFETCH
+    ]
+];
+const NEXT_RSC_UNION_QUERY = "_rsc"; //# sourceMappingURL=app-router-headers.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/internal-utils.js
+
+const INTERNAL_QUERY_NAMES = [
+    "__nextFallback",
+    "__nextLocale",
+    "__nextInferredLocaleFromDefault",
+    "__nextDefaultLocale",
+    "__nextIsNotFound",
+    NEXT_RSC_UNION_QUERY
+];
+const EDGE_EXTENDED_INTERNAL_QUERY_NAMES = [
+    "__nextDataReq"
+];
+function stripInternalQueries(query) {
+    for (const name of INTERNAL_QUERY_NAMES){
+        delete query[name];
+    }
+}
+function stripInternalSearchParams(url, isEdge) {
+    const isStringUrl = typeof url === "string";
+    const instance = isStringUrl ? new URL(url) : url;
+    for (const name of INTERNAL_QUERY_NAMES){
+        instance.searchParams.delete(name);
+    }
+    if (isEdge) {
+        for (const name of EDGE_EXTENDED_INTERNAL_QUERY_NAMES){
+            instance.searchParams.delete(name);
+        }
+    }
+    return isStringUrl ? instance.toString() : instance;
+} //# sourceMappingURL=internal-utils.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/app-paths.js
+
+/**
+ * Normalizes an app route so it represents the actual request path. Essentially
+ * performing the following transformations:
+ *
+ * - `/(dashboard)/user/[id]/page` to `/user/[id]`
+ * - `/(dashboard)/account/page` to `/account`
+ * - `/user/[id]/page` to `/user/[id]`
+ * - `/account/page` to `/account`
+ * - `/page` to `/`
+ * - `/(dashboard)/user/[id]/route` to `/user/[id]`
+ * - `/(dashboard)/account/route` to `/account`
+ * - `/user/[id]/route` to `/user/[id]`
+ * - `/account/route` to `/account`
+ * - `/route` to `/`
+ * - `/` to `/`
+ *
+ * @param route the app route to normalize
+ * @returns the normalized pathname
+ */ function normalizeAppPath(route) {
+    return ensureLeadingSlash(route.split("/").reduce((pathname, segment, index, segments)=>{
+        // Empty segments are ignored.
+        if (!segment) {
+            return pathname;
+        }
+        // Groups are ignored.
+        if (segment[0] === "(" && segment.endsWith(")")) {
+            return pathname;
+        }
+        // Parallel segments are ignored.
+        if (segment[0] === "@") {
+            return pathname;
+        }
+        // The last segment (if it's a leaf) should be ignored.
+        if ((segment === "page" || segment === "route") && index === segments.length - 1) {
+            return pathname;
+        }
+        return pathname + "/" + segment;
+    }, ""));
+}
+/**
+ * Strips the `.rsc` extension if it's in the pathname.
+ * Since this function is used on full urls it checks `?` for searchParams handling.
+ */ function normalizeRscPath(pathname, enabled) {
+    return enabled ? pathname.replace(/\.rsc($|\?)/, "$1") : pathname;
+} //# sourceMappingURL=app-paths.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/lib/constants.js
+const NEXT_QUERY_PARAM_PREFIX = "nxtP";
+const PRERENDER_REVALIDATE_HEADER = "x-prerender-revalidate";
+const PRERENDER_REVALIDATE_ONLY_GENERATED_HEADER = "x-prerender-revalidate-if-generated";
+// in seconds
+const CACHE_ONE_YEAR = 31536000;
+// Patterns to detect middleware files
+const MIDDLEWARE_FILENAME = "middleware";
+const MIDDLEWARE_LOCATION_REGEXP = (/* unused pure expression or super */ null && (`(?:src/)?${MIDDLEWARE_FILENAME}`));
+// Pattern to detect instrumentation hooks file
+const INSTRUMENTATION_HOOK_FILENAME = "instrumentation";
+const INSTRUMENTATION_HOOKS_LOCATION_REGEXP = (/* unused pure expression or super */ null && (`(?:src/)?${INSTRUMENTATION_HOOK_FILENAME}`));
+// Because on Windows absolute paths in the generated code can break because of numbers, eg 1 in the path,
+// we have to use a private alias
+const PAGES_DIR_ALIAS = "private-next-pages";
+const DOT_NEXT_ALIAS = "private-dot-next";
+const ROOT_DIR_ALIAS = "private-next-root-dir";
+const APP_DIR_ALIAS = "private-next-app-dir";
+const RSC_MOD_REF_PROXY_ALIAS = "private-next-rsc-mod-ref-proxy";
+const RSC_ACTION_VALIDATE_ALIAS = "private-next-rsc-action-validate";
+const RSC_ACTION_PROXY_ALIAS = "private-next-rsc-action-proxy";
+const RSC_ACTION_CLIENT_WRAPPER_ALIAS = "private-next-rsc-action-client-wrapper";
+const PUBLIC_DIR_MIDDLEWARE_CONFLICT = (/* unused pure expression or super */ null && (`You can not have a '_next' folder inside of your public folder. This conflicts with the internal '/_next' route. https://nextjs.org/docs/messages/public-next-folder-conflict`));
+const SSG_GET_INITIAL_PROPS_CONFLICT = (/* unused pure expression or super */ null && (`You can not use getInitialProps with getStaticProps. To use SSG, please remove your getInitialProps`));
+const SERVER_PROPS_GET_INIT_PROPS_CONFLICT = (/* unused pure expression or super */ null && (`You can not use getInitialProps with getServerSideProps. Please remove getInitialProps.`));
+const SERVER_PROPS_SSG_CONFLICT = (/* unused pure expression or super */ null && (`You can not use getStaticProps or getStaticPaths with getServerSideProps. To use SSG, please remove getServerSideProps`));
+const STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR = (/* unused pure expression or super */ null && (`can not have getInitialProps/getServerSideProps, https://nextjs.org/docs/messages/404-get-initial-props`));
+const SERVER_PROPS_EXPORT_ERROR = (/* unused pure expression or super */ null && (`pages with \`getServerSideProps\` can not be exported. See more info here: https://nextjs.org/docs/messages/gssp-export`));
+const GSP_NO_RETURNED_VALUE = "Your `getStaticProps` function did not return an object. Did you forget to add a `return`?";
+const GSSP_NO_RETURNED_VALUE = "Your `getServerSideProps` function did not return an object. Did you forget to add a `return`?";
+const UNSTABLE_REVALIDATE_RENAME_ERROR = (/* unused pure expression or super */ null && ("The `unstable_revalidate` property is available for general use.\n" + "Please use `revalidate` instead."));
+const GSSP_COMPONENT_MEMBER_ERROR = (/* unused pure expression or super */ null && (`can not be attached to a page's component and must be exported from the page. See more info here: https://nextjs.org/docs/messages/gssp-component-member`));
+const NON_STANDARD_NODE_ENV = (/* unused pure expression or super */ null && (`You are using a non-standard "NODE_ENV" value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env`));
+const SSG_FALLBACK_EXPORT_ERROR = (/* unused pure expression or super */ null && (`Pages with \`fallback\` enabled in \`getStaticPaths\` can not be exported. See more info here: https://nextjs.org/docs/messages/ssg-fallback-true-export`));
+// Consolidate this consts when the `appDir` will be stable.
+const ESLINT_DEFAULT_DIRS = [
+    "pages",
+    "components",
+    "lib",
+    "src"
+];
+const ESLINT_DEFAULT_DIRS_WITH_APP = [
+    "app",
+    ...ESLINT_DEFAULT_DIRS
+];
+const ESLINT_PROMPT_VALUES = [
+    {
+        title: "Strict",
+        recommended: true,
+        config: {
+            extends: "next/core-web-vitals"
+        }
+    },
+    {
+        title: "Base",
+        config: {
+            extends: "next"
+        }
+    },
+    {
+        title: "Cancel",
+        config: null
+    }
+];
+const SERVER_RUNTIME = {
+    edge: "edge",
+    experimentalEdge: "experimental-edge",
+    nodejs: "nodejs"
+};
+/**
+ * The names of the webpack layers. These layers are the primitives for the
+ * webpack chunks.
+ */ const WEBPACK_LAYERS_NAMES = {
+    /**
+   * The layer for the shared code between the client and server bundles.
+   */ shared: "shared",
+    /**
+   * React Server Components layer (rsc).
+   */ reactServerComponents: "rsc",
+    /**
+   * Server Side Rendering layer (ssr).
+   */ serverSideRendering: "ssr",
+    /**
+   * The browser client bundle layer for actions.
+   */ actionBrowser: "actionBrowser",
+    /**
+   * The layer for the API routes.
+   */ api: "api",
+    /**
+   * The layer for the middleware code.
+   */ middleware: "middleware",
+    /**
+   * The layer for assets on the edge.
+   */ edgeAsset: "edge-asset",
+    /**
+   * The browser client bundle layer for App directory.
+   */ appPagesBrowser: "app-pages-browser",
+    /**
+   * The server bundle layer for metadata routes.
+   */ appMetadataRoute: "app-metadata-route"
+};
+const WEBPACK_LAYERS = {
+    ...WEBPACK_LAYERS_NAMES,
+    GROUP: {
+        server: [
+            WEBPACK_LAYERS_NAMES.reactServerComponents,
+            WEBPACK_LAYERS_NAMES.actionBrowser,
+            WEBPACK_LAYERS_NAMES.appMetadataRoute
+        ]
+    }
+};
+const WEBPACK_RESOURCE_QUERIES = {
+    edgeSSREntry: "__next_edge_ssr_entry__",
+    metadata: "__next_metadata__",
+    metadataRoute: "__next_metadata_route__",
+    metadataImageMeta: "__next_metadata_image_meta__"
+}; //# sourceMappingURL=constants.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/adapter.js
+
+
+
+
+
+
+
+
+
+
+
+
+
+class NextRequestHint extends NextRequest {
+    constructor(params){
+        super(params.input, params.init);
+        this.sourcePage = params.page;
+    }
+    get request() {
+        throw new PageSignatureError({
+            page: this.sourcePage
+        });
+    }
+    respondWith() {
+        throw new PageSignatureError({
+            page: this.sourcePage
+        });
+    }
+    waitUntil() {
+        throw new PageSignatureError({
+            page: this.sourcePage
+        });
+    }
+}
+const adapter_FLIGHT_PARAMETERS = [
+    [
+        RSC
+    ],
+    [
+        NEXT_ROUTER_STATE_TREE
+    ],
+    [
+        NEXT_ROUTER_PREFETCH
+    ],
+    [
+        FETCH_CACHE_HEADER
+    ]
+];
+async function adapter(params) {
+    await ensureInstrumentationRegistered();
+    // TODO-APP: use explicit marker for this
+    const isEdgeRendering = typeof self.__BUILD_MANIFEST !== "undefined";
+    params.request.url = normalizeRscPath(params.request.url, true);
+    const requestUrl = new next_url/* NextURL */.c(params.request.url, {
+        headers: params.request.headers,
+        nextConfig: params.request.nextConfig
+    });
+    // Iterator uses an index to keep track of the current iteration. Because of deleting and appending below we can't just use the iterator.
+    // Instead we use the keys before iteration.
+    const keys = [
+        ...requestUrl.searchParams.keys()
+    ];
+    for (const key of keys){
+        const value = requestUrl.searchParams.getAll(key);
+        if (key !== NEXT_QUERY_PARAM_PREFIX && key.startsWith(NEXT_QUERY_PARAM_PREFIX)) {
+            const normalizedKey = key.substring(NEXT_QUERY_PARAM_PREFIX.length);
+            requestUrl.searchParams.delete(normalizedKey);
+            for (const val of value){
+                requestUrl.searchParams.append(normalizedKey, val);
+            }
+            requestUrl.searchParams.delete(key);
+        }
+    }
+    // Ensure users only see page requests, never data requests.
+    const buildId = requestUrl.buildId;
+    requestUrl.buildId = "";
+    const isDataReq = params.request.headers["x-nextjs-data"];
+    if (isDataReq && requestUrl.pathname === "/index") {
+        requestUrl.pathname = "/";
+    }
+    const requestHeaders = (0,utils/* fromNodeOutgoingHttpHeaders */.EK)(params.request.headers);
+    const flightHeaders = new Map();
+    // Parameters should only be stripped for middleware
+    if (!isEdgeRendering) {
+        for (const param of adapter_FLIGHT_PARAMETERS){
+            const key = param.toString().toLowerCase();
+            const value = requestHeaders.get(key);
+            if (value) {
+                flightHeaders.set(key, requestHeaders.get(key));
+                requestHeaders.delete(key);
+            }
+        }
+    }
+    const normalizeUrl =  false ? 0 : requestUrl;
+    const request = new NextRequestHint({
+        page: params.page,
+        // Strip internal query parameters off the request.
+        input: stripInternalSearchParams(normalizeUrl, true).toString(),
+        init: {
+            body: params.request.body,
+            geo: params.request.geo,
+            headers: requestHeaders,
+            ip: params.request.ip,
+            method: params.request.method,
+            nextConfig: params.request.nextConfig,
+            signal: params.request.signal
+        }
+    });
+    /**
+   * This allows to identify the request as a data request. The user doesn't
+   * need to know about this property neither use it. We add it for testing
+   * purposes.
+   */ if (isDataReq) {
+        Object.defineProperty(request, "__isData", {
+            enumerable: false,
+            value: true
+        });
+    }
+    if (!globalThis.__incrementalCache && params.IncrementalCache) {
+        globalThis.__incrementalCache = new params.IncrementalCache({
+            appDir: true,
+            fetchCache: true,
+            minimalMode: "production" !== "development",
+            fetchCacheKeyPrefix: undefined,
+            dev: "production" === "development",
+            requestHeaders: params.request.headers,
+            requestProtocol: "https",
+            getPrerenderManifest: ()=>{
+                return {
+                    version: -1,
+                    routes: {},
+                    dynamicRoutes: {},
+                    notFoundRoutes: [],
+                    preview: {
+                        previewModeId: "development-id"
+                    }
+                };
+            }
+        });
+    }
+    const event = new NextFetchEvent({
+        request,
+        page: params.page
+    });
+    let response = await params.handler(request, event);
+    // check if response is a Response object
+    if (response && !(response instanceof Response)) {
+        throw new TypeError("Expected an instance of Response to be returned");
+    }
+    /**
+   * For rewrites we must always include the locale in the final pathname
+   * so we re-create the NextURL forcing it to include it when the it is
+   * an internal rewrite. Also we make sure the outgoing rewrite URL is
+   * a data URL if the request was a data request.
+   */ const rewrite = response == null ? void 0 : response.headers.get("x-middleware-rewrite");
+    if (response && rewrite) {
+        const rewriteUrl = new next_url/* NextURL */.c(rewrite, {
+            forceLocale: true,
+            headers: params.request.headers,
+            nextConfig: params.request.nextConfig
+        });
+        if (true) {
+            if (rewriteUrl.host === request.nextUrl.host) {
+                rewriteUrl.buildId = buildId || rewriteUrl.buildId;
+                response.headers.set("x-middleware-rewrite", String(rewriteUrl));
+            }
+        }
+        /**
+     * When the request is a data request we must show if there was a rewrite
+     * with an internal header so the client knows which component to load
+     * from the data request.
+     */ const relativizedRewrite = relativizeURL(String(rewriteUrl), String(requestUrl));
+        if (isDataReq && // if the rewrite is external and external rewrite
+        // resolving config is enabled don't add this header
+        // so the upstream app can set it instead
+        !(undefined && 0)) {
+            response.headers.set("x-nextjs-rewrite", relativizedRewrite);
+        }
+    }
+    /**
+   * For redirects we will not include the locale in case when it is the
+   * default and we must also make sure the outgoing URL is a data one if
+   * the incoming request was a data request.
+   */ const redirect = response == null ? void 0 : response.headers.get("Location");
+    if (response && redirect && !isEdgeRendering) {
+        const redirectURL = new next_url/* NextURL */.c(redirect, {
+            forceLocale: false,
+            headers: params.request.headers,
+            nextConfig: params.request.nextConfig
+        });
+        /**
+     * Responses created from redirects have immutable headers so we have
+     * to clone the response to be able to modify it.
+     */ response = new Response(response.body, response);
+        if (true) {
+            if (redirectURL.host === request.nextUrl.host) {
+                redirectURL.buildId = buildId || redirectURL.buildId;
+                response.headers.set("Location", String(redirectURL));
+            }
+        }
+        /**
+     * When the request is a data request we can't use the location header as
+     * it may end up with CORS error. Instead we map to an internal header so
+     * the client knows the destination.
+     */ if (isDataReq) {
+            response.headers.delete("Location");
+            response.headers.set("x-nextjs-redirect", relativizeURL(String(redirectURL), String(requestUrl)));
+        }
+    }
+    const finalResponse = response ? response : spec_extension_response/* NextResponse */.x.next();
+    // Flight headers are not overridable / removable so they are applied at the end.
+    const middlewareOverrideHeaders = finalResponse.headers.get("x-middleware-override-headers");
+    const overwrittenHeaders = [];
+    if (middlewareOverrideHeaders) {
+        for (const [key, value] of flightHeaders){
+            finalResponse.headers.set(`x-middleware-request-${key}`, value);
+            overwrittenHeaders.push(key);
+        }
+        if (overwrittenHeaders.length > 0) {
+            finalResponse.headers.set("x-middleware-override-headers", middlewareOverrideHeaders + "," + overwrittenHeaders.join(","));
+        }
+    }
+    return {
+        response: finalResponse,
+        waitUntil: Promise.all(event[waitUntilSymbol])
+    };
+} //# sourceMappingURL=adapter.js.map
+
 // EXTERNAL MODULE: ./node_modules/.pnpm/next-auth@4.22.3_next@13.4.12_react-dom@18.2.0_react@18.2.0/node_modules/next-auth/jwt/index.js
 var jwt = __webpack_require__(895);
 // EXTERNAL MODULE: ./node_modules/.pnpm/next-auth@4.22.3_next@13.4.12_react-dom@18.2.0_react@18.2.0/node_modules/next-auth/middleware.js
 var middleware = __webpack_require__(8339);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/response.js
-var response = __webpack_require__(4668);
 ;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/exports/next-response.js
 // This file is for modularized imports for next/server to get fully-treeshaking.
  //# sourceMappingURL=next-response.js.map
@@ -53,15 +744,15 @@ var response = __webpack_require__(4668);
     const isAccessingSensitiveRoute = sensitiveRoutes.some((route)=>pathname.startsWith(route));
     if (isLoginPage) {
         if (isAuth) {
-            return response/* NextResponse */.x.redirect(new URL("/", req.url));
+            return spec_extension_response/* NextResponse */.x.redirect(new URL("/", req.url));
         }
-        return response/* NextResponse */.x.next();
+        return spec_extension_response/* NextResponse */.x.next();
     }
     if (!isAuth && isAccessingSensitiveRoute) {
-        return response/* NextResponse */.x.redirect(new URL("/auth/signin", req.url));
+        return spec_extension_response/* NextResponse */.x.redirect(new URL("/auth/signin", req.url));
     }
     if (pathname === "/") {
-        return response/* NextResponse */.x.redirect(new URL("/", req.url));
+        return spec_extension_response/* NextResponse */.x.redirect(new URL("/", req.url));
     }
 }, {
     callbacks: {
@@ -92,7 +783,7 @@ const config = {
         }
 
         /* harmony default export */ function next_middleware_loaderabsolutePagePath_private_next_root_dir_2Fmiddleware_ts_page_2Fmiddleware_rootDir_2FUsers_2Fayaanzaveri_2FCode_2Fcognition_matchers_W3sicmVnZXhwIjoiXig_2FOlxcLyhfbmV4dFxcL2RhdGFcXC9bXi9dezEsfSkpP1xcL2xvZ2luKC5qc29uKT9bXFwvI1xcP10_2FJCIsIm9yaWdpbmFsU291cmNlIjoiL2xvZ2luIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk_2FXFwvcHJvZmlsZSguanNvbik_2FW1xcLyNcXD9dPyQiLCJvcmlnaW5hbFNvdXJjZSI6Ii9wcm9maWxlIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk_2FXFwvbWUoLmpzb24pP1tcXC8jXFw_2FXT8kIiwib3JpZ2luYWxTb3VyY2UiOiIvbWUifV0_3D_preferredRegion_middlewareConfig_eyJtYXRjaGVycyI6W3sicmVnZXhwIjoiXig_2FOlxcLyhfbmV4dFxcL2RhdGFcXC9bXi9dezEsfSkpP1xcL2xvZ2luKC5qc29uKT9bXFwvI1xcP10_2FJCIsIm9yaWdpbmFsU291cmNlIjoiL2xvZ2luIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk_2FXFwvcHJvZmlsZSguanNvbik_2FW1xcLyNcXD9dPyQiLCJvcmlnaW5hbFNvdXJjZSI6Ii9wcm9maWxlIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk_2FXFwvbWUoLmpzb24pP1tcXC8jXFw_2FXT8kIiwib3JpZ2luYWxTb3VyY2UiOiIvbWUifV19_(opts) {
-          return (0,adapter/* adapter */.V)({
+          return adapter({
             ...opts,
             page: "/middleware",
             handler,
@@ -923,757 +1614,6 @@ function splitCookiesString(cookiesString) {
 }
 // Annotate the CommonJS export names for ESM import in node:
 0 && (0);
-
-
-/***/ }),
-
-/***/ 3085:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   H4: () => (/* binding */ NEXT_RSC_UNION_QUERY),
-/* harmony export */   i4: () => (/* binding */ RSC),
-/* harmony export */   ph: () => (/* binding */ NEXT_ROUTER_STATE_TREE),
-/* harmony export */   pz: () => (/* binding */ NEXT_ROUTER_PREFETCH),
-/* harmony export */   yR: () => (/* binding */ FETCH_CACHE_HEADER)
-/* harmony export */ });
-/* unused harmony exports ACTION, NEXT_URL, RSC_CONTENT_TYPE_HEADER, RSC_VARY_HEADER, FLIGHT_PARAMETERS */
-const RSC = "RSC";
-const ACTION = "Next-Action";
-const NEXT_ROUTER_STATE_TREE = "Next-Router-State-Tree";
-const NEXT_ROUTER_PREFETCH = "Next-Router-Prefetch";
-const NEXT_URL = "Next-Url";
-const FETCH_CACHE_HEADER = "x-vercel-sc-headers";
-const RSC_CONTENT_TYPE_HEADER = "text/x-component";
-const RSC_VARY_HEADER = RSC + ", " + NEXT_ROUTER_STATE_TREE + ", " + NEXT_ROUTER_PREFETCH;
-const FLIGHT_PARAMETERS = [
-    [
-        RSC
-    ],
-    [
-        NEXT_ROUTER_STATE_TREE
-    ],
-    [
-        NEXT_ROUTER_PREFETCH
-    ]
-];
-const NEXT_RSC_UNION_QUERY = "_rsc"; //# sourceMappingURL=app-router-headers.js.map
-
-
-/***/ }),
-
-/***/ 8097:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   BR: () => (/* binding */ CACHE_ONE_YEAR),
-/* harmony export */   dN: () => (/* binding */ NEXT_QUERY_PARAM_PREFIX),
-/* harmony export */   y3: () => (/* binding */ PRERENDER_REVALIDATE_HEADER)
-/* harmony export */ });
-/* unused harmony exports PRERENDER_REVALIDATE_ONLY_GENERATED_HEADER, MIDDLEWARE_FILENAME, MIDDLEWARE_LOCATION_REGEXP, INSTRUMENTATION_HOOK_FILENAME, INSTRUMENTATION_HOOKS_LOCATION_REGEXP, PAGES_DIR_ALIAS, DOT_NEXT_ALIAS, ROOT_DIR_ALIAS, APP_DIR_ALIAS, RSC_MOD_REF_PROXY_ALIAS, RSC_ACTION_VALIDATE_ALIAS, RSC_ACTION_PROXY_ALIAS, RSC_ACTION_CLIENT_WRAPPER_ALIAS, PUBLIC_DIR_MIDDLEWARE_CONFLICT, SSG_GET_INITIAL_PROPS_CONFLICT, SERVER_PROPS_GET_INIT_PROPS_CONFLICT, SERVER_PROPS_SSG_CONFLICT, STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR, SERVER_PROPS_EXPORT_ERROR, GSP_NO_RETURNED_VALUE, GSSP_NO_RETURNED_VALUE, UNSTABLE_REVALIDATE_RENAME_ERROR, GSSP_COMPONENT_MEMBER_ERROR, NON_STANDARD_NODE_ENV, SSG_FALLBACK_EXPORT_ERROR, ESLINT_DEFAULT_DIRS, ESLINT_DEFAULT_DIRS_WITH_APP, ESLINT_PROMPT_VALUES, SERVER_RUNTIME, WEBPACK_LAYERS, WEBPACK_RESOURCE_QUERIES */
-const NEXT_QUERY_PARAM_PREFIX = "nxtP";
-const PRERENDER_REVALIDATE_HEADER = "x-prerender-revalidate";
-const PRERENDER_REVALIDATE_ONLY_GENERATED_HEADER = "x-prerender-revalidate-if-generated";
-// in seconds
-const CACHE_ONE_YEAR = 31536000;
-// Patterns to detect middleware files
-const MIDDLEWARE_FILENAME = "middleware";
-const MIDDLEWARE_LOCATION_REGEXP = (/* unused pure expression or super */ null && (`(?:src/)?${MIDDLEWARE_FILENAME}`));
-// Pattern to detect instrumentation hooks file
-const INSTRUMENTATION_HOOK_FILENAME = "instrumentation";
-const INSTRUMENTATION_HOOKS_LOCATION_REGEXP = (/* unused pure expression or super */ null && (`(?:src/)?${INSTRUMENTATION_HOOK_FILENAME}`));
-// Because on Windows absolute paths in the generated code can break because of numbers, eg 1 in the path,
-// we have to use a private alias
-const PAGES_DIR_ALIAS = "private-next-pages";
-const DOT_NEXT_ALIAS = "private-dot-next";
-const ROOT_DIR_ALIAS = "private-next-root-dir";
-const APP_DIR_ALIAS = "private-next-app-dir";
-const RSC_MOD_REF_PROXY_ALIAS = "private-next-rsc-mod-ref-proxy";
-const RSC_ACTION_VALIDATE_ALIAS = "private-next-rsc-action-validate";
-const RSC_ACTION_PROXY_ALIAS = "private-next-rsc-action-proxy";
-const RSC_ACTION_CLIENT_WRAPPER_ALIAS = "private-next-rsc-action-client-wrapper";
-const PUBLIC_DIR_MIDDLEWARE_CONFLICT = (/* unused pure expression or super */ null && (`You can not have a '_next' folder inside of your public folder. This conflicts with the internal '/_next' route. https://nextjs.org/docs/messages/public-next-folder-conflict`));
-const SSG_GET_INITIAL_PROPS_CONFLICT = (/* unused pure expression or super */ null && (`You can not use getInitialProps with getStaticProps. To use SSG, please remove your getInitialProps`));
-const SERVER_PROPS_GET_INIT_PROPS_CONFLICT = (/* unused pure expression or super */ null && (`You can not use getInitialProps with getServerSideProps. Please remove getInitialProps.`));
-const SERVER_PROPS_SSG_CONFLICT = (/* unused pure expression or super */ null && (`You can not use getStaticProps or getStaticPaths with getServerSideProps. To use SSG, please remove getServerSideProps`));
-const STATIC_STATUS_PAGE_GET_INITIAL_PROPS_ERROR = (/* unused pure expression or super */ null && (`can not have getInitialProps/getServerSideProps, https://nextjs.org/docs/messages/404-get-initial-props`));
-const SERVER_PROPS_EXPORT_ERROR = (/* unused pure expression or super */ null && (`pages with \`getServerSideProps\` can not be exported. See more info here: https://nextjs.org/docs/messages/gssp-export`));
-const GSP_NO_RETURNED_VALUE = "Your `getStaticProps` function did not return an object. Did you forget to add a `return`?";
-const GSSP_NO_RETURNED_VALUE = "Your `getServerSideProps` function did not return an object. Did you forget to add a `return`?";
-const UNSTABLE_REVALIDATE_RENAME_ERROR = (/* unused pure expression or super */ null && ("The `unstable_revalidate` property is available for general use.\n" + "Please use `revalidate` instead."));
-const GSSP_COMPONENT_MEMBER_ERROR = (/* unused pure expression or super */ null && (`can not be attached to a page's component and must be exported from the page. See more info here: https://nextjs.org/docs/messages/gssp-component-member`));
-const NON_STANDARD_NODE_ENV = (/* unused pure expression or super */ null && (`You are using a non-standard "NODE_ENV" value in your environment. This creates inconsistencies in the project and is strongly advised against. Read more: https://nextjs.org/docs/messages/non-standard-node-env`));
-const SSG_FALLBACK_EXPORT_ERROR = (/* unused pure expression or super */ null && (`Pages with \`fallback\` enabled in \`getStaticPaths\` can not be exported. See more info here: https://nextjs.org/docs/messages/ssg-fallback-true-export`));
-// Consolidate this consts when the `appDir` will be stable.
-const ESLINT_DEFAULT_DIRS = [
-    "pages",
-    "components",
-    "lib",
-    "src"
-];
-const ESLINT_DEFAULT_DIRS_WITH_APP = [
-    "app",
-    ...ESLINT_DEFAULT_DIRS
-];
-const ESLINT_PROMPT_VALUES = [
-    {
-        title: "Strict",
-        recommended: true,
-        config: {
-            extends: "next/core-web-vitals"
-        }
-    },
-    {
-        title: "Base",
-        config: {
-            extends: "next"
-        }
-    },
-    {
-        title: "Cancel",
-        config: null
-    }
-];
-const SERVER_RUNTIME = {
-    edge: "edge",
-    experimentalEdge: "experimental-edge",
-    nodejs: "nodejs"
-};
-/**
- * The names of the webpack layers. These layers are the primitives for the
- * webpack chunks.
- */ const WEBPACK_LAYERS_NAMES = {
-    /**
-   * The layer for the shared code between the client and server bundles.
-   */ shared: "shared",
-    /**
-   * React Server Components layer (rsc).
-   */ reactServerComponents: "rsc",
-    /**
-   * Server Side Rendering layer (ssr).
-   */ serverSideRendering: "ssr",
-    /**
-   * The browser client bundle layer for actions.
-   */ actionBrowser: "actionBrowser",
-    /**
-   * The layer for the API routes.
-   */ api: "api",
-    /**
-   * The layer for the middleware code.
-   */ middleware: "middleware",
-    /**
-   * The layer for assets on the edge.
-   */ edgeAsset: "edge-asset",
-    /**
-   * The browser client bundle layer for App directory.
-   */ appPagesBrowser: "app-pages-browser",
-    /**
-   * The server bundle layer for metadata routes.
-   */ appMetadataRoute: "app-metadata-route"
-};
-const WEBPACK_LAYERS = {
-    ...WEBPACK_LAYERS_NAMES,
-    GROUP: {
-        server: [
-            WEBPACK_LAYERS_NAMES.reactServerComponents,
-            WEBPACK_LAYERS_NAMES.actionBrowser,
-            WEBPACK_LAYERS_NAMES.appMetadataRoute
-        ]
-    }
-};
-const WEBPACK_RESOURCE_QUERIES = {
-    edgeSSREntry: "__next_edge_ssr_entry__",
-    metadata: "__next_metadata__",
-    metadataRoute: "__next_metadata_route__",
-    metadataImageMeta: "__next_metadata_image_meta__"
-}; //# sourceMappingURL=constants.js.map
-
-
-/***/ }),
-
-/***/ 4374:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-
-// EXPORTS
-__webpack_require__.d(__webpack_exports__, {
-  V: () => (/* binding */ adapter)
-});
-
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/error.js
-class PageSignatureError extends Error {
-    constructor({ page }){
-        super(`The middleware "${page}" accepts an async API directly with the form:
-  
-  export function middleware(request, event) {
-    return NextResponse.redirect('/new-location')
-  }
-  
-  Read more: https://nextjs.org/docs/messages/middleware-new-signature
-  `);
-    }
-}
-class RemovedPageError extends Error {
-    constructor(){
-        super(`The request.page has been deprecated in favour of \`URLPattern\`.
-  Read more: https://nextjs.org/docs/messages/middleware-request-page
-  `);
-    }
-}
-class RemovedUAError extends Error {
-    constructor(){
-        super(`The request.ua has been removed in favour of \`userAgent\` function.
-  Read more: https://nextjs.org/docs/messages/middleware-parse-user-agent
-  `);
-    }
-} //# sourceMappingURL=error.js.map
-
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/utils.js
-var utils = __webpack_require__(773);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/fetch-event.js
-
-const responseSymbol = Symbol("response");
-const passThroughSymbol = Symbol("passThrough");
-const waitUntilSymbol = Symbol("waitUntil");
-class FetchEvent {
-    // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-    constructor(_request){
-        this[waitUntilSymbol] = [];
-        this[passThroughSymbol] = false;
-    }
-    respondWith(response) {
-        if (!this[responseSymbol]) {
-            this[responseSymbol] = Promise.resolve(response);
-        }
-    }
-    passThroughOnException() {
-        this[passThroughSymbol] = true;
-    }
-    waitUntil(promise) {
-        this[waitUntilSymbol].push(promise);
-    }
-}
-class NextFetchEvent extends FetchEvent {
-    constructor(params){
-        super(params.request);
-        this.sourcePage = params.page;
-    }
-    /**
-   * @deprecated The `request` is now the first parameter and the API is now async.
-   *
-   * Read more: https://nextjs.org/docs/messages/middleware-new-signature
-   */ get request() {
-        throw new PageSignatureError({
-            page: this.sourcePage
-        });
-    }
-    /**
-   * @deprecated Using `respondWith` is no longer needed.
-   *
-   * Read more: https://nextjs.org/docs/messages/middleware-new-signature
-   */ respondWith() {
-        throw new PageSignatureError({
-            page: this.sourcePage
-        });
-    }
-} //# sourceMappingURL=fetch-event.js.map
-
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/next-url.js + 12 modules
-var next_url = __webpack_require__(9169);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/cookies.js
-var cookies = __webpack_require__(1769);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/request.js
-
-
-
-
-const INTERNALS = Symbol("internal request");
-class NextRequest extends Request {
-    constructor(input, init = {}){
-        const url = typeof input !== "string" && "url" in input ? input.url : String(input);
-        (0,utils/* validateURL */.r4)(url);
-        super(url, init);
-        const nextUrl = new next_url/* NextURL */.c(url, {
-            headers: (0,utils/* toNodeOutgoingHttpHeaders */.lb)(this.headers),
-            nextConfig: init.nextConfig
-        });
-        this[INTERNALS] = {
-            cookies: new cookies/* RequestCookies */.q(this.headers),
-            geo: init.geo || {
-        country: this.headers.get("cloudfront-viewer-country"),
-        countryName: this.headers.get("cloudfront-viewer-country-name"),
-        region: this.headers.get("cloudfront-viewer-country-region"),
-        regionName: this.headers.get("cloudfront-viewer-country-region-name"),
-        city: this.headers.get("cloudfront-viewer-city"),
-        postalCode: this.headers.get("cloudfront-viewer-postal-code"),
-        timeZone: this.headers.get("cloudfront-viewer-time-zone"),
-        latitude: this.headers.get("cloudfront-viewer-latitude"),
-        longitude: this.headers.get("cloudfront-viewer-longitude"),
-        metroCode: this.headers.get("cloudfront-viewer-metro-code"),
-      },
-            ip: init.ip,
-            nextUrl,
-            url:  false ? 0 : nextUrl.toString()
-        };
-    }
-    [Symbol.for("edge-runtime.inspect.custom")]() {
-        return {
-            cookies: this.cookies,
-            geo: this.geo,
-            ip: this.ip,
-            nextUrl: this.nextUrl,
-            url: this.url,
-            // rest of props come from Request
-            bodyUsed: this.bodyUsed,
-            cache: this.cache,
-            credentials: this.credentials,
-            destination: this.destination,
-            headers: Object.fromEntries(this.headers),
-            integrity: this.integrity,
-            keepalive: this.keepalive,
-            method: this.method,
-            mode: this.mode,
-            redirect: this.redirect,
-            referrer: this.referrer,
-            referrerPolicy: this.referrerPolicy,
-            signal: this.signal
-        };
-    }
-    get cookies() {
-        return this[INTERNALS].cookies;
-    }
-    get geo() {
-        return this[INTERNALS].geo;
-    }
-    get ip() {
-        return this[INTERNALS].ip;
-    }
-    get nextUrl() {
-        return this[INTERNALS].nextUrl;
-    }
-    /**
-   * @deprecated
-   * `page` has been deprecated in favour of `URLPattern`.
-   * Read more: https://nextjs.org/docs/messages/middleware-request-page
-   */ get page() {
-        throw new RemovedPageError();
-    }
-    /**
-   * @deprecated
-   * `ua` has been removed in favour of \`userAgent\` function.
-   * Read more: https://nextjs.org/docs/messages/middleware-parse-user-agent
-   */ get ua() {
-        throw new RemovedUAError();
-    }
-    get url() {
-        return this[INTERNALS].url;
-    }
-} //# sourceMappingURL=request.js.map
-
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/response.js
-var spec_extension_response = __webpack_require__(4668);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/relativize-url.js
-/**
- * Given a URL as a string and a base URL it will make the URL relative
- * if the parsed protocol and host is the same as the one in the base
- * URL. Otherwise it returns the same URL string.
- */ function relativizeURL(url, base) {
-    const baseURL = typeof base === "string" ? new URL(base) : base;
-    const relative = new URL(url, base);
-    const origin = baseURL.protocol + "//" + baseURL.host;
-    return relative.protocol + "//" + relative.host === origin ? relative.toString().replace(origin, "") : relative.toString();
-} //# sourceMappingURL=relativize-url.js.map
-
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/client/components/app-router-headers.js
-var app_router_headers = __webpack_require__(3085);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/internal-utils.js
-
-const INTERNAL_QUERY_NAMES = [
-    "__nextFallback",
-    "__nextLocale",
-    "__nextInferredLocaleFromDefault",
-    "__nextDefaultLocale",
-    "__nextIsNotFound",
-    app_router_headers/* NEXT_RSC_UNION_QUERY */.H4
-];
-const EDGE_EXTENDED_INTERNAL_QUERY_NAMES = [
-    "__nextDataReq"
-];
-function stripInternalQueries(query) {
-    for (const name of INTERNAL_QUERY_NAMES){
-        delete query[name];
-    }
-}
-function stripInternalSearchParams(url, isEdge) {
-    const isStringUrl = typeof url === "string";
-    const instance = isStringUrl ? new URL(url) : url;
-    for (const name of INTERNAL_QUERY_NAMES){
-        instance.searchParams.delete(name);
-    }
-    if (isEdge) {
-        for (const name of EDGE_EXTENDED_INTERNAL_QUERY_NAMES){
-            instance.searchParams.delete(name);
-        }
-    }
-    return isStringUrl ? instance.toString() : instance;
-} //# sourceMappingURL=internal-utils.js.map
-
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/app-paths.js
-
-/**
- * Normalizes an app route so it represents the actual request path. Essentially
- * performing the following transformations:
- *
- * - `/(dashboard)/user/[id]/page` to `/user/[id]`
- * - `/(dashboard)/account/page` to `/account`
- * - `/user/[id]/page` to `/user/[id]`
- * - `/account/page` to `/account`
- * - `/page` to `/`
- * - `/(dashboard)/user/[id]/route` to `/user/[id]`
- * - `/(dashboard)/account/route` to `/account`
- * - `/user/[id]/route` to `/user/[id]`
- * - `/account/route` to `/account`
- * - `/route` to `/`
- * - `/` to `/`
- *
- * @param route the app route to normalize
- * @returns the normalized pathname
- */ function normalizeAppPath(route) {
-    return ensureLeadingSlash(route.split("/").reduce((pathname, segment, index, segments)=>{
-        // Empty segments are ignored.
-        if (!segment) {
-            return pathname;
-        }
-        // Groups are ignored.
-        if (segment[0] === "(" && segment.endsWith(")")) {
-            return pathname;
-        }
-        // Parallel segments are ignored.
-        if (segment[0] === "@") {
-            return pathname;
-        }
-        // The last segment (if it's a leaf) should be ignored.
-        if ((segment === "page" || segment === "route") && index === segments.length - 1) {
-            return pathname;
-        }
-        return pathname + "/" + segment;
-    }, ""));
-}
-/**
- * Strips the `.rsc` extension if it's in the pathname.
- * Since this function is used on full urls it checks `?` for searchParams handling.
- */ function normalizeRscPath(pathname, enabled) {
-    return enabled ? pathname.replace(/\.rsc($|\?)/, "$1") : pathname;
-} //# sourceMappingURL=app-paths.js.map
-
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/lib/constants.js
-var constants = __webpack_require__(8097);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/globals.js
-var globals = __webpack_require__(866);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/adapter.js
-
-
-
-
-
-
-
-
-
-
-
-
-
-class NextRequestHint extends NextRequest {
-    constructor(params){
-        super(params.input, params.init);
-        this.sourcePage = params.page;
-    }
-    get request() {
-        throw new PageSignatureError({
-            page: this.sourcePage
-        });
-    }
-    respondWith() {
-        throw new PageSignatureError({
-            page: this.sourcePage
-        });
-    }
-    waitUntil() {
-        throw new PageSignatureError({
-            page: this.sourcePage
-        });
-    }
-}
-const FLIGHT_PARAMETERS = [
-    [
-        app_router_headers/* RSC */.i4
-    ],
-    [
-        app_router_headers/* NEXT_ROUTER_STATE_TREE */.ph
-    ],
-    [
-        app_router_headers/* NEXT_ROUTER_PREFETCH */.pz
-    ],
-    [
-        app_router_headers/* FETCH_CACHE_HEADER */.yR
-    ]
-];
-async function adapter(params) {
-    await (0,globals/* ensureInstrumentationRegistered */.H)();
-    // TODO-APP: use explicit marker for this
-    const isEdgeRendering = typeof self.__BUILD_MANIFEST !== "undefined";
-    params.request.url = normalizeRscPath(params.request.url, true);
-    const requestUrl = new next_url/* NextURL */.c(params.request.url, {
-        headers: params.request.headers,
-        nextConfig: params.request.nextConfig
-    });
-    // Iterator uses an index to keep track of the current iteration. Because of deleting and appending below we can't just use the iterator.
-    // Instead we use the keys before iteration.
-    const keys = [
-        ...requestUrl.searchParams.keys()
-    ];
-    for (const key of keys){
-        const value = requestUrl.searchParams.getAll(key);
-        if (key !== constants/* NEXT_QUERY_PARAM_PREFIX */.dN && key.startsWith(constants/* NEXT_QUERY_PARAM_PREFIX */.dN)) {
-            const normalizedKey = key.substring(constants/* NEXT_QUERY_PARAM_PREFIX */.dN.length);
-            requestUrl.searchParams.delete(normalizedKey);
-            for (const val of value){
-                requestUrl.searchParams.append(normalizedKey, val);
-            }
-            requestUrl.searchParams.delete(key);
-        }
-    }
-    // Ensure users only see page requests, never data requests.
-    const buildId = requestUrl.buildId;
-    requestUrl.buildId = "";
-    const isDataReq = params.request.headers["x-nextjs-data"];
-    if (isDataReq && requestUrl.pathname === "/index") {
-        requestUrl.pathname = "/";
-    }
-    const requestHeaders = (0,utils/* fromNodeOutgoingHttpHeaders */.EK)(params.request.headers);
-    const flightHeaders = new Map();
-    // Parameters should only be stripped for middleware
-    if (!isEdgeRendering) {
-        for (const param of FLIGHT_PARAMETERS){
-            const key = param.toString().toLowerCase();
-            const value = requestHeaders.get(key);
-            if (value) {
-                flightHeaders.set(key, requestHeaders.get(key));
-                requestHeaders.delete(key);
-            }
-        }
-    }
-    const normalizeUrl =  false ? 0 : requestUrl;
-    const request = new NextRequestHint({
-        page: params.page,
-        // Strip internal query parameters off the request.
-        input: stripInternalSearchParams(normalizeUrl, true).toString(),
-        init: {
-            body: params.request.body,
-            geo: params.request.geo,
-            headers: requestHeaders,
-            ip: params.request.ip,
-            method: params.request.method,
-            nextConfig: params.request.nextConfig,
-            signal: params.request.signal
-        }
-    });
-    /**
-   * This allows to identify the request as a data request. The user doesn't
-   * need to know about this property neither use it. We add it for testing
-   * purposes.
-   */ if (isDataReq) {
-        Object.defineProperty(request, "__isData", {
-            enumerable: false,
-            value: true
-        });
-    }
-    if (!globalThis.__incrementalCache && params.IncrementalCache) {
-        globalThis.__incrementalCache = new params.IncrementalCache({
-            appDir: true,
-            fetchCache: true,
-            minimalMode: "production" !== "development",
-            fetchCacheKeyPrefix: undefined,
-            dev: "production" === "development",
-            requestHeaders: params.request.headers,
-            requestProtocol: "https",
-            getPrerenderManifest: ()=>{
-                return {
-                    version: -1,
-                    routes: {},
-                    dynamicRoutes: {},
-                    notFoundRoutes: [],
-                    preview: {
-                        previewModeId: "development-id"
-                    }
-                };
-            }
-        });
-    }
-    const event = new NextFetchEvent({
-        request,
-        page: params.page
-    });
-    let response = await params.handler(request, event);
-    // check if response is a Response object
-    if (response && !(response instanceof Response)) {
-        throw new TypeError("Expected an instance of Response to be returned");
-    }
-    /**
-   * For rewrites we must always include the locale in the final pathname
-   * so we re-create the NextURL forcing it to include it when the it is
-   * an internal rewrite. Also we make sure the outgoing rewrite URL is
-   * a data URL if the request was a data request.
-   */ const rewrite = response == null ? void 0 : response.headers.get("x-middleware-rewrite");
-    if (response && rewrite) {
-        const rewriteUrl = new next_url/* NextURL */.c(rewrite, {
-            forceLocale: true,
-            headers: params.request.headers,
-            nextConfig: params.request.nextConfig
-        });
-        if (true) {
-            if (rewriteUrl.host === request.nextUrl.host) {
-                rewriteUrl.buildId = buildId || rewriteUrl.buildId;
-                response.headers.set("x-middleware-rewrite", String(rewriteUrl));
-            }
-        }
-        /**
-     * When the request is a data request we must show if there was a rewrite
-     * with an internal header so the client knows which component to load
-     * from the data request.
-     */ const relativizedRewrite = relativizeURL(String(rewriteUrl), String(requestUrl));
-        if (isDataReq && // if the rewrite is external and external rewrite
-        // resolving config is enabled don't add this header
-        // so the upstream app can set it instead
-        !(undefined && 0)) {
-            response.headers.set("x-nextjs-rewrite", relativizedRewrite);
-        }
-    }
-    /**
-   * For redirects we will not include the locale in case when it is the
-   * default and we must also make sure the outgoing URL is a data one if
-   * the incoming request was a data request.
-   */ const redirect = response == null ? void 0 : response.headers.get("Location");
-    if (response && redirect && !isEdgeRendering) {
-        const redirectURL = new next_url/* NextURL */.c(redirect, {
-            forceLocale: false,
-            headers: params.request.headers,
-            nextConfig: params.request.nextConfig
-        });
-        /**
-     * Responses created from redirects have immutable headers so we have
-     * to clone the response to be able to modify it.
-     */ response = new Response(response.body, response);
-        if (true) {
-            if (redirectURL.host === request.nextUrl.host) {
-                redirectURL.buildId = buildId || redirectURL.buildId;
-                response.headers.set("Location", String(redirectURL));
-            }
-        }
-        /**
-     * When the request is a data request we can't use the location header as
-     * it may end up with CORS error. Instead we map to an internal header so
-     * the client knows the destination.
-     */ if (isDataReq) {
-            response.headers.delete("Location");
-            response.headers.set("x-nextjs-redirect", relativizeURL(String(redirectURL), String(requestUrl)));
-        }
-    }
-    const finalResponse = response ? response : spec_extension_response/* NextResponse */.x.next();
-    // Flight headers are not overridable / removable so they are applied at the end.
-    const middlewareOverrideHeaders = finalResponse.headers.get("x-middleware-override-headers");
-    const overwrittenHeaders = [];
-    if (middlewareOverrideHeaders) {
-        for (const [key, value] of flightHeaders){
-            finalResponse.headers.set(`x-middleware-request-${key}`, value);
-            overwrittenHeaders.push(key);
-        }
-        if (overwrittenHeaders.length > 0) {
-            finalResponse.headers.set("x-middleware-override-headers", middlewareOverrideHeaders + "," + overwrittenHeaders.join(","));
-        }
-    }
-    return {
-        response: finalResponse,
-        waitUntil: Promise.all(event[waitUntilSymbol])
-    };
-} //# sourceMappingURL=adapter.js.map
-
-
-/***/ }),
-
-/***/ 866:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   H: () => (/* binding */ ensureInstrumentationRegistered)
-/* harmony export */ });
-async function registerInstrumentation() {
-    if ("_ENTRIES" in globalThis && _ENTRIES.middleware_instrumentation && _ENTRIES.middleware_instrumentation.register) {
-        try {
-            await _ENTRIES.middleware_instrumentation.register();
-        } catch (err) {
-            err.message = `An error occurred while loading instrumentation hook: ${err.message}`;
-            throw err;
-        }
-    }
-}
-let registerInstrumentationPromise = null;
-function ensureInstrumentationRegistered() {
-    if (!registerInstrumentationPromise) {
-        registerInstrumentationPromise = registerInstrumentation();
-    }
-    return registerInstrumentationPromise;
-}
-function getUnsupportedModuleErrorMessage(module) {
-    // warning: if you change these messages, you must adjust how react-dev-overlay's middleware detects modules not found
-    return `The edge runtime does not support Node.js '${module}' module.
-Learn More: https://nextjs.org/docs/messages/node-module-in-edge-runtime`;
-}
-function __import_unsupported(moduleName) {
-    const proxy = new Proxy(function() {}, {
-        get (_obj, prop) {
-            if (prop === "then") {
-                return {};
-            }
-            throw new Error(getUnsupportedModuleErrorMessage(moduleName));
-        },
-        construct () {
-            throw new Error(getUnsupportedModuleErrorMessage(moduleName));
-        },
-        apply (_target, _this, args) {
-            if (typeof args[0] === "function") {
-                return args[0](proxy);
-            }
-            throw new Error(getUnsupportedModuleErrorMessage(moduleName));
-        }
-    });
-    return new Proxy({}, {
-        get: ()=>proxy
-    });
-}
-function enhanceGlobals() {
-    // The condition is true when the "process" module is provided
-    if (process !== __webpack_require__.g.process) {
-        // prefer local process but global.process has correct "env"
-        process.env = __webpack_require__.g.process.env;
-        __webpack_require__.g.process = process;
-    }
-    // to allow building code that import but does not use node.js modules,
-    // webpack will expect this function to exist in global scope
-    Object.defineProperty(globalThis, "__import_unsupported", {
-        value: __import_unsupported,
-        enumerable: false,
-        configurable: false
-    });
-    // Eagerly fire instrumentation hook to make the startup faster.
-    void ensureInstrumentationRegistered();
-}
-enhanceGlobals(); //# sourceMappingURL=globals.js.map
 
 
 /***/ }),
@@ -7222,7 +7162,7 @@ async function generate_secret_generateSecret(alg, options) {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ var __webpack_exports__ = (__webpack_exec__(8101));
+/******/ var __webpack_exports__ = (__webpack_exec__(6443));
 /******/ (_ENTRIES = typeof _ENTRIES === "undefined" ? {} : _ENTRIES).middleware_middleware = __webpack_exports__;
 /******/ }
 ]);

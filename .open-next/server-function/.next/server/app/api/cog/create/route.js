@@ -19,6 +19,13 @@ module.exports = require("assert");
 
 /***/ }),
 
+/***/ 14300:
+/***/ ((module) => {
+
+module.exports = require("buffer");
+
+/***/ }),
+
 /***/ 6113:
 /***/ ((module) => {
 
@@ -65,6 +72,13 @@ module.exports = require("os");
 /***/ ((module) => {
 
 module.exports = require("path");
+
+/***/ }),
+
+/***/ 63477:
+/***/ ((module) => {
+
+module.exports = require("querystring");
 
 /***/ }),
 
@@ -134,21 +148,30 @@ var app_route_module = __webpack_require__(5273);
 var module_default = /*#__PURE__*/__webpack_require__.n(app_route_module);
 // EXTERNAL MODULE: external "@prisma/client"
 var client_ = __webpack_require__(53524);
-// EXTERNAL MODULE: ./node_modules/.pnpm/langchain@0.0.120_@huggingface+inference@1.8.0_@pinecone-database+pinecone@0.1.6_axios@1.4.0__er7fjrb2atfoegdcu2uwzeynna/node_modules/langchain/embeddings/openai.js + 54 modules
-var openai = __webpack_require__(95145);
+// EXTERNAL MODULE: ./node_modules/.pnpm/langchain@0.0.120_@huggingface+inference@1.8.0_@pinecone-database+pinecone@0.1.6_axios@1.4.0__er7fjrb2atfoegdcu2uwzeynna/node_modules/langchain/embeddings/openai.js + 7 modules
+var openai = __webpack_require__(7480);
 // EXTERNAL MODULE: ./node_modules/.pnpm/langchain@0.0.120_@huggingface+inference@1.8.0_@pinecone-database+pinecone@0.1.6_axios@1.4.0__er7fjrb2atfoegdcu2uwzeynna/node_modules/langchain/vectorstores/prisma.js + 25 modules
 var prisma = __webpack_require__(7105);
 // EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/server/web/exports/next-response.js
 var next_response = __webpack_require__(78079);
 // EXTERNAL MODULE: ./lib/prisma.ts
 var lib_prisma = __webpack_require__(43726);
+// EXTERNAL MODULE: ./lib/auth.ts
+var auth = __webpack_require__(66298);
 ;// CONCATENATED MODULE: ./app/api/cog/create/route.ts
 
 
 
 
 
+
 async function POST(req) {
+    const session = await (0,auth/* getAuthSession */.P)();
+    if (!session?.user) {
+        return new Response("Unauthorized", {
+            status: 401
+        });
+    }
     const { data } = await req.json();
     const { userId, name, description, slug, imgUrl, docs, tags, isPrivate } = data;
     if (!userId || !name || !slug || !docs) {
@@ -245,24 +268,6 @@ async function POST(req) {
 
     
 
-/***/ }),
-
-/***/ 43726:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Z: () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _prisma_client__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(53524);
-/* harmony import */ var _prisma_client__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_prisma_client__WEBPACK_IMPORTED_MODULE_0__);
-
-let prisma;
-if (true) {
-    prisma = new _prisma_client__WEBPACK_IMPORTED_MODULE_0__.PrismaClient();
-} else {}
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (prisma);
-
-
 /***/ })
 
 };
@@ -272,7 +277,7 @@ if (true) {
 var __webpack_require__ = require("../../../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [7942,6736,9091,8079,6314], () => (__webpack_exec__(89554)));
+var __webpack_exports__ = __webpack_require__.X(0, [7942,8682,6736,9091,8079,6076,4478,6298], () => (__webpack_exec__(89554)));
 module.exports = __webpack_exports__;
 
 })();

@@ -442,12 +442,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 78158:
+/***/ 20665:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 82705, 23));
-Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 12543));
 Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 99365));
+Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 12543));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 82705, 23));
 Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 95741));
 Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 95618, 23));
 Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 75215))
@@ -631,11 +631,11 @@ const QuickCreate = ({ session })=>{
                     disabled: true,
                     pulse: true
                 });
-                // console.log(sources);
+                console.log(sources);
                 const docs = [];
                 if (sources?.sites && sources?.sites.length > 0) {
                     const siteText = await (0,scrapeSite/* scrapeSite */.T)(sources?.sites);
-                    // console.log(siteText);
+                    console.log(siteText);
                     const splitter = new text_splitter/* RecursiveCharacterTextSplitter */.s9({
                         chunkSize: 1000,
                         chunkOverlap: 200
@@ -892,18 +892,22 @@ const QuickCreate = ({ session })=>{
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   T: () => (/* binding */ scrapeSite)
 /* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(30386);
+
 const scrapeSite = async (urls)=>{
-    const res = await fetch(`/api/extract`, {
-        method: "POST",
-        headers: {
-            "content-type": "application/json"
-        },
-        body: JSON.stringify({
+    try {
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__/* ["default"] */ .Z.post("/api/extract", {
             urls
-        })
-    });
-    const data = await res.json();
-    return data.extracted_text;
+        });
+        console.log("response", response);
+        return response.data.extracted_text;
+    } catch (err) {
+        if (err instanceof Error) {
+            console.log(err.message);
+        } else {
+            console.log("Unexpected error", err);
+        }
+    }
 };
 
 
@@ -1199,7 +1203,7 @@ const e2 = proxy["AvatarFallback"];
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [7942,8682,5935,6682,3201,9719,874,8708,9003,6298,2102,633,5741,6612,1266,4184], () => (__webpack_exec__(32046)));
+var __webpack_exports__ = __webpack_require__.X(0, [7942,8682,5935,6682,3201,9719,874,8708,9003,6298,9579,633,5741,6612,1266,4184], () => (__webpack_exec__(32046)));
 module.exports = __webpack_exports__;
 
 })();

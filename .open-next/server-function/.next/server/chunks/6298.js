@@ -34,8 +34,8 @@ const authOptions = {
             allowDangerousEmailAccountLinking: true
         }),
         (0,next_auth_providers_github__WEBPACK_IMPORTED_MODULE_5__/* ["default"] */ .Z)({
-            clientId: process.env.GITHUB_CLIENT_ID,
-            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            clientId: process.env.MY_GITHUB_CLIENT_ID,
+            clientSecret: process.env.MY_GITHUB_CLIENT_SECRET,
             allowDangerousEmailAccountLinking: true
         }),
         (0,next_auth_providers_discord__WEBPACK_IMPORTED_MODULE_4__/* ["default"] */ .Z)({
