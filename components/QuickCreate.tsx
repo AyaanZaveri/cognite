@@ -96,14 +96,14 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
           pulse: true,
         });
 
-        // console.log(sources);
+        console.log(sources);
 
         const docs: Document[] = [];
 
         if (sources?.sites && sources?.sites.length > 0) {
           const siteText = await scrapeSite(sources?.sites);
 
-          // console.log(siteText);
+          console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
             chunkSize: 1000,

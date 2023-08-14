@@ -1,5 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import axios from "axios";
+import { getAuthSession } from "@/lib/auth";
 const cheerio = require("cheerio");
 
 type CheerioElement = {
@@ -9,17 +10,25 @@ type CheerioElement = {
   children: CheerioElement[];
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const urls = req.body.urls;
+export async function POST(req: Request) {
+
+  const session = await getAuthSession();
+  
+  if (!session?.user) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  const { urls } = await req.json();
+
+  console.log("urls", urls)
 
   if (!urls || !Array.isArray(urls)) {
-    res
-      .status(400)
-      .json({ error: "URLs array is required in the request body" });
-    return;
+    console.log("URLs array is required in the request body");
+
+    return NextResponse.json({
+      error: "URLs array is required in the request body",
+      status: 400,
+    });
   }
 
   function extractText(element: CheerioElement): string {
@@ -59,8 +68,13 @@ export default async function handler(
       combinedText += `${title}\n${extractedText}\n`;
     }
 
-    res.status(200).json({ extracted_text: combinedText });
+    return NextResponse.json({
+      extracted_text: combinedText,
+      status: 200,
+    });
   } catch (error) {
-    res.status(500).json({ error: "An error occurred while extracting text" });
+    console.log("error is", error);
+
+    return NextResponse.error()
   }
 }

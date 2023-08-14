@@ -56,6 +56,7 @@ export async function DELETE(
     });
   }
 }
+
 async function verifyCurrentUserHasAccessToCog(cogId: string) {
   const session = await getAuthSession();
   const count = await prisma.cog.count({

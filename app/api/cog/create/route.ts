@@ -4,8 +4,15 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
+import { getAuthSession } from "@/lib/auth";
 
 export async function POST(req: Request) {
+  const session = await getAuthSession();
+  
+  if (!session?.user) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   const { data } = await req.json();
 
   const {

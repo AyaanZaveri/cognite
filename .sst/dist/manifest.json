@@ -21,7 +21,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::695897674742:role/cdk-hnb659fds-deploy-role-695897674742-us-east-1",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::695897674742:role/cdk-hnb659fds-cfn-exec-role-695897674742-us-east-1",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-695897674742-us-east-1/3100c7e28c7276994fd33cd6e992ebce083a5fe146c85f8abffed0b273c7f79f.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-695897674742-us-east-1/93ceabf8f36765a8cbfacfe7a201f8910ee4f2eb4973c0bc6f6da0efff243cbd.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -64,22 +64,10 @@
             "data": "CustomResourceHandlerE8FB56BA"
           }
         ],
-        "/ayaanzaveri-cognition-Site/site/S3Bucket/Resource": [
+        "/ayaanzaveri-cognition-Site/site/ServerFunctionRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
-            "data": "siteS3Bucket2B2851F3"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/S3Bucket/Policy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteS3BucketPolicyBB4DF05F"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/S3Bucket/AutoDeleteObjectsCustomResource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteS3BucketAutoDeleteObjectsCustomResource3E10A2DE"
+            "data": "siteServerFunctionRole1F8F4FAC"
           }
         ],
         "/ayaanzaveri-cognition-Site/site/ServerFunction/AssetReplacerPolicy/Resource": [
@@ -94,18 +82,6 @@
             "data": "siteServerFunctionAssetReplacer9A11D516"
           }
         ],
-        "/ayaanzaveri-cognition-Site/site/ServerFunction/ServerFunction/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteServerFunctionServiceRole8328A688"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ServerFunction/ServerFunction/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteServerFunctionServiceRoleDefaultPolicy6EA49472"
-          }
-        ],
         "/ayaanzaveri-cognition-Site/site/ServerFunction/ServerFunction/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -118,190 +94,10 @@
             "data": "siteServerFunctionLogRetention7123678D"
           }
         ],
-        "/ayaanzaveri-cognition-Site/site/ServerFunction/ServerFunction/FunctionUrl/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteServerFunctionFunctionUrl1B09C490"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ServerFunction/ServerFunction/invoke-function-url": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteServerFunctioninvokefunctionurlEABB57E1"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/CloudFrontFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteCloudFrontFunctionE91DD486"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ServerCache/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteServerCacheDD54ACDF"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ImageFunction/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteImageFunctionServiceRoleAD5B95E2"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ImageFunction/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteImageFunctionServiceRoleDefaultPolicy39F33332"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ImageFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteImageFunctionD6B403E9"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ImageFunction/LogRetention/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteImageFunctionLogRetentionD1B5BECE"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ImageFunction/FunctionUrl/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteImageFunctionFunctionUrl110B87E7"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ImageFunction/invoke-function-url": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteImageFunctioninvokefunctionurl443403A1"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/Distribution/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteDistribution706F5265"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/Distribution/Origin3/S3Origin/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteDistributionOrigin3S3Origin7C72BBD7"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/ServerFunctionInvalidatorPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteServerFunctionInvalidatorPolicy004B2ED1"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/AwsCliLayer/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteAwsCliLayer359A0EF0"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/S3Uploader/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteS3UploaderServiceRole973F5A0B"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/S3Uploader/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteS3UploaderServiceRoleDefaultPolicy8BA893D3"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/S3Uploader/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteS3Uploader2837C218"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/S3Handler/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteS3HandlerServiceRole6D2CC8E3"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/S3Handler/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteS3HandlerServiceRoleDefaultPolicy1BD27252"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/S3Handler/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteS3Handler84D19388"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/S3Deployment/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteS3DeploymentB932FFDB"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/CloudFrontInvalidatorPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteCloudFrontInvalidatorPolicyEE18C654"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/CloudFrontInvalidator/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteCloudFrontInvalidator18BEA866"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/RevalidationQueue/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteRevalidationQueue355EB7DA"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/RevalidationFunction/ServiceRole/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteRevalidationFunctionServiceRole02D71DA1"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/RevalidationFunction/ServiceRole/DefaultPolicy/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteRevalidationFunctionServiceRoleDefaultPolicy57C55CA4"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/RevalidationFunction/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteRevalidationFunctionEB84F6D0"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/site/RevalidationFunction/SqsEventSource:ayaanzavericognitionSitesiteRevalidationQueue72C2D71A/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "siteRevalidationFunctionSqsEventSourceayaanzavericognitionSitesiteRevalidationQueue72C2D71A0C6D13C7"
-          }
-        ],
         "/ayaanzaveri-cognition-Site/site/Parameter_url/Resource": [
           {
             "type": "aws:cdk:logicalId",
             "data": "siteParameterurl3D1716BC"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
           }
         ],
         "/ayaanzaveri-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
@@ -320,12 +116,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
-          }
-        ],
-        "/ayaanzaveri-cognition-Site/SSTStackOutputSiteUrl": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SiteUrl"
           }
         ],
         "/ayaanzaveri-cognition-Site/SSTStackOutputSSTMetadata": [

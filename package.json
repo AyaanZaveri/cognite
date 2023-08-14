@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "sst bind next dev",
+    "deb" : "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",

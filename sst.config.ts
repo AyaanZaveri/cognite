@@ -21,7 +21,8 @@ export default {
           NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT: process.env
             .NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT as string,
           MY_GITHUB_CLIENT_ID: process.env.MY_GITHUB_CLIENT_ID as string,
-          MY_GITHUB_CLIENT_SECRET: process.env.MY_GITHUB_CLIENT_SECRET as string,
+          MY_GITHUB_CLIENT_SECRET: process.env
+            .MY_GITHUB_CLIENT_SECRET as string,
           GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID as string,
           GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET as string,
           DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID as string,
@@ -32,7 +33,6 @@ export default {
           MIGRATE_DATABASE_URL: process.env.MIGRATE_DATABASE_URL as string,
           DIRECT_URL: process.env.DIRECT_URL as string,
         },
-        edge: true,
       });
 
       stack.addOutputs({
