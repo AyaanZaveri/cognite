@@ -1,0 +1,11 @@
+{
+  "/api/stream": "pages/api/stream.js",
+  "/_error": "pages/_error.js",
+  "/_app": "pages/_app.js",
+  "/api/chat": "pages/api/chat.js",
+  "/api/embeddings": "pages/api/embeddings.js",
+  "/api/extract": "pages/api/extract.js",
+  "/api/video": "pages/api/video.js",
+  "/_document": "pages/_document.js",
+  "/404": "pages/404.html"
+}

@@ -1,0 +1,69 @@
+{
+  "sortedMiddleware": [
+    "/"
+  ],
+  "middleware": {
+    "/": {
+      "files": [
+        "server/edge-runtime-webpack.js",
+        "server/middleware.js"
+      ],
+      "name": "middleware",
+      "page": "/",
+      "matchers": [
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/login(.json)?[\\/#\\?]?$",
+          "originalSource": "/login"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/profile(.json)?[\\/#\\?]?$",
+          "originalSource": "/profile"
+        },
+        {
+          "regexp": "^(?:\\/(_next\\/data\\/[^/]{1,}))?\\/me(.json)?[\\/#\\?]?$",
+          "originalSource": "/me"
+        }
+      ],
+      "wasm": [],
+      "assets": []
+    }
+  },
+  "functions": {
+    "/api/stream": {
+      "files": [
+        "server/edge-runtime-webpack.js",
+        "server/pages/api/stream.js"
+      ],
+      "name": "pages/api/stream",
+      "page": "/api/stream",
+      "matchers": [
+        {
+          "regexp": "^/api/stream$",
+          "originalSource": "/api/stream"
+        }
+      ],
+      "wasm": [],
+      "assets": []
+    },
+    "/api/cog/completions/route": {
+      "files": [
+        "server/middleware-build-manifest.js",
+        "server/middleware-react-loadable-manifest.js",
+        "server/next-font-manifest.js",
+        "server/edge-runtime-webpack.js",
+        "server/app/api/cog/completions/route.js"
+      ],
+      "name": "app/api/cog/completions/route",
+      "page": "/api/cog/completions/route",
+      "matchers": [
+        {
+          "regexp": "^/api/cog/completions$",
+          "originalSource": "/api/cog/completions"
+        }
+      ],
+      "wasm": [],
+      "assets": []
+    }
+  },
+  "version": 2
+}
