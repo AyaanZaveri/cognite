@@ -8,7 +8,7 @@ import { NextResponse } from "next/server";
 import { StreamingTextResponse, LangChainStream, Message } from "ai";
 import { CallbackManager, ConsoleCallbackHandler } from "langchain/callbacks";
 import { AIMessage, HumanMessage } from "langchain/schema";
-import { withAccelerate } from '@prisma/extension-accelerate';
+import { withAccelerate } from "@prisma/extension-accelerate";
 import { Document } from "langchain/dist/document";
 import { prompts } from "@/lib/prompts";
 import prisma from "@/lib/prisma";
@@ -121,15 +121,10 @@ export async function POST(req: Request) {
 
     console.log("Calling chain");
 
-    chain
-      .call({
-        question: prompt,
-        chat_history: history,
-      })
-      .then((response) => {
-        const { sourceDocuments } = response;
-        // console.log(sourceDocuments);
-      });
+    chain.stream({
+      question: prompt,
+      chat_history: history,
+    });
 
     return new StreamingTextResponse(stream);
     // return stream as readable stream
