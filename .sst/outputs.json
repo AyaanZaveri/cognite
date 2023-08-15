@@ -1,3 +1,5 @@
 {
-  "ayaanzaveri-cognition-Site": {}
+  "prod-cognition-Site": {
+    "SiteUrl": "https://d2wrg8jtasnjy7.cloudfront.net"
+  }
 }
