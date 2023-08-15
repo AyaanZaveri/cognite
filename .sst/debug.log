@@ -1,79 +1,82 @@
-2023-08-15T20:39:12.100Z   +735ms [debug] Config loaded {"version":"2.24.1","cdkVersion":"2.91.0","constructsVersion":"10.2.69","config":{"name":"cognitionai","region":"us-east-1","stage":"production","ssmPrefix":"/sst/cognitionai/production/"},"metafile":{"inputs":{"sst.config.ts":{"bytes":215,"imports":[{"path":"sst","kind":"import-statement","external":true},{"path":"sst/constructs","kind":"import-statement","external":true}],"format":"esm"}},"outputs":{".sst.config.1692131952000.mjs":{"imports":[],"exports":["default"],"entryPoint":"sst.config.ts","inputs":{"sst.config.ts":{"bytesInOutput":126}},"bytes":308}}},"paths":{"config":"/Users/ayaanzaveri/Code/cognition/sst.config.ts","root":"/Users/ayaanzaveri/Code/cognition","out":"/Users/ayaanzaveri/Code/cognition/.sst","artifacts":"/Users/ayaanzaveri/Code/cognition/.sst/artifacts"}}
-2023-08-15T20:39:14.157Z  +2057ms [debug] Using AWS profile 
-2023-08-15T20:39:14.184Z    +27ms [debug] Created AWS client STSClient
-2023-08-15T20:39:14.185Z     +1ms [debug] Fetching app metadata
-2023-08-15T20:39:14.185Z     +0ms [debug] Initializing bootstrap context
-2023-08-15T20:39:14.186Z     +1ms [debug] Created AWS client CloudFormationClient
-2023-08-15T20:39:14.368Z   +182ms [debug] Using identity Account: 695897674742 User: AIDA2EBV32P3I2R55LLA2
-2023-08-15T20:39:14.412Z    +44ms [debug] Loaded bootstrap status
-2023-08-15T20:39:20.327Z  +5915ms [debug]  ⏳  Bootstrapping environment aws://695897674742/us-east-1...
+2023-08-15T20:50:49.083Z   +654ms [debug] Config loaded {"version":"2.24.1","cdkVersion":"2.91.0","constructsVersion":"10.2.69","config":{"name":"cognition","region":"us-east-1","stage":"production","ssmPrefix":"/sst/cognition/production/"},"metafile":{"inputs":{"sst.config.ts":{"bytes":213,"imports":[{"path":"sst","kind":"import-statement","external":true},{"path":"sst/constructs","kind":"import-statement","external":true}],"format":"esm"}},"outputs":{".sst.config.1692132648983.mjs":{"imports":[],"exports":["default"],"entryPoint":"sst.config.ts","inputs":{"sst.config.ts":{"bytesInOutput":124}},"bytes":306}}},"paths":{"config":"/Users/ayaanzaveri/Code/cognition/sst.config.ts","root":"/Users/ayaanzaveri/Code/cognition","out":"/Users/ayaanzaveri/Code/cognition/.sst","artifacts":"/Users/ayaanzaveri/Code/cognition/.sst/artifacts"}}
+2023-08-15T20:50:51.124Z  +2041ms [debug] Using AWS profile 
+2023-08-15T20:50:51.153Z    +29ms [debug] Created AWS client STSClient
+2023-08-15T20:50:51.155Z     +2ms [debug] Fetching app metadata
+2023-08-15T20:50:51.155Z     +0ms [debug] Initializing bootstrap context
+2023-08-15T20:50:51.155Z     +0ms [debug] Created AWS client CloudFormationClient
+2023-08-15T20:50:51.434Z   +279ms [debug] Using identity Account: 695897674742 User: AIDA2EBV32P3I2R55LLA2
+2023-08-15T20:50:51.446Z    +12ms [debug] Loaded bootstrap status
+2023-08-15T20:50:57.252Z  +5806ms [debug]  ⏳  Bootstrapping environment aws://695897674742/us-east-1...
 
-2023-08-15T20:39:20.804Z   +477ms [debug] Trusted accounts for deployment: (none)
-Trusted accounts for lookup: (none)
+2023-08-15T20:50:57.731Z   +479ms [debug] Trusted accounts for deployment: (none)
 
-2023-08-15T20:39:20.805Z     +1ms [debug] Using default execution policy of 'arn:aws:iam::aws:policy/AdministratorAccess'. Pass '--cloudformation-execution-policies' to customize.
+2023-08-15T20:50:57.731Z     +0ms [debug] Trusted accounts for lookup: (none)
 
-2023-08-15T20:39:21.030Z   +225ms [debug] CDKToolkit: creating CloudFormation changeset...
+2023-08-15T20:50:57.731Z     +0ms [debug] Using default execution policy of 'arn:aws:iam::aws:policy/AdministratorAccess'. Pass '--cloudformation-execution-policies' to customize.
 
-2023-08-15T20:39:32.999Z +11969ms [debug] CDKToolkit |  0/12 | 4:39:21 PM | REVIEW_IN_PROGRESS   | AWS::CloudFormation::Stack | CDKToolkit User Initiated
+2023-08-15T20:51:03.929Z  +6198ms [debug] CDKToolkit: creating CloudFormation changeset...
 
-2023-08-15T20:39:33.001Z     +2ms [debug] CDKToolkit |  0/12 | 4:39:27 PM | CREATE_IN_PROGRESS   | AWS::CloudFormation::Stack | CDKToolkit User Initiated
-CDKToolkit |  0/12 | 4:39:31 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | LookupRole 
-CDKToolkit |  0/12 | 4:39:31 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | ImagePublishingRole 
-CDKToolkit |  0/12 | 4:39:31 PM | CREATE_IN_PROGRESS   | AWS::SSM::Parameter     | CdkBootstrapVersion 
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_IN_PROGRESS   | AWS::S3::Bucket         | StagingBucket 
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | CloudFormationExecutionRole 
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | FilePublishingRole 
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_IN_PROGRESS   | AWS::ECR::Repository    | ContainerAssetsRepository 
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | LookupRole Resource creation Initiated
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | ImagePublishingRole Resource creation Initiated
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_FAILED        | AWS::S3::Bucket         | StagingBucket cdk-hnb659fds-assets-695897674742-us-east-1 already exists
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | FilePublishingRole Resource creation Initiated
+2023-08-15T20:51:16.237Z +12308ms [debug] CDKToolkit |  0/12 | 4:51:04 PM | REVIEW_IN_PROGRESS   | AWS::CloudFormation::Stack | CDKToolkit User Initiated
 
-2023-08-15T20:39:33.001Z     +0ms [debug] CDKToolkit |  0/12 | 4:39:32 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | CloudFormationExecutionRole Resource creation Initiated
+2023-08-15T20:51:16.237Z     +0ms [debug] CDKToolkit |  0/12 | 4:51:10 PM | CREATE_IN_PROGRESS   | AWS::CloudFormation::Stack | CDKToolkit User Initiated
+CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | FilePublishingRole 
+CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | LookupRole 
+CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | CloudFormationExecutionRole 
+CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::SSM::Parameter     | CdkBootstrapVersion 
 
-2023-08-15T20:39:33.001Z     +0ms [debug] CDKToolkit |  0/12 | 4:39:32 PM | CREATE_FAILED        | AWS::IAM::Role          | LookupRole Resource creation cancelled
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_FAILED        | AWS::IAM::Role          | FilePublishingRole Resource creation cancelled
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_FAILED        | AWS::ECR::Repository    | ContainerAssetsRepository Resource creation cancelled
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_FAILED        | AWS::IAM::Role          | CloudFormationExecutionRole Resource creation cancelled
-CDKToolkit |  0/12 | 4:39:32 PM | CREATE_FAILED        | AWS::IAM::Role          | ImagePublishingRole Resource creation cancelled
+2023-08-15T20:51:16.238Z     +0ms [debug] CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | FilePublishingRole Resource creation Initiated
 
-2023-08-15T20:39:38.314Z  +5313ms [debug] CDKToolkit |  0/12 | 4:39:33 PM | CREATE_FAILED        | AWS::SSM::Parameter     | CdkBootstrapVersion Resource creation cancelled
+2023-08-15T20:51:16.238Z     +0ms [debug] CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::ECR::Repository    | ContainerAssetsRepository 
+CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | ImagePublishingRole 
 
-2023-08-15T20:39:38.314Z     +0ms [debug] CDKToolkit |  0/12 | 4:39:33 PM | ROLLBACK_IN_PROGRESS | AWS::CloudFormation::Stack | CDKToolkit The following resource(s) failed to create: [ImagePublishingRole, FilePublishingRole, CdkBootstrapVersion, LookupRole, StagingBucket, CloudFormationExecutionRole, ContainerAssetsRepository]. Rollback requested by user.
-CDKToolkit |  0/12 | 4:39:35 PM | DELETE_IN_PROGRESS   | AWS::IAM::Role          | ImagePublishingRole 
-CDKToolkit |  0/12 | 4:39:35 PM | DELETE_IN_PROGRESS   | AWS::IAM::Role          | CloudFormationExecutionRole 
+2023-08-15T20:51:16.238Z     +0ms [debug] CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | LookupRole Resource creation Initiated
+CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | CloudFormationExecutionRole Resource creation Initiated
 
-2023-08-15T20:39:38.315Z     +1ms [debug] CDKToolkit |  0/12 | 4:39:35 PM | DELETE_IN_PROGRESS   | AWS::IAM::Role          | LookupRole 
+2023-08-15T20:51:16.238Z     +1ms [debug] CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::S3::Bucket         | StagingBucket 
 
-2023-08-15T20:39:38.315Z     +0ms [debug] CDKToolkit |  0/12 | 4:39:35 PM | DELETE_IN_PROGRESS   | AWS::IAM::Role          | FilePublishingRole 
-CDKToolkit |  0/12 | 4:39:36 PM | DELETE_IN_PROGRESS   | AWS::SSM::Parameter     | CdkBootstrapVersion 
-CDKToolkit |  0/12 | 4:39:36 PM | DELETE_SKIPPED       | AWS::S3::Bucket         | StagingBucket 
-CDKToolkit |  1/12 | 4:39:36 PM | DELETE_COMPLETE      | AWS::ECR::Repository    | ContainerAssetsRepository 
+2023-08-15T20:51:16.238Z     +0ms [debug] CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | ImagePublishingRole Resource creation Initiated
 
-2023-08-15T20:39:38.315Z     +0ms [debug] CDKToolkit |  2/12 | 4:39:37 PM | DELETE_COMPLETE      | AWS::IAM::Role          | CloudFormationExecutionRole 
-CDKToolkit |  3/12 | 4:39:37 PM | DELETE_COMPLETE      | AWS::IAM::Role          | FilePublishingRole 
-CDKToolkit |  4/12 | 4:39:37 PM | DELETE_COMPLETE      | AWS::IAM::Role          | ImagePublishingRole 
-CDKToolkit |  5/12 | 4:39:37 PM | DELETE_COMPLETE      | AWS::SSM::Parameter     | CdkBootstrapVersion 
-CDKToolkit |  6/12 | 4:39:37 PM | DELETE_COMPLETE      | AWS::IAM::Role          | LookupRole 
+2023-08-15T20:51:16.238Z     +0ms [debug] CDKToolkit |  0/12 | 4:51:15 PM | CREATE_IN_PROGRESS   | AWS::S3::Bucket         | StagingBucket Resource creation Initiated
 
-2023-08-15T20:39:38.315Z     +0ms [debug] CDKToolkit |  7/12 | 4:39:38 PM | ROLLBACK_COMPLETE    | AWS::CloudFormation::Stack | CDKToolkit 
+2023-08-15T20:51:21.481Z  +5243ms [debug] CDKToolkit |  0/12 | 4:51:16 PM | CREATE_IN_PROGRESS   | AWS::ECR::Repository    | ContainerAssetsRepository Resource creation Initiated
 
-2023-08-15T20:39:38.694Z   +379ms [debug] 
-Failed resources:
+2023-08-15T20:51:21.482Z     +1ms [debug] CDKToolkit |  0/12 | 4:51:16 PM | CREATE_IN_PROGRESS   | AWS::SSM::Parameter     | CdkBootstrapVersion Resource creation Initiated
+CDKToolkit |  1/12 | 4:51:16 PM | CREATE_COMPLETE      | AWS::ECR::Repository    | ContainerAssetsRepository 
+CDKToolkit |  2/12 | 4:51:17 PM | CREATE_COMPLETE      | AWS::SSM::Parameter     | CdkBootstrapVersion 
 
-2023-08-15T20:39:38.695Z     +1ms [debug] CDKToolkit | 4:39:32 PM | CREATE_FAILED        | AWS::S3::Bucket         | StagingBucket cdk-hnb659fds-assets-695897674742-us-east-1 already exists
+2023-08-15T20:51:32.016Z +10534ms [debug] CDKToolkit |  3/12 | 4:51:28 PM | CREATE_COMPLETE      | AWS::IAM::Role          | FilePublishingRole 
 
-2023-08-15T20:39:38.695Z     +0ms [debug]  ❌  Environment aws://695897674742/us-east-1 failed bootstrapping: Error: The stack named CDKToolkit failed creation, it may need to be manually deleted from the AWS console: ROLLBACK_COMPLETE: cdk-hnb659fds-assets-695897674742-us-east-1 already exists
-    at FullCloudFormationDeployment.monitorDeployment (/Users/ayaanzaveri/.npm/_npx/e72b144743208263/node_modules/aws-cdk/lib/index.js:426:10236)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async /Users/ayaanzaveri/.npm/_npx/e72b144743208263/node_modules/aws-cdk/lib/index.js:431:2104
-    at async Promise.all (index 0)
-    at async CdkToolkit.bootstrap (/Users/ayaanzaveri/.npm/_npx/e72b144743208263/node_modules/aws-cdk/lib/index.js:431:1949)
-    at async exec4 (/Users/ayaanzaveri/.npm/_npx/e72b144743208263/node_modules/aws-cdk/lib/index.js:504:52797)
+2023-08-15T20:51:32.016Z     +0ms [debug] CDKToolkit |  4/12 | 4:51:28 PM | CREATE_COMPLETE      | AWS::IAM::Role          | ImagePublishingRole 
+CDKToolkit |  5/12 | 4:51:28 PM | CREATE_COMPLETE      | AWS::IAM::Role          | CloudFormationExecutionRole 
+CDKToolkit |  6/12 | 4:51:28 PM | CREATE_COMPLETE      | AWS::IAM::Role          | LookupRole 
+CDKToolkit |  6/12 | 4:51:29 PM | CREATE_IN_PROGRESS   | AWS::IAM::Policy        | ImagePublishingRoleDefaultPolicy 
+CDKToolkit |  6/12 | 4:51:30 PM | CREATE_IN_PROGRESS   | AWS::IAM::Policy        | ImagePublishingRoleDefaultPolicy Resource creation Initiated
 
-2023-08-15T20:39:38.700Z     +5ms [debug] 
+2023-08-15T20:51:42.664Z +10648ms [debug] CDKToolkit |  7/12 | 4:51:37 PM | CREATE_COMPLETE      | AWS::S3::Bucket         | StagingBucket 
+CDKToolkit |  7/12 | 4:51:38 PM | CREATE_IN_PROGRESS   | AWS::S3::BucketPolicy   | StagingBucketPolicy 
+CDKToolkit |  7/12 | 4:51:38 PM | CREATE_IN_PROGRESS   | AWS::IAM::Policy        | FilePublishingRoleDefaultPolicy 
+CDKToolkit |  7/12 | 4:51:38 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | DeploymentActionRole 
+CDKToolkit |  7/12 | 4:51:38 PM | CREATE_IN_PROGRESS   | AWS::S3::BucketPolicy   | StagingBucketPolicy Resource creation Initiated
+CDKToolkit |  7/12 | 4:51:39 PM | CREATE_IN_PROGRESS   | AWS::IAM::Role          | DeploymentActionRole Resource creation Initiated
+CDKToolkit |  8/12 | 4:51:39 PM | CREATE_COMPLETE      | AWS::S3::BucketPolicy   | StagingBucketPolicy 
+CDKToolkit |  8/12 | 4:51:39 PM | CREATE_IN_PROGRESS   | AWS::IAM::Policy        | FilePublishingRoleDefaultPolicy Resource creation Initiated
 
-2023-08-15T20:39:38.700Z     +0ms [debug] The stack named CDKToolkit failed creation, it may need to be manually deleted from the AWS console: ROLLBACK_COMPLETE: cdk-hnb659fds-assets-695897674742-us-east-1 already exists
+2023-08-15T20:51:48.104Z  +5440ms [debug] CDKToolkit |  9/12 | 4:51:46 PM | CREATE_COMPLETE      | AWS::IAM::Policy        | ImagePublishingRoleDefaultPolicy 
 
-2023-08-15T20:39:38.738Z    +38ms [debug] CDK bootstrap exited with code 1
+2023-08-15T20:51:53.408Z  +5304ms [debug] CDKToolkit | 10/12 | 4:51:52 PM | CREATE_COMPLETE      | AWS::IAM::Role          | DeploymentActionRole 
+
+2023-08-15T20:51:58.703Z  +5295ms [debug] CDKToolkit | 11/12 | 4:51:55 PM | CREATE_COMPLETE      | AWS::IAM::Policy        | FilePublishingRoleDefaultPolicy 
+
+2023-08-15T20:51:58.703Z     +0ms [debug] CDKToolkit | 12/12 | 4:51:56 PM | CREATE_COMPLETE      | AWS::CloudFormation::Stack | CDKToolkit 
+
+2023-08-15T20:51:58.969Z   +266ms [debug]  ✅  Environment aws://695897674742/us-east-1 bootstrapped.
+
+2023-08-15T20:51:58.977Z     +8ms [debug] 
+
+2023-08-15T20:51:59.014Z    +37ms [debug] CDK bootstrap exited with code 0
+2023-08-15T20:51:59.246Z   +232ms [debug] Bootstrap context initialized {"status":"ready","version":"7.2","bucket":"sstbootstrap-useast124d14e4b-s20smim8e8fc"}
+2023-08-15T20:51:59.576Z   +330ms [debug] Fetching app metadata: not found
+2023-08-15T20:51:59.723Z   +147ms [debug] Synthesizing stacks...
+2023-08-15T20:51:59.896Z   +173ms [debug] Generating types in /Users/ayaanzaveri/Code/cognition/.sst/types
+2023-08-15T20:51:59.899Z     +3ms [debug] Running 1 deferred tasks with concurrency: 7
+2023-08-15T20:51:59.899Z     +0ms [debug] Running "npx --yes open-next@2.0.5 build" script

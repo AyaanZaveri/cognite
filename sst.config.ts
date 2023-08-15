@@ -4,7 +4,7 @@ import { NextjsSite } from "sst/constructs";
 export default {
   config(_input) {
     return {
-      name: "cognitionai",
+      name: "cognition",
       region: "us-east-1",
     };
   },
@@ -36,7 +36,7 @@ export default {
       });
 
       stack.addOutputs({
-        SiteUrl: site.url,
+        siteUrl: site.url,
       });
     });
   },
