@@ -1,13 +1,22 @@
-2023-08-15T19:31:48.837Z   +693ms [debug] Config loaded {"version":"2.24.1","cdkVersion":"2.91.0","constructsVersion":"10.2.69","config":{"name":"cognition","region":"us-east-1","stage":"prod","ssmPrefix":"/sst/cognition/prod/"},"metafile":{"inputs":{"sst.config.ts":{"bytes":213,"imports":[{"path":"sst","kind":"import-statement","external":true},{"path":"sst/constructs","kind":"import-statement","external":true}],"format":"esm"}},"outputs":{".sst.config.1692127908732.mjs":{"imports":[],"exports":["default"],"entryPoint":"sst.config.ts","inputs":{"sst.config.ts":{"bytesInOutput":124}},"bytes":306}}},"paths":{"config":"/Users/ayaanzaveri/Code/cognition/sst.config.ts","root":"/Users/ayaanzaveri/Code/cognition","out":"/Users/ayaanzaveri/Code/cognition/.sst","artifacts":"/Users/ayaanzaveri/Code/cognition/.sst/artifacts"}}
-2023-08-15T19:31:50.937Z  +2100ms [debug] Using AWS profile 
-2023-08-15T19:31:50.973Z    +36ms [debug] Created AWS client STSClient
-2023-08-15T19:31:50.975Z     +2ms [debug] Fetching app metadata
-2023-08-15T19:31:50.975Z     +0ms [debug] Initializing bootstrap context
-2023-08-15T19:31:50.975Z     +0ms [debug] Created AWS client CloudFormationClient
-2023-08-15T19:31:51.253Z   +278ms [debug] Loaded bootstrap status
-2023-08-15T19:31:51.253Z     +0ms [debug] Bootstrap context initialized {"status":"ready","version":"7.2","bucket":"sstbootstrap-useast124d14e4b-s20smim8e8fc"}
-2023-08-15T19:31:51.259Z     +6ms [debug] Using identity Account: 695897674742 User: AIDA2EBV32P3I2R55LLA2
-2023-08-15T19:31:51.590Z   +331ms [debug] Synthesizing stacks...
-2023-08-15T19:31:51.727Z   +137ms [debug] Generating types in /Users/ayaanzaveri/Code/cognition/.sst/types
-2023-08-15T19:31:51.729Z     +2ms [debug] Running 1 deferred tasks with concurrency: 7
-2023-08-15T19:31:51.729Z     +0ms [debug] Running "npx --yes open-next@2.0.5 build" script
+2023-08-15T20:06:37.044Z   +492ms [debug] Config loaded {"version":"2.24.1","cdkVersion":"2.91.0","constructsVersion":"10.2.69","config":{"name":"cognition","region":"us-east-1","stage":"prod","ssmPrefix":"/sst/cognition/prod/"},"metafile":{"inputs":{"sst.config.ts":{"bytes":213,"imports":[{"path":"sst","kind":"import-statement","external":true},{"path":"sst/constructs","kind":"import-statement","external":true}],"format":"esm"}},"outputs":{".sst.config.1692129996991.mjs":{"imports":[],"exports":["default"],"entryPoint":"sst.config.ts","inputs":{"sst.config.ts":{"bytesInOutput":124}},"bytes":306}}},"paths":{"config":"/Users/ayaanzaveri/Code/cognition/sst.config.ts","root":"/Users/ayaanzaveri/Code/cognition","out":"/Users/ayaanzaveri/Code/cognition/.sst","artifacts":"/Users/ayaanzaveri/Code/cognition/.sst/artifacts"}}
+2023-08-15T20:06:38.522Z  +1478ms [debug] Using AWS profile 
+2023-08-15T20:06:38.536Z    +14ms [debug] Created AWS client STSClient
+2023-08-15T20:06:38.538Z     +2ms [debug] Fetching app metadata
+2023-08-15T20:06:38.538Z     +0ms [debug] Initializing bootstrap context
+2023-08-15T20:06:38.538Z     +0ms [debug] Created AWS client CloudFormationClient
+2023-08-15T20:06:38.718Z   +180ms [debug] Using identity Account: 695897674742 User: AIDA2EBV32P3I2R55LLA2
+2023-08-15T20:06:38.760Z    +42ms [debug] Loaded bootstrap status
+2023-08-15T20:06:38.760Z     +0ms [debug] Bootstrap context initialized {"status":"ready","version":"7.2","bucket":"sstbootstrap-useast124d14e4b-s20smim8e8fc"}
+2023-08-15T20:06:39.111Z   +351ms [debug] Synthesizing stacks...
+2023-08-15T20:06:39.234Z   +123ms [debug] Generating types in /Users/ayaanzaveri/Code/cognition/.sst/types
+2023-08-15T20:06:39.235Z     +0ms [debug] Running "npx --yes open-next@2.0.5 build" script
+2023-08-15T20:06:39.235Z     +1ms [debug] Running 1 deferred tasks with concurrency: 7
+2023-08-15T20:07:11.732Z +32497ms [debug] 
+2023-08-15T20:07:11.732Z     +0ms [debug] Loading v2 AWS SDK
+2023-08-15T20:07:11.732Z     +0ms [debug] Finished synthesizing
+2023-08-15T20:07:11.755Z    +23ms [debug] Deploying stacks ["prod-cognition-Site"]
+2023-08-15T20:07:11.765Z    +10ms [debug] Checking if prod-cognition-Site is ready to deploy
+2023-08-15T20:07:11.765Z     +0ms [debug] Deploying stack prod-cognition-Site
+2023-08-15T20:07:12.126Z   +361ms [debug] Publishing event {"type":"stack.status","properties":{"stackID":"prod-cognition-Site","status":"PUBLISH_ASSETS_IN_PROGRESS"},"sourceID":"364c099ccdd3a01a9376d7fb11aac753"}
+2023-08-15T20:07:24.471Z +12345ms [debug] Failed to deploy stack prod-cognition-Site {"message":"Stack:arn:aws:cloudformation:us-east-1:695897674742:stack/prod-cognition-Site/273e3b30-3adc-11ee-89b4-0e7f43903b1f is in UPDATE_ROLLBACK_FAILED state and can not be updated.","code":"ValidationError","time":"2023-08-15T20:07:24.469Z","requestId":"8c8d57dc-23a8-49ce-8ded-52b76822391a","statusCode":400,"retryable":false,"retryDelay":150.0151689808029}
+2023-08-15T20:07:24.471Z     +0ms [debug] Publishing event {"type":"stack.status","properties":{"stackID":"prod-cognition-Site","status":"UPDATE_FAILED"},"sourceID":"364c099ccdd3a01a9376d7fb11aac753"}
