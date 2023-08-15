@@ -11,8 +11,7 @@ import { AIMessage, HumanMessage } from "langchain/schema";
 import { withAccelerate } from '@prisma/extension-accelerate';
 import { Document } from "langchain/dist/document";
 import { prompts } from "@/lib/prompts";
-
-const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate())
+import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
@@ -31,7 +30,7 @@ export async function POST(req: Request) {
       }
     );
 
-    const vectorStore = PrismaVectorStore.withModel<any>(prismaWithAccelerate!).create(
+    const vectorStore = PrismaVectorStore.withModel<any>(prisma).create(
       embeddingsModel,
       {
         prisma: Prisma,

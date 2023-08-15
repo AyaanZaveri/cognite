@@ -96,7 +96,7 @@ module.exports = require("zlib");
 
 /***/ }),
 
-/***/ 17806:
+/***/ 29845:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 // ESM COMPAT FLAG
@@ -120,19 +120,20 @@ __webpack_require__.d(route_namespaceObject, {
   POST: () => (POST)
 });
 
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/server/node-polyfill-headers.js
-var node_polyfill_headers = __webpack_require__(33580);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/server/future/route-modules/app-route/module.js
-var app_route_module = __webpack_require__(5273);
-var module_default = /*#__PURE__*/__webpack_require__.n(app_route_module);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/server/node-polyfill-headers.js
+var node_polyfill_headers = __webpack_require__(53558);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/server/future/route-modules/app-route/module.js
+var app_route_module = __webpack_require__(42003);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/server/future/route-kind.js
+var route_kind = __webpack_require__(124);
 // EXTERNAL MODULE: external "@prisma/client"
 var client_ = __webpack_require__(53524);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/server/web/exports/next-response.js
-var next_response = __webpack_require__(78079);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/server/web/exports/next-response.js
+var next_response = __webpack_require__(82374);
 // EXTERNAL MODULE: ./lib/auth.ts
-var auth = __webpack_require__(66298);
+var auth = __webpack_require__(24154);
 // EXTERNAL MODULE: ./node_modules/.pnpm/@prisma+extension-accelerate@0.5.0_@prisma+client@5.1.1/node_modules/@prisma/extension-accelerate/dist/esm/index.js + 2 modules
-var esm = __webpack_require__(17524);
+var esm = __webpack_require__(95854);
 ;// CONCATENATED MODULE: ./app/api/updateUser/route.ts
 
 
@@ -169,34 +170,37 @@ async function POST(req) {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-app-loader.js?page=%2Fapi%2FupdateUser%2Froute&name=app%2Fapi%2FupdateUser%2Froute&pagePath=private-next-app-dir%2Fapi%2FupdateUser%2Froute.ts&appDir=%2FUsers%2Fayaanzaveri%2FCode%2Fcognition%2Fapp&appPaths=%2Fapi%2FupdateUser%2Froute&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&basePath=&assetPrefix=&nextConfigOutput=standalone&preferredRegion=&middlewareConfig=e30%3D!
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-app-loader.js?page=%2Fapi%2FupdateUser%2Froute&name=app%2Fapi%2FupdateUser%2Froute&pagePath=private-next-app-dir%2Fapi%2FupdateUser%2Froute.ts&appDir=%2FUsers%2Fayaanzaveri%2FCode%2Fcognition%2Fapp&appPaths=%2Fapi%2FupdateUser%2Froute&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&basePath=&assetPrefix=&nextConfigOutput=standalone&preferredRegion=&middlewareConfig=e30%3D!
 
-    
+// @ts-ignore this need to be imported from next/dist to be external
 
-    
 
-    
+// @ts-expect-error - replaced by webpack/turbopack loader
 
-    const options = {"definition":{"kind":"APP_ROUTE","page":"/api/updateUser/route","pathname":"/api/updateUser","filename":"route","bundlePath":"app/api/updateUser/route"},"resolvedPagePath":"/Users/ayaanzaveri/Code/cognition/app/api/updateUser/route.ts","nextConfigOutput":"standalone"}
-    const routeModule = new (module_default())({
-      ...options,
-      userland: route_namespaceObject,
-    })
+const AppRouteRouteModule = app_route_module.AppRouteRouteModule;
+// We inject the nextConfigOutput here so that we can use them in the route
+// module.
+const nextConfigOutput = "standalone"
+const routeModule = new AppRouteRouteModule({
+    definition: {
+        kind: route_kind.RouteKind.APP_ROUTE,
+        page: "/api/updateUser/route",
+        pathname: "/api/updateUser",
+        filename: "route",
+        bundlePath: "app/api/updateUser/route"
+    },
+    resolvedPagePath: "/Users/ayaanzaveri/Code/cognition/app/api/updateUser/route.ts",
+    nextConfigOutput,
+    userland: route_namespaceObject
+});
+// Pull out the exports that we need to expose from the module. This should
+// be eliminated when we've moved the other routes to the new format. These
+// are used to hook into the route.
+const { requestAsyncStorage , staticGenerationAsyncStorage , serverHooks , headerHooks , staticGenerationBailout  } = routeModule;
+const originalPathname = "/api/updateUser/route";
 
-    // Pull out the exports that we need to expose from the module. This should
-    // be eliminated when we've moved the other routes to the new format. These
-    // are used to hook into the route.
-    const {
-      requestAsyncStorage,
-      staticGenerationAsyncStorage,
-      serverHooks,
-      headerHooks,
-      staticGenerationBailout
-    } = routeModule
 
-    const originalPathname = "/api/updateUser/route"
-
-    
+//# sourceMappingURL=app-route.js.map
 
 /***/ })
 
@@ -207,7 +211,7 @@ async function POST(req) {
 var __webpack_require__ = require("../../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [7942,8682,6736,9091,8079,7524,6298], () => (__webpack_exec__(17806)));
+var __webpack_exports__ = __webpack_require__.X(0, [2041,9311,7770,7568,2374,5854,4154], () => (__webpack_exec__(29845)));
 module.exports = __webpack_exports__;
 
 })();

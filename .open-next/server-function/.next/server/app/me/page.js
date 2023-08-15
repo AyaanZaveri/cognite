@@ -188,6 +188,14 @@ module.exports = require("next/dist/shared/lib/router/utils/parse-path");
 
 /***/ }),
 
+/***/ 54614:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("next/dist/shared/lib/router/utils/path-has-prefix");
+
+/***/ }),
+
 /***/ 53750:
 /***/ ((module) => {
 
@@ -324,32 +332,36 @@ module.exports = require("zlib");
 
 /***/ }),
 
-/***/ 27464:
+/***/ 13555:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   GlobalError: () => (/* reexport safe */ next_dist_client_components_error_boundary__WEBPACK_IMPORTED_MODULE_1__.GlobalError),
+/* harmony export */   GlobalError: () => (/* reexport default from dynamic */ next_dist_client_components_error_boundary__WEBPACK_IMPORTED_MODULE_2___default.a),
 /* harmony export */   __next_app__: () => (/* binding */ __next_app__),
 /* harmony export */   originalPathname: () => (/* binding */ originalPathname),
 /* harmony export */   pages: () => (/* binding */ pages),
 /* harmony export */   routeModule: () => (/* binding */ routeModule),
 /* harmony export */   tree: () => (/* binding */ tree)
 /* harmony export */ });
-/* harmony import */ var next_dist_server_future_route_modules_app_page_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(88204);
+/* harmony import */ var next_dist_server_future_route_modules_app_page_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(31439);
 /* harmony import */ var next_dist_server_future_route_modules_app_page_module__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(next_dist_server_future_route_modules_app_page_module__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var next_dist_client_components_error_boundary__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(39385);
-/* harmony import */ var next_dist_client_components_error_boundary__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(next_dist_client_components_error_boundary__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(76905);
-/* harmony import */ var next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var next_dist_server_future_route_kind__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(124);
+/* harmony import */ var next_dist_client_components_error_boundary__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(5444);
+/* harmony import */ var next_dist_client_components_error_boundary__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(next_dist_client_components_error_boundary__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(13176);
+/* harmony import */ var next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
-/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_2__) if(["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_2__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_3__) if(["default","tree","pages","GlobalError","originalPathname","__next_app__","routeModule"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => next_dist_server_app_render_entry_base__WEBPACK_IMPORTED_MODULE_3__[__WEBPACK_IMPORT_KEY__]
 /* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+// @ts-ignore this need to be imported from next/dist to be external
 
-    
 
-    const tree = {
+const AppPageRouteModule = next_dist_server_future_route_modules_app_page_module__WEBPACK_IMPORTED_MODULE_0__.AppPageRouteModule;
+// We inject the tree and pages here so that we can use them in the route
+// module.
+const tree = {
         children: [
         '',
         {
@@ -357,14 +369,14 @@ __webpack_require__.r(__webpack_exports__);
         'me',
         {
         children: ['__PAGE__', {}, {
-          page: [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 66051)), "/Users/ayaanzaveri/Code/cognition/app/me/page.tsx"],
+          page: [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 21589)), "/Users/ayaanzaveri/Code/cognition/app/me/page.tsx"],
           
         }]
       },
         {
           
           metadata: {
-    icon: [(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 200))).default(props)),(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 89876))).default(props))],
+    icon: [(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 19983))).default(props)),(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 23012))).default(props))],
     apple: [],
     openGraph: [],
     twitter: [],
@@ -374,10 +386,11 @@ __webpack_require__.r(__webpack_exports__);
       ]
       },
         {
-          'layout': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 42718)), "/Users/ayaanzaveri/Code/cognition/app/layout.tsx"],
-'loading': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 6788)), "/Users/ayaanzaveri/Code/cognition/app/loading.tsx"],
+          'layout': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 75671)), "/Users/ayaanzaveri/Code/cognition/app/layout.tsx"],
+'loading': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 23033)), "/Users/ayaanzaveri/Code/cognition/app/loading.tsx"],
+'not-found': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 73032, 23)), "next/dist/client/components/not-found-error"],
           metadata: {
-    icon: [(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 200))).default(props)),(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 89876))).default(props))],
+    icon: [(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 19983))).default(props)),(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 23012))).default(props))],
     apple: [],
     openGraph: [],
     twitter: [],
@@ -386,42 +399,49 @@ __webpack_require__.r(__webpack_exports__);
         }
       ]
       }.children;
-    const pages = ["/Users/ayaanzaveri/Code/cognition/app/me/page.tsx"];
+const pages = ["/Users/ayaanzaveri/Code/cognition/app/me/page.tsx"];
 
-    
+// @ts-expect-error - replaced by webpack/turbopack loader
 
-    const originalPathname = "/me/page"
-    const __next_app__ = {
-      require: __webpack_require__,
-      // all modules are in the entry chunk, so we never actually need to load chunks in webpack
-      loadChunk: () => Promise.resolve()
+const __next_app_require__ = __webpack_require__
+const __next_app_load_chunk__ = () => Promise.resolve()
+const originalPathname = "/me/page";
+const __next_app__ = {
+    require: __next_app_require__,
+    loadChunk: __next_app_load_chunk__
+};
+
+// Create and export the route module that will be consumed.
+const routeModule = new AppPageRouteModule({
+    definition: {
+        kind: next_dist_server_future_route_kind__WEBPACK_IMPORTED_MODULE_1__.RouteKind.APP_PAGE,
+        page: "/me/page",
+        pathname: "/me",
+        // The following aren't used in production.
+        bundlePath: "",
+        filename: "",
+        appPaths: []
+    },
+    userland: {
+        loaderTree: tree
     }
+});
 
-    
-
-    // Create and export the route module that will be consumed.
-    const options = {"definition":{"kind":"APP_PAGE","page":"/me/page","pathname":"/me","bundlePath":"app/me/page","filename":"","appPaths":[]}}
-    const routeModule = new (next_dist_server_future_route_modules_app_page_module__WEBPACK_IMPORTED_MODULE_0___default())({
-      ...options,
-      userland: {
-        loaderTree: tree,
-      },
-    })
-  
+//# sourceMappingURL=app-page.js.map
 
 /***/ }),
 
-/***/ 25884:
+/***/ 90916:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 82705, 23));
-Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 12543));
-Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 95741));
-Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 17083))
+Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 30200));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 16307, 23));
+Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 72029));
+Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 64264))
 
 /***/ }),
 
-/***/ 17083:
+/***/ 64264:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -435,14 +455,14 @@ __webpack_require__.d(__webpack_exports__, {
 
 // EXTERNAL MODULE: external "next/dist/compiled/react/jsx-runtime"
 var jsx_runtime_ = __webpack_require__(56786);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/font/google/target.css?{"path":"components/me/Card.tsx","import":"Space_Grotesk","arguments":[{"weight":["300","400","500","600","700"],"subsets":["latin"]}],"variableName":"space_grotesk"}
-var Card_tsx_import_Space_Grotesk_arguments_weight_300_400_500_600_700_subsets_latin_variableName_space_grotesk_ = __webpack_require__(92603);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/font/google/target.css?{"path":"components/me/Card.tsx","import":"Space_Grotesk","arguments":[{"weight":["300","400","500","600","700"],"subsets":["latin"]}],"variableName":"space_grotesk"}
+var Card_tsx_import_Space_Grotesk_arguments_weight_300_400_500_600_700_subsets_latin_variableName_space_grotesk_ = __webpack_require__(17225);
 var Card_tsx_import_Space_Grotesk_arguments_weight_300_400_500_600_700_subsets_latin_variableName_space_grotesk_default = /*#__PURE__*/__webpack_require__.n(Card_tsx_import_Space_Grotesk_arguments_weight_300_400_500_600_700_subsets_latin_variableName_space_grotesk_);
 // EXTERNAL MODULE: external "next/dist/compiled/react"
 var react_ = __webpack_require__(18038);
 var react_default = /*#__PURE__*/__webpack_require__.n(react_);
 // EXTERNAL MODULE: ./lib/utils.ts
-var utils = __webpack_require__(46006);
+var utils = __webpack_require__(81308);
 ;// CONCATENATED MODULE: ./components/ui/card.tsx
 
 
@@ -486,14 +506,14 @@ CardFooter.displayName = "CardFooter";
 
 
 // EXTERNAL MODULE: ./components/ui/avatar.tsx
-var avatar = __webpack_require__(95741);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/link.js
-var next_link = __webpack_require__(71930);
+var avatar = __webpack_require__(72029);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/link.js
+var next_link = __webpack_require__(31574);
 var link_default = /*#__PURE__*/__webpack_require__.n(next_link);
 // EXTERNAL MODULE: ./node_modules/.pnpm/@radix-ui+react-alert-dialog@1.0.4_@types+react-dom@18.2.4_@types+react@18.2.6_react-dom@18.2.0_react@18.2.0/node_modules/@radix-ui/react-alert-dialog/dist/index.mjs
 var dist = __webpack_require__(26450);
 // EXTERNAL MODULE: ./components/ui/button.tsx
-var ui_button = __webpack_require__(79271);
+var ui_button = __webpack_require__(82696);
 ;// CONCATENATED MODULE: ./components/ui/alert-dialog.tsx
 /* __next_internal_client_entry_do_not_use__ AlertDialog,AlertDialogTrigger,AlertDialogContent,AlertDialogHeader,AlertDialogFooter,AlertDialogTitle,AlertDialogDescription,AlertDialogAction,AlertDialogCancel auto */ 
 
@@ -563,17 +583,25 @@ AlertDialogCancel.displayName = dist/* Cancel */.$j.displayName;
 
 
 // EXTERNAL MODULE: ./components/ui/dropdown-menu.tsx
-var dropdown_menu = __webpack_require__(51236);
+var dropdown_menu = __webpack_require__(11787);
 // EXTERNAL MODULE: ./components/ui/use-toast.ts
-var use_toast = __webpack_require__(57802);
+var use_toast = __webpack_require__(38741);
 // EXTERNAL MODULE: ./node_modules/.pnpm/react-icons@4.10.1_react@18.2.0/node_modules/react-icons/tb/index.esm.js
 var index_esm = __webpack_require__(96553);
-// EXTERNAL MODULE: ./node_modules/.pnpm/lucide-react@0.260.0_react@18.2.0/node_modules/lucide-react/dist/cjs/lucide-react.js
-var lucide_react = __webpack_require__(39850);
+// EXTERNAL MODULE: ./node_modules/.pnpm/lucide-react@0.260.0_react@18.2.0/node_modules/lucide-react/dist/esm/icons/more-vertical.js
+var more_vertical = __webpack_require__(39390);
 // EXTERNAL MODULE: ./node_modules/.pnpm/@radix-ui+react-context-menu@2.1.4_@types+react-dom@18.2.4_@types+react@18.2.6_react-dom@18.2.0_react@18.2.0/node_modules/@radix-ui/react-context-menu/dist/index.mjs
 var react_context_menu_dist = __webpack_require__(35430);
+// EXTERNAL MODULE: ./node_modules/.pnpm/lucide-react@0.260.0_react@18.2.0/node_modules/lucide-react/dist/esm/icons/check.js
+var check = __webpack_require__(72146);
+// EXTERNAL MODULE: ./node_modules/.pnpm/lucide-react@0.260.0_react@18.2.0/node_modules/lucide-react/dist/esm/icons/chevron-right.js
+var chevron_right = __webpack_require__(87882);
+// EXTERNAL MODULE: ./node_modules/.pnpm/lucide-react@0.260.0_react@18.2.0/node_modules/lucide-react/dist/esm/icons/circle.js
+var circle = __webpack_require__(81072);
 ;// CONCATENATED MODULE: ./components/ui/context-menu.tsx
 /* __next_internal_client_entry_do_not_use__ ContextMenu,ContextMenuTrigger,ContextMenuContent,ContextMenuItem,ContextMenuCheckboxItem,ContextMenuRadioItem,ContextMenuLabel,ContextMenuSeparator,ContextMenuShortcut,ContextMenuGroup,ContextMenuPortal,ContextMenuSub,ContextMenuSubContent,ContextMenuSubTrigger,ContextMenuRadioGroup auto */ 
+
+
 
 
 
@@ -590,7 +618,7 @@ const ContextMenuSubTrigger = /*#__PURE__*/ react_.forwardRef(({ className, inse
         ...props,
         children: [
             children,
-            /*#__PURE__*/ jsx_runtime_.jsx(lucide_react/* ChevronRight */._Qn, {
+            /*#__PURE__*/ jsx_runtime_.jsx(chevron_right/* default */.Z, {
                 className: "ml-auto h-4 w-4"
             })
         ]
@@ -625,7 +653,7 @@ const ContextMenuCheckboxItem = /*#__PURE__*/ react_.forwardRef(({ className, ch
             /*#__PURE__*/ jsx_runtime_.jsx("span", {
                 className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center",
                 children: /*#__PURE__*/ jsx_runtime_.jsx(react_context_menu_dist/* ItemIndicator */.wU, {
-                    children: /*#__PURE__*/ jsx_runtime_.jsx(lucide_react/* Check */.JrY, {
+                    children: /*#__PURE__*/ jsx_runtime_.jsx(check/* default */.Z, {
                         className: "h-4 w-4"
                     })
                 })
@@ -642,7 +670,7 @@ const ContextMenuRadioItem = /*#__PURE__*/ react_.forwardRef(({ className, child
             /*#__PURE__*/ jsx_runtime_.jsx("span", {
                 className: "absolute left-2 flex h-3.5 w-3.5 items-center justify-center",
                 children: /*#__PURE__*/ jsx_runtime_.jsx(react_context_menu_dist/* ItemIndicator */.wU, {
-                    children: /*#__PURE__*/ jsx_runtime_.jsx(lucide_react/* Circle */.Cdc, {
+                    children: /*#__PURE__*/ jsx_runtime_.jsx(circle/* default */.Z, {
                         className: "h-2 w-2 fill-current"
                     })
                 })
@@ -672,10 +700,10 @@ const ContextMenuShortcut = ({ className, ...props })=>{
 ContextMenuShortcut.displayName = "ContextMenuShortcut";
 
 
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/navigation.js
-var navigation = __webpack_require__(18424);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/navigation.js
+var navigation = __webpack_require__(13814);
 // EXTERNAL MODULE: ./components/Icons.tsx
-var Icons = __webpack_require__(4925);
+var Icons = __webpack_require__(22735);
 ;// CONCATENATED MODULE: ./components/me/Card.tsx
 /* __next_internal_client_entry_do_not_use__ default auto */ 
 
@@ -785,7 +813,7 @@ const MeCard = ({ cog, session })=>{
                         /*#__PURE__*/ (0,jsx_runtime_.jsxs)(dropdown_menu/* DropdownMenuTrigger */.$F, {
                             className: "flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
                             children: [
-                                /*#__PURE__*/ jsx_runtime_.jsx(lucide_react/* MoreVertical */.hlC, {
+                                /*#__PURE__*/ jsx_runtime_.jsx(more_vertical/* default */.Z, {
                                     className: "h-4 w-4"
                                 }),
                                 /*#__PURE__*/ jsx_runtime_.jsx("span", {
@@ -871,7 +899,7 @@ const MeCard = ({ cog, session })=>{
 
 /***/ }),
 
-/***/ 66051:
+/***/ 21589:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -887,7 +915,7 @@ __webpack_require__.d(__webpack_exports__, {
 // EXTERNAL MODULE: external "next/dist/compiled/react/jsx-runtime"
 var jsx_runtime_ = __webpack_require__(56786);
 // EXTERNAL MODULE: ./lib/auth.ts
-var auth = __webpack_require__(66298);
+var auth = __webpack_require__(24154);
 ;// CONCATENATED MODULE: ./utils/timestampDate.ts
 const timestampDate = (timestamp)=>{
     const date = new Date(timestamp);
@@ -916,21 +944,21 @@ const timestampDate = (timestamp)=>{
 };
 /* harmony default export */ const utils_timestampDate = (timestampDate);
 
-// EXTERNAL MODULE: ./node_modules/.pnpm/lucide-react@0.260.0_react@18.2.0/node_modules/lucide-react/dist/cjs/lucide-react.js
-var lucide_react = __webpack_require__(58795);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/image.js
-var next_image = __webpack_require__(75376);
+// EXTERNAL MODULE: ./node_modules/.pnpm/lucide-react@0.260.0_react@18.2.0/node_modules/lucide-react/dist/esm/icons/calendar-days.js + 2 modules
+var calendar_days = __webpack_require__(71889);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/image.js
+var next_image = __webpack_require__(67891);
 var image_default = /*#__PURE__*/__webpack_require__.n(next_image);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react/react.shared-subset.js
-var react_shared_subset = __webpack_require__(49994);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/compiled/react/react.shared-subset.js
+var react_shared_subset = __webpack_require__(39671);
 // EXTERNAL MODULE: ./node_modules/.pnpm/react-markdown@8.0.7_@types+react@18.2.6_react@18.2.0/node_modules/react-markdown/lib/react-markdown.js + 124 modules
-var react_markdown = __webpack_require__(11434);
+var react_markdown = __webpack_require__(69420);
 // EXTERNAL MODULE: ./components/ui/avatar.tsx
-var avatar = __webpack_require__(35982);
+var avatar = __webpack_require__(20200);
 // EXTERNAL MODULE: ./lib/prisma.ts
-var prisma = __webpack_require__(43726);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js
-var module_proxy = __webpack_require__(1926);
+var prisma = __webpack_require__(93017);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js
+var module_proxy = __webpack_require__(86942);
 ;// CONCATENATED MODULE: ./components/me/Card.tsx
 
 const proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognition/components/me/Card.tsx`)
@@ -945,7 +973,7 @@ const __default__ = proxy.default;
 
 /* harmony default export */ const Card = (__default__);
 // EXTERNAL MODULE: ./components/CoolBlur.tsx
-var CoolBlur = __webpack_require__(97675);
+var CoolBlur = __webpack_require__(9321);
 ;// CONCATENATED MODULE: ./app/me/page.tsx
 
 
@@ -1019,7 +1047,7 @@ async function Page() {
                                             date
                                         ]
                                     }),
-                                    /*#__PURE__*/ jsx_runtime_.jsx(lucide_react/* CalendarDays */.E_O, {
+                                    /*#__PURE__*/ jsx_runtime_.jsx(calendar_days/* default */.Z, {
                                         className: "ml-1 h-3 w-3 text-muted-foreground"
                                     }),
                                     " "
@@ -1059,7 +1087,7 @@ async function Page() {
 
 /***/ }),
 
-/***/ 35982:
+/***/ 20200:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1068,7 +1096,7 @@ async function Page() {
 /* harmony export */   Q5: () => (/* binding */ e2),
 /* harmony export */   qE: () => (/* binding */ e0)
 /* harmony export */ });
-/* harmony import */ var next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1926);
+/* harmony import */ var next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(86942);
 
 const proxy = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognition/components/ui/avatar.tsx`)
 
@@ -1095,7 +1123,7 @@ const e2 = proxy["AvatarFallback"];
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [7942,8682,5935,6682,9719,383,6298,9579,633,5741,4925], () => (__webpack_exec__(27464)));
+var __webpack_exports__ = __webpack_require__.X(0, [2041,9311,7572,6682,9692,8458,4154,7845,6160,2029,2735], () => (__webpack_exec__(13555)));
 module.exports = __webpack_exports__;
 
 })();

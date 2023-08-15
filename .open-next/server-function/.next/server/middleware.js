@@ -1,7 +1,7 @@
 // runtime can't be in strict mode because a global variable is assign and maybe created.
 (self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([[826],{
 
-/***/ 6443:
+/***/ 571:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21,7 +21,7 @@ __webpack_require__.d(middleware_namespaceObject_0, {
   "default": () => (middleware_0)
 });
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/globals.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/globals.js
 async function registerInstrumentation() {
     if ("_ENTRIES" in globalThis && _ENTRIES.middleware_instrumentation && _ENTRIES.middleware_instrumentation.register) {
         try {
@@ -85,7 +85,7 @@ function enhanceGlobals() {
 }
 enhanceGlobals(); //# sourceMappingURL=globals.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/error.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/error.js
 class PageSignatureError extends Error {
     constructor({ page }){
         super(`The middleware "${page}" accepts an async API directly with the form:
@@ -113,9 +113,9 @@ class RemovedUAError extends Error {
     }
 } //# sourceMappingURL=error.js.map
 
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/utils.js
-var utils = __webpack_require__(773);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/fetch-event.js
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/utils.js
+var utils = __webpack_require__(122);
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/fetch-event.js
 
 const responseSymbol = Symbol("response");
 const passThroughSymbol = Symbol("passThrough");
@@ -163,11 +163,11 @@ class NextFetchEvent extends FetchEvent {
     }
 } //# sourceMappingURL=fetch-event.js.map
 
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/next-url.js + 12 modules
-var next_url = __webpack_require__(9169);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/cookies.js
-var cookies = __webpack_require__(1769);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/request.js
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/next-url.js + 12 modules
+var next_url = __webpack_require__(593);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/cookies.js
+var spec_extension_cookies = __webpack_require__(972);
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/request.js
 
 
 
@@ -177,13 +177,14 @@ class NextRequest extends Request {
     constructor(input, init = {}){
         const url = typeof input !== "string" && "url" in input ? input.url : String(input);
         (0,utils/* validateURL */.r4)(url);
-        super(url, init);
+        if (input instanceof Request) super(input);
+        else super(url, init);
         const nextUrl = new next_url/* NextURL */.c(url, {
             headers: (0,utils/* toNodeOutgoingHttpHeaders */.lb)(this.headers),
             nextConfig: init.nextConfig
         });
         this[INTERNALS] = {
-            cookies: new cookies/* RequestCookies */.q(this.headers),
+            cookies: new spec_extension_cookies/* RequestCookies */.q(this.headers),
             geo: init.geo || {
         country: this.headers.get("cloudfront-viewer-country"),
         countryName: this.headers.get("cloudfront-viewer-country-name"),
@@ -255,9 +256,9 @@ class NextRequest extends Request {
     }
 } //# sourceMappingURL=request.js.map
 
-// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/response.js
-var spec_extension_response = __webpack_require__(4668);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/relativize-url.js
+// EXTERNAL MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/response.js
+var spec_extension_response = __webpack_require__(209);
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/relativize-url.js
 /**
  * Given a URL as a string and a base URL it will make the URL relative
  * if the parsed protocol and host is the same as the one in the base
@@ -269,7 +270,7 @@ var spec_extension_response = __webpack_require__(4668);
     return relative.protocol + "//" + relative.host === origin ? relative.toString().replace(origin, "") : relative.toString();
 } //# sourceMappingURL=relativize-url.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/client/components/app-router-headers.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/client/components/app-router-headers.js
 const RSC = "RSC";
 const ACTION = "Next-Action";
 const NEXT_ROUTER_STATE_TREE = "Next-Router-State-Tree";
@@ -277,7 +278,7 @@ const NEXT_ROUTER_PREFETCH = "Next-Router-Prefetch";
 const NEXT_URL = "Next-Url";
 const FETCH_CACHE_HEADER = "x-vercel-sc-headers";
 const RSC_CONTENT_TYPE_HEADER = "text/x-component";
-const RSC_VARY_HEADER = RSC + ", " + NEXT_ROUTER_STATE_TREE + ", " + NEXT_ROUTER_PREFETCH;
+const RSC_VARY_HEADER = RSC + ", " + NEXT_ROUTER_STATE_TREE + ", " + NEXT_ROUTER_PREFETCH + ", " + NEXT_URL;
 const FLIGHT_PARAMETERS = [
     [
         RSC
@@ -291,7 +292,7 @@ const FLIGHT_PARAMETERS = [
 ];
 const NEXT_RSC_UNION_QUERY = "_rsc"; //# sourceMappingURL=app-router-headers.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/internal-utils.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/internal-utils.js
 
 const INTERNAL_QUERY_NAMES = [
     "__nextFallback",
@@ -323,7 +324,7 @@ function stripInternalSearchParams(url, isEdge) {
     return isStringUrl ? instance.toString() : instance;
 } //# sourceMappingURL=internal-utils.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/app-paths.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/app-paths.js
 
 /**
  * Normalizes an app route so it represents the actual request path. Essentially
@@ -371,7 +372,7 @@ function stripInternalSearchParams(url, isEdge) {
     return enabled ? pathname.replace(/\.rsc($|\?)/, "$1") : pathname;
 } //# sourceMappingURL=app-paths.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/lib/constants.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/lib/constants.js
 const NEXT_QUERY_PARAM_PREFIX = "nxtP";
 const PRERENDER_REVALIDATE_HEADER = "x-prerender-revalidate";
 const PRERENDER_REVALIDATE_ONLY_GENERATED_HEADER = "x-prerender-revalidate-if-generated";
@@ -489,7 +490,623 @@ const WEBPACK_RESOURCE_QUERIES = {
     metadataImageMeta: "__next_metadata_image_meta__"
 }; //# sourceMappingURL=constants.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/adapter.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/adapters/reflect.js
+class ReflectAdapter {
+    static get(target, prop, receiver) {
+        const value = Reflect.get(target, prop, receiver);
+        if (typeof value === "function") {
+            return value.bind(target);
+        }
+        return value;
+    }
+    static set(target, prop, value, receiver) {
+        return Reflect.set(target, prop, value, receiver);
+    }
+    static has(target, prop) {
+        return Reflect.has(target, prop);
+    }
+    static deleteProperty(target, prop) {
+        return Reflect.deleteProperty(target, prop);
+    }
+} //# sourceMappingURL=reflect.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/adapters/headers.js
+
+/**
+ * @internal
+ */ class ReadonlyHeadersError extends Error {
+    constructor(){
+        super("Headers cannot be modified. Read more: https://nextjs.org/docs/app/api-reference/functions/headers");
+    }
+    static callable() {
+        throw new ReadonlyHeadersError();
+    }
+}
+class HeadersAdapter extends Headers {
+    constructor(headers){
+        // We've already overridden the methods that would be called, so we're just
+        // calling the super constructor to ensure that the instanceof check works.
+        super();
+        this.headers = new Proxy(headers, {
+            get (target, prop, receiver) {
+                // Because this is just an object, we expect that all "get" operations
+                // are for properties. If it's a "get" for a symbol, we'll just return
+                // the symbol.
+                if (typeof prop === "symbol") {
+                    return ReflectAdapter.get(target, prop, receiver);
+                }
+                const lowercased = prop.toLowerCase();
+                // Let's find the original casing of the key. This assumes that there is
+                // no mixed case keys (e.g. "Content-Type" and "content-type") in the
+                // headers object.
+                const original = Object.keys(headers).find((o)=>o.toLowerCase() === lowercased);
+                // If the original casing doesn't exist, return undefined.
+                if (typeof original === "undefined") return;
+                // If the original casing exists, return the value.
+                return ReflectAdapter.get(target, original, receiver);
+            },
+            set (target, prop, value, receiver) {
+                if (typeof prop === "symbol") {
+                    return ReflectAdapter.set(target, prop, value, receiver);
+                }
+                const lowercased = prop.toLowerCase();
+                // Let's find the original casing of the key. This assumes that there is
+                // no mixed case keys (e.g. "Content-Type" and "content-type") in the
+                // headers object.
+                const original = Object.keys(headers).find((o)=>o.toLowerCase() === lowercased);
+                // If the original casing doesn't exist, use the prop as the key.
+                return ReflectAdapter.set(target, original ?? prop, value, receiver);
+            },
+            has (target, prop) {
+                if (typeof prop === "symbol") return ReflectAdapter.has(target, prop);
+                const lowercased = prop.toLowerCase();
+                // Let's find the original casing of the key. This assumes that there is
+                // no mixed case keys (e.g. "Content-Type" and "content-type") in the
+                // headers object.
+                const original = Object.keys(headers).find((o)=>o.toLowerCase() === lowercased);
+                // If the original casing doesn't exist, return false.
+                if (typeof original === "undefined") return false;
+                // If the original casing exists, return true.
+                return ReflectAdapter.has(target, original);
+            },
+            deleteProperty (target, prop) {
+                if (typeof prop === "symbol") return ReflectAdapter.deleteProperty(target, prop);
+                const lowercased = prop.toLowerCase();
+                // Let's find the original casing of the key. This assumes that there is
+                // no mixed case keys (e.g. "Content-Type" and "content-type") in the
+                // headers object.
+                const original = Object.keys(headers).find((o)=>o.toLowerCase() === lowercased);
+                // If the original casing doesn't exist, return true.
+                if (typeof original === "undefined") return true;
+                // If the original casing exists, delete the property.
+                return ReflectAdapter.deleteProperty(target, original);
+            }
+        });
+    }
+    /**
+   * Seals a Headers instance to prevent modification by throwing an error when
+   * any mutating method is called.
+   */ static seal(headers) {
+        return new Proxy(headers, {
+            get (target, prop, receiver) {
+                switch(prop){
+                    case "append":
+                    case "delete":
+                    case "set":
+                        return ReadonlyHeadersError.callable;
+                    default:
+                        return ReflectAdapter.get(target, prop, receiver);
+                }
+            }
+        });
+    }
+    /**
+   * Merges a header value into a string. This stores multiple values as an
+   * array, so we need to merge them into a string.
+   *
+   * @param value a header value
+   * @returns a merged header value (a string)
+   */ merge(value) {
+        if (Array.isArray(value)) return value.join(", ");
+        return value;
+    }
+    /**
+   * Creates a Headers instance from a plain object or a Headers instance.
+   *
+   * @param headers a plain object or a Headers instance
+   * @returns a headers instance
+   */ static from(headers) {
+        if (headers instanceof Headers) return headers;
+        return new HeadersAdapter(headers);
+    }
+    append(name, value) {
+        const existing = this.headers[name];
+        if (typeof existing === "string") {
+            this.headers[name] = [
+                existing,
+                value
+            ];
+        } else if (Array.isArray(existing)) {
+            existing.push(value);
+        } else {
+            this.headers[name] = value;
+        }
+    }
+    delete(name) {
+        delete this.headers[name];
+    }
+    get(name) {
+        const value = this.headers[name];
+        if (typeof value !== "undefined") return this.merge(value);
+        return null;
+    }
+    has(name) {
+        return typeof this.headers[name] !== "undefined";
+    }
+    set(name, value) {
+        this.headers[name] = value;
+    }
+    forEach(callbackfn, thisArg) {
+        for (const [name, value] of this.entries()){
+            callbackfn.call(thisArg, value, name, this);
+        }
+    }
+    *entries() {
+        for (const key of Object.keys(this.headers)){
+            const name = key.toLowerCase();
+            // We assert here that this is a string because we got it from the
+            // Object.keys() call above.
+            const value = this.get(name);
+            yield [
+                name,
+                value
+            ];
+        }
+    }
+    *keys() {
+        for (const key of Object.keys(this.headers)){
+            const name = key.toLowerCase();
+            yield name;
+        }
+    }
+    *values() {
+        for (const key of Object.keys(this.headers)){
+            // We assert here that this is a string because we got it from the
+            // Object.keys() call above.
+            const value = this.get(key);
+            yield value;
+        }
+    }
+    [Symbol.iterator]() {
+        return this.entries();
+    }
+} //# sourceMappingURL=headers.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/spec-extension/adapters/request-cookies.js
+
+
+/**
+ * @internal
+ */ class ReadonlyRequestCookiesError extends Error {
+    constructor(){
+        super("Cookies can only be modified in a Server Action or Route Handler. Read more: https://nextjs.org/docs/app/api-reference/functions/cookies#cookiessetname-value-options");
+    }
+    static callable() {
+        throw new ReadonlyRequestCookiesError();
+    }
+}
+class RequestCookiesAdapter {
+    static seal(cookies) {
+        return new Proxy(cookies, {
+            get (target, prop, receiver) {
+                switch(prop){
+                    case "clear":
+                    case "delete":
+                    case "set":
+                        return ReadonlyRequestCookiesError.callable;
+                    default:
+                        return ReflectAdapter.get(target, prop, receiver);
+                }
+            }
+        });
+    }
+}
+const SYMBOL_MODIFY_COOKIE_VALUES = Symbol.for("next.mutated.cookies");
+function getModifiedCookieValues(cookies) {
+    const modified = cookies[SYMBOL_MODIFY_COOKIE_VALUES];
+    if (!modified || !Array.isArray(modified) || modified.length === 0) {
+        return [];
+    }
+    return modified;
+}
+function appendMutableCookies(headers, mutableCookies) {
+    const modifiedCookieValues = getModifiedCookieValues(mutableCookies);
+    if (modifiedCookieValues.length === 0) {
+        return false;
+    }
+    // Return a new response that extends the response with
+    // the modified cookies as fallbacks. `res`' cookies
+    // will still take precedence.
+    const resCookies = new ResponseCookies(headers);
+    const returnedCookies = resCookies.getAll();
+    // Set the modified cookies as fallbacks.
+    for (const cookie of modifiedCookieValues){
+        resCookies.set(cookie);
+    }
+    // Set the original cookies as the final values.
+    for (const cookie of returnedCookies){
+        resCookies.set(cookie);
+    }
+    return true;
+}
+class MutableRequestCookiesAdapter {
+    static wrap(cookies, onUpdateCookies) {
+        const responseCookes = new spec_extension_cookies/* ResponseCookies */.n(new Headers());
+        for (const cookie of cookies.getAll()){
+            responseCookes.set(cookie);
+        }
+        let modifiedValues = [];
+        const modifiedCookies = new Set();
+        const updateResponseCookies = ()=>{
+            var _fetch___nextGetStaticStore;
+            // TODO-APP: change method of getting staticGenerationAsyncStore
+            const staticGenerationAsyncStore = fetch.__nextGetStaticStore == null ? void 0 : (_fetch___nextGetStaticStore = fetch.__nextGetStaticStore()) == null ? void 0 : _fetch___nextGetStaticStore.getStore();
+            if (staticGenerationAsyncStore) {
+                staticGenerationAsyncStore.pathWasRevalidated = true;
+            }
+            const allCookies = responseCookes.getAll();
+            modifiedValues = allCookies.filter((c)=>modifiedCookies.has(c.name));
+            if (onUpdateCookies) {
+                const serializedCookies = [];
+                for (const cookie of modifiedValues){
+                    const tempCookies = new spec_extension_cookies/* ResponseCookies */.n(new Headers());
+                    tempCookies.set(cookie);
+                    serializedCookies.push(tempCookies.toString());
+                }
+                onUpdateCookies(serializedCookies);
+            }
+        };
+        return new Proxy(responseCookes, {
+            get (target, prop, receiver) {
+                switch(prop){
+                    // A special symbol to get the modified cookie values
+                    case SYMBOL_MODIFY_COOKIE_VALUES:
+                        return modifiedValues;
+                    // TODO: Throw error if trying to set a cookie after the response
+                    // headers have been set.
+                    case "delete":
+                        return function(...args) {
+                            modifiedCookies.add(typeof args[0] === "string" ? args[0] : args[0].name);
+                            try {
+                                target.delete(...args);
+                            } finally{
+                                updateResponseCookies();
+                            }
+                        };
+                    case "set":
+                        return function(...args) {
+                            modifiedCookies.add(typeof args[0] === "string" ? args[0] : args[0].name);
+                            try {
+                                return target.set(...args);
+                            } finally{
+                                updateResponseCookies();
+                            }
+                        };
+                    default:
+                        return ReflectAdapter.get(target, prop, receiver);
+                }
+            }
+        });
+    }
+} //# sourceMappingURL=request-cookies.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/api-utils/index.js
+
+
+/**
+ * Parse cookies from the `headers` of request
+ * @param req request object
+ */ function getCookieParser(headers) {
+    return function parseCookie() {
+        const { cookie } = headers;
+        if (!cookie) {
+            return {};
+        }
+        const { parse: parseCookieFn } = __webpack_require__(281);
+        return parseCookieFn(Array.isArray(cookie) ? cookie.join("; ") : cookie);
+    };
+}
+/**
+ *
+ * @param res response object
+ * @param statusCode `HTTP` status code of response
+ */ function sendStatusCode(res, statusCode) {
+    res.statusCode = statusCode;
+    return res;
+}
+/**
+ *
+ * @param res response object
+ * @param [statusOrUrl] `HTTP` status code of redirect
+ * @param url URL of redirect
+ */ function redirect(res, statusOrUrl, url) {
+    if (typeof statusOrUrl === "string") {
+        url = statusOrUrl;
+        statusOrUrl = 307;
+    }
+    if (typeof statusOrUrl !== "number" || typeof url !== "string") {
+        throw new Error(`Invalid redirect arguments. Please use a single argument URL, e.g. res.redirect('/destination') or use a status code and URL, e.g. res.redirect(307, '/destination').`);
+    }
+    res.writeHead(statusOrUrl, {
+        Location: url
+    });
+    res.write(url);
+    res.end();
+    return res;
+}
+function checkIsOnDemandRevalidate(req, previewProps) {
+    const headers = HeadersAdapter.from(req.headers);
+    const previewModeId = headers.get(PRERENDER_REVALIDATE_HEADER);
+    const isOnDemandRevalidate = previewModeId === previewProps.previewModeId;
+    const revalidateOnlyGenerated = headers.has(PRERENDER_REVALIDATE_ONLY_GENERATED_HEADER);
+    return {
+        isOnDemandRevalidate,
+        revalidateOnlyGenerated
+    };
+}
+const COOKIE_NAME_PRERENDER_BYPASS = `__prerender_bypass`;
+const COOKIE_NAME_PRERENDER_DATA = `__next_preview_data`;
+const RESPONSE_LIMIT_DEFAULT = (/* unused pure expression or super */ null && (4 * 1024 * 1024));
+const SYMBOL_PREVIEW_DATA = Symbol(COOKIE_NAME_PRERENDER_DATA);
+const SYMBOL_CLEARED_COOKIES = Symbol(COOKIE_NAME_PRERENDER_BYPASS);
+function clearPreviewData(res, options = {}) {
+    if (SYMBOL_CLEARED_COOKIES in res) {
+        return res;
+    }
+    const { serialize } = __webpack_require__(281);
+    const previous = res.getHeader("Set-Cookie");
+    res.setHeader(`Set-Cookie`, [
+        ...typeof previous === "string" ? [
+            previous
+        ] : Array.isArray(previous) ? previous : [],
+        serialize(COOKIE_NAME_PRERENDER_BYPASS, "", {
+            // To delete a cookie, set `expires` to a date in the past:
+            // https://tools.ietf.org/html/rfc6265#section-4.1.1
+            // `Max-Age: 0` is not valid, thus ignored, and the cookie is persisted.
+            expires: new Date(0),
+            httpOnly: true,
+            sameSite:  true ? "none" : 0,
+            secure: "production" !== "development",
+            path: "/",
+            ...options.path !== undefined ? {
+                path: options.path
+            } : undefined
+        }),
+        serialize(COOKIE_NAME_PRERENDER_DATA, "", {
+            // To delete a cookie, set `expires` to a date in the past:
+            // https://tools.ietf.org/html/rfc6265#section-4.1.1
+            // `Max-Age: 0` is not valid, thus ignored, and the cookie is persisted.
+            expires: new Date(0),
+            httpOnly: true,
+            sameSite:  true ? "none" : 0,
+            secure: "production" !== "development",
+            path: "/",
+            ...options.path !== undefined ? {
+                path: options.path
+            } : undefined
+        })
+    ]);
+    Object.defineProperty(res, SYMBOL_CLEARED_COOKIES, {
+        value: true,
+        enumerable: false
+    });
+    return res;
+}
+/**
+ * Custom error class
+ */ class ApiError extends (/* unused pure expression or super */ null && (Error)) {
+    constructor(statusCode, message){
+        super(message);
+        this.statusCode = statusCode;
+    }
+}
+/**
+ * Sends error in `response`
+ * @param res response object
+ * @param statusCode of response
+ * @param message of response
+ */ function sendError(res, statusCode, message) {
+    res.statusCode = statusCode;
+    res.statusMessage = message;
+    res.end(message);
+}
+/**
+ * Execute getter function only if its needed
+ * @param LazyProps `req` and `params` for lazyProp
+ * @param prop name of property
+ * @param getter function to get data
+ */ function setLazyProp({ req }, prop, getter) {
+    const opts = {
+        configurable: true,
+        enumerable: true
+    };
+    const optsReset = {
+        ...opts,
+        writable: true
+    };
+    Object.defineProperty(req, prop, {
+        ...opts,
+        get: ()=>{
+            const value = getter();
+            // we set the property on the object to avoid recalculating it
+            Object.defineProperty(req, prop, {
+                ...optsReset,
+                value
+            });
+            return value;
+        },
+        set: (value)=>{
+            Object.defineProperty(req, prop, {
+                ...optsReset,
+                value
+            });
+        }
+    });
+} //# sourceMappingURL=index.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/async-storage/draft-mode-provider.js
+
+class DraftModeProvider {
+    constructor(previewProps, req, cookies, mutableCookies){
+        var _cookies_get;
+        // The logic for draftMode() is very similar to tryGetPreviewData()
+        // but Draft Mode does not have any data associated with it.
+        const isOnDemandRevalidate = previewProps && checkIsOnDemandRevalidate(req, previewProps).isOnDemandRevalidate;
+        const cookieValue = (_cookies_get = cookies.get(COOKIE_NAME_PRERENDER_BYPASS)) == null ? void 0 : _cookies_get.value;
+        this.isEnabled = Boolean(!isOnDemandRevalidate && cookieValue && previewProps && cookieValue === previewProps.previewModeId);
+        this._previewModeId = previewProps == null ? void 0 : previewProps.previewModeId;
+        this._mutableCookies = mutableCookies;
+    }
+    enable() {
+        if (!this._previewModeId) {
+            throw new Error("Invariant: previewProps missing previewModeId this should never happen");
+        }
+        this._mutableCookies.set({
+            name: COOKIE_NAME_PRERENDER_BYPASS,
+            value: this._previewModeId,
+            httpOnly: true,
+            sameSite:  true ? "none" : 0,
+            secure: "production" !== "development",
+            path: "/"
+        });
+    }
+    disable() {
+        // To delete a cookie, set `expires` to a date in the past:
+        // https://tools.ietf.org/html/rfc6265#section-4.1.1
+        // `Max-Age: 0` is not valid, thus ignored, and the cookie is persisted.
+        this._mutableCookies.set({
+            name: COOKIE_NAME_PRERENDER_BYPASS,
+            value: "",
+            httpOnly: true,
+            sameSite:  true ? "none" : 0,
+            secure: "production" !== "development",
+            path: "/",
+            expires: new Date(0)
+        });
+    }
+} //# sourceMappingURL=draft-mode-provider.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/async-storage/request-async-storage-wrapper.js
+
+
+
+
+
+function getHeaders(headers) {
+    const cleaned = HeadersAdapter.from(headers);
+    for (const param of FLIGHT_PARAMETERS){
+        cleaned.delete(param.toString().toLowerCase());
+    }
+    return HeadersAdapter.seal(cleaned);
+}
+function getCookies(headers) {
+    const cookies = new spec_extension_cookies/* RequestCookies */.q(HeadersAdapter.from(headers));
+    return RequestCookiesAdapter.seal(cookies);
+}
+function getMutableCookies(headers, onUpdateCookies) {
+    const cookies = new spec_extension_cookies/* RequestCookies */.q(HeadersAdapter.from(headers));
+    return MutableRequestCookiesAdapter.wrap(cookies, onUpdateCookies);
+}
+const RequestAsyncStorageWrapper = {
+    /**
+   * Wrap the callback with the given store so it can access the underlying
+   * store using hooks.
+   *
+   * @param storage underlying storage object returned by the module
+   * @param context context to seed the store
+   * @param callback function to call within the scope of the context
+   * @returns the result returned by the callback
+   */ wrap (storage, { req, res, renderOpts }, callback) {
+        let previewProps = undefined;
+        if (renderOpts && "previewProps" in renderOpts) {
+            // TODO: investigate why previewProps isn't on RenderOpts
+            previewProps = renderOpts.previewProps;
+        }
+        function defaultOnUpdateCookies(cookies) {
+            if (res) {
+                res.setHeader("Set-Cookie", cookies);
+            }
+        }
+        const cache = {};
+        const store = {
+            get headers () {
+                if (!cache.headers) {
+                    // Seal the headers object that'll freeze out any methods that could
+                    // mutate the underlying data.
+                    cache.headers = getHeaders(req.headers);
+                }
+                return cache.headers;
+            },
+            get cookies () {
+                if (!cache.cookies) {
+                    // Seal the cookies object that'll freeze out any methods that could
+                    // mutate the underlying data.
+                    cache.cookies = getCookies(req.headers);
+                }
+                return cache.cookies;
+            },
+            get mutableCookies () {
+                if (!cache.mutableCookies) {
+                    cache.mutableCookies = getMutableCookies(req.headers, (renderOpts == null ? void 0 : renderOpts.onUpdateCookies) || (res ? defaultOnUpdateCookies : undefined));
+                }
+                return cache.mutableCookies;
+            },
+            get draftMode () {
+                if (!cache.draftMode) {
+                    cache.draftMode = new DraftModeProvider(previewProps, req, this.cookies, this.mutableCookies);
+                }
+                return cache.draftMode;
+            }
+        };
+        return storage.run(store, callback, store);
+    }
+}; //# sourceMappingURL=request-async-storage-wrapper.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/client/components/async-local-storage.js
+const sharedAsyncLocalStorageNotAvailableError = new Error("Invariant: AsyncLocalStorage accessed in runtime where it is not available");
+class FakeAsyncLocalStorage {
+    disable() {
+        throw sharedAsyncLocalStorageNotAvailableError;
+    }
+    getStore() {
+        // This fake implementation of AsyncLocalStorage always returns `undefined`.
+        return undefined;
+    }
+    run() {
+        throw sharedAsyncLocalStorageNotAvailableError;
+    }
+    exit() {
+        throw sharedAsyncLocalStorageNotAvailableError;
+    }
+    enterWith() {
+        throw sharedAsyncLocalStorageNotAvailableError;
+    }
+}
+const maybeGlobalAsyncLocalStorage = globalThis.AsyncLocalStorage;
+function createAsyncLocalStorage() {
+    if (maybeGlobalAsyncLocalStorage) {
+        return new maybeGlobalAsyncLocalStorage();
+    }
+    return new FakeAsyncLocalStorage();
+} //# sourceMappingURL=async-local-storage.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/client/components/request-async-storage.js
+
+const requestAsyncStorage = createAsyncLocalStorage(); //# sourceMappingURL=request-async-storage.js.map
+
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/adapter.js
+
+
 
 
 
@@ -542,6 +1159,7 @@ async function adapter(params) {
     await ensureInstrumentationRegistered();
     // TODO-APP: use explicit marker for this
     const isEdgeRendering = typeof self.__BUILD_MANIFEST !== "undefined";
+    const prerenderManifest = typeof self.__PRERENDER_MANIFEST === "string" ? JSON.parse(self.__PRERENDER_MANIFEST) : undefined;
     params.request.url = normalizeRscPath(params.request.url, true);
     const requestUrl = new next_url/* NextURL */.c(params.request.url, {
         headers: params.request.headers,
@@ -634,10 +1252,33 @@ async function adapter(params) {
         request,
         page: params.page
     });
-    let response = await params.handler(request, event);
+    let response;
+    let cookiesFromResponse;
+    // we only care to make async storage available for middleware
+    if (params.page === "/middleware") {
+        response = await RequestAsyncStorageWrapper.wrap(requestAsyncStorage, {
+            req: request,
+            renderOpts: {
+                onUpdateCookies: (cookies)=>{
+                    cookiesFromResponse = cookies;
+                },
+                // @ts-expect-error: TODO: investigate why previewProps isn't on RenderOpts
+                previewProps: (prerenderManifest == null ? void 0 : prerenderManifest.preview) || {
+                    previewModeId: "development-id",
+                    previewModeEncryptionKey: "",
+                    previewModeSigningKey: ""
+                }
+            }
+        }, ()=>params.handler(request, event));
+    } else {
+        response = await params.handler(request, event);
+    }
     // check if response is a Response object
     if (response && !(response instanceof Response)) {
         throw new TypeError("Expected an instance of Response to be returned");
+    }
+    if (response && cookiesFromResponse) {
+        response.headers.set("set-cookie", cookiesFromResponse);
     }
     /**
    * For rewrites we must always include the locale in the final pathname
@@ -718,11 +1359,11 @@ async function adapter(params) {
     };
 } //# sourceMappingURL=adapter.js.map
 
-// EXTERNAL MODULE: ./node_modules/.pnpm/next-auth@4.22.3_next@13.4.12_react-dom@18.2.0_react@18.2.0/node_modules/next-auth/jwt/index.js
-var jwt = __webpack_require__(895);
-// EXTERNAL MODULE: ./node_modules/.pnpm/next-auth@4.22.3_next@13.4.12_react-dom@18.2.0_react@18.2.0/node_modules/next-auth/middleware.js
-var middleware = __webpack_require__(8339);
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/exports/next-response.js
+// EXTERNAL MODULE: ./node_modules/.pnpm/next-auth@4.22.3_next@13.4.15_react-dom@18.2.0_react@18.2.0/node_modules/next-auth/jwt/index.js
+var jwt = __webpack_require__(659);
+// EXTERNAL MODULE: ./node_modules/.pnpm/next-auth@4.22.3_next@13.4.15_react-dom@18.2.0_react@18.2.0/node_modules/next-auth/middleware.js
+var middleware = __webpack_require__(156);
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/exports/next-response.js
 // This file is for modularized imports for next/server to get fully-treeshaking.
  //# sourceMappingURL=next-response.js.map
 
@@ -769,7 +1410,7 @@ const config = {
     ]
 };
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-middleware-loader.js?absolutePagePath=private-next-root-dir%2Fmiddleware.ts&page=%2Fmiddleware&rootDir=%2FUsers%2Fayaanzaveri%2FCode%2Fcognition&matchers=W3sicmVnZXhwIjoiXig%2FOlxcLyhfbmV4dFxcL2RhdGFcXC9bXi9dezEsfSkpP1xcL2xvZ2luKC5qc29uKT9bXFwvI1xcP10%2FJCIsIm9yaWdpbmFsU291cmNlIjoiL2xvZ2luIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk%2FXFwvcHJvZmlsZSguanNvbik%2FW1xcLyNcXD9dPyQiLCJvcmlnaW5hbFNvdXJjZSI6Ii9wcm9maWxlIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk%2FXFwvbWUoLmpzb24pP1tcXC8jXFw%2FXT8kIiwib3JpZ2luYWxTb3VyY2UiOiIvbWUifV0%3D&preferredRegion=&middlewareConfig=eyJtYXRjaGVycyI6W3sicmVnZXhwIjoiXig%2FOlxcLyhfbmV4dFxcL2RhdGFcXC9bXi9dezEsfSkpP1xcL2xvZ2luKC5qc29uKT9bXFwvI1xcP10%2FJCIsIm9yaWdpbmFsU291cmNlIjoiL2xvZ2luIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk%2FXFwvcHJvZmlsZSguanNvbik%2FW1xcLyNcXD9dPyQiLCJvcmlnaW5hbFNvdXJjZSI6Ii9wcm9maWxlIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk%2FXFwvbWUoLmpzb24pP1tcXC8jXFw%2FXT8kIiwib3JpZ2luYWxTb3VyY2UiOiIvbWUifV19!
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-middleware-loader.js?absolutePagePath=private-next-root-dir%2Fmiddleware.ts&page=%2Fmiddleware&rootDir=%2FUsers%2Fayaanzaveri%2FCode%2Fcognition&matchers=W3sicmVnZXhwIjoiXig%2FOlxcLyhfbmV4dFxcL2RhdGFcXC9bXi9dezEsfSkpP1xcL2xvZ2luKC5qc29uKT9bXFwvI1xcP10%2FJCIsIm9yaWdpbmFsU291cmNlIjoiL2xvZ2luIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk%2FXFwvcHJvZmlsZSguanNvbik%2FW1xcLyNcXD9dPyQiLCJvcmlnaW5hbFNvdXJjZSI6Ii9wcm9maWxlIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk%2FXFwvbWUoLmpzb24pP1tcXC8jXFw%2FXT8kIiwib3JpZ2luYWxTb3VyY2UiOiIvbWUifV0%3D&preferredRegion=&middlewareConfig=eyJtYXRjaGVycyI6W3sicmVnZXhwIjoiXig%2FOlxcLyhfbmV4dFxcL2RhdGFcXC9bXi9dezEsfSkpP1xcL2xvZ2luKC5qc29uKT9bXFwvI1xcP10%2FJCIsIm9yaWdpbmFsU291cmNlIjoiL2xvZ2luIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk%2FXFwvcHJvZmlsZSguanNvbik%2FW1xcLyNcXD9dPyQiLCJvcmlnaW5hbFNvdXJjZSI6Ii9wcm9maWxlIn0seyJyZWdleHAiOiJeKD86XFwvKF9uZXh0XFwvZGF0YVxcL1teL117MSx9KSk%2FXFwvbWUoLmpzb24pP1tcXC8jXFw%2FXT8kIiwib3JpZ2luYWxTb3VyY2UiOiIvbWUifV19!
 
         
         
@@ -793,19 +1434,19 @@ const config = {
 
 /***/ }),
 
-/***/ 2935:
+/***/ 869:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-var _interopRequireDefault = __webpack_require__(6083);
+var _interopRequireDefault = __webpack_require__(612);
 Object.defineProperty(exports, "__esModule", ({
     value: true
 }));
 exports.SessionStore = void 0;
 exports.defaultCookies = defaultCookies;
-var _classPrivateFieldGet3 = _interopRequireDefault(__webpack_require__(553));
-var _classPrivateFieldSet2 = _interopRequireDefault(__webpack_require__(2294));
+var _classPrivateFieldGet3 = _interopRequireDefault(__webpack_require__(154));
+var _classPrivateFieldSet2 = _interopRequireDefault(__webpack_require__(470));
 function _classPrivateMethodInitSpec(obj, privateSet) {
     _checkPrivateRedeclaration(obj, privateSet);
     privateSet.add(obj);
@@ -1001,12 +1642,12 @@ function _clean2() {
 
 /***/ }),
 
-/***/ 895:
+/***/ 659:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-var _interopRequireDefault = __webpack_require__(6083);
+var _interopRequireDefault = __webpack_require__(612);
 Object.defineProperty(exports, "__esModule", ({
     value: true
 }));
@@ -1018,11 +1659,11 @@ var _exportNames = {
 exports.decode = decode;
 exports.encode = encode;
 exports.getToken = getToken;
-var _jose = __webpack_require__(6227);
-var _hkdf = _interopRequireDefault(__webpack_require__(1063));
-var _uuid = __webpack_require__(2359);
-var _cookie = __webpack_require__(2935);
-var _types = __webpack_require__(1778);
+var _jose = __webpack_require__(452);
+var _hkdf = _interopRequireDefault(__webpack_require__(507));
+var _uuid = __webpack_require__(91);
+var _cookie = __webpack_require__(869);
+var _types = __webpack_require__(558);
 Object.keys(_types).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -1090,7 +1731,7 @@ async function getDerivedEncryptionKey(secret) {
 
 /***/ }),
 
-/***/ 1778:
+/***/ 558:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -1102,7 +1743,7 @@ Object.defineProperty(exports, "__esModule", ({
 
 /***/ }),
 
-/***/ 8339:
+/***/ 156:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -1117,7 +1758,7 @@ Object.defineProperty(exports, "default", ({
         return _middleware.default;
     }
 }));
-var _middleware = _interopRequireWildcard(__webpack_require__(5860));
+var _middleware = _interopRequireWildcard(__webpack_require__(462));
 Object.keys(_middleware).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -1172,21 +1813,21 @@ function _interopRequireWildcard(obj, nodeInterop) {
 
 /***/ }),
 
-/***/ 5860:
+/***/ 462:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
 
-const NextResponse = (__webpack_require__(4668)/* .NextResponse */ .x);
-var _interopRequireDefault = __webpack_require__(6083);
+const NextResponse = (__webpack_require__(209)/* .NextResponse */ .x);
+var _interopRequireDefault = __webpack_require__(612);
 Object.defineProperty(exports, "__esModule", ({
     value: true
 }));
 exports["default"] = void 0;
 exports.withAuth = withAuth;
 ;
-var _jwt = __webpack_require__(895);
-var _parseUrl = _interopRequireDefault(__webpack_require__(5054));
+var _jwt = __webpack_require__(659);
+var _parseUrl = _interopRequireDefault(__webpack_require__(346));
 async function handleMiddleware(req, options, onSuccess) {
     var _options$pages$signIn, _options$pages, _options$pages$error, _options$pages2, _options$secret, _options$jwt, _options$cookies, _options$cookies$sess, _await$options$callba, _options$callbacks, _options$callbacks$au;
     const { pathname, search, origin, basePath } = req.nextUrl;
@@ -1248,7 +1889,7 @@ exports["default"] = _default;
 
 /***/ }),
 
-/***/ 5054:
+/***/ 346:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -1278,7 +1919,7 @@ function parseUrl(url) {
 
 /***/ }),
 
-/***/ 5275:
+/***/ 168:
 /***/ ((module) => {
 
 "use strict";
@@ -1618,7 +2259,135 @@ function splitCookiesString(cookiesString) {
 
 /***/ }),
 
-/***/ 9169:
+/***/ 281:
+/***/ ((module) => {
+
+"use strict";
+var __dirname = "/";
+
+(()=>{
+    "use strict";
+    if (typeof __nccwpck_require__ !== "undefined") __nccwpck_require__.ab = __dirname + "/";
+    var e = {};
+    (()=>{
+        var r = e;
+        /*!
+ * cookie
+ * Copyright(c) 2012-2014 Roman Shtylman
+ * Copyright(c) 2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */ r.parse = parse;
+        r.serialize = serialize;
+        var i = decodeURIComponent;
+        var t = encodeURIComponent;
+        var a = /; */;
+        var n = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+        function parse(e, r) {
+            if (typeof e !== "string") {
+                throw new TypeError("argument str must be a string");
+            }
+            var t = {};
+            var n = r || {};
+            var o = e.split(a);
+            var s = n.decode || i;
+            for(var p = 0; p < o.length; p++){
+                var f = o[p];
+                var u = f.indexOf("=");
+                if (u < 0) {
+                    continue;
+                }
+                var v = f.substr(0, u).trim();
+                var c = f.substr(++u, f.length).trim();
+                if ('"' == c[0]) {
+                    c = c.slice(1, -1);
+                }
+                if (undefined == t[v]) {
+                    t[v] = tryDecode(c, s);
+                }
+            }
+            return t;
+        }
+        function serialize(e, r, i) {
+            var a = i || {};
+            var o = a.encode || t;
+            if (typeof o !== "function") {
+                throw new TypeError("option encode is invalid");
+            }
+            if (!n.test(e)) {
+                throw new TypeError("argument name is invalid");
+            }
+            var s = o(r);
+            if (s && !n.test(s)) {
+                throw new TypeError("argument val is invalid");
+            }
+            var p = e + "=" + s;
+            if (null != a.maxAge) {
+                var f = a.maxAge - 0;
+                if (isNaN(f) || !isFinite(f)) {
+                    throw new TypeError("option maxAge is invalid");
+                }
+                p += "; Max-Age=" + Math.floor(f);
+            }
+            if (a.domain) {
+                if (!n.test(a.domain)) {
+                    throw new TypeError("option domain is invalid");
+                }
+                p += "; Domain=" + a.domain;
+            }
+            if (a.path) {
+                if (!n.test(a.path)) {
+                    throw new TypeError("option path is invalid");
+                }
+                p += "; Path=" + a.path;
+            }
+            if (a.expires) {
+                if (typeof a.expires.toUTCString !== "function") {
+                    throw new TypeError("option expires is invalid");
+                }
+                p += "; Expires=" + a.expires.toUTCString();
+            }
+            if (a.httpOnly) {
+                p += "; HttpOnly";
+            }
+            if (a.secure) {
+                p += "; Secure";
+            }
+            if (a.sameSite) {
+                var u = typeof a.sameSite === "string" ? a.sameSite.toLowerCase() : a.sameSite;
+                switch(u){
+                    case true:
+                        p += "; SameSite=Strict";
+                        break;
+                    case "lax":
+                        p += "; SameSite=Lax";
+                        break;
+                    case "strict":
+                        p += "; SameSite=Strict";
+                        break;
+                    case "none":
+                        p += "; SameSite=None";
+                        break;
+                    default:
+                        throw new TypeError("option sameSite is invalid");
+                }
+            }
+            return p;
+        }
+        function tryDecode(e, r) {
+            try {
+                return r(e);
+            } catch (r) {
+                return e;
+            }
+        }
+    })();
+    module.exports = e;
+})();
+
+
+/***/ }),
+
+/***/ 593:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1628,7 +2397,7 @@ __webpack_require__.d(__webpack_exports__, {
   c: () => (/* binding */ NextURL)
 });
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/i18n/detect-domain-locale.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/i18n/detect-domain-locale.js
 function detectDomainLocale(domainItems, hostname, detectedLocale) {
     if (!domainItems) return;
     if (detectedLocale) {
@@ -1644,7 +2413,7 @@ function detectDomainLocale(domainItems, hostname, detectedLocale) {
     }
 } //# sourceMappingURL=detect-domain-locale.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/remove-trailing-slash.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/remove-trailing-slash.js
 /**
  * Removes the trailing slash for a given route or page path. Preserves the
  * root page. Examples:
@@ -1655,7 +2424,7 @@ function detectDomainLocale(domainItems, hostname, detectedLocale) {
     return route.replace(/\/$/, "") || "/";
 } //# sourceMappingURL=remove-trailing-slash.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/parse-path.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/parse-path.js
 /**
  * Given a path this function will find the pathname, query and hash and return
  * them. This is useful to parse full paths on the client side.
@@ -1678,7 +2447,7 @@ function detectDomainLocale(domainItems, hostname, detectedLocale) {
     };
 } //# sourceMappingURL=parse-path.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/add-path-prefix.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/add-path-prefix.js
 
 /**
  * Adds the provided prefix to the given path. It first ensures that the path
@@ -1691,7 +2460,7 @@ function detectDomainLocale(domainItems, hostname, detectedLocale) {
     return "" + prefix + pathname + query + hash;
 } //# sourceMappingURL=add-path-prefix.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/add-path-suffix.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/add-path-suffix.js
 
 /**
  * Similarly to `addPathPrefix`, this function adds a suffix at the end on the
@@ -1705,7 +2474,7 @@ function detectDomainLocale(domainItems, hostname, detectedLocale) {
     return "" + pathname + suffix + query + hash;
 } //# sourceMappingURL=add-path-suffix.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/path-has-prefix.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/path-has-prefix.js
 
 /**
  * Checks if a given path starts with a given prefix. It ensures it matches
@@ -1721,7 +2490,7 @@ function detectDomainLocale(domainItems, hostname, detectedLocale) {
     return pathname === prefix || pathname.startsWith(prefix + "/");
 } //# sourceMappingURL=path-has-prefix.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/add-locale.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/add-locale.js
 
 
 /**
@@ -1743,7 +2512,7 @@ function detectDomainLocale(domainItems, hostname, detectedLocale) {
     return addPathPrefix(path, "/" + locale);
 } //# sourceMappingURL=add-locale.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/format-next-pathname-info.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/format-next-pathname-info.js
 
 
 
@@ -1760,7 +2529,7 @@ function formatNextPathnameInfo(info) {
     return !info.buildId && info.trailingSlash ? !pathname.endsWith("/") ? addPathSuffix(pathname, "/") : pathname : removeTrailingSlash(pathname);
 } //# sourceMappingURL=format-next-pathname-info.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/get-hostname.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/get-hostname.js
 /**
  * Takes an object with a hostname property (like a parsed URL) and some
  * headers that may contain Host and returns the preferred hostname.
@@ -1778,7 +2547,7 @@ function formatNextPathnameInfo(info) {
     return hostname.toLowerCase();
 } //# sourceMappingURL=get-hostname.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/i18n/normalize-locale-path.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/i18n/normalize-locale-path.js
 /**
  * For a pathname that may include a locale from a list of locales, it
  * removes the locale from the pathname returning it alongside with the
@@ -1806,7 +2575,7 @@ function formatNextPathnameInfo(info) {
     };
 } //# sourceMappingURL=normalize-locale-path.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/remove-path-prefix.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/remove-path-prefix.js
 
 /**
  * Given a path and a prefix it will remove the prefix when it exists in the
@@ -1842,7 +2611,7 @@ function formatNextPathnameInfo(info) {
     return "/" + withoutPrefix;
 } //# sourceMappingURL=remove-path-prefix.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/get-next-pathname-info.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/shared/lib/router/utils/get-next-pathname-info.js
 
 
 
@@ -1879,12 +2648,12 @@ function getNextPathnameInfo(pathname, options) {
     return info;
 } //# sourceMappingURL=get-next-pathname-info.js.map
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/next-url.js
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.15_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/esm/server/web/next-url.js
 
 
 
 
-const REGEX_LOCALHOST_HOSTNAME = /(?!^https?:\/\/)(127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}|::1|localhost)/;
+const REGEX_LOCALHOST_HOSTNAME = /(?!^https?:\/\/)(127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}|\[::1\]|localhost)/;
 function parseURL(url, base) {
     return new URL(String(url).replace(REGEX_LOCALHOST_HOSTNAME, "localhost"), base && String(base).replace(REGEX_LOCALHOST_HOSTNAME, "localhost"));
 }
@@ -2063,7 +2832,7 @@ class NextURL {
 
 /***/ }),
 
-/***/ 1769:
+/***/ 972:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2071,23 +2840,23 @@ class NextURL {
 /* harmony export */   n: () => (/* reexport safe */ next_dist_compiled_edge_runtime_cookies__WEBPACK_IMPORTED_MODULE_0__.ResponseCookies),
 /* harmony export */   q: () => (/* reexport safe */ next_dist_compiled_edge_runtime_cookies__WEBPACK_IMPORTED_MODULE_0__.RequestCookies)
 /* harmony export */ });
-/* harmony import */ var next_dist_compiled_edge_runtime_cookies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(5275);
+/* harmony import */ var next_dist_compiled_edge_runtime_cookies__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(168);
 /* harmony import */ var next_dist_compiled_edge_runtime_cookies__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(next_dist_compiled_edge_runtime_cookies__WEBPACK_IMPORTED_MODULE_0__);
  //# sourceMappingURL=cookies.js.map
 
 
 /***/ }),
 
-/***/ 4668:
+/***/ 209:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   x: () => (/* binding */ NextResponse)
 /* harmony export */ });
-/* harmony import */ var _next_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(9169);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(773);
-/* harmony import */ var _cookies__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(1769);
+/* harmony import */ var _next_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(593);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(122);
+/* harmony import */ var _cookies__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(972);
 
 
 
@@ -2184,7 +2953,7 @@ class NextResponse extends Response {
 
 /***/ }),
 
-/***/ 773:
+/***/ 122:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2321,7 +3090,7 @@ class NextResponse extends Response {
 
 /***/ }),
 
-/***/ 2359:
+/***/ 91:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2900,7 +3669,7 @@ function version(uuid) {
 
 /***/ }),
 
-/***/ 9829:
+/***/ 276:
 /***/ ((module) => {
 
 "use strict";
@@ -2916,7 +3685,7 @@ module.exports = _classApplyDescriptorGet, module.exports.__esModule = true, mod
 
 /***/ }),
 
-/***/ 7241:
+/***/ 58:
 /***/ ((module) => {
 
 "use strict";
@@ -2936,7 +3705,7 @@ module.exports = _classApplyDescriptorSet, module.exports.__esModule = true, mod
 
 /***/ }),
 
-/***/ 1669:
+/***/ 979:
 /***/ ((module) => {
 
 "use strict";
@@ -2952,13 +3721,13 @@ module.exports = _classExtractFieldDescriptor, module.exports.__esModule = true,
 
 /***/ }),
 
-/***/ 553:
+/***/ 154:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
-var classApplyDescriptorGet = __webpack_require__(9829);
-var classExtractFieldDescriptor = __webpack_require__(1669);
+var classApplyDescriptorGet = __webpack_require__(276);
+var classExtractFieldDescriptor = __webpack_require__(979);
 function _classPrivateFieldGet(receiver, privateMap) {
     var descriptor = classExtractFieldDescriptor(receiver, privateMap, "get");
     return classApplyDescriptorGet(receiver, descriptor);
@@ -2968,13 +3737,13 @@ module.exports = _classPrivateFieldGet, module.exports.__esModule = true, module
 
 /***/ }),
 
-/***/ 2294:
+/***/ 470:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
-var classApplyDescriptorSet = __webpack_require__(7241);
-var classExtractFieldDescriptor = __webpack_require__(1669);
+var classApplyDescriptorSet = __webpack_require__(58);
+var classExtractFieldDescriptor = __webpack_require__(979);
 function _classPrivateFieldSet(receiver, privateMap, value) {
     var descriptor = classExtractFieldDescriptor(receiver, privateMap, "set");
     classApplyDescriptorSet(receiver, descriptor, value);
@@ -2985,7 +3754,7 @@ module.exports = _classPrivateFieldSet, module.exports.__esModule = true, module
 
 /***/ }),
 
-/***/ 6083:
+/***/ 612:
 /***/ ((module) => {
 
 "use strict";
@@ -3000,7 +3769,7 @@ module.exports = _interopRequireDefault, module.exports.__esModule = true, modul
 
 /***/ }),
 
-/***/ 1063:
+/***/ 507:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3080,7 +3849,7 @@ async function web_hkdf(digest, ikm, salt, info, keylen) {
 
 /***/ }),
 
-/***/ 6227:
+/***/ 452:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -7162,7 +7931,7 @@ async function generate_secret_generateSecret(alg, options) {
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ var __webpack_exports__ = (__webpack_exec__(6443));
+/******/ var __webpack_exports__ = (__webpack_exec__(571));
 /******/ (_ENTRIES = typeof _ENTRIES === "undefined" ? {} : _ENTRIES).middleware_middleware = __webpack_exports__;
 /******/ }
 ]);

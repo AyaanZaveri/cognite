@@ -5,6 +5,7 @@
   "middleware": {
     "/": {
       "files": [
+        "prerender-manifest.js",
         "server/edge-runtime-webpack.js",
         "server/middleware.js"
       ],
@@ -28,26 +29,6 @@
       "assets": []
     }
   },
-  "functions": {
-    "/api/cog/completions/route": {
-      "files": [
-        "server/middleware-build-manifest.js",
-        "server/middleware-react-loadable-manifest.js",
-        "server/next-font-manifest.js",
-        "server/edge-runtime-webpack.js",
-        "server/app/api/cog/completions/route.js"
-      ],
-      "name": "app/api/cog/completions/route",
-      "page": "/api/cog/completions/route",
-      "matchers": [
-        {
-          "regexp": "^/api/cog/completions$",
-          "originalSource": "/api/cog/completions"
-        }
-      ],
-      "wasm": [],
-      "assets": []
-    }
-  },
+  "functions": {},
   "version": 2
 }

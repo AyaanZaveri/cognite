@@ -152,7 +152,7 @@
        "Principal": {
         "CanonicalUser": {
          "Fn::GetAtt": [
-          "siteDistributionOrigin1S3Origin34B0A58E",
+          "siteDistributionOrigin3S3Origin7C72BBD7",
           "S3CanonicalUserId"
          ]
         }
@@ -241,28 +241,8 @@
      ]
     },
     "bucket": "cdk-hnb659fds-assets-695897674742-us-east-1",
-    "key": "b34d39dda18d6cd18dc016b6ba20456945da180d6fb6933029791e343cf0aadb.zip",
+    "key": "e49729d0665ec677df6f7811a62ce60dddbad1baa33dd35114f418676cf9e302.zip",
     "replacements": [
-     {
-      "files": "index.mjs",
-      "search": "\"{{ _SST_FUNCTION_ENVIRONMENT_ }}\"",
-      "replace": {
-       "Fn::Join": [
-        "",
-        [
-         "{\"NEXT_PUBLIC_OPENAI_API_KEY\":\"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\",\"NEXT_PUBLIC_OPENAI_ENDPOINT\":\"https://api.openai.com/v1\",\"NEXT_PUBLIC_OPENAI_API_KEY_CHAT\":\"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\",\"NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT\":\"https://api.openai.com/v1\",\"MY_GITHUB_CLIENT_ID\":\"efc6e4757f8963649fcb\",\"MY_GITHUB_CLIENT_SECRET\":\"7918f48be710d69a517f7f4d847ecf97041ab385\",\"GOOGLE_CLIENT_ID\":\"237284825711-ch2ks2d3c1pef25baufm3vb47s89otp7.apps.googleusercontent.com\",\"GOOGLE_CLIENT_SECRET\":\"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\",\"DISCORD_CLIENT_ID\":\"1126332559186472961\",\"DISCORD_CLIENT_SECRET\":\"Bk-M7L3MO-CI2ZhTVGOZlzwsAYTkqIyE\",\"NEXTAUTH_URL\":\"http://localhost:3000\",\"NEXTAUTH_SECRET\":\"kfjio45jtio45jopetj4i5jv4i5uoeupo6uvp5o46m456opvie45vo6pme54u6oviuop6iue45o6uvp4o5iu6vpeo4i5u6ope5iuopeeiop45645\",\"DATABASE_URL\":\"prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZjY1OGI4NmYtMmUxYi00N2YwLTg1MDQtOWI5YTIwMjM2ZTdkIiwidGVuYW50X2lkIjoiZTAzMThhYWM2MzcwN2I4ZWEwNTFkNTkyNDMzOTdmZDBkODE1NTE1ZWIxNTk4ZGEwOTliMTE5YTVjZmQ0YTQ4NSIsImludGVybmFsX3NlY3JldCI6ImYwZDY0YmIyLWVlNzYtNDRiNi04ODBkLTlkODBiYTg3YzA4MiJ9.yUq1gWpZtXY2AxOUG8gy5zB_mzERBzCYJQ--576rpls\",\"MIGRATE_DATABASE_URL\":\"postgres://AyaanZaveri:iwOBsvQM9kD5@ep-steep-dawn-724015.us-east-2.aws.neon.tech/neondb\",\"DIRECT_URL\":\"postgres://AyaanZaveri:iwOBsvQM9kD5@ep-steep-dawn-724015.us-east-2.aws.neon.tech/neondb?pgbouncer=true&connect_timeout=15\",\"CACHE_BUCKET_NAME\":\"",
-         {
-          "Ref": "siteS3Bucket2B2851F3"
-         },
-         "\",\"CACHE_BUCKET_KEY_PREFIX\":\"_cache\",\"CACHE_BUCKET_REGION\":\"us-east-1\",\"REVALIDATION_QUEUE_URL\":\"",
-         {
-          "Ref": "siteRevalidationQueue355EB7DA"
-         },
-         "\",\"REVALIDATION_QUEUE_REGION\":\"us-east-1\",\"SST_APP\":\"cognition\",\"SST_STAGE\":\"prod\",\"SST_REGION\":\"us-east-1\",\"SST_SSM_PREFIX\":\"/sst/cognition/prod/\"}"
-        ]
-       ]
-      }
-     },
      {
       "files": "**/*.@(*js|json|html)",
       "search": "{{ NEXT_PUBLIC_OPENAI_API_KEY }}",
@@ -363,7 +343,7 @@
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete"
   },
-  "siteServerFunctionServerLambdaRoleB83E450B": {
+  "siteServerFunctionServiceRole8328A688": {
    "Type": "AWS::IAM::Role",
    "Properties": {
     "AssumeRolePolicyDocument": {
@@ -373,13 +353,6 @@
        "Effect": "Allow",
        "Principal": {
         "Service": "lambda.amazonaws.com"
-       }
-      },
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "edgelambda.amazonaws.com"
        }
       }
      ],
@@ -409,9 +382,12 @@
       "Value": "prod"
      }
     ]
-   }
+   },
+   "DependsOn": [
+    "siteServerFunctionAssetReplacer9A11D516"
+   ]
   },
-  "siteServerFunctionServerLambdaRoleDefaultPolicy9D892E12": {
+  "siteServerFunctionServiceRoleDefaultPolicy6EA49472": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
@@ -470,72 +446,143 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "siteServerFunctionServerLambdaRoleDefaultPolicy9D892E12",
+    "PolicyName": "siteServerFunctionServiceRoleDefaultPolicy6EA49472",
     "Roles": [
      {
-      "Ref": "siteServerFunctionServerLambdaRoleB83E450B"
+      "Ref": "siteServerFunctionServiceRole8328A688"
      }
     ]
-   }
+   },
+   "DependsOn": [
+    "siteServerFunctionAssetReplacer9A11D516"
+   ]
   },
-  "siteServerFunctionServerFunctionEdgeLambda15E6C8AC": {
-   "Type": "Custom::SSTEdgeLambda",
+  "siteServerFunction6DFA6F1B": {
+   "Type": "AWS::Lambda::Function",
    "Properties": {
-    "ServiceToken": {
+    "Architectures": [
+     "arm64"
+    ],
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-695897674742-us-east-1",
+     "S3Key": "e49729d0665ec677df6f7811a62ce60dddbad1baa33dd35114f418676cf9e302.zip"
+    },
+    "Description": "Next.js server",
+    "Environment": {
+     "Variables": {
+      "NEXT_PUBLIC_OPENAI_API_KEY": "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",
+      "NEXT_PUBLIC_OPENAI_ENDPOINT": "https://api.openai.com/v1",
+      "NEXT_PUBLIC_OPENAI_API_KEY_CHAT": "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",
+      "NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT": "https://api.openai.com/v1",
+      "MY_GITHUB_CLIENT_ID": "efc6e4757f8963649fcb",
+      "MY_GITHUB_CLIENT_SECRET": "7918f48be710d69a517f7f4d847ecf97041ab385",
+      "GOOGLE_CLIENT_ID": "237284825711-ch2ks2d3c1pef25baufm3vb47s89otp7.apps.googleusercontent.com",
+      "GOOGLE_CLIENT_SECRET": "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",
+      "DISCORD_CLIENT_ID": "1126332559186472961",
+      "DISCORD_CLIENT_SECRET": "Bk-M7L3MO-CI2ZhTVGOZlzwsAYTkqIyE",
+      "NEXTAUTH_URL": "http://localhost:3000",
+      "NEXTAUTH_SECRET": "kfjio45jtio45jopetj4i5jv4i5uoeupo6uvp5o46m456opvie45vo6pme54u6oviuop6iue45o6uvp4o5iu6vpeo4i5u6ope5iuopeeiop45645",
+      "DATABASE_URL": "prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiZjY1OGI4NmYtMmUxYi00N2YwLTg1MDQtOWI5YTIwMjM2ZTdkIiwidGVuYW50X2lkIjoiZTAzMThhYWM2MzcwN2I4ZWEwNTFkNTkyNDMzOTdmZDBkODE1NTE1ZWIxNTk4ZGEwOTliMTE5YTVjZmQ0YTQ4NSIsImludGVybmFsX3NlY3JldCI6ImYwZDY0YmIyLWVlNzYtNDRiNi04ODBkLTlkODBiYTg3YzA4MiJ9.yUq1gWpZtXY2AxOUG8gy5zB_mzERBzCYJQ--576rpls",
+      "MIGRATE_DATABASE_URL": "postgres://AyaanZaveri:iwOBsvQM9kD5@ep-steep-dawn-724015.us-east-2.aws.neon.tech/neondb",
+      "DIRECT_URL": "postgres://AyaanZaveri:iwOBsvQM9kD5@ep-steep-dawn-724015.us-east-2.aws.neon.tech/neondb?pgbouncer=true&connect_timeout=15",
+      "CACHE_BUCKET_NAME": {
+       "Ref": "siteS3Bucket2B2851F3"
+      },
+      "CACHE_BUCKET_KEY_PREFIX": "_cache",
+      "CACHE_BUCKET_REGION": "us-east-1",
+      "SST_APP": "cognition",
+      "SST_STAGE": "prod",
+      "SST_SSM_PREFIX": "/sst/cognition/prod/",
+      "REVALIDATION_QUEUE_URL": {
+       "Ref": "siteRevalidationQueue355EB7DA"
+      },
+      "REVALIDATION_QUEUE_REGION": "us-east-1"
+     }
+    },
+    "Handler": "index.handler",
+    "MemorySize": 1024,
+    "Role": {
      "Fn::GetAtt": [
-      "EdgeLambdaProviderA390C7CF",
+      "siteServerFunctionServiceRole8328A688",
       "Arn"
      ]
     },
-    "FunctionNamePrefix": "prod-cognition-Site-ServerFunctionEdgeLambda",
-    "FunctionBucket": {
+    "Runtime": "nodejs18.x",
+    "Tags": [
+     {
+      "Key": "sst:app",
+      "Value": "cognition"
+     },
+     {
+      "Key": "sst:stage",
+      "Value": "prod"
+     }
+    ],
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "siteServerFunctionAssetReplacer9A11D516",
+    "siteServerFunctionServiceRoleDefaultPolicy6EA49472",
+    "siteServerFunctionServiceRole8328A688"
+   ]
+  },
+  "siteServerFunctionLogRetention7123678D": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
      "Fn::GetAtt": [
-      "EdgeLambdaBucket",
-      "BucketName"
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
      ]
     },
-    "FunctionParams": {
-     "Description": "ServerFunction handler",
-     "Handler": "index.handler",
-     "Code": {
-      "S3Bucket": "cdk-hnb659fds-assets-695897674742-us-east-1",
-      "S3Key": "b34d39dda18d6cd18dc016b6ba20456945da180d6fb6933029791e343cf0aadb.zip"
-     },
-     "Runtime": "nodejs18.x",
-     "MemorySize": 1024,
-     "Timeout": 10,
-     "Role": {
-      "Fn::GetAtt": [
-       "siteServerFunctionServerLambdaRoleB83E450B",
-       "Arn"
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "siteServerFunction6DFA6F1B"
+       }
       ]
-     }
+     ]
+    },
+    "RetentionInDays": 3
+   },
+   "DependsOn": [
+    "siteServerFunctionAssetReplacer9A11D516"
+   ]
+  },
+  "siteServerFunctionFunctionUrl1B09C490": {
+   "Type": "AWS::Lambda::Url",
+   "Properties": {
+    "AuthType": "NONE",
+    "TargetFunctionArn": {
+     "Fn::GetAtt": [
+      "siteServerFunction6DFA6F1B",
+      "Arn"
+     ]
     }
    },
    "DependsOn": [
     "siteServerFunctionAssetReplacer9A11D516"
-   ],
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete"
+   ]
   },
-  "siteServerFunctionServerFunctionEdgeLambdaVersion90FE2F5A0f6942bba89fb3abefc7dbf331325440": {
-   "Type": "Custom::SSTEdgeLambdaVersion",
+  "siteServerFunctioninvokefunctionurlEABB57E1": {
+   "Type": "AWS::Lambda::Permission",
    "Properties": {
-    "ServiceToken": {
+    "Action": "lambda:InvokeFunctionUrl",
+    "FunctionName": {
      "Fn::GetAtt": [
-      "EdgeLambdaVersionProviderC834A935",
+      "siteServerFunction6DFA6F1B",
       "Arn"
      ]
     },
-    "FunctionArn": {
-     "Fn::GetAtt": [
-      "siteServerFunctionServerFunctionEdgeLambda15E6C8AC",
-      "FunctionArn"
-     ]
-    }
+    "FunctionUrlAuthType": "NONE",
+    "Principal": "*"
    },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete"
+   "DependsOn": [
+    "siteServerFunctionAssetReplacer9A11D516"
+   ]
   },
   "siteCloudFrontFunctionE91DD486": {
    "Type": "AWS::CloudFront::Function",
@@ -664,7 +711,7 @@
     ],
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-695897674742-us-east-1",
-     "S3Key": "2c9a472f0cfab1714f45644fc24e48659abe787c956e5852b8138ee636d9eb9a.zip"
+     "S3Key": "2391b9614fab4bfc2314287d6214432f9395476e8f5b9727a9cca2055a9fab65.zip"
     },
     "Description": "Next.js image optimizer",
     "Environment": {
@@ -750,14 +797,6 @@
     "Principal": "*"
    }
   },
-  "siteDistributionOrigin1S3Origin34B0A58E": {
-   "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
-   "Properties": {
-    "CloudFrontOriginAccessIdentityConfig": {
-     "Comment": "Identity for prodcognitionSitesiteDistributionOrigin115F4DAB8"
-    }
-   }
-  },
   "siteDistribution706F5265": {
    "Type": "AWS::CloudFront::Distribution",
    "Properties": {
@@ -794,32 +833,7 @@
          }
         }
        ],
-       "LambdaFunctionAssociations": [
-        {
-         "EventType": "origin-request",
-         "IncludeBody": true,
-         "LambdaFunctionARN": {
-          "Fn::Join": [
-           "",
-           [
-            {
-             "Fn::GetAtt": [
-              "siteServerFunctionServerFunctionEdgeLambda15E6C8AC",
-              "FunctionArn"
-             ]
-            },
-            ":",
-            {
-             "Fn::GetAtt": [
-              "siteServerFunctionServerFunctionEdgeLambdaVersion90FE2F5A0f6942bba89fb3abefc7dbf331325440",
-              "Version"
-             ]
-            }
-           ]
-          ]
-         }
-        }
-       ],
+       "LambdaFunctionAssociations": [],
        "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
        "PathPattern": "api/*",
        "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
@@ -855,32 +869,7 @@
          }
         }
        ],
-       "LambdaFunctionAssociations": [
-        {
-         "EventType": "origin-request",
-         "IncludeBody": true,
-         "LambdaFunctionARN": {
-          "Fn::Join": [
-           "",
-           [
-            {
-             "Fn::GetAtt": [
-              "siteServerFunctionServerFunctionEdgeLambda15E6C8AC",
-              "FunctionArn"
-             ]
-            },
-            ":",
-            {
-             "Fn::GetAtt": [
-              "siteServerFunctionServerFunctionEdgeLambdaVersion90FE2F5A0f6942bba89fb3abefc7dbf331325440",
-              "Version"
-             ]
-            }
-           ]
-          ]
-         }
-        }
-       ],
+       "LambdaFunctionAssociations": [],
        "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
        "PathPattern": "_next/data/*",
        "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
@@ -924,7 +913,7 @@
        ],
        "Compress": true,
        "PathPattern": "BUILD_ID",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -941,7 +930,7 @@
        ],
        "Compress": true,
        "PathPattern": "_next/*",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -958,7 +947,7 @@
        ],
        "Compress": true,
        "PathPattern": "draggan.pdf",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -975,7 +964,7 @@
        ],
        "Compress": true,
        "PathPattern": "fire_3d.png",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -992,7 +981,7 @@
        ],
        "Compress": true,
        "PathPattern": "fire_animated.png",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -1009,7 +998,7 @@
        ],
        "Compress": true,
        "PathPattern": "multiply.webp",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -1026,7 +1015,7 @@
        ],
        "Compress": true,
        "PathPattern": "next.svg",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -1043,7 +1032,7 @@
        ],
        "Compress": true,
        "PathPattern": "pencil.webp",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -1060,7 +1049,7 @@
        ],
        "Compress": true,
        "PathPattern": "vercel.svg",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       }
      ],
@@ -1094,32 +1083,7 @@
         }
        }
       ],
-      "LambdaFunctionAssociations": [
-       {
-        "EventType": "origin-request",
-        "IncludeBody": true,
-        "LambdaFunctionARN": {
-         "Fn::Join": [
-          "",
-          [
-           {
-            "Fn::GetAtt": [
-             "siteServerFunctionServerFunctionEdgeLambda15E6C8AC",
-             "FunctionArn"
-            ]
-           },
-           ":",
-           {
-            "Fn::GetAtt": [
-             "siteServerFunctionServerFunctionEdgeLambdaVersion90FE2F5A0f6942bba89fb3abefc7dbf331325440",
-             "Version"
-            ]
-           }
-          ]
-         ]
-        }
-       }
-      ],
+      "LambdaFunctionAssociations": [],
       "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
       "ViewerProtocolPolicy": "redirect-to-https"
@@ -1130,27 +1094,40 @@
      "IPV6Enabled": true,
      "Origins": [
       {
-       "DomainName": {
-        "Fn::GetAtt": [
-         "siteS3Bucket2B2851F3",
-         "RegionalDomainName"
+       "CustomOriginConfig": {
+        "OriginProtocolPolicy": "https-only",
+        "OriginReadTimeout": 10,
+        "OriginSSLProtocols": [
+         "TLSv1.2"
         ]
        },
-       "Id": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
-       "OriginPath": "/_assets",
-       "S3OriginConfig": {
-        "OriginAccessIdentity": {
-         "Fn::Join": [
-          "",
-          [
-           "origin-access-identity/cloudfront/",
+       "DomainName": {
+        "Fn::Select": [
+         0,
+         {
+          "Fn::Split": [
+           "/",
            {
-            "Ref": "siteDistributionOrigin1S3Origin34B0A58E"
+            "Fn::Select": [
+             1,
+             {
+              "Fn::Split": [
+               "//",
+               {
+                "Fn::GetAtt": [
+                 "siteServerFunctionFunctionUrl1B09C490",
+                 "FunctionUrl"
+                ]
+               }
+              ]
+             }
+            ]
            }
           ]
-         ]
-        }
-       }
+         }
+        ]
+       },
+       "Id": "prodcognitionSitesiteDistributionOrigin115F4DAB8"
       },
       {
        "CustomOriginConfig": {
@@ -1186,6 +1163,29 @@
         ]
        },
        "Id": "prodcognitionSitesiteDistributionOrigin20B11DF62"
+      },
+      {
+       "DomainName": {
+        "Fn::GetAtt": [
+         "siteS3Bucket2B2851F3",
+         "RegionalDomainName"
+        ]
+       },
+       "Id": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "OriginPath": "/_assets",
+       "S3OriginConfig": {
+        "OriginAccessIdentity": {
+         "Fn::Join": [
+          "",
+          [
+           "origin-access-identity/cloudfront/",
+           {
+            "Ref": "siteDistributionOrigin3S3Origin7C72BBD7"
+           }
+          ]
+         ]
+        }
+       }
       }
      ]
     },
@@ -1199,6 +1199,14 @@
       "Value": "prod"
      }
     ]
+   }
+  },
+  "siteDistributionOrigin3S3Origin7C72BBD7": {
+   "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
+   "Properties": {
+    "CloudFrontOriginAccessIdentityConfig": {
+     "Comment": "Identity for prodcognitionSitesiteDistributionOrigin3BDA226A8"
+    }
    }
   },
   "siteServerFunctionInvalidatorPolicy004B2ED1": {
@@ -1231,7 +1239,7 @@
     "PolicyName": "siteServerFunctionInvalidatorPolicy004B2ED1",
     "Roles": [
      {
-      "Ref": "siteServerFunctionServerLambdaRoleB83E450B"
+      "Ref": "siteServerFunctionServiceRole8328A688"
      }
     ]
    }
@@ -1589,7 +1597,7 @@
     "Sources": [
      {
       "BucketName": "cdk-hnb659fds-assets-695897674742-us-east-1",
-      "ObjectKey": "d0c1668c5b18b769cc697220766da99a2ebc00184cc1eb1b57926bad4f94dc2b.zip"
+      "ObjectKey": "ad54ab0805dc20e74548d19a46736c94fc552622e55ec6d8f858321054178dc5.zip"
      }
     ],
     "DestinationBucketName": {
@@ -1721,7 +1729,7 @@
       "Arn"
      ]
     },
-    "buildId": "y9-poRNQ3sw6c5uT9JzyH",
+    "buildId": "jYV024hlITW1oM4FbtjSE",
     "distributionId": {
      "Ref": "siteDistribution706F5265"
     },
@@ -1832,7 +1840,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-695897674742-us-east-1",
-     "S3Key": "18e39c9503c7e5fcb845359457c448eed4228c59e6277df887c7b49ae3dd11f4.zip"
+     "S3Key": "6444a813edf6b1e3c6b52c07c53b92bc69ec6d98b85ae102a602dec74a2ad8e6.zip"
     },
     "Description": "Next.js revalidator",
     "Handler": "index.handler",
@@ -1956,318 +1964,6 @@
     "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
    ]
   },
-  "EdgeLambdaBucketProviderServiceRoleB21F58C0": {
-   "Type": "AWS::IAM::Role",
-   "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "lambda.amazonaws.com"
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "ManagedPolicyArns": [
-     {
-      "Fn::Join": [
-       "",
-       [
-        "arn:",
-        {
-         "Ref": "AWS::Partition"
-        },
-        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-       ]
-      ]
-     }
-    ],
-    "Tags": [
-     {
-      "Key": "sst:app",
-      "Value": "cognition"
-     },
-     {
-      "Key": "sst:stage",
-      "Value": "prod"
-     }
-    ]
-   }
-  },
-  "EdgeLambdaBucketProviderServiceRoleDefaultPolicyA855DE0C": {
-   "Type": "AWS::IAM::Policy",
-   "Properties": {
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": "s3:*",
-       "Effect": "Allow",
-       "Resource": "*"
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "PolicyName": "EdgeLambdaBucketProviderServiceRoleDefaultPolicyA855DE0C",
-    "Roles": [
-     {
-      "Ref": "EdgeLambdaBucketProviderServiceRoleB21F58C0"
-     }
-    ]
-   }
-  },
-  "EdgeLambdaBucketProviderCBE2EFD7": {
-   "Type": "AWS::Lambda::Function",
-   "Properties": {
-    "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-695897674742-us-east-1",
-     "S3Key": "5b696e9e586f6f3705eae4f8d9415f70c87a9f50c47ea4dd0a4f6f8964697906.zip"
-    },
-    "Handler": "s3-bucket.handler",
-    "MemorySize": 1024,
-    "Role": {
-     "Fn::GetAtt": [
-      "EdgeLambdaBucketProviderServiceRoleB21F58C0",
-      "Arn"
-     ]
-    },
-    "Runtime": "nodejs16.x",
-    "Tags": [
-     {
-      "Key": "sst:app",
-      "Value": "cognition"
-     },
-     {
-      "Key": "sst:stage",
-      "Value": "prod"
-     }
-    ],
-    "Timeout": 900
-   },
-   "DependsOn": [
-    "EdgeLambdaBucketProviderServiceRoleDefaultPolicyA855DE0C",
-    "EdgeLambdaBucketProviderServiceRoleB21F58C0"
-   ]
-  },
-  "EdgeLambdaBucket": {
-   "Type": "Custom::SSTEdgeLambdaBucket",
-   "Properties": {
-    "ServiceToken": {
-     "Fn::GetAtt": [
-      "EdgeLambdaBucketProviderCBE2EFD7",
-      "Arn"
-     ]
-    },
-    "BucketNamePrefix": "prod-cognition-Site-EdgeLambdaBucket"
-   },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete"
-  },
-  "EdgeLambdaProviderServiceRoleDABCB773": {
-   "Type": "AWS::IAM::Role",
-   "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "lambda.amazonaws.com"
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "ManagedPolicyArns": [
-     {
-      "Fn::Join": [
-       "",
-       [
-        "arn:",
-        {
-         "Ref": "AWS::Partition"
-        },
-        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-       ]
-      ]
-     }
-    ],
-    "Tags": [
-     {
-      "Key": "sst:app",
-      "Value": "cognition"
-     },
-     {
-      "Key": "sst:stage",
-      "Value": "prod"
-     }
-    ]
-   }
-  },
-  "EdgeLambdaProviderServiceRoleDefaultPolicy0CCD7673": {
-   "Type": "AWS::IAM::Policy",
-   "Properties": {
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": [
-        "lambda:*",
-        "s3:*"
-       ],
-       "Effect": "Allow",
-       "Resource": "*"
-      },
-      {
-       "Action": "iam:PassRole",
-       "Effect": "Allow",
-       "Resource": {
-        "Fn::GetAtt": [
-         "siteServerFunctionServerLambdaRoleB83E450B",
-         "Arn"
-        ]
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "PolicyName": "EdgeLambdaProviderServiceRoleDefaultPolicy0CCD7673",
-    "Roles": [
-     {
-      "Ref": "EdgeLambdaProviderServiceRoleDABCB773"
-     }
-    ]
-   }
-  },
-  "EdgeLambdaProviderA390C7CF": {
-   "Type": "AWS::Lambda::Function",
-   "Properties": {
-    "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-695897674742-us-east-1",
-     "S3Key": "5b696e9e586f6f3705eae4f8d9415f70c87a9f50c47ea4dd0a4f6f8964697906.zip"
-    },
-    "Handler": "edge-lambda.handler",
-    "MemorySize": 1024,
-    "Role": {
-     "Fn::GetAtt": [
-      "EdgeLambdaProviderServiceRoleDABCB773",
-      "Arn"
-     ]
-    },
-    "Runtime": "nodejs16.x",
-    "Tags": [
-     {
-      "Key": "sst:app",
-      "Value": "cognition"
-     },
-     {
-      "Key": "sst:stage",
-      "Value": "prod"
-     }
-    ],
-    "Timeout": 900
-   },
-   "DependsOn": [
-    "EdgeLambdaProviderServiceRoleDefaultPolicy0CCD7673",
-    "EdgeLambdaProviderServiceRoleDABCB773"
-   ]
-  },
-  "EdgeLambdaVersionProviderServiceRole2CCF7CE4": {
-   "Type": "AWS::IAM::Role",
-   "Properties": {
-    "AssumeRolePolicyDocument": {
-     "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "lambda.amazonaws.com"
-       }
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "ManagedPolicyArns": [
-     {
-      "Fn::Join": [
-       "",
-       [
-        "arn:",
-        {
-         "Ref": "AWS::Partition"
-        },
-        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-       ]
-      ]
-     }
-    ],
-    "Tags": [
-     {
-      "Key": "sst:app",
-      "Value": "cognition"
-     },
-     {
-      "Key": "sst:stage",
-      "Value": "prod"
-     }
-    ]
-   }
-  },
-  "EdgeLambdaVersionProviderServiceRoleDefaultPolicy70F41469": {
-   "Type": "AWS::IAM::Policy",
-   "Properties": {
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": "lambda:*",
-       "Effect": "Allow",
-       "Resource": "*"
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "PolicyName": "EdgeLambdaVersionProviderServiceRoleDefaultPolicy70F41469",
-    "Roles": [
-     {
-      "Ref": "EdgeLambdaVersionProviderServiceRole2CCF7CE4"
-     }
-    ]
-   }
-  },
-  "EdgeLambdaVersionProviderC834A935": {
-   "Type": "AWS::Lambda::Function",
-   "Properties": {
-    "Code": {
-     "S3Bucket": "cdk-hnb659fds-assets-695897674742-us-east-1",
-     "S3Key": "5b696e9e586f6f3705eae4f8d9415f70c87a9f50c47ea4dd0a4f6f8964697906.zip"
-    },
-    "Handler": "edge-lambda-version.handler",
-    "MemorySize": 1024,
-    "Role": {
-     "Fn::GetAtt": [
-      "EdgeLambdaVersionProviderServiceRole2CCF7CE4",
-      "Arn"
-     ]
-    },
-    "Runtime": "nodejs16.x",
-    "Tags": [
-     {
-      "Key": "sst:app",
-      "Value": "cognition"
-     },
-     {
-      "Key": "sst:stage",
-      "Value": "prod"
-     }
-    ],
-    "Timeout": 900
-   },
-   "DependsOn": [
-    "EdgeLambdaVersionProviderServiceRoleDefaultPolicy70F41469",
-    "EdgeLambdaVersionProviderServiceRole2CCF7CE4"
-   ]
-  },
   "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
    "Type": "AWS::IAM::Role",
    "Properties": {
@@ -2382,9 +2078,6 @@
     ]
    }
   },
-  "SiteId": {
-   "Value": "site"
-  },
   "SSTMetadata": {
    "Value": {
     "Fn::Join": [
@@ -2397,14 +2090,21 @@
         "DomainName"
        ]
       },
-      "\",\"edge\":true,\"server\":\"",
+      "\",\"server\":\"",
       {
        "Fn::GetAtt": [
-        "siteServerFunctionServerFunctionEdgeLambda15E6C8AC",
-        "FunctionArn"
+        "siteServerFunction6DFA6F1B",
+        "Arn"
        ]
       },
-      "\",\"secrets\":[]}}]}"
+      "\",\"secrets\":[]}},{\"id\":\"ServerFunction\",\"addr\":\"c850c6de094d4b12e8b4e8d7a2c628a3fc47553586\",\"stack\":\"prod-cognition-Site\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      {
+       "Fn::GetAtt": [
+        "siteServerFunction6DFA6F1B",
+        "Arn"
+       ]
+      },
+      "\",\"runtime\":\"nodejs18.x\",\"handler\":\"index.handler\",\"localId\":\"c850c6de094d4b12e8b4e8d7a2c628a3fc47553586\",\"secrets\":[]}}]}"
      ]
     ]
    }
