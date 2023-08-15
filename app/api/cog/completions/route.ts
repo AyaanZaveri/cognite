@@ -14,8 +14,6 @@ import { prompts } from "@/lib/prompts";
 
 const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate())
 
-export const runtime = "edge";
-
 export async function POST(req: Request) {
   try {
     const { id, messages, style } = await req.json();

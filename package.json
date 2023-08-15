@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "sst bind next dev",
-    "deb" : "next dev",
+    "deb": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -40,7 +40,7 @@
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "@vercel/analytics": "^1.0.1",
-    "ai": "^2.1.26",
+    "ai": "^2.1.33",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
@@ -62,7 +62,7 @@
     "mongodb": "^5.7.0",
     "mongoose": "7.1.1",
     "nanoid": "^4.0.2",
-    "next": "13.4.12",
+    "next": "13.4.15",
     "next-auth": "^4.22.3",
     "next-themes": "^0.2.1",
     "openai": "^3.3.0",
@@ -99,11 +99,11 @@
     "@types/pdf-parse": "^1.1.1",
     "@types/prettier": "^2.7.3",
     "@types/validator": "^13.7.17",
+    "aws-cdk-lib": "2.91.0",
+    "constructs": "10.2.69",
     "hnswlib-node": "^1.4.2",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
-    "sst": "^2.24.1",
-    "aws-cdk-lib": "2.91.0",
-    "constructs": "10.2.69"
+    "sst": "^2.24.1"
   }
 }
