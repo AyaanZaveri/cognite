@@ -29,6 +29,20 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+          DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          MIGRATE_DATABASE_URL: ${{ secrets.MIGRATE_DATABASE_URL }}
+          MY_GITHUB_CLIENT_ID: ${{ secrets.MY_GITHUB_CLIENT_ID }}
+          MY_GITHUB_CLIENT_SECRET: ${{ secrets.MY_GITHUB_CLIENT_SECRET }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          NEXT_PUBLIC_OPENAI_API_KEY: ${{ secrets.NEXT_PUBLIC_OPENAI_API_KEY }}
+          NEXT_PUBLIC_OPENAI_API_KEY_CHAT: ${{ secrets.NEXT_PUBLIC_OPENAI_API_KEY_CHAT }}
+          NEXT_PUBLIC_OPENAI_ENDPOINT: ${{ secrets.NEXT_PUBLIC_OPENAI_ENDPOINT }}
+          NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT: ${{ secrets.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT }}
         run: |
           pnpm dlx prisma generate --accelerate 
           pnpm sst deploy --stage prod
