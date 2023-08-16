@@ -117,6 +117,8 @@ export async function POST(req: Request) {
       chat_history: history,
     });
 
+    console.log("Called chain");
+
     return new StreamingTextResponse(stream);
     // return stream as readable stream
   } catch (error) {

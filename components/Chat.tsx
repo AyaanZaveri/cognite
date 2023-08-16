@@ -32,9 +32,11 @@ export default function Chat({ id }: { id: string }) {
       console.log(err);
     },
     onResponse: (res) => {
+      console.log("onRes", res);
       setIsStreaming(true);
     },
     onFinish: (msg) => {
+      console.log("msg", msg)
       setIsStreaming(false);
       setIsThinking(false);
     },
@@ -65,6 +67,8 @@ export default function Chat({ id }: { id: string }) {
       description: "A very precise and focused conversation style.",
     },
   ];
+  
+  console.log(messages[messages.length - 1]?.content);
 
   return (
     <div className="pb-28">

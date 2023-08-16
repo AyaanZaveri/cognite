@@ -1,6 +1,6 @@
 import Logo from "@/components/Logo";
 import Image from "next/image";
-import { Space_Grotesk } from "next/font/google";
+import { Rubik, Space_Grotesk } from "next/font/google";
 import Chat from "@/components/Chat";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
@@ -17,6 +17,11 @@ const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
+
+const rubik = Rubik({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+})
 
 const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
 
@@ -82,7 +87,7 @@ export default async function Page({
             {cog?.name}
           </h1>
           <div className="flex flex-col items-center">
-            <p className="text-center text-lg text-muted-foreground">
+            <p className={`text-center text-lg text-muted-foreground ${rubik.className}`}>
               {cog?.description}
             </p>
             <span className="text-accent-foreground">
