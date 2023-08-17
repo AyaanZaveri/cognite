@@ -82,8 +82,6 @@ export async function POST(req: Request) {
 
     console.log("Created models");
 
-    console.log(prompts[style].qa, prompts[style].condense);
-
     const chain = ConversationalRetrievalQAChain.fromLLM(
       streamingModel,
       vectorStore.asRetriever(),
