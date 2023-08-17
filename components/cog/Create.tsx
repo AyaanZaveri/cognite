@@ -17,18 +17,19 @@ import {
 import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { scrapeSite } from "@/utils/scrapeSite";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import slugify from "slugify";
 import { InputFile } from "../InputFile";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Document } from "langchain/dist/document";
 import Link from "next/link";
 import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
+import { XIcon } from "lucide-react";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -47,6 +48,7 @@ interface ButtonState {
 }
 
 const MAX_FILE_SIZE = 5000000; // 5MB
+const ACCEPTED_FILE_TYPES = ["application/pdf"];
 
 const tagsSchema = z
   .array(
@@ -82,7 +84,13 @@ const createFormSchema = z.object({
       })
     )
     .optional(),
-  file: z.string().optional(),
+  file: z
+    .string()
+    .refine((file) => {
+      const fileType = file.split(".").pop();
+      return ACCEPTED_FILE_TYPES.includes(fileType!);
+    })
+    .optional(),
   private: z.boolean().optional(),
 });
 
@@ -94,12 +102,22 @@ const Create = (session: { session: Session | null }) => {
     mode: "onChange",
   });
 
-  const { fields: tagFields, append: appendTag } = useFieldArray({
+  // console.log(form.control._fields)
+
+  const {
+    fields: tagFields,
+    append: appendTag,
+    remove: removeTag,
+  } = useFieldArray({
     name: "tags",
     control: form.control,
   });
 
-  const { fields: websiteFields, append: appendWebsite } = useFieldArray({
+  const {
+    fields: websiteFields,
+    append: appendWebsite,
+    remove: removeWebsite,
+  } = useFieldArray({
     name: "websites",
     control: form.control,
   });
@@ -125,7 +143,7 @@ const Create = (session: { session: Session | null }) => {
 
         // console.log(sources);
 
-        const docs: Document[] = [];
+      const docs: Document[] = [];
 
         if (sources?.sites && sources?.sites.length > 0) {
           const siteText = await scrapeSite(sources?.sites);
@@ -214,7 +232,9 @@ const Create = (session: { session: Session | null }) => {
           pulse: false,
         });
 
-        router.push(`/cog/${session?.session?.user.username}/${res.data.cog.slug}`);
+        router.push(
+          `/cog/${session?.session?.user.username}/${res.data.cog.slug}`
+        );
       })
       .catch((err) => {
         setButtonStatus({
@@ -235,13 +255,58 @@ const Create = (session: { session: Session | null }) => {
           const blob = new Blob([new Uint8Array(arrayBuffer)], {
             type: file.type,
           });
-          setFile(blob);
+          const fileSize = file.size;
+          console.log("File size:", fileSize);
+
+          if (fileSize > MAX_FILE_SIZE) {
+            alert(
+              "File size is too big. Please upload a file smaller than 5MB."
+            );
+          } else {
+            setFile(blob);
+          }
         }
       } catch (err) {
         console.log("err", err);
       }
     }
   };
+
+  async function convertSitemapUrlToArrayOfUrls(
+    sitemapUrl: string
+  ): Promise<string[]> {
+    try {
+      const response = await axios.get(sitemapUrl);
+      const sitemapXml = response.data;
+
+      // Extract URLs from the sitemap XML
+      const urlRegex = /<loc>(.*?)<\/loc>/g;
+      let match;
+      const urls: string[] = [];
+
+      while ((match = urlRegex.exec(sitemapXml)) !== null) {
+        urls.push(match[1]);
+      }
+
+      console.log(urls);
+
+      form.setValue(
+        "websites",
+        urls.map((url) => ({ value: url }))
+      );
+
+      return urls;
+    } catch (error) {
+      console.error("Error retrieving sitemap:", error);
+      throw error;
+    }
+  }
+
+  // useEffect(() => {
+  //   convertSitemapUrlToArrayOfUrls(
+  //     "https://cors-anywhere.herokuapp.com/https://www.xml-sitemaps.com/download/ui.shadcn.com-a2e382593/sitemap.xml?view=1"
+  //   );
+  // }, []);
 
   return (
     <div className="space-y-8">
@@ -261,11 +326,11 @@ const Create = (session: { session: Session | null }) => {
               </FormItem>
             )}
           />
-          <div>
+          <div className="w-full">
             {websiteFields.map((field, index) => (
               <FormField
-                control={form.control}
                 key={field.id}
+                control={form.control}
                 name={`websites.${index}.value`}
                 render={({ field }) => (
                   <FormItem>
@@ -276,7 +341,17 @@ const Create = (session: { session: Session | null }) => {
                       Websites you want to train the cog on.
                     </FormDescription>
                     <FormControl>
-                      <Input {...field} />
+                      <div className="flex flex-row gap-x-4">
+                        <Input {...field} />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => removeWebsite(index)}
+                        >
+                          <XIcon />
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -366,7 +441,17 @@ const Create = (session: { session: Session | null }) => {
                       Tags are used to help people find your cog.
                     </FormDescription>
                     <FormControl>
-                      <Input {...field} />
+                      <div className="flex flex-row gap-x-4">
+                        <Input {...field} />
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => removeTag(index)}
+                        >
+                          <XIcon />
+                        </Button>
+                      </div>
                     </FormControl>
                     <FormMessage>
                       {form.formState.errors.tags?.[index]?.value?.message}

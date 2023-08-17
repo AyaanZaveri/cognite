@@ -20,7 +20,7 @@ const Logo = ({ size }: { size: string }) => {
           " animate-text bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text pb-2 font-semibold text-transparent"
         }
       >
-        Cognition
+        Cognite
       </span>
       <div className="pb-2">
         <Image
