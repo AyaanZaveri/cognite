@@ -393,7 +393,7 @@ __webpack_require__.r(__webpack_exports__);
         'profile',
         {
         children: ['__PAGE__', {}, {
-          page: [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 76865)), "/Users/ayaanzaveri/Code/cognition/app/profile/page.tsx"],
+          page: [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 76865)), "/Users/ayaanzaveri/Code/cognite/app/profile/page.tsx"],
           
         }]
       },
@@ -410,8 +410,8 @@ __webpack_require__.r(__webpack_exports__);
       ]
       },
         {
-          'layout': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 42718)), "/Users/ayaanzaveri/Code/cognition/app/layout.tsx"],
-'loading': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 6788)), "/Users/ayaanzaveri/Code/cognition/app/loading.tsx"],
+          'layout': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 42718)), "/Users/ayaanzaveri/Code/cognite/app/layout.tsx"],
+'loading': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 6788)), "/Users/ayaanzaveri/Code/cognite/app/loading.tsx"],
           metadata: {
     icon: [(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 200))).default(props)),(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 89876))).default(props))],
     apple: [],
@@ -422,7 +422,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       ]
       }.children;
-    const pages = ["/Users/ayaanzaveri/Code/cognition/app/profile/page.tsx"];
+    const pages = ["/Users/ayaanzaveri/Code/cognite/app/profile/page.tsx"];
 
     
 
@@ -693,7 +693,7 @@ var auth = __webpack_require__(66298);
 var module_proxy = __webpack_require__(1926);
 ;// CONCATENATED MODULE: ./components/ProfileForm.tsx
 
-const proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognition/components/ProfileForm.tsx`)
+const proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognite/components/ProfileForm.tsx`)
 
 // Accessing the __esModule property and exporting $$typeof are required here.
 // The __esModule getter forces the proxy target to create the default export

@@ -4,21 +4,21 @@
     "id": "App",
     "path": "",
     "children": {
-      "prod-cognition-Site": {
-        "id": "prod-cognition-Site",
-        "path": "prod-cognition-Site",
+      "prod-cognite-Site": {
+        "id": "prod-cognite-Site",
+        "path": "prod-cognite-Site",
         "children": {
           "CustomResourceHandler": {
             "id": "CustomResourceHandler",
-            "path": "prod-cognition-Site/CustomResourceHandler",
+            "path": "prod-cognite-Site/CustomResourceHandler",
             "children": {
               "ServiceRole": {
                 "id": "ServiceRole",
-                "path": "prod-cognition-Site/CustomResourceHandler/ServiceRole",
+                "path": "prod-cognite-Site/CustomResourceHandler/ServiceRole",
                 "children": {
                   "ImportServiceRole": {
                     "id": "ImportServiceRole",
-                    "path": "prod-cognition-Site/CustomResourceHandler/ServiceRole/ImportServiceRole",
+                    "path": "prod-cognite-Site/CustomResourceHandler/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.91.0"
@@ -26,7 +26,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/CustomResourceHandler/ServiceRole/Resource",
+                    "path": "prod-cognite-Site/CustomResourceHandler/ServiceRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -59,7 +59,7 @@
                         "tags": [
                           {
                             "key": "sst:app",
-                            "value": "cognition"
+                            "value": "cognite"
                           },
                           {
                             "key": "sst:stage",
@@ -81,11 +81,11 @@
               },
               "Code": {
                 "id": "Code",
-                "path": "prod-cognition-Site/CustomResourceHandler/Code",
+                "path": "prod-cognite-Site/CustomResourceHandler/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "prod-cognition-Site/CustomResourceHandler/Code/Stage",
+                    "path": "prod-cognite-Site/CustomResourceHandler/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.91.0"
@@ -93,7 +93,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "prod-cognition-Site/CustomResourceHandler/Code/AssetBucket",
+                    "path": "prod-cognite-Site/CustomResourceHandler/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.91.0"
@@ -107,7 +107,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "prod-cognition-Site/CustomResourceHandler/Resource",
+                "path": "prod-cognite-Site/CustomResourceHandler/Resource",
                 "attributes": {
                   "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                   "aws:cdk:cloudformation:props": {
@@ -127,7 +127,7 @@
                     "tags": [
                       {
                         "key": "sst:app",
-                        "value": "cognition"
+                        "value": "cognite"
                       },
                       {
                         "key": "sst:stage",
@@ -150,15 +150,15 @@
           },
           "site": {
             "id": "site",
-            "path": "prod-cognition-Site/site",
+            "path": "prod-cognite-Site/site",
             "children": {
               "S3Bucket": {
                 "id": "S3Bucket",
-                "path": "prod-cognition-Site/site/S3Bucket",
+                "path": "prod-cognite-Site/site/S3Bucket",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/S3Bucket/Resource",
+                    "path": "prod-cognite-Site/site/S3Bucket/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::S3::Bucket",
                       "aws:cdk:cloudformation:props": {
@@ -175,7 +175,7 @@
                           },
                           {
                             "key": "sst:app",
-                            "value": "cognition"
+                            "value": "cognite"
                           },
                           {
                             "key": "sst:stage",
@@ -191,11 +191,11 @@
                   },
                   "Policy": {
                     "id": "Policy",
-                    "path": "prod-cognition-Site/site/S3Bucket/Policy",
+                    "path": "prod-cognite-Site/site/S3Bucket/Policy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/S3Bucket/Policy/Resource",
+                        "path": "prod-cognite-Site/site/S3Bucket/Policy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::S3::BucketPolicy",
                           "aws:cdk:cloudformation:props": {
@@ -286,11 +286,11 @@
                   },
                   "AutoDeleteObjectsCustomResource": {
                     "id": "AutoDeleteObjectsCustomResource",
-                    "path": "prod-cognition-Site/site/S3Bucket/AutoDeleteObjectsCustomResource",
+                    "path": "prod-cognite-Site/site/S3Bucket/AutoDeleteObjectsCustomResource",
                     "children": {
                       "Default": {
                         "id": "Default",
-                        "path": "prod-cognition-Site/site/S3Bucket/AutoDeleteObjectsCustomResource/Default",
+                        "path": "prod-cognite-Site/site/S3Bucket/AutoDeleteObjectsCustomResource/Default",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.91.0"
@@ -310,15 +310,15 @@
               },
               "ServerFunction": {
                 "id": "ServerFunction",
-                "path": "prod-cognition-Site/site/ServerFunction",
+                "path": "prod-cognite-Site/site/ServerFunction",
                 "children": {
                   "AssetReplacerPolicy": {
                     "id": "AssetReplacerPolicy",
-                    "path": "prod-cognition-Site/site/ServerFunction/AssetReplacerPolicy",
+                    "path": "prod-cognite-Site/site/ServerFunction/AssetReplacerPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/ServerFunction/AssetReplacerPolicy/Resource",
+                        "path": "prod-cognite-Site/site/ServerFunction/AssetReplacerPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -367,11 +367,11 @@
                   },
                   "AssetReplacer": {
                     "id": "AssetReplacer",
-                    "path": "prod-cognition-Site/site/ServerFunction/AssetReplacer",
+                    "path": "prod-cognite-Site/site/ServerFunction/AssetReplacer",
                     "children": {
                       "Default": {
                         "id": "Default",
-                        "path": "prod-cognition-Site/site/ServerFunction/AssetReplacer/Default",
+                        "path": "prod-cognite-Site/site/ServerFunction/AssetReplacer/Default",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.91.0"
@@ -385,7 +385,7 @@
                   },
                   "IServerFunctionBucket": {
                     "id": "IServerFunctionBucket",
-                    "path": "prod-cognition-Site/site/ServerFunction/IServerFunctionBucket",
+                    "path": "prod-cognite-Site/site/ServerFunction/IServerFunctionBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.91.0"
@@ -393,15 +393,15 @@
                   },
                   "ServerFunction": {
                     "id": "ServerFunction",
-                    "path": "prod-cognition-Site/site/ServerFunction/ServerFunction",
+                    "path": "prod-cognite-Site/site/ServerFunction/ServerFunction",
                     "children": {
                       "ServiceRole": {
                         "id": "ServiceRole",
-                        "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/ServiceRole",
+                        "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/ServiceRole",
                         "children": {
                           "ImportServiceRole": {
                             "id": "ImportServiceRole",
-                            "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/ServiceRole/ImportServiceRole",
+                            "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/ServiceRole/ImportServiceRole",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.Resource",
                               "version": "2.91.0"
@@ -409,7 +409,7 @@
                           },
                           "Resource": {
                             "id": "Resource",
-                            "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/ServiceRole/Resource",
+                            "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/ServiceRole/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                               "aws:cdk:cloudformation:props": {
@@ -442,7 +442,7 @@
                                 "tags": [
                                   {
                                     "key": "sst:app",
-                                    "value": "cognition"
+                                    "value": "cognite"
                                   },
                                   {
                                     "key": "sst:stage",
@@ -458,11 +458,11 @@
                           },
                           "DefaultPolicy": {
                             "id": "DefaultPolicy",
-                            "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/ServiceRole/DefaultPolicy",
+                            "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/ServiceRole/DefaultPolicy",
                             "children": {
                               "Resource": {
                                 "id": "Resource",
-                                "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/ServiceRole/DefaultPolicy/Resource",
+                                "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/ServiceRole/DefaultPolicy/Resource",
                                 "attributes": {
                                   "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                                   "aws:cdk:cloudformation:props": {
@@ -549,7 +549,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/Resource",
+                        "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                           "aws:cdk:cloudformation:props": {
@@ -583,9 +583,9 @@
                                 },
                                 "CACHE_BUCKET_KEY_PREFIX": "_cache",
                                 "CACHE_BUCKET_REGION": "us-east-1",
-                                "SST_APP": "cognition",
+                                "SST_APP": "cognite",
                                 "SST_STAGE": "prod",
-                                "SST_SSM_PREFIX": "/sst/cognition/prod/",
+                                "SST_SSM_PREFIX": "/sst/cognite/prod/",
                                 "REVALIDATION_QUEUE_URL": {
                                   "Ref": "siteRevalidationQueue355EB7DA"
                                 },
@@ -604,7 +604,7 @@
                             "tags": [
                               {
                                 "key": "sst:app",
-                                "value": "cognition"
+                                "value": "cognite"
                               },
                               {
                                 "key": "sst:stage",
@@ -621,11 +621,11 @@
                       },
                       "LogRetention": {
                         "id": "LogRetention",
-                        "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/LogRetention",
+                        "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/LogRetention",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/LogRetention/Resource",
+                            "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/LogRetention/Resource",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.CfnResource",
                               "version": "2.91.0"
@@ -639,7 +639,7 @@
                       },
                       "LogGroup": {
                         "id": "LogGroup",
-                        "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/LogGroup",
+                        "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/LogGroup",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
                           "version": "2.91.0"
@@ -647,11 +647,11 @@
                       },
                       "FunctionUrl": {
                         "id": "FunctionUrl",
-                        "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/FunctionUrl",
+                        "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/FunctionUrl",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/FunctionUrl/Resource",
+                            "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/FunctionUrl/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::Lambda::Url",
                               "aws:cdk:cloudformation:props": {
@@ -677,7 +677,7 @@
                       },
                       "invoke-function-url": {
                         "id": "invoke-function-url",
-                        "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/invoke-function-url",
+                        "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/invoke-function-url",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                           "aws:cdk:cloudformation:props": {
@@ -699,11 +699,11 @@
                       },
                       "Code": {
                         "id": "Code",
-                        "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/Code",
+                        "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/Code",
                         "children": {
                           "Stage": {
                             "id": "Stage",
-                            "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/Code/Stage",
+                            "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/Code/Stage",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.AssetStaging",
                               "version": "2.91.0"
@@ -711,7 +711,7 @@
                           },
                           "AssetBucket": {
                             "id": "AssetBucket",
-                            "path": "prod-cognition-Site/site/ServerFunction/ServerFunction/Code/AssetBucket",
+                            "path": "prod-cognite-Site/site/ServerFunction/ServerFunction/Code/AssetBucket",
                             "constructInfo": {
                               "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                               "version": "2.91.0"
@@ -737,21 +737,21 @@
               },
               "CloudFrontFunction": {
                 "id": "CloudFrontFunction",
-                "path": "prod-cognition-Site/site/CloudFrontFunction",
+                "path": "prod-cognite-Site/site/CloudFrontFunction",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/CloudFrontFunction/Resource",
+                    "path": "prod-cognite-Site/site/CloudFrontFunction/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::CloudFront::Function",
                       "aws:cdk:cloudformation:props": {
                         "autoPublish": true,
                         "functionCode": "\nfunction handler(event) {\n  var request = event.request;\n  request.headers[\"x-forwarded-host\"] = request.headers.host;\n  \n  return request;\n}",
                         "functionConfig": {
-                          "comment": "us-east-1prodcognitionSitesiteCloudFrontFunction644AA321",
+                          "comment": "us-east-1prodcogniteSitesiteCloudFrontFunction644AA321",
                           "runtime": "cloudfront-js-1.0"
                         },
-                        "name": "us-east-1prodcognitionSitesiteCloudFrontFunction644AA321"
+                        "name": "us-east-1prodcogniteSitesiteCloudFrontFunction644AA321"
                       }
                     },
                     "constructInfo": {
@@ -767,16 +767,16 @@
               },
               "ServerCache": {
                 "id": "ServerCache",
-                "path": "prod-cognition-Site/site/ServerCache",
+                "path": "prod-cognite-Site/site/ServerCache",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/ServerCache/Resource",
+                    "path": "prod-cognite-Site/site/ServerCache/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::CloudFront::CachePolicy",
                       "aws:cdk:cloudformation:props": {
                         "cachePolicyConfig": {
-                          "name": "prodcognitionSitesiteServerCacheC3C8004C-us-east-1",
+                          "name": "prodcogniteSitesiteServerCacheC3C8004C-us-east-1",
                           "comment": "SST server response cache policy",
                           "minTtl": 0,
                           "maxTtl": 31536000,
@@ -817,7 +817,7 @@
               },
               "ServerOriginRequestPolicy": {
                 "id": "ServerOriginRequestPolicy",
-                "path": "prod-cognition-Site/site/ServerOriginRequestPolicy",
+                "path": "prod-cognite-Site/site/ServerOriginRequestPolicy",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
                   "version": "2.91.0"
@@ -825,15 +825,15 @@
               },
               "ImageFunction": {
                 "id": "ImageFunction",
-                "path": "prod-cognition-Site/site/ImageFunction",
+                "path": "prod-cognite-Site/site/ImageFunction",
                 "children": {
                   "ServiceRole": {
                     "id": "ServiceRole",
-                    "path": "prod-cognition-Site/site/ImageFunction/ServiceRole",
+                    "path": "prod-cognite-Site/site/ImageFunction/ServiceRole",
                     "children": {
                       "ImportServiceRole": {
                         "id": "ImportServiceRole",
-                        "path": "prod-cognition-Site/site/ImageFunction/ServiceRole/ImportServiceRole",
+                        "path": "prod-cognite-Site/site/ImageFunction/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
                           "version": "2.91.0"
@@ -841,7 +841,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/ImageFunction/ServiceRole/Resource",
+                        "path": "prod-cognite-Site/site/ImageFunction/ServiceRole/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                           "aws:cdk:cloudformation:props": {
@@ -874,7 +874,7 @@
                             "tags": [
                               {
                                 "key": "sst:app",
-                                "value": "cognition"
+                                "value": "cognite"
                               },
                               {
                                 "key": "sst:stage",
@@ -890,11 +890,11 @@
                       },
                       "DefaultPolicy": {
                         "id": "DefaultPolicy",
-                        "path": "prod-cognition-Site/site/ImageFunction/ServiceRole/DefaultPolicy",
+                        "path": "prod-cognite-Site/site/ImageFunction/ServiceRole/DefaultPolicy",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "prod-cognition-Site/site/ImageFunction/ServiceRole/DefaultPolicy/Resource",
+                            "path": "prod-cognite-Site/site/ImageFunction/ServiceRole/DefaultPolicy/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                               "aws:cdk:cloudformation:props": {
@@ -948,7 +948,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/ImageFunction/Resource",
+                    "path": "prod-cognite-Site/site/ImageFunction/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
@@ -980,7 +980,7 @@
                         "tags": [
                           {
                             "key": "sst:app",
-                            "value": "cognition"
+                            "value": "cognite"
                           },
                           {
                             "key": "sst:stage",
@@ -997,11 +997,11 @@
                   },
                   "LogRetention": {
                     "id": "LogRetention",
-                    "path": "prod-cognition-Site/site/ImageFunction/LogRetention",
+                    "path": "prod-cognite-Site/site/ImageFunction/LogRetention",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/ImageFunction/LogRetention/Resource",
+                        "path": "prod-cognite-Site/site/ImageFunction/LogRetention/Resource",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.CfnResource",
                           "version": "2.91.0"
@@ -1015,7 +1015,7 @@
                   },
                   "LogGroup": {
                     "id": "LogGroup",
-                    "path": "prod-cognition-Site/site/ImageFunction/LogGroup",
+                    "path": "prod-cognite-Site/site/ImageFunction/LogGroup",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.91.0"
@@ -1023,11 +1023,11 @@
                   },
                   "FunctionUrl": {
                     "id": "FunctionUrl",
-                    "path": "prod-cognition-Site/site/ImageFunction/FunctionUrl",
+                    "path": "prod-cognite-Site/site/ImageFunction/FunctionUrl",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/ImageFunction/FunctionUrl/Resource",
+                        "path": "prod-cognite-Site/site/ImageFunction/FunctionUrl/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::Lambda::Url",
                           "aws:cdk:cloudformation:props": {
@@ -1053,7 +1053,7 @@
                   },
                   "invoke-function-url": {
                     "id": "invoke-function-url",
-                    "path": "prod-cognition-Site/site/ImageFunction/invoke-function-url",
+                    "path": "prod-cognite-Site/site/ImageFunction/invoke-function-url",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
                       "aws:cdk:cloudformation:props": {
@@ -1075,11 +1075,11 @@
                   },
                   "Code": {
                     "id": "Code",
-                    "path": "prod-cognition-Site/site/ImageFunction/Code",
+                    "path": "prod-cognite-Site/site/ImageFunction/Code",
                     "children": {
                       "Stage": {
                         "id": "Stage",
-                        "path": "prod-cognition-Site/site/ImageFunction/Code/Stage",
+                        "path": "prod-cognite-Site/site/ImageFunction/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
                           "version": "2.91.0"
@@ -1087,7 +1087,7 @@
                       },
                       "AssetBucket": {
                         "id": "AssetBucket",
-                        "path": "prod-cognition-Site/site/ImageFunction/Code/AssetBucket",
+                        "path": "prod-cognite-Site/site/ImageFunction/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                           "version": "2.91.0"
@@ -1107,7 +1107,7 @@
               },
               "CDN": {
                 "id": "CDN",
-                "path": "prod-cognition-Site/site/CDN",
+                "path": "prod-cognite-Site/site/CDN",
                 "constructInfo": {
                   "fqn": "constructs.Construct",
                   "version": "10.2.69"
@@ -1115,11 +1115,11 @@
               },
               "Distribution": {
                 "id": "Distribution",
-                "path": "prod-cognition-Site/site/Distribution",
+                "path": "prod-cognite-Site/site/Distribution",
                 "children": {
                   "Origin1": {
                     "id": "Origin1",
-                    "path": "prod-cognition-Site/site/Distribution/Origin1",
+                    "path": "prod-cognite-Site/site/Distribution/Origin1",
                     "constructInfo": {
                       "fqn": "constructs.Construct",
                       "version": "10.2.69"
@@ -1127,7 +1127,7 @@
                   },
                   "Origin2": {
                     "id": "Origin2",
-                    "path": "prod-cognition-Site/site/Distribution/Origin2",
+                    "path": "prod-cognite-Site/site/Distribution/Origin2",
                     "constructInfo": {
                       "fqn": "constructs.Construct",
                       "version": "10.2.69"
@@ -1135,7 +1135,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/Distribution/Resource",
+                    "path": "prod-cognite-Site/site/Distribution/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::CloudFront::Distribution",
                       "aws:cdk:cloudformation:props": {
@@ -1169,7 +1169,7 @@
                                   }
                                 ]
                               },
-                              "id": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+                              "id": "prodcogniteSitesiteDistributionOrigin115F4DAB8",
                               "customOriginConfig": {
                                 "originSslProtocols": [
                                   "TLSv1.2"
@@ -1205,7 +1205,7 @@
                                   }
                                 ]
                               },
-                              "id": "prodcognitionSitesiteDistributionOrigin20B11DF62",
+                              "id": "prodcogniteSitesiteDistributionOrigin20B11DF62",
                               "customOriginConfig": {
                                 "originSslProtocols": [
                                   "TLSv1.2"
@@ -1220,7 +1220,7 @@
                                   "RegionalDomainName"
                                 ]
                               },
-                              "id": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "id": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "originPath": "/_assets",
                               "s3OriginConfig": {
                                 "originAccessIdentity": {
@@ -1239,7 +1239,7 @@
                           ],
                           "defaultCacheBehavior": {
                             "pathPattern": "*",
-                            "targetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+                            "targetOriginId": "prodcogniteSitesiteDistributionOrigin115F4DAB8",
                             "allowedMethods": [
                               "GET",
                               "HEAD",
@@ -1277,7 +1277,7 @@
                           "cacheBehaviors": [
                             {
                               "pathPattern": "api/*",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin115F4DAB8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1313,7 +1313,7 @@
                             },
                             {
                               "pathPattern": "_next/data/*",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin115F4DAB8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1349,7 +1349,7 @@
                             },
                             {
                               "pathPattern": "_next/image*",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin20B11DF62",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin20B11DF62",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1373,7 +1373,7 @@
                             },
                             {
                               "pathPattern": "BUILD_ID",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1390,7 +1390,7 @@
                             },
                             {
                               "pathPattern": "_next/*",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1407,7 +1407,7 @@
                             },
                             {
                               "pathPattern": "draggan.pdf",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1424,7 +1424,7 @@
                             },
                             {
                               "pathPattern": "fire_3d.png",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1441,7 +1441,7 @@
                             },
                             {
                               "pathPattern": "fire_animated.png",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1458,7 +1458,7 @@
                             },
                             {
                               "pathPattern": "multiply.webp",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1475,7 +1475,7 @@
                             },
                             {
                               "pathPattern": "next.svg",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1492,7 +1492,7 @@
                             },
                             {
                               "pathPattern": "pencil.webp",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1509,7 +1509,7 @@
                             },
                             {
                               "pathPattern": "vercel.svg",
-                              "targetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+                              "targetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
                               "allowedMethods": [
                                 "GET",
                                 "HEAD",
@@ -1532,7 +1532,7 @@
                         "tags": [
                           {
                             "key": "sst:app",
-                            "value": "cognition"
+                            "value": "cognite"
                           },
                           {
                             "key": "sst:stage",
@@ -1548,20 +1548,20 @@
                   },
                   "Origin3": {
                     "id": "Origin3",
-                    "path": "prod-cognition-Site/site/Distribution/Origin3",
+                    "path": "prod-cognite-Site/site/Distribution/Origin3",
                     "children": {
                       "S3Origin": {
                         "id": "S3Origin",
-                        "path": "prod-cognition-Site/site/Distribution/Origin3/S3Origin",
+                        "path": "prod-cognite-Site/site/Distribution/Origin3/S3Origin",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "prod-cognition-Site/site/Distribution/Origin3/S3Origin/Resource",
+                            "path": "prod-cognite-Site/site/Distribution/Origin3/S3Origin/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
                               "aws:cdk:cloudformation:props": {
                                 "cloudFrontOriginAccessIdentityConfig": {
-                                  "comment": "Identity for prodcognitionSitesiteDistributionOrigin3BDA226A8"
+                                  "comment": "Identity for prodcogniteSitesiteDistributionOrigin3BDA226A8"
                                 }
                               }
                             },
@@ -1590,11 +1590,11 @@
               },
               "ServerFunctionInvalidatorPolicy": {
                 "id": "ServerFunctionInvalidatorPolicy",
-                "path": "prod-cognition-Site/site/ServerFunctionInvalidatorPolicy",
+                "path": "prod-cognite-Site/site/ServerFunctionInvalidatorPolicy",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/ServerFunctionInvalidatorPolicy/Resource",
+                    "path": "prod-cognite-Site/site/ServerFunctionInvalidatorPolicy/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                       "aws:cdk:cloudformation:props": {
@@ -1643,15 +1643,15 @@
               },
               "AwsCliLayer": {
                 "id": "AwsCliLayer",
-                "path": "prod-cognition-Site/site/AwsCliLayer",
+                "path": "prod-cognite-Site/site/AwsCliLayer",
                 "children": {
                   "Code": {
                     "id": "Code",
-                    "path": "prod-cognition-Site/site/AwsCliLayer/Code",
+                    "path": "prod-cognite-Site/site/AwsCliLayer/Code",
                     "children": {
                       "Stage": {
                         "id": "Stage",
-                        "path": "prod-cognition-Site/site/AwsCliLayer/Code/Stage",
+                        "path": "prod-cognite-Site/site/AwsCliLayer/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
                           "version": "2.91.0"
@@ -1659,7 +1659,7 @@
                       },
                       "AssetBucket": {
                         "id": "AssetBucket",
-                        "path": "prod-cognition-Site/site/AwsCliLayer/Code/AssetBucket",
+                        "path": "prod-cognite-Site/site/AwsCliLayer/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                           "version": "2.91.0"
@@ -1673,7 +1673,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/AwsCliLayer/Resource",
+                    "path": "prod-cognite-Site/site/AwsCliLayer/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Lambda::LayerVersion",
                       "aws:cdk:cloudformation:props": {
@@ -1697,11 +1697,11 @@
               },
               "Asset0": {
                 "id": "Asset0",
-                "path": "prod-cognition-Site/site/Asset0",
+                "path": "prod-cognite-Site/site/Asset0",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "prod-cognition-Site/site/Asset0/Stage",
+                    "path": "prod-cognite-Site/site/Asset0/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.91.0"
@@ -1709,7 +1709,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "prod-cognition-Site/site/Asset0/AssetBucket",
+                    "path": "prod-cognite-Site/site/Asset0/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.91.0"
@@ -1723,15 +1723,15 @@
               },
               "S3Uploader": {
                 "id": "S3Uploader",
-                "path": "prod-cognition-Site/site/S3Uploader",
+                "path": "prod-cognite-Site/site/S3Uploader",
                 "children": {
                   "ServiceRole": {
                     "id": "ServiceRole",
-                    "path": "prod-cognition-Site/site/S3Uploader/ServiceRole",
+                    "path": "prod-cognite-Site/site/S3Uploader/ServiceRole",
                     "children": {
                       "ImportServiceRole": {
                         "id": "ImportServiceRole",
-                        "path": "prod-cognition-Site/site/S3Uploader/ServiceRole/ImportServiceRole",
+                        "path": "prod-cognite-Site/site/S3Uploader/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
                           "version": "2.91.0"
@@ -1739,7 +1739,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/S3Uploader/ServiceRole/Resource",
+                        "path": "prod-cognite-Site/site/S3Uploader/ServiceRole/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                           "aws:cdk:cloudformation:props": {
@@ -1772,7 +1772,7 @@
                             "tags": [
                               {
                                 "key": "sst:app",
-                                "value": "cognition"
+                                "value": "cognite"
                               },
                               {
                                 "key": "sst:stage",
@@ -1788,11 +1788,11 @@
                       },
                       "DefaultPolicy": {
                         "id": "DefaultPolicy",
-                        "path": "prod-cognition-Site/site/S3Uploader/ServiceRole/DefaultPolicy",
+                        "path": "prod-cognite-Site/site/S3Uploader/ServiceRole/DefaultPolicy",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "prod-cognition-Site/site/S3Uploader/ServiceRole/DefaultPolicy/Resource",
+                            "path": "prod-cognite-Site/site/S3Uploader/ServiceRole/DefaultPolicy/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                               "aws:cdk:cloudformation:props": {
@@ -1899,11 +1899,11 @@
                   },
                   "Code": {
                     "id": "Code",
-                    "path": "prod-cognition-Site/site/S3Uploader/Code",
+                    "path": "prod-cognite-Site/site/S3Uploader/Code",
                     "children": {
                       "Stage": {
                         "id": "Stage",
-                        "path": "prod-cognition-Site/site/S3Uploader/Code/Stage",
+                        "path": "prod-cognite-Site/site/S3Uploader/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
                           "version": "2.91.0"
@@ -1911,7 +1911,7 @@
                       },
                       "AssetBucket": {
                         "id": "AssetBucket",
-                        "path": "prod-cognition-Site/site/S3Uploader/Code/AssetBucket",
+                        "path": "prod-cognite-Site/site/S3Uploader/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                           "version": "2.91.0"
@@ -1925,7 +1925,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/S3Uploader/Resource",
+                    "path": "prod-cognite-Site/site/S3Uploader/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
@@ -1950,7 +1950,7 @@
                         "tags": [
                           {
                             "key": "sst:app",
-                            "value": "cognition"
+                            "value": "cognite"
                           },
                           {
                             "key": "sst:stage",
@@ -1973,15 +1973,15 @@
               },
               "S3Handler": {
                 "id": "S3Handler",
-                "path": "prod-cognition-Site/site/S3Handler",
+                "path": "prod-cognite-Site/site/S3Handler",
                 "children": {
                   "ServiceRole": {
                     "id": "ServiceRole",
-                    "path": "prod-cognition-Site/site/S3Handler/ServiceRole",
+                    "path": "prod-cognite-Site/site/S3Handler/ServiceRole",
                     "children": {
                       "ImportServiceRole": {
                         "id": "ImportServiceRole",
-                        "path": "prod-cognition-Site/site/S3Handler/ServiceRole/ImportServiceRole",
+                        "path": "prod-cognite-Site/site/S3Handler/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
                           "version": "2.91.0"
@@ -1989,7 +1989,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/S3Handler/ServiceRole/Resource",
+                        "path": "prod-cognite-Site/site/S3Handler/ServiceRole/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                           "aws:cdk:cloudformation:props": {
@@ -2022,7 +2022,7 @@
                             "tags": [
                               {
                                 "key": "sst:app",
-                                "value": "cognition"
+                                "value": "cognite"
                               },
                               {
                                 "key": "sst:stage",
@@ -2038,11 +2038,11 @@
                       },
                       "DefaultPolicy": {
                         "id": "DefaultPolicy",
-                        "path": "prod-cognition-Site/site/S3Handler/ServiceRole/DefaultPolicy",
+                        "path": "prod-cognite-Site/site/S3Handler/ServiceRole/DefaultPolicy",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "prod-cognition-Site/site/S3Handler/ServiceRole/DefaultPolicy/Resource",
+                            "path": "prod-cognite-Site/site/S3Handler/ServiceRole/DefaultPolicy/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                               "aws:cdk:cloudformation:props": {
@@ -2141,11 +2141,11 @@
                   },
                   "Code": {
                     "id": "Code",
-                    "path": "prod-cognition-Site/site/S3Handler/Code",
+                    "path": "prod-cognite-Site/site/S3Handler/Code",
                     "children": {
                       "Stage": {
                         "id": "Stage",
-                        "path": "prod-cognition-Site/site/S3Handler/Code/Stage",
+                        "path": "prod-cognite-Site/site/S3Handler/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
                           "version": "2.91.0"
@@ -2153,7 +2153,7 @@
                       },
                       "AssetBucket": {
                         "id": "AssetBucket",
-                        "path": "prod-cognition-Site/site/S3Handler/Code/AssetBucket",
+                        "path": "prod-cognite-Site/site/S3Handler/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                           "version": "2.91.0"
@@ -2167,7 +2167,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/S3Handler/Resource",
+                    "path": "prod-cognite-Site/site/S3Handler/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
@@ -2199,7 +2199,7 @@
                         "tags": [
                           {
                             "key": "sst:app",
-                            "value": "cognition"
+                            "value": "cognite"
                           },
                           {
                             "key": "sst:stage",
@@ -2222,11 +2222,11 @@
               },
               "S3Deployment": {
                 "id": "S3Deployment",
-                "path": "prod-cognition-Site/site/S3Deployment",
+                "path": "prod-cognite-Site/site/S3Deployment",
                 "children": {
                   "Default": {
                     "id": "Default",
-                    "path": "prod-cognition-Site/site/S3Deployment/Default",
+                    "path": "prod-cognite-Site/site/S3Deployment/Default",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnResource",
                       "version": "2.91.0"
@@ -2240,11 +2240,11 @@
               },
               "CloudFrontInvalidatorPolicy": {
                 "id": "CloudFrontInvalidatorPolicy",
-                "path": "prod-cognition-Site/site/CloudFrontInvalidatorPolicy",
+                "path": "prod-cognite-Site/site/CloudFrontInvalidatorPolicy",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/CloudFrontInvalidatorPolicy/Resource",
+                    "path": "prod-cognite-Site/site/CloudFrontInvalidatorPolicy/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                       "aws:cdk:cloudformation:props": {
@@ -2296,11 +2296,11 @@
               },
               "CloudFrontInvalidator": {
                 "id": "CloudFrontInvalidator",
-                "path": "prod-cognition-Site/site/CloudFrontInvalidator",
+                "path": "prod-cognite-Site/site/CloudFrontInvalidator",
                 "children": {
                   "Default": {
                     "id": "Default",
-                    "path": "prod-cognition-Site/site/CloudFrontInvalidator/Default",
+                    "path": "prod-cognite-Site/site/CloudFrontInvalidator/Default",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnResource",
                       "version": "2.91.0"
@@ -2314,11 +2314,11 @@
               },
               "RevalidationQueue": {
                 "id": "RevalidationQueue",
-                "path": "prod-cognition-Site/site/RevalidationQueue",
+                "path": "prod-cognite-Site/site/RevalidationQueue",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/RevalidationQueue/Resource",
+                    "path": "prod-cognite-Site/site/RevalidationQueue/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::SQS::Queue",
                       "aws:cdk:cloudformation:props": {
@@ -2327,7 +2327,7 @@
                         "tags": [
                           {
                             "key": "sst:app",
-                            "value": "cognition"
+                            "value": "cognite"
                           },
                           {
                             "key": "sst:stage",
@@ -2349,15 +2349,15 @@
               },
               "RevalidationFunction": {
                 "id": "RevalidationFunction",
-                "path": "prod-cognition-Site/site/RevalidationFunction",
+                "path": "prod-cognite-Site/site/RevalidationFunction",
                 "children": {
                   "ServiceRole": {
                     "id": "ServiceRole",
-                    "path": "prod-cognition-Site/site/RevalidationFunction/ServiceRole",
+                    "path": "prod-cognite-Site/site/RevalidationFunction/ServiceRole",
                     "children": {
                       "ImportServiceRole": {
                         "id": "ImportServiceRole",
-                        "path": "prod-cognition-Site/site/RevalidationFunction/ServiceRole/ImportServiceRole",
+                        "path": "prod-cognite-Site/site/RevalidationFunction/ServiceRole/ImportServiceRole",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.Resource",
                           "version": "2.91.0"
@@ -2365,7 +2365,7 @@
                       },
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/RevalidationFunction/ServiceRole/Resource",
+                        "path": "prod-cognite-Site/site/RevalidationFunction/ServiceRole/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                           "aws:cdk:cloudformation:props": {
@@ -2398,7 +2398,7 @@
                             "tags": [
                               {
                                 "key": "sst:app",
-                                "value": "cognition"
+                                "value": "cognite"
                               },
                               {
                                 "key": "sst:stage",
@@ -2414,11 +2414,11 @@
                       },
                       "DefaultPolicy": {
                         "id": "DefaultPolicy",
-                        "path": "prod-cognition-Site/site/RevalidationFunction/ServiceRole/DefaultPolicy",
+                        "path": "prod-cognite-Site/site/RevalidationFunction/ServiceRole/DefaultPolicy",
                         "children": {
                           "Resource": {
                             "id": "Resource",
-                            "path": "prod-cognition-Site/site/RevalidationFunction/ServiceRole/DefaultPolicy/Resource",
+                            "path": "prod-cognite-Site/site/RevalidationFunction/ServiceRole/DefaultPolicy/Resource",
                             "attributes": {
                               "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                               "aws:cdk:cloudformation:props": {
@@ -2470,11 +2470,11 @@
                   },
                   "Code": {
                     "id": "Code",
-                    "path": "prod-cognition-Site/site/RevalidationFunction/Code",
+                    "path": "prod-cognite-Site/site/RevalidationFunction/Code",
                     "children": {
                       "Stage": {
                         "id": "Stage",
-                        "path": "prod-cognition-Site/site/RevalidationFunction/Code/Stage",
+                        "path": "prod-cognite-Site/site/RevalidationFunction/Code/Stage",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.AssetStaging",
                           "version": "2.91.0"
@@ -2482,7 +2482,7 @@
                       },
                       "AssetBucket": {
                         "id": "AssetBucket",
-                        "path": "prod-cognition-Site/site/RevalidationFunction/Code/AssetBucket",
+                        "path": "prod-cognite-Site/site/RevalidationFunction/Code/AssetBucket",
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                           "version": "2.91.0"
@@ -2496,7 +2496,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/RevalidationFunction/Resource",
+                    "path": "prod-cognite-Site/site/RevalidationFunction/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
                       "aws:cdk:cloudformation:props": {
@@ -2516,7 +2516,7 @@
                         "tags": [
                           {
                             "key": "sst:app",
-                            "value": "cognition"
+                            "value": "cognite"
                           },
                           {
                             "key": "sst:stage",
@@ -2531,13 +2531,13 @@
                       "version": "2.91.0"
                     }
                   },
-                  "SqsEventSource:prodcognitionSitesiteRevalidationQueueE7AF514D": {
-                    "id": "SqsEventSource:prodcognitionSitesiteRevalidationQueueE7AF514D",
-                    "path": "prod-cognition-Site/site/RevalidationFunction/SqsEventSource:prodcognitionSitesiteRevalidationQueueE7AF514D",
+                  "SqsEventSource:prodcogniteSitesiteRevalidationQueueE7AF514D": {
+                    "id": "SqsEventSource:prodcogniteSitesiteRevalidationQueueE7AF514D",
+                    "path": "prod-cognite-Site/site/RevalidationFunction/SqsEventSource:prodcogniteSitesiteRevalidationQueueE7AF514D",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/site/RevalidationFunction/SqsEventSource:prodcognitionSitesiteRevalidationQueueE7AF514D/Resource",
+                        "path": "prod-cognite-Site/site/RevalidationFunction/SqsEventSource:prodcogniteSitesiteRevalidationQueueE7AF514D/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::Lambda::EventSourceMapping",
                           "aws:cdk:cloudformation:props": {
@@ -2572,17 +2572,17 @@
               },
               "Parameter_url": {
                 "id": "Parameter_url",
-                "path": "prod-cognition-Site/site/Parameter_url",
+                "path": "prod-cognite-Site/site/Parameter_url",
                 "children": {
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/site/Parameter_url/Resource",
+                    "path": "prod-cognite-Site/site/Parameter_url/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::SSM::Parameter",
                       "aws:cdk:cloudformation:props": {
-                        "name": "/sst/cognition/prod/NextjsSite/site/url",
+                        "name": "/sst/cognite/prod/NextjsSite/site/url",
                         "tags": {
-                          "sst:app": "cognition",
+                          "sst:app": "cognite",
                           "sst:stage": "prod"
                         },
                         "type": "String",
@@ -2621,11 +2621,11 @@
           },
           "Custom::S3AutoDeleteObjectsCustomResourceProvider": {
             "id": "Custom::S3AutoDeleteObjectsCustomResourceProvider",
-            "path": "prod-cognition-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider",
+            "path": "prod-cognite-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider",
             "children": {
               "Staging": {
                 "id": "Staging",
-                "path": "prod-cognition-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Staging",
+                "path": "prod-cognite-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Staging",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.AssetStaging",
                   "version": "2.91.0"
@@ -2633,7 +2633,7 @@
               },
               "Role": {
                 "id": "Role",
-                "path": "prod-cognition-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role",
+                "path": "prod-cognite-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.91.0"
@@ -2641,7 +2641,7 @@
               },
               "Handler": {
                 "id": "Handler",
-                "path": "prod-cognition-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
+                "path": "prod-cognite-Site/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.91.0"
@@ -2655,15 +2655,15 @@
           },
           "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a": {
             "id": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a",
-            "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a",
+            "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a",
             "children": {
               "Code": {
                 "id": "Code",
-                "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code",
+                "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code",
                 "children": {
                   "Stage": {
                     "id": "Stage",
-                    "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code/Stage",
+                    "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code/Stage",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.AssetStaging",
                       "version": "2.91.0"
@@ -2671,7 +2671,7 @@
                   },
                   "AssetBucket": {
                     "id": "AssetBucket",
-                    "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code/AssetBucket",
+                    "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Code/AssetBucket",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_s3.BucketBase",
                       "version": "2.91.0"
@@ -2685,11 +2685,11 @@
               },
               "ServiceRole": {
                 "id": "ServiceRole",
-                "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole",
+                "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole",
                 "children": {
                   "ImportServiceRole": {
                     "id": "ImportServiceRole",
-                    "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/ImportServiceRole",
+                    "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/ImportServiceRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
                       "version": "2.91.0"
@@ -2697,7 +2697,7 @@
                   },
                   "Resource": {
                     "id": "Resource",
-                    "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource",
+                    "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource",
                     "attributes": {
                       "aws:cdk:cloudformation:type": "AWS::IAM::Role",
                       "aws:cdk:cloudformation:props": {
@@ -2730,7 +2730,7 @@
                         "tags": [
                           {
                             "key": "sst:app",
-                            "value": "cognition"
+                            "value": "cognite"
                           },
                           {
                             "key": "sst:stage",
@@ -2746,11 +2746,11 @@
                   },
                   "DefaultPolicy": {
                     "id": "DefaultPolicy",
-                    "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy",
+                    "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy",
                     "children": {
                       "Resource": {
                         "id": "Resource",
-                        "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource",
+                        "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource",
                         "attributes": {
                           "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
                           "aws:cdk:cloudformation:props": {
@@ -2794,7 +2794,7 @@
               },
               "Resource": {
                 "id": "Resource",
-                "path": "prod-cognition-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource",
+                "path": "prod-cognite-Site/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.CfnResource",
                   "version": "2.91.0"
@@ -2808,7 +2808,7 @@
           },
           "SSTStackOutputSiteUrl": {
             "id": "SSTStackOutputSiteUrl",
-            "path": "prod-cognition-Site/SSTStackOutputSiteUrl",
+            "path": "prod-cognite-Site/SSTStackOutputSiteUrl",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.91.0"
@@ -2816,7 +2816,7 @@
           },
           "SSTStackOutputSSTMetadata": {
             "id": "SSTStackOutputSSTMetadata",
-            "path": "prod-cognition-Site/SSTStackOutputSSTMetadata",
+            "path": "prod-cognite-Site/SSTStackOutputSSTMetadata",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnOutput",
               "version": "2.91.0"
@@ -2824,7 +2824,7 @@
           },
           "BootstrapVersion": {
             "id": "BootstrapVersion",
-            "path": "prod-cognition-Site/BootstrapVersion",
+            "path": "prod-cognite-Site/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
               "version": "2.91.0"
@@ -2832,7 +2832,7 @@
           },
           "CheckBootstrapVersion": {
             "id": "CheckBootstrapVersion",
-            "path": "prod-cognition-Site/CheckBootstrapVersion",
+            "path": "prod-cognite-Site/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
               "version": "2.91.0"

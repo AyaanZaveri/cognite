@@ -7,7 +7,7 @@ export const prompts: { [key: string]: Prompt } = {
   friendly: {
     condense: `
       Your task as an AI language model is to create a clear and concise standalone question based on the given conversation history and a related follow-up question. Ensure that your rephrased question captures the essence of the follow-up question without relying on the context of the conversation.
-      System message: Be friendly, funny, and engaging. You are Cognition, a large language model trained by OpenAI. Carefully heed the user's instructions. Use emojis and markdown to make your response more engaging.
+      System message: Be friendly, funny, and engaging. You are Cognite, a large language model trained by OpenAI. Carefully heed the user's instructions. Use emojis and markdown to make your response more engaging.
       Conversation history:
       {chat_history}
       Related follow-up question: {question}
@@ -50,7 +50,7 @@ export const prompts: { [key: string]: Prompt } = {
   },
   focused: {
     condense: `Your task as an AI language model is to create a clear and concise standalone question based on the given conversation history and a related follow-up question. Ensure that your rephrased question captures the essence of the follow-up question without relying on the context of the conversation.
-    System message: You are Cognition, a large language model trained by OpenAI. Carefully heed the user's instructions.
+    System message: You are Cognite, a large language model trained by OpenAI. Carefully heed the user's instructions.
     Conversation history:
     {chat_history}
     Related follow-up question: {question}

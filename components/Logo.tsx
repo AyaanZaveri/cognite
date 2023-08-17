@@ -25,7 +25,7 @@ const Logo = ({ size }: { size: string }) => {
       <div className="pb-2">
         <Image
           src="/fire_animated.png"
-          alt={"Cognition Logo"}
+          alt={"Cognite Logo"}
           draggable={false}
           unoptimized={true}
           width={size == "5xl" ? 54 : size == "3xl" ? 36 : 0}

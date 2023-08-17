@@ -128,7 +128,7 @@ const UserHoverCard = ({ user, nameClass })=>{
                                     className: "text-sm",
                                     children: /*#__PURE__*/ jsx_runtime_.jsx(react_markdown/* ReactMarkdown */.D, {
                                         children: user?.bio
-                                    }) ?? "Cognition bio"
+                                    }) ?? "Cognite bio"
                                 }),
                                 /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
                                     className: "flex items-center pt-2",
@@ -168,7 +168,7 @@ const UserHoverCard = ({ user, nameClass })=>{
 /* unused harmony exports __esModule, $$typeof */
 /* harmony import */ var next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1926);
 
-const proxy = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognition/components/UserHoverCard.tsx`)
+const proxy = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognite/components/UserHoverCard.tsx`)
 
 // Accessing the __esModule property and exporting $$typeof are required here.
 // The __esModule getter forces the proxy target to create the default export

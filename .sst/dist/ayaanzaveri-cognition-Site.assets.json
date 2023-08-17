@@ -129,7 +129,7 @@
     },
     "e087b704e62bf4fcdb5ce4f3d4966a8f59d12aa6413e45f53e2718c82fc74923": {
       "source": {
-        "path": "ayaanzaveri-cognition-Site.template.json",
+        "path": "ayaanzaveri-cognite-Site.template.json",
         "packaging": "file"
       },
       "destinations": {

@@ -129,7 +129,7 @@
     },
     "fb8d23ff67f46d21a1302bdbcb24fab1524ef5a705edf78b2f19d8c76f631222": {
       "source": {
-        "path": "prod-cognition-Site.template.json",
+        "path": "prod-cognite-Site.template.json",
         "packaging": "file"
       },
       "destinations": {

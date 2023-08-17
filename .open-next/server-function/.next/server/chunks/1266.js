@@ -26,13 +26,13 @@ const Logo = ({ size })=>{
         children: [
             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("span", {
                 className: (next_font_google_target_css_path_components_Logo_tsx_import_Space_Grotesk_arguments_weight_300_400_500_600_700_subsets_latin_variableName_space_grotesk___WEBPACK_IMPORTED_MODULE_3___default().className) + " animate-text bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text pb-2 font-semibold text-transparent",
-                children: "Cognition"
+                children: "Cognite"
             }),
             /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
                 className: "pb-2",
                 children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx((next_image__WEBPACK_IMPORTED_MODULE_1___default()), {
                     src: "/fire_animated.png",
-                    alt: "Cognition Logo",
+                    alt: "Cognite Logo",
                     draggable: false,
                     unoptimized: true,
                     width: size == "5xl" ? 54 : size == "3xl" ? 36 : 0,

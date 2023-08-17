@@ -667,7 +667,7 @@ function cn(...inputs) {
 /* harmony export */ });
 /* harmony import */ var next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1926);
 
-const proxy = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognition/app/actions.tsx`)
+const proxy = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognite/app/actions.tsx`)
 
 // Accessing the __esModule property and exporting $$typeof are required here.
 // The __esModule getter forces the proxy target to create the default export
@@ -717,7 +717,7 @@ var index_esm = __webpack_require__(39978);
 var module_proxy = __webpack_require__(1926);
 ;// CONCATENATED MODULE: ./components/ModeToggle.tsx
 
-const proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognition/components/ModeToggle.tsx`)
+const proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognite/components/ModeToggle.tsx`)
 
 // Accessing the __esModule property and exporting $$typeof are required here.
 // The __esModule getter forces the proxy target to create the default export
@@ -800,7 +800,7 @@ const Sidebar = ({ session })=>{
                     children: [
                         /*#__PURE__*/ jsx_runtime_.jsx((image_default()), {
                             src: "/fire_3d.png",
-                            alt: "Cognition Logo",
+                            alt: "Cognite Logo",
                             width: 42,
                             height: 42,
                             unoptimized: true,
@@ -809,7 +809,7 @@ const Sidebar = ({ session })=>{
                         }),
                         /*#__PURE__*/ jsx_runtime_.jsx((image_default()), {
                             src: "/fire_animated.png",
-                            alt: "Cognition Logo",
+                            alt: "Cognite Logo",
                             unoptimized: true,
                             width: 42,
                             height: 42,
@@ -919,7 +919,7 @@ const Sidebar = ({ session })=>{
 var auth = __webpack_require__(66298);
 ;// CONCATENATED MODULE: ./components/ui/toaster.tsx
 
-const toaster_proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognition/components/ui/toaster.tsx`)
+const toaster_proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognite/components/ui/toaster.tsx`)
 
 // Accessing the __esModule property and exporting $$typeof are required here.
 // The __esModule getter forces the proxy target to create the default export
@@ -934,7 +934,7 @@ const toaster_e0 = toaster_proxy["Toaster"];
 var react = __webpack_require__(1114);
 ;// CONCATENATED MODULE: ./components/theme-provider.tsx
 
-const theme_provider_proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognition/components/theme-provider.tsx`)
+const theme_provider_proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognite/components/theme-provider.tsx`)
 
 // Accessing the __esModule property and exporting $$typeof are required here.
 // The __esModule getter forces the proxy target to create the default export
@@ -955,7 +955,7 @@ const theme_provider_e0 = theme_provider_proxy["ThemeProvider"];
 
 
 const metadata = {
-    title: "Cognition",
+    title: "Cognite",
     description: "Chat with any website",
     icons: {
         icon: "/favicon.ico"

@@ -51,7 +51,7 @@ CREATE TABLE "cogs" (
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "type" TEXT NOT NULL DEFAULT '',
     "slug" TEXT NOT NULL,
-    "imgUrl" TEXT DEFAULT 'https://github.com/AyaanZaveri/cognition/blob/main/app/icon.png?raw=true',
+    "imgUrl" TEXT DEFAULT 'https://github.com/AyaanZaveri/cognite/blob/main/app/icon.png?raw=true',
     "content" TEXT NOT NULL,
     "embeddings" vector(1536),
 

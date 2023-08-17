@@ -69,7 +69,7 @@ function GET() {
 
 const dynamic = 'force-static'
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-app-loader.js?page=%2Ficon.png%2Froute&name=app%2Ficon.png%2Froute&pagePath=private-next-app-dir%2Ficon.png&appDir=%2FUsers%2Fayaanzaveri%2FCode%2Fcognition%2Fapp&appPaths=%2Ficon.png&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&basePath=&assetPrefix=&nextConfigOutput=standalone&preferredRegion=&middlewareConfig=e30%3D!
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-app-loader.js?page=%2Ficon.png%2Froute&name=app%2Ficon.png%2Froute&pagePath=private-next-app-dir%2Ficon.png&appDir=%2FUsers%2Fayaanzaveri%2FCode%2Fcognite%2Fapp&appPaths=%2Ficon.png&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&basePath=&assetPrefix=&nextConfigOutput=standalone&preferredRegion=&middlewareConfig=e30%3D!
 
     
 
@@ -77,7 +77,7 @@ const dynamic = 'force-static'
 
     
 
-    const options = {"definition":{"kind":"APP_ROUTE","page":"/icon.png/route","pathname":"/icon.png","filename":"icon","bundlePath":"app/icon.png/route"},"resolvedPagePath":"next-metadata-route-loader?page=%2Ficon.png%2Froute&isDynamic=0!/Users/ayaanzaveri/Code/cognition/app/icon.png?__next_metadata_route__","nextConfigOutput":"standalone"}
+    const options = {"definition":{"kind":"APP_ROUTE","page":"/icon.png/route","pathname":"/icon.png","filename":"icon","bundlePath":"app/icon.png/route"},"resolvedPagePath":"next-metadata-route-loader?page=%2Ficon.png%2Froute&isDynamic=0!/Users/ayaanzaveri/Code/cognite/app/icon.png?__next_metadata_route__","nextConfigOutput":"standalone"}
     const routeModule = new (module_default())({
       ...options,
       userland: icon_next_metadata_route_namespaceObject,

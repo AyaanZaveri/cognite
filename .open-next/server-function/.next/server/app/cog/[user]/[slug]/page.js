@@ -371,12 +371,12 @@ __webpack_require__.r(__webpack_exports__);
         '[slug]',
         {
         children: ['__PAGE__', {}, {
-          page: [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 18128)), "/Users/ayaanzaveri/Code/cognition/app/cog/[user]/[slug]/page.tsx"],
+          page: [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 18128)), "/Users/ayaanzaveri/Code/cognite/app/cog/[user]/[slug]/page.tsx"],
           
         }]
       },
         {
-          'loading': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 36520)), "/Users/ayaanzaveri/Code/cognition/app/cog/[user]/[slug]/loading.tsx"],
+          'loading': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 36520)), "/Users/ayaanzaveri/Code/cognite/app/cog/[user]/[slug]/loading.tsx"],
           
         }
       ]
@@ -400,8 +400,8 @@ __webpack_require__.r(__webpack_exports__);
       ]
       },
         {
-          'layout': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 42718)), "/Users/ayaanzaveri/Code/cognition/app/layout.tsx"],
-'loading': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 6788)), "/Users/ayaanzaveri/Code/cognition/app/loading.tsx"],
+          'layout': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 42718)), "/Users/ayaanzaveri/Code/cognite/app/layout.tsx"],
+'loading': [() => Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 6788)), "/Users/ayaanzaveri/Code/cognite/app/loading.tsx"],
           metadata: {
     icon: [(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 200))).default(props)),(async (props) => (await Promise.resolve(/* import() eager */).then(__webpack_require__.bind(__webpack_require__, 89876))).default(props))],
     apple: [],
@@ -412,7 +412,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       ]
       }.children;
-    const pages = ["/Users/ayaanzaveri/Code/cognition/app/cog/[user]/[slug]/page.tsx"];
+    const pages = ["/Users/ayaanzaveri/Code/cognite/app/cog/[user]/[slug]/page.tsx"];
 
     
 
@@ -880,7 +880,7 @@ var image_default = /*#__PURE__*/__webpack_require__.n(next_image);
 var module_proxy = __webpack_require__(1926);
 ;// CONCATENATED MODULE: ./components/Chat.tsx
 
-const proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognition/components/Chat.tsx`)
+const proxy = (0,module_proxy.createProxy)(String.raw`/Users/ayaanzaveri/Code/cognite/components/Chat.tsx`)
 
 // Accessing the __esModule property and exporting $$typeof are required here.
 // The __esModule getter forces the proxy target to create the default export

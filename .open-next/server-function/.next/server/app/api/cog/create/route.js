@@ -239,7 +239,7 @@ async function POST(req) {
     }
 }
 
-;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-app-loader.js?page=%2Fapi%2Fcog%2Fcreate%2Froute&name=app%2Fapi%2Fcog%2Fcreate%2Froute&pagePath=private-next-app-dir%2Fapi%2Fcog%2Fcreate%2Froute.ts&appDir=%2FUsers%2Fayaanzaveri%2FCode%2Fcognition%2Fapp&appPaths=%2Fapi%2Fcog%2Fcreate%2Froute&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&basePath=&assetPrefix=&nextConfigOutput=standalone&preferredRegion=&middlewareConfig=e30%3D!
+;// CONCATENATED MODULE: ./node_modules/.pnpm/next@13.4.12_@babel+core@7.22.9_react-dom@18.2.0_react@18.2.0/node_modules/next/dist/build/webpack/loaders/next-app-loader.js?page=%2Fapi%2Fcog%2Fcreate%2Froute&name=app%2Fapi%2Fcog%2Fcreate%2Froute&pagePath=private-next-app-dir%2Fapi%2Fcog%2Fcreate%2Froute.ts&appDir=%2FUsers%2Fayaanzaveri%2FCode%2Fcognite%2Fapp&appPaths=%2Fapi%2Fcog%2Fcreate%2Froute&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&basePath=&assetPrefix=&nextConfigOutput=standalone&preferredRegion=&middlewareConfig=e30%3D!
 
     
 
@@ -247,7 +247,7 @@ async function POST(req) {
 
     
 
-    const options = {"definition":{"kind":"APP_ROUTE","page":"/api/cog/create/route","pathname":"/api/cog/create","filename":"route","bundlePath":"app/api/cog/create/route"},"resolvedPagePath":"/Users/ayaanzaveri/Code/cognition/app/api/cog/create/route.ts","nextConfigOutput":"standalone"}
+    const options = {"definition":{"kind":"APP_ROUTE","page":"/api/cog/create/route","pathname":"/api/cog/create","filename":"route","bundlePath":"app/api/cog/create/route"},"resolvedPagePath":"/Users/ayaanzaveri/Code/cognite/app/api/cog/create/route.ts","nextConfigOutput":"standalone"}
     const routeModule = new (module_default())({
       ...options,
       userland: route_namespaceObject,

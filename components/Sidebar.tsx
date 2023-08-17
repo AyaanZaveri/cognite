@@ -19,7 +19,7 @@ const Sidebar = ({ session }: { session: Session | null }) => {
         <div className="group relative transition-all duration-1000 ease-in-out">
           <Image
             src="/fire_3d.png"
-            alt={"Cognition Logo"}
+            alt={"Cognite Logo"}
             width={42}
             height={42}
             unoptimized={true}
@@ -28,7 +28,7 @@ const Sidebar = ({ session }: { session: Session | null }) => {
           />
           <Image
             src="/fire_animated.png"
-            alt={"Cognition Logo"}
+            alt={"Cognite Logo"}
             unoptimized={true}
             width={42}
             height={42}

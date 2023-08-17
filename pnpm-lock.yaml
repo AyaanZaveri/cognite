@@ -10872,7 +10872,7 @@ packages:
       puppeteer: ^19.7.2
       redis: ^4.6.4
       replicate: ^0.12.3
-      sonix-speech-recognition: ^2.1.1
+      sonix-speech-recognite: ^2.1.1
       srt-parser-2: ^1.2.2
       typeorm: ^0.3.12
       typesense: ^1.5.3
@@ -10989,7 +10989,7 @@ packages:
         optional: true
       replicate:
         optional: true
-      sonix-speech-recognition:
+      sonix-speech-recognite:
         optional: true
       srt-parser-2:
         optional: true

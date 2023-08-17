@@ -4,7 +4,7 @@ import { NextjsSite } from "sst/constructs";
 export default {
   config(_input) {
     return {
-      name: "cognition",
+      name: "cognite",
       region: "us-east-1",
     };
   },

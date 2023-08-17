@@ -13,7 +13,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Cognition",
+  title: "Cognite",
   description: "Chat with any website",
   icons: {
     icon: "/favicon.ico",

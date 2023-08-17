@@ -32,7 +32,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -60,7 +60,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -89,7 +89,7 @@
      },
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -375,7 +375,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -490,9 +490,9 @@
       },
       "CACHE_BUCKET_KEY_PREFIX": "_cache",
       "CACHE_BUCKET_REGION": "us-east-1",
-      "SST_APP": "cognition",
+      "SST_APP": "cognite",
       "SST_STAGE": "prod",
-      "SST_SSM_PREFIX": "/sst/cognition/prod/",
+      "SST_SSM_PREFIX": "/sst/cognite/prod/",
       "REVALIDATION_QUEUE_URL": {
        "Ref": "siteRevalidationQueue355EB7DA"
       },
@@ -511,7 +511,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -590,10 +590,10 @@
     "AutoPublish": true,
     "FunctionCode": "\nfunction handler(event) {\n  var request = event.request;\n  request.headers[\"x-forwarded-host\"] = request.headers.host;\n  \n  return request;\n}",
     "FunctionConfig": {
-     "Comment": "us-east-1prodcognitionSitesiteCloudFrontFunction644AA321",
+     "Comment": "us-east-1prodcogniteSitesiteCloudFrontFunction644AA321",
      "Runtime": "cloudfront-js-1.0"
     },
-    "Name": "us-east-1prodcognitionSitesiteCloudFrontFunction644AA321"
+    "Name": "us-east-1prodcogniteSitesiteCloudFrontFunction644AA321"
    }
   },
   "siteServerCacheDD54ACDF": {
@@ -604,7 +604,7 @@
      "DefaultTTL": 0,
      "MaxTTL": 31536000,
      "MinTTL": 0,
-     "Name": "prodcognitionSitesiteServerCacheC3C8004C-us-east-1",
+     "Name": "prodcogniteSitesiteServerCacheC3C8004C-us-east-1",
      "ParametersInCacheKeyAndForwardedToOrigin": {
       "CookiesConfig": {
        "CookieBehavior": "none"
@@ -660,7 +660,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -734,7 +734,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -836,7 +836,7 @@
        "LambdaFunctionAssociations": [],
        "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
        "PathPattern": "api/*",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin115F4DAB8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -872,7 +872,7 @@
        "LambdaFunctionAssociations": [],
        "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
        "PathPattern": "_next/data/*",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin115F4DAB8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -896,7 +896,7 @@
        "Compress": true,
        "LambdaFunctionAssociations": [],
        "PathPattern": "_next/image*",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin20B11DF62",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin20B11DF62",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -913,7 +913,7 @@
        ],
        "Compress": true,
        "PathPattern": "BUILD_ID",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -930,7 +930,7 @@
        ],
        "Compress": true,
        "PathPattern": "_next/*",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -947,7 +947,7 @@
        ],
        "Compress": true,
        "PathPattern": "draggan.pdf",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -964,7 +964,7 @@
        ],
        "Compress": true,
        "PathPattern": "fire_3d.png",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -981,7 +981,7 @@
        ],
        "Compress": true,
        "PathPattern": "fire_animated.png",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -998,7 +998,7 @@
        ],
        "Compress": true,
        "PathPattern": "multiply.webp",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -1015,7 +1015,7 @@
        ],
        "Compress": true,
        "PathPattern": "next.svg",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -1032,7 +1032,7 @@
        ],
        "Compress": true,
        "PathPattern": "pencil.webp",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       },
       {
@@ -1049,7 +1049,7 @@
        ],
        "Compress": true,
        "PathPattern": "vercel.svg",
-       "TargetOriginId": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "TargetOriginId": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "ViewerProtocolPolicy": "redirect-to-https"
       }
      ],
@@ -1085,7 +1085,7 @@
       ],
       "LambdaFunctionAssociations": [],
       "OriginRequestPolicyId": "b689b0a8-53d0-40ab-baf2-68738e2966ac",
-      "TargetOriginId": "prodcognitionSitesiteDistributionOrigin115F4DAB8",
+      "TargetOriginId": "prodcogniteSitesiteDistributionOrigin115F4DAB8",
       "ViewerProtocolPolicy": "redirect-to-https"
      },
      "DefaultRootObject": "",
@@ -1127,7 +1127,7 @@
          }
         ]
        },
-       "Id": "prodcognitionSitesiteDistributionOrigin115F4DAB8"
+       "Id": "prodcogniteSitesiteDistributionOrigin115F4DAB8"
       },
       {
        "CustomOriginConfig": {
@@ -1162,7 +1162,7 @@
          }
         ]
        },
-       "Id": "prodcognitionSitesiteDistributionOrigin20B11DF62"
+       "Id": "prodcogniteSitesiteDistributionOrigin20B11DF62"
       },
       {
        "DomainName": {
@@ -1171,7 +1171,7 @@
          "RegionalDomainName"
         ]
        },
-       "Id": "prodcognitionSitesiteDistributionOrigin3BDA226A8",
+       "Id": "prodcogniteSitesiteDistributionOrigin3BDA226A8",
        "OriginPath": "/_assets",
        "S3OriginConfig": {
         "OriginAccessIdentity": {
@@ -1192,7 +1192,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -1205,7 +1205,7 @@
    "Type": "AWS::CloudFront::CloudFrontOriginAccessIdentity",
    "Properties": {
     "CloudFrontOriginAccessIdentityConfig": {
-     "Comment": "Identity for prodcognitionSitesiteDistributionOrigin3BDA226A8"
+     "Comment": "Identity for prodcogniteSitesiteDistributionOrigin3BDA226A8"
     }
    }
   },
@@ -1286,7 +1286,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -1406,7 +1406,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -1452,7 +1452,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -1571,7 +1571,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -1751,7 +1751,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -1794,7 +1794,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -1854,7 +1854,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -1868,7 +1868,7 @@
     "siteRevalidationFunctionServiceRole02D71DA1"
    ]
   },
-  "siteRevalidationFunctionSqsEventSourceprodcognitionSitesiteRevalidationQueueE7AF514DBE076A3A": {
+  "siteRevalidationFunctionSqsEventSourceprodcogniteSitesiteRevalidationQueueE7AF514DBE076A3A": {
    "Type": "AWS::Lambda::EventSourceMapping",
    "Properties": {
     "BatchSize": 5,
@@ -1886,9 +1886,9 @@
   "siteParameterurl3D1716BC": {
    "Type": "AWS::SSM::Parameter",
    "Properties": {
-    "Name": "/sst/cognition/prod/NextjsSite/site/url",
+    "Name": "/sst/cognite/prod/NextjsSite/site/url",
     "Tags": {
-     "sst:app": "cognition",
+     "sst:app": "cognite",
      "sst:stage": "prod"
     },
     "Type": "String",
@@ -1996,7 +1996,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -2047,7 +2047,7 @@
     "Tags": [
      {
       "Key": "sst:app",
-      "Value": "cognition"
+      "Value": "cognite"
      },
      {
       "Key": "sst:stage",
@@ -2083,7 +2083,7 @@
     "Fn::Join": [
      "",
      [
-      "{\"app\":\"cognition\",\"stage\":\"prod\",\"version\":\"2.24.1\",\"metadata\":[{\"id\":\"site\",\"addr\":\"c8180a01498a663ed03958d27566194aaf9345d7a4\",\"stack\":\"prod-cognition-Site\",\"type\":\"NextjsSite\",\"data\":{\"mode\":\"deployed\",\"path\":\".\",\"runtime\":\"nodejs18.x\",\"url\":\"https://",
+      "{\"app\":\"cognite\",\"stage\":\"prod\",\"version\":\"2.24.1\",\"metadata\":[{\"id\":\"site\",\"addr\":\"c8180a01498a663ed03958d27566194aaf9345d7a4\",\"stack\":\"prod-cognite-Site\",\"type\":\"NextjsSite\",\"data\":{\"mode\":\"deployed\",\"path\":\".\",\"runtime\":\"nodejs18.x\",\"url\":\"https://",
       {
        "Fn::GetAtt": [
         "siteDistribution706F5265",
@@ -2097,7 +2097,7 @@
         "Arn"
        ]
       },
-      "\",\"secrets\":[]}},{\"id\":\"ServerFunction\",\"addr\":\"c850c6de094d4b12e8b4e8d7a2c628a3fc47553586\",\"stack\":\"prod-cognition-Site\",\"type\":\"Function\",\"data\":{\"arn\":\"",
+      "\",\"secrets\":[]}},{\"id\":\"ServerFunction\",\"addr\":\"c850c6de094d4b12e8b4e8d7a2c628a3fc47553586\",\"stack\":\"prod-cognite-Site\",\"type\":\"Function\",\"data\":{\"arn\":\"",
       {
        "Fn::GetAtt": [
         "siteServerFunction6DFA6F1B",

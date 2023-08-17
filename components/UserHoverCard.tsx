@@ -35,7 +35,7 @@ const UserHoverCard = ({
             <h4 className="text-sm font-semibold">@{user?.username}</h4>
             <p className="text-sm">
               {<ReactMarkdown>{user?.bio as string}</ReactMarkdown> ??
-                "Cognition bio"}
+                "Cognite bio"}
             </p>
             <div className="flex items-center pt-2">
               <CalendarDays className="mr-2 h-4 w-4 opacity-70" />{" "}
