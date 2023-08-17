@@ -1,4 +1,5 @@
-import { User } from "next-auth";
+import { User as NextAuthUser } from "next-auth";
+import { User as PrismaUser } from "@prisma/client";
 
 interface Document {
   pageContent: string;
@@ -28,7 +29,7 @@ export interface Tag {
 
 export interface Cog {
   id: string;
-  user: User;
+  user: NextAuthUser;
   userId: string;
   name: string;
   description: string;
@@ -50,3 +51,15 @@ export interface Embeddings {
   content_tokens: number;
   cog_id: string;
 }
+
+export type SubscriptionPlan = {
+  name: string;
+  description: string;
+  stripePriceId: string;
+};
+
+export type UserSubscriptionPlan = SubscriptionPlan &
+  Pick<PrismaUser, "stripeCustomerId" | "stripeSubscriptionId"> & {
+    stripeCurrentPeriodEnd: number;
+    isPro: boolean;
+  };

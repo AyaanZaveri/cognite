@@ -4,8 +4,7 @@ import React from "react";
 const Page = () => {
   return (
     <div className="flex items-center justify-center">
-      Page
-      <ToastDemo />
+      Work in progress 🔨
     </div>
   );
 };

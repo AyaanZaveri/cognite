@@ -30,6 +30,12 @@ import Link from "next/link";
 import { Switch } from "@/components/ui/switch";
 import { useRouter } from "next/navigation";
 import { XIcon } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -143,7 +149,7 @@ const Create = (session: { session: Session | null }) => {
 
         // console.log(sources);
 
-      const docs: Document[] = [];
+        const docs: Document[] = [];
 
         if (sources?.sites && sources?.sites.length > 0) {
           const siteText = await scrapeSite(sources?.sites);
@@ -341,15 +347,16 @@ const Create = (session: { session: Session | null }) => {
                       Websites you want to train the cog on.
                     </FormDescription>
                     <FormControl>
-                      <div className="flex flex-row gap-x-4">
+                      <div className="flex flex-row gap-x-2">
                         <Input {...field} />
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
+                          className="h-10"
                           onClick={() => removeWebsite(index)}
                         >
-                          <XIcon />
+                          <XIcon className="text-accent-foreground h-5 w-5" />
                         </Button>
                       </div>
                     </FormControl>
@@ -363,6 +370,7 @@ const Create = (session: { session: Session | null }) => {
               variant="outline"
               size="sm"
               className="mt-2"
+              disabled={websiteFields.length >= 5}
               onClick={() => appendWebsite({ value: "" })}
             >
               Add Website

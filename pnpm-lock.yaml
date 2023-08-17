@@ -206,6 +206,9 @@ dependencies:
   slugify:
     specifier: ^1.6.6
     version: 1.6.6
+  stripe:
+    specifier: ^13.0.0
+    version: 13.0.0
   tailwind-merge:
     specifier: ^1.14.0
     version: 1.14.0
@@ -10872,7 +10875,7 @@ packages:
       puppeteer: ^19.7.2
       redis: ^4.6.4
       replicate: ^0.12.3
-      sonix-speech-recognite: ^2.1.1
+      sonix-speech-recognition: ^2.1.1
       srt-parser-2: ^1.2.2
       typeorm: ^0.3.12
       typesense: ^1.5.3
@@ -10989,7 +10992,7 @@ packages:
         optional: true
       replicate:
         optional: true
-      sonix-speech-recognite:
+      sonix-speech-recognition:
         optional: true
       srt-parser-2:
         optional: true
@@ -13400,7 +13403,6 @@ packages:
     engines: {node: '>=0.6'}
     dependencies:
       side-channel: 1.0.4
-    dev: true
 
   /querystring@0.2.0:
     resolution: {integrity: sha512-X/xY82scca2tau62i9mDyU9K+I+djTMUsvwf7xnUX5GLvVzgJybOJf4Y6o9Zx3oJK/LSXg5tTZBjwzqVPaPO2g==}
@@ -14552,6 +14554,14 @@ packages:
   /strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
+    dev: false
+
+  /stripe@13.0.0:
+    resolution: {integrity: sha512-b840YPFBqeOO3Gd3FPXx0WoE9r4hb4CvMaJZhSYsgbmAETCsdomXcMvmSYWoHt3OrnFXmwW/Ix17DbZ+zTVGZw==}
+    engines: {node: '>=12.*'}
+    dependencies:
+      '@types/node': 20.2.0
+      qs: 6.11.0
     dev: false
 
   /strnum@1.0.5:
