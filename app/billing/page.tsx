@@ -18,7 +18,6 @@ import { Icons } from "@/components/icons";
 import { getCurrentUser } from "@/lib/session";
 import { Space_Grotesk } from "next/font/google";
 import CoolBlur from "@/components/CoolBlur";
-import { SignIn } from "../actions";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL as string),
@@ -40,7 +39,7 @@ export default async function BillingPage() {
 
   const email = user.email as string;
 
-  const subscriptionPlan = await getUserSubscriptionPlan();
+const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
   return (
     <div className="p-0 md:pl-[240px]">
@@ -57,18 +56,18 @@ export default async function BillingPage() {
           className="space-y-5"
         >
           <h2 className="text-xl font-semibold sm:text-2xl">Billing info</h2>
-          <Card className="mb-2 p-6">
-            <p className="text-lg font-semibold leading-none">
-              {subscriptionPlan.name}
-            </p>
+          <Card className="grid gap-2 p-6">
+            <h3 className="text-lg font-semibold sm:text-xl">
+              {subscriptionPlan?.name}
+            </h3>
             <p className="text-sm text-muted-foreground">
               {!subscriptionPlan.isSubscribed
-                ? "You are not subscribed to any plan."
+                ? "Upgrade to create more cogs, and get other features."
                 : subscriptionPlan.isCanceled
                 ? "Your plan will be canceled on "
                 : "Your plan renews on "}
               {subscriptionPlan?.stripeCurrentPeriodEnd
-                ? subscriptionPlan.stripeCurrentPeriodEnd.toLocaleDateString()
+                ? `${formatDate(subscriptionPlan.stripeCurrentPeriodEnd)}.`
                 : null}
             </p>
           </Card>
@@ -81,7 +80,7 @@ export default async function BillingPage() {
           <h2 className="text-xl font-semibold sm:text-2xl">
             Subscription plans
           </h2>
-          <div className="flex flex-row gap-6">
+          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
             {storeSubscriptionPlans.map((plan, i) => (
               <Card
                 key={plan.name}
@@ -114,17 +113,31 @@ export default async function BillingPage() {
                   </div>
                 </CardContent>
                 <CardFooter className="pt-4">
-                  {user ? (
+                  {plan.id === "basic" ? (
+                    <Link href="/create" className="w-full">
+                      <div
+                        className={cn(
+                          buttonVariants({
+                            className: "w-full",
+                          })
+                        )}
+                      >
+                        Start Creating!
+                        <span className="sr-only">Start Creating!</span>
+                      </div>
+                    </Link>
+                  ) : (
                     <ManageStoreSubscriptionForm
                       userId={user.id}
                       email={email}
                       stripePriceId={plan.stripePriceId}
                       stripeCustomerId={subscriptionPlan?.stripeCustomerId}
+                      stripeSubscriptionId={
+                        subscriptionPlan?.stripeSubscriptionId
+                      }
                       isSubscribed={!subscriptionPlan.isSubscribed}
                       isCurrentPlan={subscriptionPlan?.name === plan.name}
                     />
-                  ) : (
-                    <SignIn />
                   )}
                 </CardFooter>
               </Card>

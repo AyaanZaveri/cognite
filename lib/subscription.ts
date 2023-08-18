@@ -3,16 +3,16 @@ import { getAuthSession } from "./auth";
 import { db } from "./db";
 import { stripe } from "./stripe";
 
-export async function getUserSubscriptionPlan() {
-  const session = await getAuthSession();
-
-  if (!session || !session.user) {
-    throw new Error("User not found.");
-  }
-
+export async function getUserSubscriptionPlan(userId: string) {
   const user = await db.user.findFirst({
     where: {
-      id: session.user.id,
+      id: userId,
+    },
+    select: {
+      stripeSubscriptionId: true,
+      stripeCurrentPeriodEnd: true,
+      stripeCustomerId: true,
+      stripePriceId: true,
     },
   });
 
@@ -29,7 +29,7 @@ export async function getUserSubscriptionPlan() {
     ? storeSubscriptionPlans.find(
         (plan) => plan.stripePriceId === user.stripePriceId
       )
-    : null;
+    : storeSubscriptionPlans[0];
 
   let isCanceled = false;
   if (isSubscribed && user.stripeSubscriptionId) {

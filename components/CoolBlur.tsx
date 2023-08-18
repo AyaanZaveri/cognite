@@ -7,7 +7,8 @@ const CoolBlur = () => {
   const { theme, resolvedTheme } = useTheme();
 
   return (
-    <div className={`fixed top-0 -z-50 h-16 w-full bg-gradient-to-r from-orange-500/75 via-amber-500/75 to-red-500/75 blur-[100px]`} />
+    <div className={`
+    ${resolvedTheme == "light" ? "hidden" : "fixed" } top-0 -z-50 h-16 w-full bg-gradient-to-r from-orange-500/75 via-amber-500/75 to-red-500/75 blur-[100px]`} />
   );
 };
 

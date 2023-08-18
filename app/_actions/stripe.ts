@@ -3,7 +3,7 @@
 import { stripe } from "@/lib/stripe";
 import { absoluteUrl } from "@/lib/utils";
 
-interface ManageStripeActionProps {
+interface ManageSubscriptionActionProps {
   isSubscribed: boolean;
   stripeCustomerId?: string | null;
   isCurrentPlan: boolean;
@@ -19,10 +19,20 @@ export const manageSubscriptionAction = async ({
   stripePriceId,
   email,
   userId,
-}: ManageStripeActionProps) => {
+}: ManageSubscriptionActionProps) => {
   const billingUrl = absoluteUrl("/billing");
 
-  if (isSubscribed && stripeCustomerId && isCurrentPlan) {
+  console.log(
+    "manageSubscriptionAction",
+    isSubscribed,
+    stripeCustomerId,
+    isCurrentPlan,
+    stripePriceId,
+    email,
+    userId
+  )
+
+  if (isSubscribed && stripeCustomerId) {
     const stripeSession = await stripe.billingPortal.sessions.create({
       customer: stripeCustomerId,
       return_url: billingUrl,

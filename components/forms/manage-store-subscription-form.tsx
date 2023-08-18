@@ -1,13 +1,13 @@
 "use client";
 
+import * as React from "react";
+import { type z } from "zod";
+
+import { catchError } from "@/lib/utils";
 import { type manageSubscriptionSchema } from "@/lib/validations/stripe";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/icons";
 import { manageSubscriptionAction } from "@/app/_actions/stripe";
-import { useToast } from "../ui/use-toast";
-import { z } from "zod";
-import { useTransition } from "react";
-import { catchError } from "@/lib/utils";
 
 type ManageStoreSubscriptionFormProps = z.infer<
   typeof manageSubscriptionSchema
@@ -21,9 +21,10 @@ export function ManageStoreSubscriptionForm({
   isCurrentPlan,
   isSubscribed,
   stripeCustomerId,
+  stripeSubscriptionId,
   stripePriceId,
 }: ManageStoreSubscriptionFormProps) {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = React.useTransition();
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -39,15 +40,13 @@ export function ManageStoreSubscriptionForm({
           stripePriceId,
         });
         if (session) {
-          window.location.href = session.url ?? "/billing";
+          window.location.href = session.url ?? "/dashboard/billing";
         }
       } catch (err) {
         catchError(err);
       }
     });
   }
-
-  console.log(userId, email, isSubscribed, isCurrentPlan, stripeCustomerId, stripePriceId)
 
   return (
     <form className="w-full" onSubmit={(e) => onSubmit(e)}>

@@ -17,7 +17,7 @@ export const storeSubscriptionPlans: SubscriptionPlan[] = [
     id: "standard",
     name: "Plus",
     description: "Great for getting started.",
-    stripePriceId: process.env.STRIPE_BASIC_MONTHLY_PLAN_ID || "",
+    stripePriceId: process.env.STRIPE_STANDARD_MONTHLY_PLAN_ID || "",
     features: [
       "Create unlimited cogs",
       "Get upto 5 websites per cog",
