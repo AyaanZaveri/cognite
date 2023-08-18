@@ -16,10 +16,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Session } from "next-auth";
 import axios from "axios";
-import { useToast } from "./ui/use-toast";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { useToast } from "../ui/use-toast";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { signOut } from "next-auth/react";
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "../ui/textarea";
 
 const updateUser = async (data: ProfileFormValues, session: Session) => {
   const res = await axios.post(

@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { nanoid } from "nanoid";
 import {
@@ -15,7 +15,7 @@ import { generateUsername } from "friendly-username-generator";
 import { Github } from "lucide-react";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(db),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -55,7 +55,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     async jwt({ token, user }) {
-      const dbUser = await prisma.user.findFirst({
+      const dbUser = await db.user.findFirst({
         where: {
           email: token.email,
         },
@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
       }
 
       if (!dbUser.username) {
-        await prisma.user.update({
+        await db.user.update({
           where: {
             id: dbUser.id,
           },
@@ -113,7 +113,7 @@ async function updateUser(user: User, account: Account) {
     data.email = `${data.username}@non-existing-facebook-email.com`;
   }
 
-  await prisma.user.update({
+  await db.user.update({
     where: { id: user.id },
     data,
   });

@@ -10,7 +10,7 @@ import { CallbackManager, ConsoleCallbackHandler } from "langchain/callbacks";
 import { AIMessage, HumanMessage } from "langchain/schema";
 import { Document } from "langchain/dist/document";
 import { prompts } from "@/lib/prompts";
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/db";
 
 export async function POST(req: Request) {
   try {
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       }
     );
 
-    const vectorStore = PrismaVectorStore.withModel<any>(prisma).create(
+    const vectorStore = PrismaVectorStore.withModel<any>(db).create(
       embeddingsModel,
       {
         prisma: Prisma,

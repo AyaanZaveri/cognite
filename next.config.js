@@ -12,6 +12,7 @@ const nextConfig = {
   },
   experimental: {
     appDir: true,
+    serverActions: true,
   },
   webpack: (config, { webpack }) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
@@ -21,20 +22,14 @@ const nextConfig = {
       fs: false,
     };
     config.plugins.push(
-
-      new webpack.NormalModuleReplacementPlugin(
-        /^node:/,
-        (resource) => {
-          resource.request = resource.request.replace(/^node:/, '');
-        },
-      ),
+      new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
+        resource.request = resource.request.replace(/^node:/, "");
+      })
     );
 
     return config;
   },
-}
-
-
+};
 
 module.exports = nextConfig;
 module.exports = {
@@ -44,5 +39,5 @@ module.exports = {
     GITHUB_SECRET: process.env.GITHUB_SECRET,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-  }
+  },
 };

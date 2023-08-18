@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Space_Grotesk } from "next/font/google";
 import UserHoverCard from "@/components/UserHoverCard";
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/db";
 import MeCard from "@/components/me/Card";
 import { Tag, User } from "@prisma/client"
 import CoolBlur from "@/components/CoolBlur";
@@ -28,7 +28,7 @@ interface Cog {
 export default async function Page() {
   const session = await getAuthSession();
 
-  const cogs = await prisma.cog.findMany({
+  const cogs = await db.cog.findMany({
     include: {
       tags: true,
     },

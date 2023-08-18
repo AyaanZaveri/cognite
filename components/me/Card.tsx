@@ -43,7 +43,7 @@ import {
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Icons } from "../Icons";
+import { Icons } from "../icons";
 
 interface Cog {
   id: string;

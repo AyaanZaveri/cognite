@@ -3,7 +3,7 @@ import { OpenAI } from "langchain";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/db";
 
 export const makeChain = (
   vectorstore: PrismaVectorStore<any, any, any, any>
@@ -37,18 +37,15 @@ export const createVectorStore = () => {
     }
   );
 
-  const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
-    embeddings,
-    {
-      prisma: Prisma,
-      tableName: "Cog",
-      vectorColumnName: "embeddings",
-      columns: {
-        id: PrismaVectorStore.IdColumn,
-        content: PrismaVectorStore.ContentColumn,
-      },
-    }
-  );
+  const vectorStore = PrismaVectorStore.withModel<any>(db!).create(embeddings, {
+    prisma: Prisma,
+    tableName: "Cog",
+    vectorColumnName: "embeddings",
+    columns: {
+      id: PrismaVectorStore.IdColumn,
+      content: PrismaVectorStore.ContentColumn,
+    },
+  });
 
   return vectorStore;
 };

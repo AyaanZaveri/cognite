@@ -2,7 +2,6 @@ import Logo from "@/components/Logo";
 import Image from "next/image";
 import { Rubik, Space_Grotesk } from "next/font/google";
 import Chat from "@/components/Chat";
-import prisma from "@/lib/prisma";
 import Link from "next/link";
 import UserHoverCard from "@/components/UserHoverCard";
 import { getAuthSession } from "@/lib/auth";

@@ -1,4 +1,4 @@
-import Create from "@/components/cog/Create";
+import Create from "@/components/forms/create-form";
 import CoolBlur from "@/components/CoolBlur";
 import { authOptions, getAuthSession } from "@/lib/auth";
 import { Space_Grotesk } from "next/font/google";

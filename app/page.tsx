@@ -6,7 +6,7 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import { User } from "@prisma/client";
 import QuickCreate from "@/components/QuickCreate";
 import { getAuthSession } from "@/lib/auth";
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/db";
 import CogCard from "@/components/cog/Card";
 import { Tag } from "@/types";
 
@@ -23,7 +23,7 @@ interface Cog {
 export default async function Home() {
   const session = await getAuthSession();
 
-  const cogs = await prisma.cog.findMany({
+  const cogs = await db.cog.findMany({
     include: {
       user: true,
       tags: true,

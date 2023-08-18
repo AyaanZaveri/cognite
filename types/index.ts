@@ -52,14 +52,12 @@ export interface Embeddings {
   cog_id: string;
 }
 
-export type SubscriptionPlan = {
+export interface SubscriptionPlan {
+  id: "basic" | "standard" | "pro";
   name: string;
   description: string;
+  features: string[];
   stripePriceId: string;
-};
-
-export type UserSubscriptionPlan = SubscriptionPlan &
-  Pick<PrismaUser, "stripeCustomerId" | "stripeSubscriptionId"> & {
-    stripeCurrentPeriodEnd: number;
-    isPro: boolean;
-  };
+  price: number;
+  isCanceled?: boolean;
+}

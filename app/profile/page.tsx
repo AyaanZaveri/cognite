@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { SignIn } from "../actions";
 import { getAuthSession } from "@/lib/auth";
-import ProfileForm from "@/components/ProfileForm";
+import ProfileForm from "@/components/forms/profile-form";
 import { Inter } from "next/font/google";
 import CoolBlur from "@/components/CoolBlur";
 

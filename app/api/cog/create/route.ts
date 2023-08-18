@@ -3,12 +3,12 @@ import { Prisma } from "@prisma/client";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import { db } from "@/lib/db";
 import { getAuthSession } from "@/lib/auth";
 
 export async function POST(req: Request) {
   const session = await getAuthSession();
-  
+
   if (!session?.user) {
     return new Response("Unauthorized", { status: 401 });
   }
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     return NextResponse.error();
   }
 
-  const cog = await prisma?.cog
+  const cog = await db?.cog
     .create({
       data: {
         userId,
@@ -65,7 +65,7 @@ export async function POST(req: Request) {
 
     console.log("Initalized Embeddings Model");
 
-    const vectorStore = PrismaVectorStore.withModel<any>(prisma!).create(
+    const vectorStore = PrismaVectorStore.withModel<any>(db!).create(
       embeddingsModel,
       {
         prisma: Prisma,
@@ -82,9 +82,9 @@ export async function POST(req: Request) {
 
     if (docs) {
       await vectorStore.addModels(
-        await prisma!.$transaction(
+        await db!.$transaction(
           docs.map((content) =>
-            prisma!.embeddings.create({
+            db!.embeddings.create({
               data: {
                 content: content?.pageContent,
                 cog_id: cog?.id,

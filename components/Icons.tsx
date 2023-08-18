@@ -1,4 +1,4 @@
-import { Loader2, LucideProps, User } from "lucide-react";
+import { AlertTriangle, Check, Loader2, LucideProps, User } from "lucide-react";
 
 export const Icons = {
   google: ({ ...props }: LucideProps) => (
@@ -37,4 +37,6 @@ export const Icons = {
     </svg>
   ),
   spinner: Loader2,
+  warning: AlertTriangle,
+  check: Check,
 };

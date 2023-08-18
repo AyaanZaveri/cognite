@@ -13,6 +13,7 @@ import { User } from "@prisma/client";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Space_Grotesk } from "next/font/google";
 import { Badge } from "../ui/badge";
+import { redirect } from "next/navigation";
 
 interface Cog {
   id: string;
@@ -28,6 +29,7 @@ const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
+``;
 
 const CogCard = ({ cog }: { cog: Cog }) => {
   return (
@@ -35,7 +37,7 @@ const CogCard = ({ cog }: { cog: Cog }) => {
       <Link href={`/cog/${cog?.user?.username}/${cog.slug}`}>
         <Card
           key={cog.id}
-          className="duaration-300 relative h-44 space-y-4 p-6 transition duration-300 ease-in-out hover:cursor-pointer hover:bg-accent/25 active:scale-[0.98]"
+          className="relative h-44 space-y-4 transition duration-300 ease-in-out hover:cursor-pointer hover:bg-accent/25 p-6"
         >
           <CardHeader className="relative p-0">
             <div className="flex flex-row items-center gap-x-3">
@@ -66,6 +68,7 @@ const CogCard = ({ cog }: { cog: Cog }) => {
           ) : null}
         </Card>
       </Link>
+
       <div className="absolute bottom-0 right-0 z-50 m-3">
         <UserHoverCard
           user={cog?.user}
