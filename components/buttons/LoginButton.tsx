@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react";
 
 import type { ClientSafeProvider } from "next-auth/react";
 import { Button } from "../ui/button";
-import { Icons } from "../icons";
+import { Icons } from "../Icons";
 
 interface ProviderButtons {
   [key: string]: {

@@ -17,7 +17,7 @@ import { ManageStoreSubscriptionForm } from "@/components/forms/manage-store-sub
 import { getCurrentUser } from "@/lib/session";
 import { Space_Grotesk } from "next/font/google";
 import CoolBlur from "@/components/CoolBlur";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/Icons";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL as string),
