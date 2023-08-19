@@ -34,12 +34,14 @@ export default async function BillingPage() {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("/signin");
+    redirect("/auth/signin");
   }
 
   const email = user.email as string;
 
   const subscriptionPlan = await getUserSubscriptionPlan(user.id);
+
+  // console.log(subscriptionPlan);
 
   return (
     <div className="p-0 md:pl-[240px]">
@@ -132,10 +134,7 @@ export default async function BillingPage() {
                       email={email}
                       stripePriceId={plan.stripePriceId}
                       stripeCustomerId={subscriptionPlan?.stripeCustomerId}
-                      stripeSubscriptionId={
-                        subscriptionPlan?.stripeSubscriptionId
-                      }
-                      isSubscribed={!subscriptionPlan.isSubscribed}
+                      isSubscribed={!!subscriptionPlan.isSubscribed}
                       isCurrentPlan={subscriptionPlan?.name === plan.name}
                     />
                   )}

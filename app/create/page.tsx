@@ -3,6 +3,8 @@ import CoolBlur from "@/components/CoolBlur";
 import { authOptions, getAuthSession } from "@/lib/auth";
 import { Space_Grotesk } from "next/font/google";
 import React from "react";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { SubscriptionPlan } from "@/types";
 
 export const dynamic = "force-dynamic";
 
@@ -13,6 +15,9 @@ const space_grotesk = Space_Grotesk({
 
 const Page = async () => {
   const session = await getAuthSession();
+  const subscriptionPlan = await getUserSubscriptionPlan(
+    session?.user.id as string
+  );
 
   return (
     <div className="p-0 md:pl-[240px]">
@@ -23,7 +28,7 @@ const Page = async () => {
         >
           Create
         </h1>
-        <Create session={session} />
+        <Create session={session} subscriptionPlan={subscriptionPlan as SubscriptionPlan} />
       </div>
     </div>
   );

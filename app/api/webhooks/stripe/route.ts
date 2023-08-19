@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     event = stripe.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET ?? ""
+      process.env.STRIPE_WEBHOOK_SECRET || ""
     );
   } catch (err) {
     return new Response(
@@ -24,7 +24,10 @@ export async function POST(request: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session;
 
+  console.log("Session", session);
+
   if (!session?.metadata?.userId) {
+    console.log("No user id found in metadata");
     return new Response(null, {
       status: 200,
     });

@@ -25,6 +25,8 @@ export async function getUserSubscriptionPlan(userId: string) {
     user.stripeCurrentPeriodEnd &&
     user.stripeCurrentPeriodEnd.getTime() + 86_400_000 > Date.now();
 
+  console.log("isSubscribed", isSubscribed)
+
   const plan = isSubscribed
     ? storeSubscriptionPlans.find(
         (plan) => plan.stripePriceId === user.stripePriceId

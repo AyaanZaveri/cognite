@@ -36,6 +36,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { SubscriptionPlan } from "@/types";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -102,7 +104,13 @@ const createFormSchema = z.object({
 
 type CreateFormValues = z.infer<typeof createFormSchema>;
 
-const Create = (session: { session: Session | null }) => {
+const Create = ({
+  session,
+  subscriptionPlan,
+}: {
+  session: Session | null;
+  subscriptionPlan: SubscriptionPlan | null;
+}) => {
   const form = useForm<CreateFormValues>({
     resolver: zodResolver(createFormSchema),
     mode: "onChange",
@@ -220,7 +228,7 @@ const Create = (session: { session: Session | null }) => {
       tags: data.tags?.map((tag) => tag.value),
       docs: theDocs,
       slug: slugify(data.name, { lower: true }),
-      userId: session?.session?.user?.id,
+      userId: session?.user?.id,
       isPrivate: data.private,
     };
 
@@ -238,9 +246,7 @@ const Create = (session: { session: Session | null }) => {
           pulse: false,
         });
 
-        router.push(
-          `/cog/${session?.session?.user.username}/${res.data.cog.slug}`
-        );
+        router.push(`/cog/${session?.user.username}/${res.data.cog.slug}`);
       })
       .catch((err) => {
         setButtonStatus({
@@ -356,7 +362,7 @@ const Create = (session: { session: Session | null }) => {
                           className="h-10"
                           onClick={() => removeWebsite(index)}
                         >
-                          <XIcon className="text-accent-foreground h-5 w-5" />
+                          <XIcon className="h-5 w-5 text-accent-foreground" />
                         </Button>
                       </div>
                     </FormControl>
@@ -370,7 +376,16 @@ const Create = (session: { session: Session | null }) => {
               variant="outline"
               size="sm"
               className="mt-2"
-              disabled={websiteFields.length >= 5}
+              disabled={
+                subscriptionPlan?.id === "basic" && websiteFields.length >= 1
+                  ? true
+                  : subscriptionPlan?.id === "standard" &&
+                    websiteFields.length >= 5
+                  ? true
+                  : subscriptionPlan?.id === "pro" && websiteFields.length >= 50
+                  ? true
+                  : false
+              }
               onClick={() => appendWebsite({ value: "" })}
             >
               Add Website
@@ -492,7 +507,7 @@ const Create = (session: { session: Session | null }) => {
               </FormItem>
             )}
           />
-          {session?.session?.user?.id ? (
+          {session?.user?.id ? (
             <Button type="submit" className={`${space_grotesk.className}`}>
               <span
                 className={cn(

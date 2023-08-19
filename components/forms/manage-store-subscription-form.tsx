@@ -21,10 +21,11 @@ export function ManageStoreSubscriptionForm({
   isCurrentPlan,
   isSubscribed,
   stripeCustomerId,
-  stripeSubscriptionId,
   stripePriceId,
 }: ManageStoreSubscriptionFormProps) {
   const [isPending, startTransition] = React.useTransition();
+
+  console.log("manageIsSubscribed", isSubscribed);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -40,7 +41,7 @@ export function ManageStoreSubscriptionForm({
           stripePriceId,
         });
         if (session) {
-          window.location.href = session.url ?? "/dashboard/billing";
+          window.location.href = session.url ?? "/billing";
         }
       } catch (err) {
         catchError(err);
