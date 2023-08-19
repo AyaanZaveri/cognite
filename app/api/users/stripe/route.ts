@@ -14,7 +14,7 @@ export async function GET(req: Request) {
       return new Response(null, { status: 403 });
     }
 
-    const subscriptionPlan = await getUserSubscriptionPlan();
+    const subscriptionPlan = await getUserSubscriptionPlan(session?.user.id);
 
     console.log(subscriptionPlan)
 

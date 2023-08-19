@@ -22,16 +22,6 @@ export const manageSubscriptionAction = async ({
 }: ManageSubscriptionActionProps) => {
   const billingUrl = absoluteUrl("/billing");
 
-  console.log(
-    "manageSubscriptionAction",
-    isSubscribed,
-    stripeCustomerId,
-    isCurrentPlan,
-    stripePriceId,
-    email,
-    userId
-  )
-
   if (isSubscribed && stripeCustomerId) {
     const stripeSession = await stripe.billingPortal.sessions.create({
       customer: stripeCustomerId,
@@ -41,7 +31,7 @@ export const manageSubscriptionAction = async ({
     return { url: stripeSession.url };
   }
 
-  const stripeSession = await stripe.checkout.sessions.create({
+const stripeSession = await stripe.checkout.sessions.create({
     success_url: billingUrl,
     cancel_url: billingUrl,
     payment_method_types: ["card"],

@@ -2,6 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  fastRefresh: true,
+  concurrentFeatures: true,
   images: {
     remotePatterns: [
       {
