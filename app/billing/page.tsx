@@ -14,10 +14,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ManageStoreSubscriptionForm } from "@/components/forms/manage-store-subscription-form";
-import { Icons } from "@/components/icons";
 import { getCurrentUser } from "@/lib/session";
 import { Space_Grotesk } from "next/font/google";
 import CoolBlur from "@/components/CoolBlur";
+import { Icons } from "@/components/icons";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL as string),
@@ -39,7 +39,7 @@ export default async function BillingPage() {
 
   const email = user.email as string;
 
-const subscriptionPlan = await getUserSubscriptionPlan(user.id);
+  const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
   return (
     <div className="p-0 md:pl-[240px]">
