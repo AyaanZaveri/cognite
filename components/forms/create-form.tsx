@@ -55,7 +55,7 @@ interface ButtonState {
   pulse: boolean;
 }
 
-const MAX_FILE_SIZE = 5000000; // 5MB
+const MAX_FILE_SIZE = 500000000; // 5MB
 const ACCEPTED_FILE_TYPES = ["application/pdf"];
 
 const tagsSchema = z
