@@ -270,13 +270,35 @@ const Create = ({
           const fileSize = file.size;
           console.log("File size:", fileSize);
 
-          if (fileSize > MAX_FILE_SIZE) {
-            alert(
-              "File size is too big. Please upload a file smaller than 5MB."
-            );
-          } else {
-            setFile(blob);
+          if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
+            alert("File type not supported. Please upload a PDF");
+            return;
           }
+          // if the subscription plan is basic, only allow file size of 5 mb, if it's standard allow 50 mb, if it's pro allow 100 mb
+          if (
+            subscriptionPlan?.id === "basic" &&
+            fileSize > MAX_FILE_SIZE &&
+            file.type !== "application/pdf"
+          ) {
+            alert("File size is too large. Max file size is 5MB");
+            return;
+          } else if (
+            subscriptionPlan?.id === "standard" &&
+            fileSize > MAX_FILE_SIZE * 10 &&
+            file.type !== "application/pdf"
+          ) {
+            alert("File size is too large. Max file size is 50MB");
+            return;
+          } else if (
+            subscriptionPlan?.id === "pro" &&
+            fileSize > MAX_FILE_SIZE * 20 &&
+            file.type !== "application/pdf"
+          ) {
+            alert("File size is too large. Max file size is 100MB");
+            return;
+          }
+
+          setFile(blob);
         }
       } catch (err) {
         console.log("err", err);

@@ -1,10 +1,12 @@
 import { Cog, Embeddings } from "@/types";
-import { Prisma } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { NextResponse } from "next/server";
-import { db } from "@/lib/db";
+import { withAccelerate } from "@prisma/extension-accelerate";
 import { getAuthSession } from "@/lib/auth";
+
+const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
 
 export async function POST(req: Request) {
   const session = await getAuthSession();
@@ -30,7 +32,7 @@ export async function POST(req: Request) {
     return NextResponse.error();
   }
 
-  const cog = await db?.cog
+  const cog = await prismaWithAccelerate?.cog
     .create({
       data: {
         userId,
@@ -47,7 +49,7 @@ export async function POST(req: Request) {
         private: isPrivate,
       },
     })
-    .catch((err) => {
+    .catch((err: Error) => {
       console.log("Create Error", err, "Done!");
     });
 
@@ -65,26 +67,25 @@ export async function POST(req: Request) {
 
     console.log("Initalized Embeddings Model");
 
-    const vectorStore = PrismaVectorStore.withModel<any>(db!).create(
-      embeddingsModel,
-      {
-        prisma: Prisma,
-        tableName: "Embeddings",
-        vectorColumnName: "embedding",
-        columns: {
-          id: PrismaVectorStore.IdColumn,
-          content: PrismaVectorStore.ContentColumn,
-        },
-      }
-    );
+    const vectorStore = PrismaVectorStore.withModel<any>(
+      prismaWithAccelerate!
+    ).create(embeddingsModel, {
+      prisma: Prisma,
+      tableName: "Embeddings",
+      vectorColumnName: "embedding",
+      columns: {
+        id: PrismaVectorStore.IdColumn,
+        content: PrismaVectorStore.ContentColumn,
+      },
+    });
 
     console.log("Initalized Vector Store");
 
     if (docs) {
       await vectorStore.addModels(
-        await db!.$transaction(
+        await prismaWithAccelerate!.$transaction(
           docs.map((content) =>
-            db!.embeddings.create({
+            prismaWithAccelerate!.embeddings.create({
               data: {
                 content: content?.pageContent,
                 cog_id: cog?.id,
