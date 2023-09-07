@@ -1,9 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
-import { PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
 import * as z from "zod";
-import prisma from "@/lib/prisma-edge";
 import { NextResponse } from "next/server";
+import { db } from "@/lib/prisma-edge";
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -26,14 +24,14 @@ export async function DELETE(
       });
     }
 
-    await prisma.embeddings.deleteMany({
+    await db.embeddings.deleteMany({
       where: {
         cog_id: params.cogId as string,
       },
     });
 
     // Delete the cog.
-    await prisma.cog.delete({
+    await db.cog.delete({
       where: {
         id: params.cogId as string,
       },
@@ -59,7 +57,7 @@ export async function DELETE(
 
 async function verifyCurrentUserHasAccessToCog(cogId: string) {
   const session = await getAuthSession();
-  const count = await prisma.cog.count({
+  const count = await db.cog.count({
     where: {
       id: cogId,
       userId: session?.user.id,

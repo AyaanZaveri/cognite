@@ -1,14 +1,11 @@
-import { PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { db } from "@/lib/prisma-edge";
 import { NextResponse } from "next/server";
-
-const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
 
 export async function POST(req: Request) {
   const { id } = await req.json();
 
   try {
-    const cog = await prismaWithAccelerate.cog.findUnique({
+    const cog = await db.cog.findUnique({
       where: {
         id: String(id) || undefined,
       },

@@ -2,7 +2,6 @@ import Logo from "@/components/Logo";
 import ListCogs from "@/components/ListCogs";
 import { getTheme } from "@/helpers/getTheme";
 import CoolBlur from "@/components/CoolBlur";
-import { withAccelerate } from "@prisma/extension-accelerate";
 import { User } from "@prisma/client";
 import QuickCreate from "@/components/QuickCreate";
 import { getAuthSession } from "@/lib/auth";

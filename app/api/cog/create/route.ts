@@ -1,12 +1,10 @@
 import { Cog, Embeddings } from "@/types";
-import { Prisma, PrismaClient } from "@prisma/client";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { NextResponse } from "next/server";
-import { withAccelerate } from "@prisma/extension-accelerate";
 import { getAuthSession } from "@/lib/auth";
-
-const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
+import { db } from "@/lib/prisma-edge";
+import { Prisma } from "@prisma/client/edge";
 
 export async function POST(req: Request) {
   const session = await getAuthSession();
@@ -32,7 +30,7 @@ export async function POST(req: Request) {
     return NextResponse.error();
   }
 
-  const cog = await prismaWithAccelerate?.cog
+  const cog = await db?.cog
     .create({
       data: {
         userId,
@@ -67,25 +65,26 @@ export async function POST(req: Request) {
 
     console.log("Initalized Embeddings Model");
 
-    const vectorStore = PrismaVectorStore.withModel<any>(
-      prismaWithAccelerate!
-    ).create(embeddingsModel, {
-      prisma: Prisma,
-      tableName: "Embeddings",
-      vectorColumnName: "embedding",
-      columns: {
-        id: PrismaVectorStore.IdColumn,
-        content: PrismaVectorStore.ContentColumn,
-      },
-    });
+    const vectorStore = PrismaVectorStore.withModel<any>(db!).create(
+      embeddingsModel,
+      {
+        prisma: Prisma,
+        tableName: "Embeddings",
+        vectorColumnName: "embedding",
+        columns: {
+          id: PrismaVectorStore.IdColumn,
+          content: PrismaVectorStore.ContentColumn,
+        },
+      }
+    );
 
     console.log("Initalized Vector Store");
 
     if (docs) {
       await vectorStore.addModels(
-        await prismaWithAccelerate!.$transaction(
+        await db!.$transaction(
           docs.map((content) =>
-            prismaWithAccelerate!.embeddings.create({
+            db!.embeddings.create({
               data: {
                 content: content?.pageContent,
                 cog_id: cog?.id,

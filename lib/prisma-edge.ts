@@ -11,4 +11,4 @@ let prisma: PrismaClient =
 
 if (process.env.NODE_ENV !== "production") global.prisma = prisma;
 
-export default prisma;
+export const db = prisma

@@ -7,8 +7,7 @@ import UserHoverCard from "@/components/UserHoverCard";
 import { getAuthSession } from "@/lib/auth";
 import { Session } from "next-auth";
 import CoolBlur from "@/components/CoolBlur";
-import { PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { db } from "@/lib/prisma-edge";
 
 export const dynamic = "force-dynamic";
 
@@ -22,10 +21,8 @@ const rubik = Rubik({
   subsets: ["latin"],
 })
 
-const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
-
 async function getCog(username: string, slug: string, session: Session | null) {
-  const cog = await prismaWithAccelerate.cog.findFirst({
+  const cog = await db.cog.findFirst({
     where: {
       slug: slug,
       user: {
