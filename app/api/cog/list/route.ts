@@ -1,9 +1,9 @@
+import { db } from "@/lib/prisma-edge";
 import { NextResponse } from "next/server";
-import prisma from "@/lib/prisma-edge";
 
 export async function GET() {
   try {
-    const cogs = await prisma!.cog.findMany({
+    const cogs = await db!.cog.findMany({
       include: {
         user: true,
         tags: true,
