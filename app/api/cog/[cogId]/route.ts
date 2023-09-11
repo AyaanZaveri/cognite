@@ -1,7 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import * as z from "zod";
 import { NextResponse } from "next/server";
-import { db } from "@/lib/prisma-edge";
+import { db } from "@/lib/db";
 
 const routeContextSchema = z.object({
   params: z.object({
