@@ -1,9 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { getAuthSession } from "@/lib/auth";
-import { withAccelerate } from "@prisma/extension-accelerate";
-
-const prismaWithAccelerate = new PrismaClient().$extends(withAccelerate());
+import { db } from "@/lib/prisma-edge";
 
 export async function POST(req: Request) {
   const session = await getAuthSession();
@@ -14,7 +12,7 @@ export async function POST(req: Request) {
   const { id, username, bio } = await req.json();
 
   try {
-    const user = await prismaWithAccelerate.user.update({
+    const user = await db.user.update({
       where: {
         id: String(id),
       },
