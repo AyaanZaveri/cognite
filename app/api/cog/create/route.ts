@@ -26,6 +26,8 @@ export async function POST(req: Request) {
     isPrivate,
   }: Cog = data;
 
+  console.log(docs)
+
   if (!userId || !name || !slug || !docs) {
     return NextResponse.error();
   }

@@ -32,6 +32,12 @@ export default {
           DATABASE_URL: process.env.DATABASE_URL as string,
           MIGRATE_DATABASE_URL: process.env.MIGRATE_DATABASE_URL as string,
           DIRECT_URL: process.env.DIRECT_URL as string,
+          STRIPE_API_KEY: process.env.STRIPE_API_KEY as string,
+          STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET as string,
+          STRIPE_STANDARD_MONTHLY_PLAN_ID: process.env
+            .STRIPE_STANDARD_MONTHLY_PLAN_ID as string,
+          STRIPE_PRO_MONTHLY_PLAN_ID: process.env
+            .STRIPE_PRO_MONTHLY_PLAN_ID as string,
         },
       });
 

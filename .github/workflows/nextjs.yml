@@ -43,6 +43,10 @@ jobs:
           NEXT_PUBLIC_OPENAI_API_KEY_CHAT: ${{ secrets.NEXT_PUBLIC_OPENAI_API_KEY_CHAT }}
           NEXT_PUBLIC_OPENAI_ENDPOINT: ${{ secrets.NEXT_PUBLIC_OPENAI_ENDPOINT }}
           NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT: ${{ secrets.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT }}
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          STRIPE_STANDARD_MONTHLY_PLAN_ID: ${{ secrets.STRIPE_STANDARD_MONTHLY_PLAN_ID }}
+          STRIPE_PRO_MONTHLY_PLAN_ID: ${{ secrets.STRIPE_PRO_MONTHLY_PLAN_ID }}
         run: |
-          pnpm dlx prisma generate --accelerate 
+          pnpm dlx prisma generate --data-proxy
           pnpm sst deploy --stage prod
