@@ -39,6 +39,7 @@ export default {
           STRIPE_PRO_MONTHLY_PLAN_ID: process.env
             .STRIPE_PRO_MONTHLY_PLAN_ID as string,
         },
+        edge: true,
       });
 
       stack.addOutputs({
