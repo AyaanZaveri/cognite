@@ -3,8 +3,10 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { NextResponse } from "next/server";
 import { getAuthSession } from "@/lib/auth";
-import { db } from "@/lib/prisma-edge";
-import { Prisma } from "@prisma/client/edge";
+import { db } from "@/lib/db";
+import { Prisma } from "@prisma/client";
+// import { db } from "@/lib/prisma-edge";
+// import { Prisma } from "@prisma/client/edge";
 
 export async function POST(req: Request) {
   const session = await getAuthSession();
