@@ -48,5 +48,7 @@ jobs:
           STRIPE_STANDARD_MONTHLY_PLAN_ID: ${{ secrets.STRIPE_STANDARD_MONTHLY_PLAN_ID }}
           STRIPE_PRO_MONTHLY_PLAN_ID: ${{ secrets.STRIPE_PRO_MONTHLY_PLAN_ID }}
         run: |
-          pnpm dlx prisma generate --data-proxy
-          pnpm sst deploy --stage prod
+          echo "Primsa generate"
+          npx prisma generate --data-proxy
+          echo "SST deploy"
+          npx sst deploy --stage prod
