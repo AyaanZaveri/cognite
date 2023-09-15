@@ -1,4 +1,3 @@
-import { Prisma, PrismaClient } from "@prisma/client/edge";
 import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
@@ -11,6 +10,7 @@ import { AIMessage, HumanMessage } from "langchain/schema";
 import { Document } from "langchain/dist/document";
 import { prompts } from "@/lib/prompts";
 import { db } from "@/lib/db";
+import { Prisma } from "@prisma/client";
 
 export async function POST(req: Request) {
   try {
