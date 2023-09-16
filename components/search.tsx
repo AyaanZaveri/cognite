@@ -59,6 +59,7 @@ const Search = () => {
         if (value.includes(search)) return 1;
         return 0;
       }}
+      loop
     >
       <CommandInput
         className="text-normal py-6 "
