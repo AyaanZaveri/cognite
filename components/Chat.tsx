@@ -117,8 +117,8 @@ export default function Chat({ id }: { id: string }) {
           </div>
         ))}
       </div>
-      <div className="fixed bottom-6 w-full">
-        <div className="flex w-full flex-row gap-6 px-8">
+      <div className="absolute w-full">
+        <div className="flex fixed bottom-6 w-full flex-row gap-6 px-8">
           <ChatBox
             input={input}
             handleInputChange={handleInputChange}

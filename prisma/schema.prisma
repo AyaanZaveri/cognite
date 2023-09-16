@@ -7,7 +7,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["postgresqlExtensions"]
+  previewFeatures = ["postgresqlExtensions", "fullTextSearch"]
   binaryTargets   = ["native", "linux-arm64-openssl-1.0.x"]
 }
 

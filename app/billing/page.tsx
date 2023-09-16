@@ -44,7 +44,7 @@ export default async function BillingPage() {
   // console.log(subscriptionPlan);
 
   return (
-    <div className="p-0 md:pl-[240px]">
+    <div className="p-0 md:pl-[220px]">
       <CoolBlur />
       <div className="flex flex-col gap-4 px-8 py-10">
         <h1
