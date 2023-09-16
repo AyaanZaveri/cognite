@@ -355,7 +355,9 @@ const Create = ({
                 <FormControl>
                   <Input placeholder="Name" {...field} />
                 </FormControl>
-                <FormDescription>This is the name of the cog.</FormDescription>
+                <FormDescription>
+                  This can be anything you want.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -372,7 +374,8 @@ const Create = ({
                       Websites
                     </FormLabel>
                     <FormDescription className={cn(index !== 0 && "sr-only")}>
-                      Websites you want to train the cog on.
+                      List of websites you desire to provide the chatbot with
+                      knowledge about.
                     </FormDescription>
                     <FormControl>
                       <div className="flex flex-row gap-x-2">

@@ -70,7 +70,7 @@ const Search = () => {
       {search.trim().length !== 0 && cogs.length >= 1 ? (
         <CommandList className="max-h-full">
           <CommandGroup heading="Suggestions">
-            {cogs.slice(0, 5).map((cog, idx) => (
+            {cogs.slice(0, 5).map((cog) => (
               <Link
                 href={`/cog/${cog?.user?.username}/${cog.slug}`}
                 key={cog?.id}
@@ -101,7 +101,6 @@ const Search = () => {
                       </span>
                     </div>
                   </div>
-                  <CommandShortcut>⌘{idx + 1}</CommandShortcut>
                 </CommandItem>
               </Link>
             ))}

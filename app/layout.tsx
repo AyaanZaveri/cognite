@@ -35,7 +35,7 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <Sidebar session={session?.user ? session : null} />
+
           {children}
         </ThemeProvider>
         <Toaster />
