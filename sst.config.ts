@@ -39,6 +39,7 @@ export default {
             .STRIPE_STANDARD_MONTHLY_PLAN_ID as string,
           STRIPE_PRO_MONTHLY_PLAN_ID: process.env
             .STRIPE_PRO_MONTHLY_PLAN_ID as string,
+          AWS_CERT_ARN: process.env.AWS_CERT_ARN as string,
         },
         customDomain: {
           isExternalDomain: true,
