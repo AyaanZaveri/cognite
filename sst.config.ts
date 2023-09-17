@@ -43,7 +43,6 @@ export default {
         customDomain: {
           isExternalDomain: true,
           domainName: "cognite.app",
-          domainAlias: "www.cognite.app",
           cdk: {
             certificate: Certificate.fromCertificateArn(
               stack,
