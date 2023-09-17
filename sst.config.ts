@@ -48,7 +48,7 @@ export default {
             certificate: Certificate.fromCertificateArn(
               stack,
               "cert",
-              process.env.AWS_CERT_ARN! as string
+              "arn:aws:acm:us-east-1:695897674742:certificate/0c8a9696-df61-4346-a649-8451c50e5782"
             ),
           },
         },
