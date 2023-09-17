@@ -32,14 +32,15 @@ export default async function Page() {
   }
 
   return (
-    <div
-      className="flex h-full w-full flex-col items-center justify-center gap-8 p-0 md:pl-[220px]"
-      style={{
-        paddingLeft: 240,
-      }}
-    >
-      <CoolBlur />
-      <SignIn />
+    <div className="h-full">
+      <div className="flex h-full min-h-[100vh] flex-row">
+        <Sidebar />
+        <div className="grow pb-2 pr-2 pt-2">
+          <div className="h-full bg-background bg-gradient-to-b from-amber-300/10 to-white bg-clip-border shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
+            <SignIn />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

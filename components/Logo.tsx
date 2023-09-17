@@ -7,11 +7,17 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-const Logo = ({ size }: { size: string }) => {
+const Logo = ({ size }: { size?: string }) => {
   return (
     <div
       className={`inline-flex select-none items-center gap-2 ${
-        size == "5xl" ? "text-5xl" : size == "3xl" ? "text-3xl" : null
+        size == "5xl"
+          ? "text-5xl"
+          : size == "3xl"
+          ? "text-3xl"
+          : size == "6xl"
+          ? "text-6xl"
+          : null
       }`}
     >
       <span
@@ -28,8 +34,12 @@ const Logo = ({ size }: { size: string }) => {
           alt={"Cognite Logo"}
           draggable={false}
           unoptimized={true}
-          width={size == "5xl" ? 54 : size == "3xl" ? 36 : 0}
-          height={size == "5xl" ? 54 : size == "3xl" ? 36 : 0}
+          width={
+            size == "5xl" ? 54 : size == "3xl" ? 36 : size == "6xl" ? 72 : 0
+          }
+          height={
+            size == "5xl" ? 54 : size == "3xl" ? 36 : size == "6xl" ? 72 : 0
+          }
         />
       </div>
     </div>

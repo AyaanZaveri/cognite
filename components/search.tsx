@@ -18,6 +18,8 @@ import { searchCogs } from "@/app/_actions/search";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { CommandLoading } from "cmdk";
+import { Icons } from "./Icons";
 
 interface Cog {
   id: string;
@@ -52,9 +54,7 @@ const Search = () => {
 
   return (
     <Command
-      className={`h-full w-full border shadow-2xl shadow-orange-500/10 ${
-        loading ? "animate-pulse" : ""
-      }`}
+      className="h-full w-full border shadow-2xl shadow-orange-500/10"
       filter={(value, search) => {
         if (value.includes(search)) return 1;
         return 0;
@@ -69,6 +69,13 @@ const Search = () => {
       />
       {search.trim().length !== 0 && cogs.length >= 1 ? (
         <CommandList className="max-h-full">
+          {loading && (
+            <CommandLoading>
+              <div className="fill-muted-foreground px-3 pt-1 font-medium">
+                <Icons.gooeyBalls className="h-3 w-3" />
+              </div>
+            </CommandLoading>
+          )}
           <CommandGroup heading="Suggestions">
             {cogs.slice(0, 5).map((cog) => (
               <Link
@@ -106,6 +113,8 @@ const Search = () => {
             ))}
           </CommandGroup>
         </CommandList>
+      ) : search.trim().length !== 0 && cogs.length === 0 ? (
+        <span className="py-6 text-center text-sm">No results found 🙃</span>
       ) : null}
     </Command>
   );
