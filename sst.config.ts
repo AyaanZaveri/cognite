@@ -1,5 +1,6 @@
 import { SSTConfig } from "sst";
 import { NextjsSite } from "sst/constructs";
+import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 
 export default {
   config(_input) {
@@ -38,6 +39,18 @@ export default {
             .STRIPE_STANDARD_MONTHLY_PLAN_ID as string,
           STRIPE_PRO_MONTHLY_PLAN_ID: process.env
             .STRIPE_PRO_MONTHLY_PLAN_ID as string,
+        },
+        customDomain: {
+          isExternalDomain: true,
+          domainName: "cognite.app",
+          domainAlias: "www.cognite.app",
+          cdk: {
+            certificate: Certificate.fromCertificateArn(
+              stack,
+              "cert",
+              process.env.CERT_ARN as string
+            ),
+          },
         },
       });
 
