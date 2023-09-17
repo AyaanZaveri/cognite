@@ -54,7 +54,7 @@
     @apply border-border;
   }
   body {
-    @apply scrollbar bg-accent/50 text-foreground;
+    @apply bg-accent/50 text-foreground;
   }
 }
 
@@ -67,25 +67,4 @@
 .scrollbar-hide {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
-
-@layer utilities {
-  /* Scroll thumb styles */
-  .scrollbar::-webkit-scrollbar {
-    @apply w-[0.3rem];
-  }
-  .scrollbar::-webkit-scrollbar-thumb {
-    @apply rounded-lg bg-amber-800;
-  }
-  .scrollbar::-webkit-scrollbar-thumb:active {
-    @apply bg-amber-800;
-  }
-  .scrollbar::-webkit-scrollbar-thumb:hover {
-    @apply bg-amber-900;
-  }
-
-  /* Scroll track styles (Background) */
-  .scrollbar::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
 }

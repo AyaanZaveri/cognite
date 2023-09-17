@@ -8,6 +8,7 @@ import { getAuthSession } from "@/lib/auth";
 import { Session } from "next-auth";
 import CoolBlur from "@/components/CoolBlur";
 import { db } from "@/lib/prisma-edge";
+import Sidebar from "@/components/Sidebar";
 
 export const dynamic = "force-dynamic";
 
@@ -58,47 +59,52 @@ export default async function Page({
   const cog = await getCog(user, slug, session);
 
   return (
-    <div className="h-full pb-2 pr-2 pt-2 md:ml-[220px]">
-      <div className="relative h-[98vh] bg-background bg-gradient-to-b bg-clip-border shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
-        <div className="p-5">
-          <Link href={"/"}>
-            <Logo size="3xl" />
-          </Link>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-6 p-5">
-          <Image
-            src={cog?.imgUrl as string}
-            alt={cog?.slug as string}
-            unoptimized={true}
-            width={128}
-            height={128}
-            draggable={false}
-            className="rounded-lg transition-all duration-1000 ease-in-out hover:scale-110"
-          />
-
-          <div className="flex flex-col items-center gap-4">
-            <h1
-              className={`text-center text-5xl font-bold sm:text-6xl md:text-7xl ${space_grotesk.className}`}
-            >
-              {cog?.name}
-            </h1>
-            <div className="flex flex-col items-center">
-              <p
-                className={`text-center text-lg text-muted-foreground ${rubik.className}`}
-              >
-                {cog?.description}
-              </p>
-              <span className="text-accent-foreground">
-                Created by{" "}
-                <UserHoverCard
-                  user={cog?.user}
-                  nameClass="cursor-pointer font-semibold transition-colors duration-300 ease-in-out hover:text-orange-500 active:text-orange-500"
-                />
-              </span>
+    <div className="h-full">
+      <div className="flex h-full min-h-[100vh] flex-row">
+        <Sidebar session={session?.user ? session : null} />
+        <div className="grow pb-2 pr-2 pt-2">
+          <div className="h-full bg-background bg-gradient-to-b from-amber-300/10 to-white bg-clip-border shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
+            <div className="p-5">
+              <Link href={"/"}>
+                <Logo size="3xl" />
+              </Link>
             </div>
+            <div className="flex flex-col items-center justify-center gap-6 p-5">
+              <Image
+                src={cog?.imgUrl as string}
+                alt={cog?.slug as string}
+                unoptimized={true}
+                width={128}
+                height={128}
+                draggable={false}
+                className="rounded-lg transition-all duration-1000 ease-in-out hover:scale-110"
+              />
+
+              <div className="flex flex-col items-center gap-4">
+                <h1
+                  className={`text-center text-5xl font-bold sm:text-6xl md:text-7xl ${space_grotesk.className}`}
+                >
+                  {cog?.name}
+                </h1>
+                <div className="flex flex-col items-center">
+                  <p
+                    className={`text-center text-lg text-muted-foreground ${rubik.className}`}
+                  >
+                    {cog?.description}
+                  </p>
+                  <span className="text-accent-foreground">
+                    Created by{" "}
+                    <UserHoverCard
+                      user={cog?.user}
+                      nameClass="cursor-pointer font-semibold transition-colors duration-300 ease-in-out hover:text-orange-500 active:text-orange-500"
+                    />
+                  </span>
+                </div>
+              </div>
+            </div>
+            <Chat id={cog?.id!} />
           </div>
         </div>
-        <Chat id={cog?.id!} />
       </div>
     </div>
   );
