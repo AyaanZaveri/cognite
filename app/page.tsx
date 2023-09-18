@@ -24,13 +24,13 @@ export default async function Home() {
     <div className="h-full">
       <div className="flex h-full min-h-[100vh] flex-row">
         <Sidebar session={session?.user ? session : null} />
-        <div className="grow pb-2 pr-2 pt-2">
+        <div className="grow lg:pb-2 lg:pr-2 lg:pt-2">
           <div className="h-full bg-background bg-gradient-to-b from-amber-300/10 to-white bg-clip-border shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
             <div className="flex h-full w-full flex-col items-center gap-8 p-0 pb-8">
               <div className="mt-24 pb-4">
                 <Logo size="5xl" />
               </div>
-              <div className="w-4/5 px-8">
+              <div className="md:w-4/5 w-full px-8">
                 <Search />
               </div>
             </div>

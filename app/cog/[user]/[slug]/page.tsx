@@ -62,7 +62,7 @@ export default async function Page({
     <div className="h-full">
       <div className="flex h-full min-h-[100vh] flex-row">
         <Sidebar session={session?.user ? session : null} />
-        <div className="grow pb-2 pr-2 pt-2">
+        <div className="grow lg:pb-2 lg:pr-2 lg:pt-2">
           <div className="h-full bg-background bg-gradient-to-b from-amber-300/10 to-white bg-clip-border shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
             <div className="p-5">
               <Link href={"/"}>
