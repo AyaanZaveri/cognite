@@ -54,7 +54,7 @@ const Search = () => {
 
   return (
     <Command
-      className="h-full w-full border shadow-2xl shadow-orange-500/10"
+      className="h-full w-full border shadow-2xl shadow-orange-500/10 hover:scale-[1.03] transition duration-1000 ease-in-out"
       filter={(value, search) => {
         if (value.includes(search)) return 1;
         return 0;
@@ -62,7 +62,7 @@ const Search = () => {
       loop
     >
       <CommandInput
-        className="text-normal py-6 "
+        className="text-normal py-6"
         placeholder="Let's find something to cognite ⚡️"
         value={search}
         onInput={(e) => setSearch(e.currentTarget.value)}
