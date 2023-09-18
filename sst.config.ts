@@ -41,7 +41,6 @@ export default {
             .STRIPE_PRO_MONTHLY_PLAN_ID as string,
           AWS_CERT_ARN: process.env.AWS_CERT_ARN as string,
         },
-        edge: true,
         customDomain: {
           isExternalDomain: true,
           domainName: "cognite.app",
