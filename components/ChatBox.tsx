@@ -31,9 +31,10 @@ const ChatBox = ({
         onChange={handleInputChange}
         placeholder="What would you like to cognite 🔥"
         className="h-12 bg-background/50 text-base backdrop-blur-md"
+        tabIndex={1}
       />
       {/* make a black button that says make question */}
-      <Button type="submit" className={`m-0 h-12 px-6 text-base md:mr-[220px] ${space_grotesk.className}`}>
+      <Button type="submit" className={`m-0 h-12 px-6 text-base md:mr-[220px] ${space_grotesk.className}`} tabIndex={2}>
         {isStreaming && isThinking ? (
           <span className="inline-flex animate-pulse gap-2">
             Going <p>🚀</p>
