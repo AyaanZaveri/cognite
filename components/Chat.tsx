@@ -36,7 +36,7 @@ export default function Chat({ id }: { id: string }) {
       setIsStreaming(true);
     },
     onFinish: (msg) => {
-      console.log("msg", msg)
+      console.log("msg", msg);
       setIsStreaming(false);
       setIsThinking(false);
     },
@@ -67,7 +67,7 @@ export default function Chat({ id }: { id: string }) {
       description: "A very precise and focused conversation style.",
     },
   ];
-  
+
   console.log(messages[messages.length - 1]?.content);
 
   return (
@@ -103,7 +103,7 @@ export default function Chat({ id }: { id: string }) {
           <div
             key={message.id}
             className={cn(
-              "flex lg:max-w-xl lg:w-max flex-col gap-2 rounded-lg px-4 py-3",
+              "flex flex-col gap-2 rounded-lg px-4 py-3 lg:w-max lg:max-w-xl",
               message.role === "user"
                 ? "ml-auto bg-primary text-primary-foreground shadow-xl shadow-primary/20"
                 : "bg-muted shadow-xl shadow-muted/20"
@@ -118,7 +118,7 @@ export default function Chat({ id }: { id: string }) {
         ))}
       </div>
       <div className="absolute w-full">
-        <div className="flex fixed bottom-6 w-full flex-row gap-6 px-8">
+        <div className="fixed bottom-6 flex w-full flex-row gap-6 px-8">
           <ChatBox
             input={input}
             handleInputChange={handleInputChange}
