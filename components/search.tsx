@@ -54,9 +54,9 @@ const Search = () => {
 
   return (
     <Command
-      className="h-full w-full border shadow-2xl shadow-orange-500/10 hover:scale-[1.03] transition duration-1000 ease-in-out"
+      className="h-full w-full border shadow-2xl shadow-orange-500/10 transition duration-300 ease-in-out hover:shadow-orange-500/20"
       filter={(value, search) => {
-        if (value.includes(search)) return 1;
+        if (value.includes(search.toLowerCase())) return 1;
         return 0;
       }}
       loop

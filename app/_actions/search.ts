@@ -1,11 +1,19 @@
-"use server"
+"use server";
 import { db } from "@/lib/db";
 
 export const searchCogs = async (query: string) => {
   const cogs = await db.cog.findMany({
-    include: {
-      user: true,
-      tags: true,
+    select: {
+      name: true,
+      description: true,
+      imgUrl: true,
+      private: true,
+      slug: true,
+      user: {
+        select: {
+          username: true,
+        },
+      },
     },
     where: {
       private: false,
@@ -19,7 +27,7 @@ export const searchCogs = async (query: string) => {
     },
   });
 
-  console.log(cogs)
+  console.log(cogs);
 
   return cogs;
 };
