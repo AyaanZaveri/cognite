@@ -14,21 +14,23 @@ import {
 import { User } from "@prisma/client";
 import Image from "next/image";
 import { Tag } from "@/types";
-import { searchCogs } from "@/app/_actions/search";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CommandLoading } from "cmdk";
 import { Icons } from "./Icons";
+import { searchCogs } from "@/app/_actions/search";
 
 interface Cog {
-  id: string;
   name: string;
   description: string;
-  imgUrl: string;
+  imgUrl: string | null;
+  private: boolean;
   slug: string;
-  tags: Tag[];
-  user: User;
+  user: {
+    username: string | null;
+  };
+  id: string;
 }
 
 const Search = () => {

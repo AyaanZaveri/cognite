@@ -31,7 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { toast } from "@/components/ui/use-toast";
 import { TbFidgetSpinner, TbTrash } from "react-icons/tb";
-import { CircleEllipsis, MoreVertical } from "lucide-react";
+import { CircleEllipsis, MoreVertical, Trash2 } from "lucide-react";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import {
   ContextMenu,
@@ -188,7 +188,7 @@ const MeCard = ({ cog, session }: { cog: Cog; session: Session | null }) => {
               {isDeleteLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                <TbTrash className="mr-2 h-4 w-4" />
+                <Trash2 className="mr-2 h-4 w-4" />
               )}
               <span>Delete</span>
             </AlertDialogAction>

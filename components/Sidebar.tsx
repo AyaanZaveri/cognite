@@ -6,6 +6,7 @@ import Link from "next/link";
 import { TbSquareRoundedPlus, TbTelescope, TbUserCircle } from "react-icons/tb";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "./ui/button";
+import { Compass, FerrisWheel, MapPin, PlusSquare, Ship, UserCircle } from "lucide-react";
 
 const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -46,7 +47,7 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
               href={"/create"}
               className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:ring-1 hover:ring-accent active:scale-[0.98]"
             >
-              <TbSquareRoundedPlus className="h-5 w-5" />
+              <PlusSquare className="h-5 w-5" />
               <span className={`${space_grotesk.className} font-medium`}>
                 Create
               </span>
@@ -56,7 +57,7 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
               href={"/explore"}
               className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:ring-1 hover:ring-muted active:scale-[0.98]"
             >
-              <TbTelescope className="h-5 w-5" />
+              <MapPin className="h-5 w-5" />
               <span className={`${space_grotesk.className} font-medium`}>
                 Explore
               </span>
@@ -66,7 +67,7 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
               href={"/me"}
               className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:ring-1 hover:ring-accent active:scale-[0.98]"
             >
-              <TbUserCircle className="h-5 w-5" />
+              <UserCircle className="h-5 w-5" />
               <span className={`${space_grotesk.className} font-medium`}>
                 Me
               </span>

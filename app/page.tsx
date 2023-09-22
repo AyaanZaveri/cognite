@@ -30,7 +30,7 @@ export default async function Home() {
               <div className="mt-24 pb-4">
                 <Logo size="5xl" />
               </div>
-              <div className="md:w-4/5 w-full px-8">
+              <div className="w-full px-8 md:w-4/5">
                 <Search />
               </div>
             </div>

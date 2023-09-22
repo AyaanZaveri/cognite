@@ -1,0 +1,202 @@
+Date : 2023-09-21 09:14:59
+Directory : /Users/ayaanzaveri/Code/cognite
+Total : 115 files,  20824 codes, 132 comments, 2678 blanks, all 23634 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| YAML               |          3 |     14,455 |          4 |      1,841 |     16,300 |
+| TypeScript JSX     |         56 |      4,410 |         23 |        508 |      4,941 |
+| TypeScript         |         38 |      1,416 |         47 |        257 |      1,720 |
+| JSON               |          3 |        127 |          0 |          2 |        129 |
+| JavaScript         |          4 |        122 |          2 |          4 |        128 |
+| SQL                |          4 |         92 |         50 |         32 |        174 |
+| Prisma             |          1 |         81 |          0 |         12 |         93 |
+| PostCSS            |          1 |         63 |          2 |          6 |         71 |
+| JSON with Comments |          2 |         35 |          4 |          2 |         41 |
+| Markdown           |          1 |         21 |          0 |         14 |         35 |
+| XML                |          2 |          2 |          0 |          0 |          2 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                              | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                 |        115 |     20,824 |        132 |      2,678 |     23,634 |
+| . (Files)                                                                                         |         16 |     14,816 |         12 |      1,869 |     16,697 |
+| .github                                                                                           |          1 |         47 |          0 |          8 |         55 |
+| .github/workflows                                                                                 |          1 |         47 |          0 |          8 |         55 |
+| app                                                                                               |         26 |      1,320 |         27 |        201 |      1,548 |
+| app (Files)                                                                                       |          6 |        170 |          4 |         23 |        197 |
+| app/_actions                                                                                      |          2 |         79 |          0 |         13 |         92 |
+| app/api                                                                                           |         10 |        511 |         22 |        106 |        639 |
+| app/api/auth                                                                                      |          1 |          4 |          0 |          3 |          7 |
+| app/api/auth/[...nextauth]                                                                        |          1 |          4 |          0 |          3 |          7 |
+| app/api/cog                                                                                       |          5 |        311 |         15 |         54 |        380 |
+| app/api/cog/[cogId]                                                                               |          1 |         56 |          3 |         12 |         71 |
+| app/api/cog/completions                                                                           |          1 |        105 |         10 |         20 |        135 |
+| app/api/cog/create                                                                                |          1 |         98 |          2 |         15 |        115 |
+| app/api/cog/info                                                                                  |          1 |         27 |          0 |          4 |         31 |
+| app/api/cog/list                                                                                  |          1 |         25 |          0 |          3 |         28 |
+| app/api/extract                                                                                   |          1 |         55 |          5 |         21 |         81 |
+| app/api/updateUser                                                                                |          1 |         31 |          0 |          5 |         36 |
+| app/api/users                                                                                     |          1 |         46 |          0 |         11 |         57 |
+| app/api/users/stripe                                                                              |          1 |         46 |          0 |         11 |         57 |
+| app/api/webhooks                                                                                  |          1 |         64 |          2 |         12 |         78 |
+| app/api/webhooks/stripe                                                                           |          1 |         64 |          2 |         12 |         78 |
+| app/auth                                                                                          |          1 |         48 |          0 |          9 |         57 |
+| app/auth/signin                                                                                   |          1 |         48 |          0 |          9 |         57 |
+| app/billing                                                                                       |          1 |        163 |          0 |          9 |        172 |
+| app/cog                                                                                           |          2 |        142 |          0 |         14 |        156 |
+| app/cog/[user]                                                                                    |          2 |        142 |          0 |         14 |        156 |
+| app/cog/[user]/[slug]                                                                             |          2 |        142 |          0 |         14 |        156 |
+| app/create                                                                                        |          1 |         53 |          1 |          7 |         61 |
+| app/explore                                                                                       |          1 |         20 |          0 |          4 |         24 |
+| app/me                                                                                            |          1 |         93 |          0 |         10 |        103 |
+| app/profile                                                                                       |          1 |         41 |          0 |          6 |         47 |
+| components                                                                                        |         45 |      3,904 |         25 |        464 |      4,393 |
+| components (Files)                                                                                |         16 |      1,139 |          9 |        116 |      1,264 |
+| components/buttons                                                                                |          1 |         38 |          0 |          6 |         44 |
+| components/cog                                                                                    |          1 |         77 |          0 |          6 |         83 |
+| components/forms                                                                                  |          3 |        694 |         13 |         70 |        777 |
+| components/me                                                                                     |          1 |        189 |          0 |         14 |        203 |
+| components/ui                                                                                     |         23 |      1,767 |          3 |        252 |      2,022 |
+| config                                                                                            |          1 |         39 |          0 |          2 |         41 |
+| helpers                                                                                           |          1 |         10 |          0 |          1 |         11 |
+| lib                                                                                               |          9 |        313 |          3 |         48 |        364 |
+| lib (Files)                                                                                       |          8 |        303 |          3 |         46 |        352 |
+| lib/validations                                                                                   |          1 |         10 |          0 |          2 |         12 |
+| prisma                                                                                            |          5 |        173 |         50 |         44 |        267 |
+| prisma (Files)                                                                                    |          1 |         81 |          0 |         12 |         93 |
+| prisma/migrations                                                                                 |          4 |         92 |         50 |         32 |        174 |
+| prisma/migrations/20230709021220_init                                                             |          1 |         55 |         14 |         18 |         87 |
+| prisma/migrations/20230710000637_embeddings                                                       |          1 |         16 |          9 |          4 |         29 |
+| prisma/migrations/20230719011809_add_username_field                                               |          1 |         17 |         18 |          7 |         42 |
+| prisma/migrations/20230719130257_restart                                                          |          1 |          4 |          9 |          3 |         16 |
+| public                                                                                            |          2 |          2 |          0 |          0 |          2 |
+| types                                                                                             |          2 |         70 |          0 |         11 |         81 |
+| utils                                                                                             |          7 |        130 |         15 |         30 |        175 |
++---------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                          | language           | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/ayaanzaveri/Code/cognite/.eslintrc.json                                                    | JSON with Comments |          3 |          0 |          1 |          4 |
+| /Users/ayaanzaveri/Code/cognite/.github/workflows/nextjs.yml                                      | YAML               |         47 |          0 |          8 |         55 |
+| /Users/ayaanzaveri/Code/cognite/.gitpod.yml                                                       | YAML               |          3 |          4 |          5 |         12 |
+| /Users/ayaanzaveri/Code/cognite/README.md                                                         | Markdown           |         21 |          0 |         14 |         35 |
+| /Users/ayaanzaveri/Code/cognite/app/_actions/search.ts                                            | TypeScript         |         30 |          0 |          4 |         34 |
+| /Users/ayaanzaveri/Code/cognite/app/_actions/stripe.ts                                            | TypeScript         |         49 |          0 |          9 |         58 |
+| /Users/ayaanzaveri/Code/cognite/app/actions.tsx                                                   | TypeScript JSX     |         17 |          0 |          4 |         21 |
+| /Users/ayaanzaveri/Code/cognite/app/api/auth/[...nextauth]/route.ts                               | TypeScript         |          4 |          0 |          3 |          7 |
+| /Users/ayaanzaveri/Code/cognite/app/api/cog/[cogId]/route.ts                                      | TypeScript         |         56 |          3 |         12 |         71 |
+| /Users/ayaanzaveri/Code/cognite/app/api/cog/completions/route.ts                                  | TypeScript         |        105 |         10 |         20 |        135 |
+| /Users/ayaanzaveri/Code/cognite/app/api/cog/create/route.ts                                       | TypeScript         |         98 |          2 |         15 |        115 |
+| /Users/ayaanzaveri/Code/cognite/app/api/cog/info/route.ts                                         | TypeScript         |         27 |          0 |          4 |         31 |
+| /Users/ayaanzaveri/Code/cognite/app/api/cog/list/route.ts                                         | TypeScript         |         25 |          0 |          3 |         28 |
+| /Users/ayaanzaveri/Code/cognite/app/api/extract/route.ts                                          | TypeScript         |         55 |          5 |         21 |         81 |
+| /Users/ayaanzaveri/Code/cognite/app/api/updateUser/route.ts                                       | TypeScript         |         31 |          0 |          5 |         36 |
+| /Users/ayaanzaveri/Code/cognite/app/api/users/stripe/route.ts                                     | TypeScript         |         46 |          0 |         11 |         57 |
+| /Users/ayaanzaveri/Code/cognite/app/api/webhooks/stripe/route.ts                                  | TypeScript         |         64 |          2 |         12 |         78 |
+| /Users/ayaanzaveri/Code/cognite/app/auth/signin/page.tsx                                          | TypeScript JSX     |         48 |          0 |          9 |         57 |
+| /Users/ayaanzaveri/Code/cognite/app/billing/page.tsx                                              | TypeScript JSX     |        163 |          0 |          9 |        172 |
+| /Users/ayaanzaveri/Code/cognite/app/cog/[user]/[slug]/loading.tsx                                 | TypeScript JSX     |         41 |          0 |          3 |         44 |
+| /Users/ayaanzaveri/Code/cognite/app/cog/[user]/[slug]/page.tsx                                    | TypeScript JSX     |        101 |          0 |         11 |        112 |
+| /Users/ayaanzaveri/Code/cognite/app/create/page.tsx                                               | TypeScript JSX     |         53 |          1 |          7 |         61 |
+| /Users/ayaanzaveri/Code/cognite/app/explore/page.tsx                                              | TypeScript JSX     |         20 |          0 |          4 |         24 |
+| /Users/ayaanzaveri/Code/cognite/app/globals.css                                                   | PostCSS            |         63 |          2 |          6 |         71 |
+| /Users/ayaanzaveri/Code/cognite/app/layout.tsx                                                    | TypeScript JSX     |         41 |          0 |          6 |         47 |
+| /Users/ayaanzaveri/Code/cognite/app/loading.tsx                                                   | TypeScript JSX     |          8 |          0 |          2 |         10 |
+| /Users/ayaanzaveri/Code/cognite/app/me/page.tsx                                                   | TypeScript JSX     |         93 |          0 |         10 |        103 |
+| /Users/ayaanzaveri/Code/cognite/app/middleware.ts                                                 | TypeScript         |          2 |          2 |          1 |          5 |
+| /Users/ayaanzaveri/Code/cognite/app/page.tsx                                                      | TypeScript JSX     |         39 |          0 |          4 |         43 |
+| /Users/ayaanzaveri/Code/cognite/app/profile/page.tsx                                              | TypeScript JSX     |         41 |          0 |          6 |         47 |
+| /Users/ayaanzaveri/Code/cognite/components.json                                                   | JSON               |         16 |          0 |          0 |         16 |
+| /Users/ayaanzaveri/Code/cognite/components/Chat.tsx                                               | TypeScript JSX     |        124 |          0 |         10 |        134 |
+| /Users/ayaanzaveri/Code/cognite/components/ChatBox.tsx                                            | TypeScript JSX     |         49 |          1 |          5 |         55 |
+| /Users/ayaanzaveri/Code/cognite/components/CoolBlur.tsx                                           | TypeScript JSX     |         15 |          0 |          5 |         20 |
+| /Users/ayaanzaveri/Code/cognite/components/FileInput.tsx                                          | TypeScript JSX     |         19 |          1 |          5 |         25 |
+| /Users/ayaanzaveri/Code/cognite/components/Icons.tsx                                              | TypeScript JSX     |        153 |          0 |          2 |        155 |
+| /Users/ayaanzaveri/Code/cognite/components/InputFile.tsx                                          | TypeScript JSX     |         37 |          0 |          5 |         42 |
+| /Users/ayaanzaveri/Code/cognite/components/ListCogs.tsx                                           | TypeScript JSX     |         29 |          3 |          6 |         38 |
+| /Users/ayaanzaveri/Code/cognite/components/Logo.tsx                                               | TypeScript JSX     |         46 |          0 |          4 |         50 |
+| /Users/ayaanzaveri/Code/cognite/components/ModeToggle.tsx                                         | TypeScript JSX     |         36 |          0 |          5 |         41 |
+| /Users/ayaanzaveri/Code/cognite/components/QuickCreate.tsx                                        | TypeScript JSX     |        299 |          3 |         37 |        339 |
+| /Users/ayaanzaveri/Code/cognite/components/Sidebar.tsx                                            | TypeScript JSX     |        117 |          0 |          6 |        123 |
+| /Users/ayaanzaveri/Code/cognite/components/ToastButton.tsx                                        | TypeScript JSX     |         23 |          0 |          4 |         27 |
+| /Users/ayaanzaveri/Code/cognite/components/UserHoverCard.tsx                                      | TypeScript JSX     |         49 |          0 |          5 |         54 |
+| /Users/ayaanzaveri/Code/cognite/components/buttons/LoginButton.tsx                                | TypeScript JSX     |         38 |          0 |          6 |         44 |
+| /Users/ayaanzaveri/Code/cognite/components/cog/Card.tsx                                           | TypeScript JSX     |         77 |          0 |          6 |         83 |
+| /Users/ayaanzaveri/Code/cognite/components/forms/create-form.tsx                                  | TypeScript JSX     |        500 |         13 |         49 |        562 |
+| /Users/ayaanzaveri/Code/cognite/components/forms/manage-store-subscription-form.tsx               | TypeScript JSX     |         57 |          0 |          9 |         66 |
+| /Users/ayaanzaveri/Code/cognite/components/forms/profile-form.tsx                                 | TypeScript JSX     |        137 |          0 |         12 |        149 |
+| /Users/ayaanzaveri/Code/cognite/components/me/Card.tsx                                            | TypeScript JSX     |        189 |          0 |         14 |        203 |
+| /Users/ayaanzaveri/Code/cognite/components/search.tsx                                             | TypeScript JSX     |        115 |          1 |         10 |        126 |
+| /Users/ayaanzaveri/Code/cognite/components/shell.tsx                                              | TypeScript JSX     |         21 |          0 |          4 |         25 |
+| /Users/ayaanzaveri/Code/cognite/components/theme-provider.tsx                                     | TypeScript JSX     |          7 |          0 |          3 |         10 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/alert-dialog.tsx                                    | TypeScript JSX     |        131 |          0 |         15 |        146 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/avatar.tsx                                          | TypeScript JSX     |         44 |          0 |          7 |         51 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/badge.tsx                                           | TypeScript JSX     |         31 |          0 |          6 |         37 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/button.tsx                                          | TypeScript JSX     |         51 |          0 |          6 |         57 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/calendar.tsx                                        | TypeScript JSX     |         59 |          0 |          6 |         65 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/card.tsx                                            | TypeScript JSX     |         78 |          0 |          9 |         87 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/command.tsx                                         | TypeScript JSX     |        137 |          0 |         20 |        157 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/context-menu.tsx                                    | TypeScript JSX     |        182 |          0 |         19 |        201 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/dialog.tsx                                          | TypeScript JSX     |        111 |          0 |         13 |        124 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/dropdown-menu.tsx                                   | TypeScript JSX     |        182 |          0 |         19 |        201 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/form.tsx                                            | TypeScript JSX     |        152 |          0 |         25 |        177 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/hover-card.tsx                                      | TypeScript JSX     |         23 |          0 |          7 |         30 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/input.tsx                                           | TypeScript JSX     |         21 |          0 |          5 |         26 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/label.tsx                                           | TypeScript JSX     |         21 |          0 |          6 |         27 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/select.tsx                                          | TypeScript JSX     |        109 |          0 |         12 |        121 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/skeleton.tsx                                        | TypeScript JSX     |         13 |          0 |          3 |         16 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/switch.tsx                                          | TypeScript JSX     |         25 |          0 |          5 |         30 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/tabs.tsx                                            | TypeScript JSX     |         48 |          0 |          8 |         56 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/textarea.tsx                                        | TypeScript JSX     |         20 |          0 |          5 |         25 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/toast.tsx                                           | TypeScript JSX     |        115 |          0 |         13 |        128 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/toaster.tsx                                         | TypeScript JSX     |         32 |          0 |          4 |         36 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/tooltip.tsx                                         | TypeScript JSX     |         23 |          0 |          8 |         31 |
+| /Users/ayaanzaveri/Code/cognite/components/ui/use-toast.ts                                        | TypeScript         |        159 |          3 |         31 |        193 |
+| /Users/ayaanzaveri/Code/cognite/config/subscriptions.ts                                           | TypeScript         |         39 |          0 |          2 |         41 |
+| /Users/ayaanzaveri/Code/cognite/custom.d.ts                                                       | TypeScript         |          7 |          0 |          1 |          8 |
+| /Users/ayaanzaveri/Code/cognite/helpers/getTheme.ts                                               | TypeScript         |         10 |          0 |          1 |         11 |
+| /Users/ayaanzaveri/Code/cognite/lib/auth.ts                                                       | TypeScript         |        110 |          2 |         13 |        125 |
+| /Users/ayaanzaveri/Code/cognite/lib/db.ts                                                         | TypeScript         |         19 |          1 |          4 |         24 |
+| /Users/ayaanzaveri/Code/cognite/lib/prisma-edge.ts                                                | TypeScript         |         10 |          0 |          5 |         15 |
+| /Users/ayaanzaveri/Code/cognite/lib/prompts.ts                                                    | TypeScript         |         56 |          0 |          7 |         63 |
+| /Users/ayaanzaveri/Code/cognite/lib/session.ts                                                    | TypeScript         |          5 |          0 |          1 |          6 |
+| /Users/ayaanzaveri/Code/cognite/lib/stripe.ts                                                     | TypeScript         |          5 |          0 |          2 |          7 |
+| /Users/ayaanzaveri/Code/cognite/lib/subscription.ts                                               | TypeScript         |         45 |          0 |          8 |         53 |
+| /Users/ayaanzaveri/Code/cognite/lib/utils.ts                                                      | TypeScript         |         53 |          0 |          6 |         59 |
+| /Users/ayaanzaveri/Code/cognite/lib/validations/stripe.ts                                         | TypeScript         |         10 |          0 |          2 |         12 |
+| /Users/ayaanzaveri/Code/cognite/middleware.ts                                                     | TypeScript         |         36 |          1 |          9 |         46 |
+| /Users/ayaanzaveri/Code/cognite/next.config.js                                                    | JavaScript         |         38 |          1 |          3 |         42 |
+| /Users/ayaanzaveri/Code/cognite/package.json                                                      | JSON               |        111 |          0 |          1 |        112 |
+| /Users/ayaanzaveri/Code/cognite/pnpm-lock.yaml                                                    | YAML               |     14,405 |          0 |      1,828 |     16,233 |
+| /Users/ayaanzaveri/Code/cognite/postcss.config.js                                                 | JavaScript         |          6 |          0 |          1 |          7 |
+| /Users/ayaanzaveri/Code/cognite/prettier.config.js                                                | JavaScript         |          3 |          0 |          0 |          3 |
+| /Users/ayaanzaveri/Code/cognite/prisma/migrations/20230709021220_init/migration.sql               | SQL                |         55 |         14 |         18 |         87 |
+| /Users/ayaanzaveri/Code/cognite/prisma/migrations/20230710000637_embeddings/migration.sql         | SQL                |         16 |          9 |          4 |         29 |
+| /Users/ayaanzaveri/Code/cognite/prisma/migrations/20230719011809_add_username_field/migration.sql | SQL                |         17 |         18 |          7 |         42 |
+| /Users/ayaanzaveri/Code/cognite/prisma/migrations/20230719130257_restart/migration.sql            | SQL                |          4 |          9 |          3 |         16 |
+| /Users/ayaanzaveri/Code/cognite/prisma/schema.prisma                                              | Prisma             |         81 |          0 |         12 |         93 |
+| /Users/ayaanzaveri/Code/cognite/public/next.svg                                                   | XML                |          1 |          0 |          0 |          1 |
+| /Users/ayaanzaveri/Code/cognite/public/vercel.svg                                                 | XML                |          1 |          0 |          0 |          1 |
+| /Users/ayaanzaveri/Code/cognite/scraped.json                                                      | JSON               |          0 |          0 |          1 |          1 |
+| /Users/ayaanzaveri/Code/cognite/sst-env.d.ts                                                      | TypeScript         |          0 |          1 |          1 |          2 |
+| /Users/ayaanzaveri/Code/cognite/sst.config.ts                                                     | TypeScript         |         60 |          0 |          3 |         63 |
+| /Users/ayaanzaveri/Code/cognite/tailwind.config.js                                                | JavaScript         |         75 |          1 |          0 |         76 |
+| /Users/ayaanzaveri/Code/cognite/tsconfig.json                                                     | JSON with Comments |         32 |          4 |          1 |         37 |
+| /Users/ayaanzaveri/Code/cognite/types/index.ts                                                    | TypeScript         |         56 |          0 |          8 |         64 |
+| /Users/ayaanzaveri/Code/cognite/types/next-auth.d.ts                                              | TypeScript         |         14 |          0 |          3 |         17 |
+| /Users/ayaanzaveri/Code/cognite/utils/chain.ts                                                    | TypeScript         |         15 |         15 |          3 |         33 |
+| /Users/ayaanzaveri/Code/cognite/utils/embed.ts                                                    | TypeScript         |         15 |          0 |          4 |         19 |
+| /Users/ayaanzaveri/Code/cognite/utils/getChunks.ts                                                | TypeScript         |          8 |          0 |          9 |         17 |
+| /Users/ayaanzaveri/Code/cognite/utils/scrapeSite.ts                                               | TypeScript         |         14 |          0 |          2 |         16 |
+| /Users/ayaanzaveri/Code/cognite/utils/timestampDate.ts                                            | TypeScript         |         26 |          0 |          5 |         31 |
+| /Users/ayaanzaveri/Code/cognite/utils/vector.ts                                                   | TypeScript         |         46 |          0 |          6 |         52 |
+| /Users/ayaanzaveri/Code/cognite/utils/ytTranscript.ts                                             | TypeScript         |          6 |          0 |          1 |          7 |
+| Total                                                                                             |                    |     20,824 |        132 |      2,678 |     23,634 |
++---------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

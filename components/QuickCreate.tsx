@@ -37,6 +37,7 @@ import slugify from "slugify";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Zap } from "lucide-react";
 
 const quickCreateFormSchema = z.object({
   name: z
@@ -225,7 +226,7 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
       <DialogTrigger asChild>
         <Button variant={"outline"} className="space-x-2">
           <span>Quick Create</span>
-          <TbBolt className="h-4 w-4" />
+          <Zap className="h-4 w-4" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
