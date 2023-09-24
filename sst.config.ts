@@ -42,7 +42,6 @@ export default {
           AWS_CERT_ARN: process.env.AWS_CERT_ARN as string,
         },
         customDomain: {
-          isExternalDomain: true,
           domainName: "www.cognite.app",
           domainAlias: "cognite.app",
           hostedZone: "cognite.app",
