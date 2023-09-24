@@ -28,17 +28,17 @@ export const prompts: { [key: string]: Prompt } = {
       `,
   },
   neutral: {
-    condense: `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
-
+    condense: `
+    Your task as an AI language model is to create a clear and concise standalone question based on the given conversation history and a related follow-up question. Ensure that your rephrased question captures the essence of the follow-up question without relying on the context of the conversation.
+    Carefully heed the user's instructions.
     Chat History:
     {chat_history}
-    Follow Up Input: {question}`,
+    Very Detailed Follow Up Input: {question}`,
     qa: `
     Carefully heed the user's instructions.
-    Respond using Markdown. Make sure to use emojis throughout.
-    
+
+    Here is some context from a document, along with a question related to it. Please ensure that your answer is well-structured and directly addresses the question. Make sure to use Markdown to format your answer. Also, be funny and engaging by fitting in some jokes.
     {context}
-    
     Question: {question}
     Answer using Markdown format:
           `,
