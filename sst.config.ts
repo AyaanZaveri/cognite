@@ -57,6 +57,7 @@ export default {
 
       stack.addOutputs({
         siteUrl: site.customDomainUrl || site.url,
+        siteId: site.id,
       });
     });
   },
