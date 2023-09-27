@@ -57,6 +57,7 @@
     "friendly-username-generator": "^2.0.4",
     "html-to-text": "^9.0.5",
     "is-array-buffer": "^3.0.2",
+    "jotai": "^2.4.2",
     "json5": "^2.2.3",
     "langchain": "^0.0.143",
     "lucide-react": "^0.260.0",

@@ -224,16 +224,15 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"outline"} className="space-x-2">
-          <span>Quick Create</span>
-          <Zap className="h-4 w-4" />
+        <Button variant={"outline"} className="h-min py-4 group">
+          <Zap className="h-4 w-4 group-hover:scale-125 transition duration-1000 ease-in-out group-hover:text-orange-500" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Quick Create</DialogTitle>
           <DialogDescription>
-            Quickly create a private cog ⚡️
+            Quickly create a cog ⚡️
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">

@@ -6,6 +6,7 @@ import { Tag } from "@/types";
 import { User } from "@prisma/client";
 import { searchCogs } from "./_actions/search";
 import Sidebar from "@/components/Sidebar";
+import QuickCreate from "@/components/QuickCreate";
 
 interface Cog {
   id: string;
@@ -30,8 +31,9 @@ export default async function Home() {
               <div className="mt-24 pb-4">
                 <Logo size="5xl" />
               </div>
-              <div className="w-full px-8 md:w-4/5">
+              <div className="w-full px-8 md:w-4/5 flex flex-row space-x-2">
                 <Search />
+                <QuickCreate session={session} />
               </div>
             </div>
           </div>

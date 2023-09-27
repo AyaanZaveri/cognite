@@ -1,6 +1,6 @@
+import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { SSTConfig } from "sst";
 import { NextjsSite } from "sst/constructs";
-import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 
 export default {
   config(_input) {
@@ -42,9 +42,8 @@ export default {
           AWS_CERT_ARN: process.env.AWS_CERT_ARN as string,
         },
         customDomain: {
-          domainName: "www.cognite.app",
-          domainAlias: "cognite.app",
-          hostedZone: "cognite.app",
+          isExternalDomain: true,
+          domainName: "cognite.app",
           cdk: {
             certificate: Certificate.fromCertificateArn(
               stack,
