@@ -48,7 +48,7 @@ export default {
             certificate: Certificate.fromCertificateArn(
               stack,
               "cert",
-              "arn:aws:acm:us-east-1:695897674742:certificate/ba5e0f95-0589-4cf6-980e-ac059b8d84cd"
+              "arn:aws:acm:us-east-1:695897674742:certificate/2762b75b-8ba8-4748-b7e8-ff15a91a0088"
             ),
           },
         },
