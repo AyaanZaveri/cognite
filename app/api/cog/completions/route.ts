@@ -25,8 +25,7 @@ const embeddingsModel = new OpenAIEmbeddings(
 
 const runLLMChain = async (style: string, messages: any, id: string) => {
   const encoder = new TextEncoder();
-
-  // Create a TransformStream for writing the response as the tokens as generated
+  
   const transformStream = new TransformStream();
   const writer = transformStream.writable.getWriter();
 
