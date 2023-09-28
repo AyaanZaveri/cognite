@@ -1,6 +1,12 @@
 import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { SSTConfig } from "sst";
-import { NextjsSite } from "sst/constructs";
+import { NextjsSite as SSTNextjsSite } from "sst/constructs";
+
+class NextjsSite extends SSTNextjsSite {
+  protected supportsStreaming(): boolean {
+    return true;
+  }
+}
 
 export default {
   config(_input) {
@@ -52,6 +58,7 @@ export default {
             ),
           },
         },
+        buildCommand: "npx open-next@0.0.0-streaming.3 build --streaming",
       });
 
       stack.addOutputs({
