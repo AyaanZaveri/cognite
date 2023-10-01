@@ -9,6 +9,7 @@ interface ChatBoxProps {
   handleThinking: (e: React.FormEvent<HTMLFormElement>) => void;
   isThinking: boolean;
   isStreaming: boolean;
+  stop: () => void;
 }
 
 const space_grotesk = Space_Grotesk({
@@ -21,6 +22,7 @@ const ChatBox = ({
   handleThinking,
   isThinking,
   isStreaming,
+  stop,
 }: ChatBoxProps) => {
   return (
     <form className="flex w-full flex-row gap-3" onSubmit={handleThinking}>
@@ -34,7 +36,11 @@ const ChatBox = ({
         tabIndex={1}
       />
       {/* make a black button that says make question */}
-      <Button type="submit" className={`m-0 h-12 px-6 text-base md:mr-[220px] ${space_grotesk.className}`} tabIndex={2}>
+      <Button
+        type="submit"
+        className={`m-0 h-12 px-6 text-base md:mr-[220px] ${space_grotesk.className}`}
+        tabIndex={2}
+      >
         {isStreaming && isThinking ? (
           <span className="inline-flex animate-pulse gap-2">
             Going <p>🚀</p>
@@ -44,7 +50,9 @@ const ChatBox = ({
             Thinking <p>🧠</p>
           </span>
         ) : (
-          <span className="inline-flex gap-2">Cognite <p>⚡️</p></span>
+          <span className="inline-flex gap-2">
+            Cognite <p>⚡️</p>
+          </span>
         )}
       </Button>
     </form>

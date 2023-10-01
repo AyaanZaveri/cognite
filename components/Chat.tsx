@@ -22,7 +22,7 @@ export default function Chat({ id }: { id: string }) {
   const [isStreaming, setIsStreaming] = useState(false);
   const [selectedStyle, setSelectedStyle] = useState("neutral");
 
-  const { messages, input, handleInputChange, handleSubmit } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, stop } = useChat({
     api: "/api/cog/completions",
     body: {
       id: id,
@@ -125,6 +125,7 @@ export default function Chat({ id }: { id: string }) {
             handleThinking={handleThinking}
             isThinking={isThinking}
             isStreaming={isStreaming}
+            stop={stop}
           />
         </div>
       </div>
