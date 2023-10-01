@@ -61,14 +61,14 @@ export default {
         buildCommand: "npx open-next@0.0.0-streaming.3 build --streaming",
       });
 
-      stack.setDefaultFunctionProps({
-        timeout: 30,
-      });
-
       stack.addOutputs({
         siteUrl: site.customDomainUrl || site.url,
         siteId: site.id,
       });
+    });
+
+    app.setDefaultFunctionProps({
+      timeout: 30,
     });
   },
 } satisfies SSTConfig;
