@@ -7,7 +7,7 @@ import UserHoverCard from "@/components/UserHoverCard";
 import { getAuthSession } from "@/lib/auth";
 import { Session } from "next-auth";
 import CoolBlur from "@/components/CoolBlur";
-import { db } from "@/lib/prisma-edge";
+import { db } from "@/lib/db";
 import Sidebar from "@/components/Sidebar";
 
 export const dynamic = "force-dynamic";

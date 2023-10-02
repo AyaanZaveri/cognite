@@ -49,6 +49,6 @@ jobs:
           STRIPE_PRO_MONTHLY_PLAN_ID: ${{ secrets.STRIPE_PRO_MONTHLY_PLAN_ID }}
         run: |
           echo "Primsa generate"
-          npx prisma generate --data-proxy
+          npx prisma generate
           echo "SST deploy"
           npx sst deploy --stage prod

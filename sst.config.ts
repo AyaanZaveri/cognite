@@ -70,6 +70,8 @@ export default {
 
     app.setDefaultFunctionProps({
       timeout: 30,
+      runtime: "nodejs18.x",
+      architecture: "arm_64",
     });
   },
 } satisfies SSTConfig;
