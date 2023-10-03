@@ -48,17 +48,9 @@ export default async function Page() {
       <div className="flex h-full min-h-[100vh] flex-row">
         <Sidebar session={session?.user ? session : null} />
         <div className="grow lg:pb-2 lg:pr-2 lg:pt-2">
-          <div className="h-full pb-8 bg-background bg-gradient-to-b from-amber-300/10 to-white bg-clip-border shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
+          <div className="h-full bg-background bg-gradient-to-b from-amber-300/10 to-white bg-clip-border pb-8 shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
             <div className="-space-y-10 p-5">
-              <div className="relative h-48 w-full">
-                <Image
-                  src={"https://i.ibb.co/r0nsc7X/Gradient-1.png"}
-                  alt="Banner Image"
-                  fill={true}
-                  className="rounded-xl object-cover"
-                  draggable={false}
-                />
-              </div>
+              <div className="relative h-48 w-full rounded-xl bg-amber-500 noise object-cover"></div>
               <div className="ml-6 flex flex-col items-start justify-end">
                 <div className="relative h-20 w-20 rounded-lg">
                   <Avatar className="h-20 w-20 rounded-xl ring-4 ring-white transition-all duration-200 ease-in-out hover:rotate-6 dark:ring-black">
@@ -75,7 +67,7 @@ export default async function Page() {
                   <span className="text-xs text-muted-foreground">
                     Joined {date}
                   </span>
-                  <CalendarDays className="ml-1 h-3 w-3 text-muted-foreground" />{" "}
+                  <CalendarDays className="ml-1 h-3 w-3 text-muted-foreground" />
                 </div>
 
                 <span className={`mt-1 text-3xl font-bold`}>

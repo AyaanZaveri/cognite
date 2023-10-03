@@ -1,14 +1,14 @@
-datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL") // uses connection pooling
-  directUrl  = env("DIRECT_URL")
-  extensions = [vector]
-}
-
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["postgresqlExtensions", "fullTextSearch"]
+  previewFeatures = ["fullTextSearch", "postgresqlExtensions"]
   binaryTargets   = ["native", "linux-arm64-openssl-1.0.x"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [vector]
 }
 
 model Account {
@@ -41,22 +41,21 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  username      String?   @unique
-  email         String?   @unique
-  emailVerified DateTime?
-  bio           String?   @default("Cognite is pretty awesome 🔥")
-  image         String?
-  createdDate   DateTime  @default(now())
-  accounts      Account[]
-  sessions      Session[]
-  Cog           Cog[]
-
-  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
-  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
-  stripePriceId          String?   @map(name: "stripe_price_id")
-  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+  id                     String    @id @default(cuid())
+  name                   String?
+  email                  String?   @unique
+  emailVerified          DateTime?
+  image                  String?
+  username               String?   @unique
+  createdDate            DateTime  @default(now())
+  bio                    String?   @default("Cognite is pretty awesome 🔥")
+  stripeCurrentPeriodEnd DateTime? @map("stripe_current_period_end")
+  stripeCustomerId       String?   @unique @map("stripe_customer_id")
+  stripePriceId          String?   @map("stripe_price_id")
+  stripeSubscriptionId   String?   @unique @map("stripe_subscription_id")
+  accounts               Account[]
+  Cog                    Cog[]
+  sessions               Session[]
 }
 
 model Embeddings {
@@ -70,15 +69,15 @@ model Embeddings {
 model Cog {
   id          String       @id @default(cuid())
   userId      String
-  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   name        String       @default("")
   description String       @default("")
-  createdDate DateTime     @default(now())
   slug        String
   imgUrl      String?      @default("https://em-content.zobj.net/thumbs/240/apple/354/fire_1f525.png")
+  createdDate DateTime     @default(now())
+  private     Boolean      @default(false)
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   embeddings  Embeddings[]
   tags        Tag[]        @relation("CogToTag")
-  private     Boolean      @default(false)
 
   @@unique([userId, slug])
   @@index([userId])

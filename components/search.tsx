@@ -49,10 +49,9 @@ const Search = () => {
 
   useEffect(() => {
     searchForCogs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
-  console.log(cogs.slice(0, 5));
+  console.log(cogs)
 
   return (
     <Command
@@ -79,7 +78,7 @@ const Search = () => {
             </CommandLoading>
           )}
           <CommandGroup heading="Suggestions">
-            {cogs.slice(0, 5).map((cog) => (
+            {cogs.map((cog) => (
               <Link
                 href={`/cog/${cog?.user?.username}/${cog.slug}`}
                 key={cog?.id}

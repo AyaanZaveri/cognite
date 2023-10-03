@@ -58,6 +58,10 @@
   }
 }
 
+.noise{
+  background-image: url(/noise.png);
+}
+
 /* For Webkit-based browsers (Chrome, Safari and Opera) */
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
