@@ -28,22 +28,24 @@ export const searchCogs = async (query: string) => {
   // });
 
   const cogs = await db.$queryRaw`
-    SELECT
-      "cog"."name",
-      "cog"."description",
-      "cog"."imgUrl",
-      "cog"."private",
-      "cog"."slug",
-      "user"."username"
-    FROM
-      "Cog" AS "cog",
-      "User" AS "user"
-    WHERE
-      "cog"."private" = false
-      AND "cog"."name" ILIKE '%' || ${query} || '%'
-      AND "cog"."userId" = "user"."id"
-    LIMIT 5
-  `;
+   SELECT
+       "cog"."name",
+       "cog"."description",
+       "cog"."imgUrl",
+       "cog"."private",
+       "cog"."slug",
+       json_build_object(
+         'username', "user"."username"
+       ) AS "user"
+   FROM
+       "Cog" AS "cog"
+   JOIN
+       "User" AS "user" ON "cog"."userId" = "user"."id"
+   WHERE
+       "cog"."private" = false
+       AND "cog"."name" ILIKE '%' || ${query} || '%'
+   LIMIT 5;
+`;
 
   const after = Date.now();
 
