@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     isPrivate,
   }: Cog = data;
 
-  console.log(name)
+  console.log(name);
 
   if (!userId || !name || !slug || !docs) {
     return NextResponse.error();
@@ -104,6 +104,12 @@ export async function POST(req: Request) {
       cog,
     });
   } catch (error) {
+    // If an error occurs during embeddings creation, delete the cog
+    if (cog) {
+      await db?.cog.delete({ where: { id: cog.id } });
+      console.log("Deleted cog due to error");
+    }
+
     console.log(error);
     return NextResponse.json({
       error: error,

@@ -49,9 +49,10 @@ const Search = () => {
 
   useEffect(() => {
     searchForCogs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
-  console.log(cogs)
+  console.log(cogs);
 
   return (
     <Command

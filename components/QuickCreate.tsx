@@ -224,8 +224,8 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"outline"} className="h-min py-4 group">
-          <Zap className="h-4 w-4 group-hover:scale-125 transition duration-1000 ease-in-out group-hover:text-orange-500" />
+        <Button variant={"outline"} className="h-min py-4 group shadow-2xl shadow-orange-500/10 transition duration-300 ease-in-out hover:shadow-orange-500/20">
+          <Zap className="h-4 w-4 group-hover:rotate-180 transition-transform duration-700 ease-in-out" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
