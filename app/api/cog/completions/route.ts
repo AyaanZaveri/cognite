@@ -25,7 +25,7 @@ const embeddingsModel = new OpenAIEmbeddings(
 
 const runLLMChain = async (style: string, messages: any, id: string) => {
   const encoder = new TextEncoder();
-  
+
   const transformStream = new TransformStream();
   const writer = transformStream.writable.getWriter();
 
@@ -50,7 +50,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
   const streamingModel = new ChatOpenAI(
     {
       streaming: true,
-      // callbackManager: CallbackManager.fromHandlers(handlers),
+      verbose: true,
       callbacks: [
         {
           async handleLLMNewToken(token) {
@@ -74,6 +74,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
 
   const nonStreamingModel = new ChatOpenAI(
     {
+      verbose: true,
       temperature: 0.3,
       modelName: "gpt-3.5-turbo",
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
@@ -89,6 +90,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
     streamingModel,
     vectorStore.asRetriever(),
     {
+      verbose: true,
       returnSourceDocuments: true,
       qaChainOptions: {
         type: "stuff",

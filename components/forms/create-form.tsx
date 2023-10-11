@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/tooltip";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
 import { SubscriptionPlan } from "@/types";
+import { toast } from "../ui/use-toast";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -255,6 +256,21 @@ const Create = ({
           pulse: false,
         });
         console.log(err);
+
+        if (sources?.sites!.length < 0 || !file) {
+          toast({
+            title: "Add a source",
+            description:
+              "You gotta add a source to your cog. This can be a website or a PDF file. You can also add both. 🌎",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Error creating cog",
+            description: err.error ? err.error : "Something went wrong 🫠",
+            variant: "destructive",
+          });
+        }
       });
   }
 

@@ -6,7 +6,7 @@ interface Prompt {
 export const prompts: { [key: string]: Prompt } = {
   friendly: {
     condense: `
-      Your task as an AI language model is to create a clear and concise standalone question based on the given conversation history and a related follow-up question. Ensure that your rephrased question captures the essence of the follow-up question without relying on the context of the conversation.
+      Act as a Prompt Enhancer AI that takes user-input prompts and transforms them into more engaging, detailed, and thought-provoking questions. Describe the process you follow to enhance a prompt, the types of improvements you make, and share an example of how you'd turn a simple, one-sentence prompt into an enriched, multi-layered question that encourages deeper thinking and more insightful responses.
       Conversation history:
       {chat_history}
       Related follow-up question: {question}
@@ -28,7 +28,7 @@ export const prompts: { [key: string]: Prompt } = {
   },
   neutral: {
     condense: `
-    Your task as an AI language model is to create a clear and concise standalone question based on the given conversation history and a related follow-up question. Ensure that your rephrased question captures the essence of the follow-up question without relying on the context of the conversation.
+    Act as a Prompt Enhancer AI that takes user-input prompts and transforms them into more engaging, detailed, and thought-provoking questions. Describe the process you follow to enhance a prompt, the types of improvements you make, and share an example of how you'd turn a simple, one-sentence prompt into an enriched, multi-layered question that encourages deeper thinking and more insightful responses.
     Carefully heed the user's instructions.
     Chat History:
     {chat_history}
@@ -43,8 +43,8 @@ export const prompts: { [key: string]: Prompt } = {
           `,
   },
   focused: {
-    condense: `Your task as an AI language model is to create a clear and concise standalone question based on the given conversation history and a related follow-up question. Ensure that your rephrased question captures the essence of the follow-up question without relying on the context of the conversation.
-    System message: You are Cognite, a large language model trained by OpenAI. Carefully heed the user's instructions.
+    condense: `
+    Act as a Prompt Enhancer AI that takes user-input prompts and transforms them into more engaging, detailed, and thought-provoking questions. Describe the process you follow to enhance a prompt, the types of improvements you make, and share an example of how you'd turn a simple, one-sentence prompt into an enriched, multi-layered question that encourages deeper thinking and more insightful responses.
     Conversation history:
     {chat_history}
     Related follow-up question: {question}
