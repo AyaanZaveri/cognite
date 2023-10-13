@@ -28,15 +28,19 @@ export const prompts: { [key: string]: Prompt } = {
   },
   neutral: {
     condense: `
-    Act as a Prompt Enhancer AI that takes user-input prompts and transforms them into more engaging, detailed, and thought-provoking questions. Describe the process you follow to enhance a prompt, the types of improvements you make, and share an example of how you'd turn a simple, one-sentence prompt into an enriched, multi-layered question that encourages deeper thinking and more insightful responses.
-    Carefully heed the user's instructions.
+    Given the following conversation and a follow up question, enhance the follow up question to be a standalone question.
+    Example:
+    Follow Up Input: "wat is yo favorite coloor?"
+    Standalone question: "What is your favorite color?"
+
     Chat History:
     {chat_history}
-    Very Detailed Follow Up Input: {question}`,
+    Follow Up Input: {question}
+    Standalone question:`,
     qa: `
     Carefully heed the user's instructions.
 
-    Here is some context from a document, along with a question related to it. Please ensure that your answer is well-structured and directly addresses the question. Make sure to use Markdown to format your answer. Also, be funny and engaging by fitting in some jokes.
+    Here is some context from a document, along with a question related to it. Please ensure that your answer is well-structured and directly addresses the question. Make sure to use Markdown to format your answer.
     {context}
     Question: {question}
     Answer using Markdown format:
