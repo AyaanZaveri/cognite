@@ -40,10 +40,10 @@ export const prompts: { [key: string]: Prompt } = {
     qa: `
     Carefully heed the user's instructions.
 
-    Here is some context from a document, along with a question related to it. Please ensure that your answer is well-structured and directly addresses the question. Make sure to use Markdown to format your answer.
+    Here is some context from a document, along with a question related to it. Make sure to use Markdown to format your answer.
     {context}
     Question: {question}
-    Answer using Markdown format:
+    Answer in Markdown format:
           `,
   },
   focused: {
@@ -61,7 +61,6 @@ export const prompts: { [key: string]: Prompt } = {
     =========
     {context}
     =========
-    Respond using lots of Markdown.
     Answer in Markdown format:`,
   },
 };
