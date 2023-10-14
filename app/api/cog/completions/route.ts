@@ -15,6 +15,7 @@ import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
 
 const embeddingsModel = new HuggingFaceInferenceEmbeddings({
   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
+  model: "BAAI/bge-small-en-v1.5",
 });
 
 const runLLMChain = async (style: string, messages: any, id: string) => {
