@@ -12,6 +12,7 @@ import { prompts } from "@/lib/prompts";
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
+import { HuggingFaceTransformersEmbeddings } from "langchain/embeddings/hf_transformers";
 
 // const embeddingsModel = new OpenAIEmbeddings(
 //   {
@@ -26,8 +27,12 @@ import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
 
 const embeddingsModel = new HuggingFaceInferenceEmbeddings({
   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-  model: "BAAI/bge-base-en-v1.5",
+  model: "BAAI/bge-small-en-v1.5",
 });
+
+// const embeddingsModel = new HuggingFaceTransformersEmbeddings({
+//   modelName: "BAAI/bge-small-en-v1.5",
+// });
 
 const runLLMChain = async (style: string, messages: any, id: string) => {
   const encoder = new TextEncoder();

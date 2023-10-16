@@ -29,10 +29,7 @@ export const prompts: { [key: string]: Prompt } = {
   neutral: {
     condense: `
     Given the following conversation and a follow up question, enhance the follow up question to be a standalone question.
-    Example:
-    Follow Up Input: "wat is yo favorite coloor?"
-    Standalone question: "What is your favorite color?"
-
+    
     Chat History:
     {chat_history}
     Follow Up Input: {question}
@@ -55,7 +52,7 @@ export const prompts: { [key: string]: Prompt } = {
     Rephrased standalone question:`,
     qa: `
     Carefully heed the user's instructions.
-    As a highly advanced AI language model, your task is to provide a comprehensive and accurate response in a conversational manner, based on the context provided below. The following excerpt from a document is given, along with a question related to it. Please ensure that your answer is well-structured and directly addresses the question.
+    As a highly advanced AI language model, your task is to provide a comprehensive and accurate response in a conversational manner, based on the context provided below. The following excerpt from a document is given, along with a question related to it. Please ensure that your answer is well-structured.
 
     Question: {question}
     =========

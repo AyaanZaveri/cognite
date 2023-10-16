@@ -118,6 +118,7 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
 
         if (file) {
           const splitter = new RecursiveCharacterTextSplitter({
+            // seperator: "s/\x00//g;",
             chunkSize: 1000,
             chunkOverlap: 200,
           });

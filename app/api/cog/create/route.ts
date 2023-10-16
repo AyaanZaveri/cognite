@@ -68,10 +68,10 @@ export async function POST(req: Request) {
 
     const embeddingsModel = new HuggingFaceInferenceEmbeddings({
       apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-      model: "BAAI/bge-base-en-v1.5",
+      model: "BAAI/bge-small-en-v1.5",
     });
 
-    console.log("Initalized Embeddings Model");
+    console.log("Loaded embeddings model from HuggingFace ✅");
 
     const vectorStore = PrismaVectorStore.withModel<any>(db!).create(
       embeddingsModel,
@@ -86,7 +86,7 @@ export async function POST(req: Request) {
       }
     );
 
-    console.log("Initalized Vector Store");
+    console.log("Loaded embeddings vector store ✅");
 
     if (docs) {
       await vectorStore.addModels(
@@ -103,7 +103,7 @@ export async function POST(req: Request) {
       );
     }
 
-    console.log("Added Models");
+    console.log("Added embeddings to database ✅");
 
     return NextResponse.json({
       success: true,

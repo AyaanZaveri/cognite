@@ -166,7 +166,7 @@ const Create = ({
           // console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 2000,
+            chunkSize: 1000,
             chunkOverlap: 200,
           });
 
@@ -177,12 +177,20 @@ const Create = ({
 
         if (file) {
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 2000,
+            chunkSize: 1000,
             chunkOverlap: 200,
           });
 
           const loader = new PDFLoader(file as Blob);
-          const pdfDocs = await loader.loadAndSplit(splitter);
+          let pdfDocs = await loader.loadAndSplit(splitter);
+
+          // Remove null characters from each document in pdfDocs
+          pdfDocs = pdfDocs.map(doc => {
+            doc.pageContent = doc.pageContent.replace(/\0/g, '');
+            return doc;
+          });          
+
+          console.log(pdfDocs);
 
           docs.push(...pdfDocs);
         }
