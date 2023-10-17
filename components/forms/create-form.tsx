@@ -166,8 +166,8 @@ const Create = ({
           // console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 4000,
-            chunkOverlap: 200,
+            chunkSize: 14000,
+            chunkOverlap: 400,
           });
 
           const siteDocs = await splitter.createDocuments([siteText]);
