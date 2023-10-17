@@ -6,11 +6,12 @@ interface Prompt {
 export const prompts: { [key: string]: Prompt } = {
   friendly: {
     condense: `
-      Act as a Prompt Enhancer AI that takes user-input prompts and transforms them into more engaging, detailed, and thought-provoking questions. Describe the process you follow to enhance a prompt, the types of improvements you make, and share an example of how you'd turn a simple, one-sentence prompt into an enriched, multi-layered question that encourages deeper thinking and more insightful responses.
-      Conversation history:
-      {chat_history}
-      Related follow-up question: {question}
-      Rephrased standalone question
+    Given the following conversation and a follow up question, enhance the follow up question to be a standalone question.
+    
+    Chat History:
+    {chat_history}
+    Follow Up Input: {question}
+    Standalone question:
           `,
     qa: `
     Carefully heed the user's instructions.
@@ -37,7 +38,7 @@ export const prompts: { [key: string]: Prompt } = {
     qa: `
     Carefully heed the user's instructions.
 
-    Here is some context from a document, along with a question related to it. Make sure to use Markdown to format your answer.
+    Here is some context from a document, along with a question related to it.
     {context}
     Question: {question}
     Answer in Markdown format:
@@ -45,11 +46,12 @@ export const prompts: { [key: string]: Prompt } = {
   },
   focused: {
     condense: `
-    Act as a Prompt Enhancer AI that takes user-input prompts and transforms them into more engaging, detailed, and thought-provoking questions. Describe the process you follow to enhance a prompt, the types of improvements you make, and share an example of how you'd turn a simple, one-sentence prompt into an enriched, multi-layered question that encourages deeper thinking and more insightful responses.
-    Conversation history:
+    Given the following conversation and a follow up question, enhance the follow up question to be a standalone question.
+    
+    Chat History:
     {chat_history}
-    Related follow-up question: {question}
-    Rephrased standalone question:`,
+    Follow Up Input: {question}
+    Standalone question:`,
     qa: `
     Carefully heed the user's instructions.
     As a highly advanced AI language model, your task is to provide a comprehensive and accurate response in a conversational manner, based on the context provided below. The following excerpt from a document is given, along with a question related to it. Please ensure that your answer is well-structured.
