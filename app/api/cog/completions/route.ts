@@ -13,21 +13,22 @@ import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
 
-// const embeddingsModel = new OpenAIEmbeddings(
-//   {
-//     openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-//     stripNewLines: true,
-//     verbose: true,
-//   },
-//   {
-//     basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-//   }
-// );
+const embeddingsModel = new OpenAIEmbeddings(
+  {
+    openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+    stripNewLines: true,
+    verbose: true,
+  },
+  {
+    // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+    basePath: "https://ayaanzaveri-bge-base-en-v1-5.hf.space/v1",
+  }
+);
 
-const embeddingsModel = new HuggingFaceInferenceEmbeddings({
-  apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-  model: "BAAI/bge-base-en-v1.5",
-});
+// const embeddingsModel = new HuggingFaceInferenceEmbeddings({
+//   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
+//   model: "BAAI/bge-base-en-v1.5",
+// });
 
 const runLLMChain = async (style: string, messages: any, id: string) => {
   const encoder = new TextEncoder();
@@ -56,7 +57,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
   const streamingModel = new ChatOpenAI(
     {
       streaming: true,
-      verbose: true,
+      // verbose: true,
       callbacks: [
         {
           async handleLLMNewToken(token) {
