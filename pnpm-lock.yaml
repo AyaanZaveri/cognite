@@ -8,6 +8,12 @@ dependencies:
   '@auth/typeorm-adapter':
     specifier: ^1.0.1
     version: 1.0.1(typeorm@0.3.17)
+  '@cloudflare/ai':
+    specifier: ^1.0.22
+    version: 1.0.22
+  '@cloudflare/workers-types':
+    specifier: ^4.20231016.0
+    version: 4.20231016.0
   '@extractus/article-extractor':
     specifier: ^7.3.1
     version: 7.3.1
@@ -147,8 +153,8 @@ dependencies:
     specifier: ^2.2.3
     version: 2.2.3
   langchain:
-    specifier: ^0.0.167
-    version: 0.0.167(@huggingface/inference@1.8.0)(@xenova/transformers@2.6.2)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1)
+    specifier: ^0.0.168
+    version: 0.0.168(@cloudflare/ai@1.0.22)(@huggingface/inference@1.8.0)(@xenova/transformers@2.6.2)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1)
   lucide-react:
     specifier: ^0.260.0
     version: 0.260.0(react@18.2.0)
@@ -3346,6 +3352,10 @@ packages:
     resolution: {integrity: sha512-wMue2Sy4GAVTk6Ic4tJVcnfdau+gx2EnG7S+uAEe+TWJFqE4YoWN4/H8MSLj4eYJKxGg26lZwboEniNiNwZQ6Q==}
     dev: true
 
+  /@cloudflare/ai@1.0.22:
+    resolution: {integrity: sha512-Juxzxr05ikVKaXGeeODq6ZrUFRWVCB9BJMYpoBEpNo105kGiISqpdFgREoV1HPZPYdkq9AHA2rXM/H+dQNWNFw==}
+    dev: false
+
   /@cloudflare/kv-asset-handler@0.2.0:
     resolution: {integrity: sha512-MVbXLbTcAotOPUj0pAMhVtJ+3/kFkwJqc5qNOleOZTv6QkZZABDMS21dSrSlVswEHwrpWC03e4fWytjqKvuE2A==}
     dependencies:
@@ -3418,6 +3428,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@cloudflare/workers-types@4.20231016.0:
+    resolution: {integrity: sha512-eGB0cRVyoJpeyGJx2re5sbd9R316a61sY73xwnqm4cwGpb+OxCK2gc651RxGiN7H4w6LY1RpysUgeGLmj5B3+g==}
+    dev: false
 
   /@cspotcode/source-map-support@0.8.1:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -12300,8 +12314,8 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
-  /langchain@0.0.167(@huggingface/inference@1.8.0)(@xenova/transformers@2.6.2)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1):
-    resolution: {integrity: sha512-3unZvKe4HJ7kiP/G4zGivz3B1deHVhl5RqkBHAMlHbKGQ01ZukATUr9ITmbB28y3q+z1CwA5JRy+vgJv3qsETw==}
+  /langchain@0.0.168(@cloudflare/ai@1.0.22)(@huggingface/inference@1.8.0)(@xenova/transformers@2.6.2)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1):
+    resolution: {integrity: sha512-1dHkTwKiyNtwNO20VPl1XzSEAb1nUJnrnzdBRThUmhL2V4E8VMGqraQGH7QPrEoX/IZ10gEASLZNuLi1nZKgNA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.0.0
@@ -12353,6 +12367,9 @@ packages:
       cassandra-driver: ^4.6.4
       cheerio: ^1.0.0-rc.12
       chromadb: '*'
+      closevector-common: 0.1.0-alpha.1
+      closevector-node: 0.1.0-alpha.10
+      closevector-web: 0.1.0-alpha.16
       cohere-ai: '>=6.0.0'
       d3-dsv: ^2.0.0
       epub2: ^3.0.1
@@ -12494,6 +12511,12 @@ packages:
         optional: true
       chromadb:
         optional: true
+      closevector-common:
+        optional: true
+      closevector-node:
+        optional: true
+      closevector-web:
+        optional: true
       cohere-ai:
         optional: true
       d3-dsv:
@@ -12580,6 +12603,7 @@ packages:
         optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.6.2
+      '@cloudflare/ai': 1.0.22
       '@huggingface/inference': 1.8.0
       '@xenova/transformers': 2.6.2
       ansi-styles: 5.2.0

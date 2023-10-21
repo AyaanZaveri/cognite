@@ -1,11 +1,11 @@
 import { Cog, Embeddings } from "@/types";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { NextResponse } from "next/server";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 
 export async function POST(req: Request) {
   const session = await getAuthSession();
@@ -55,21 +55,22 @@ export async function POST(req: Request) {
     });
 
   try {
-    // const embeddingsModel = new OpenAIEmbeddings(
-    //   {
-    //     openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-    //     stripNewLines: true,
-    //     verbose: true,
-    //   },
-    //   {
-    //     basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-    //   }
-    // );
-
-    const embeddingsModel = new HuggingFaceInferenceEmbeddings({
-      apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-      model: "BAAI/bge-base-en-v1.5",
-    });
+    const embeddingsModel = new OpenAIEmbeddings(
+      {
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        stripNewLines: true,
+        verbose: true,
+      },
+      {
+        // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+        basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
+      }
+    );
+    
+    // const embeddingsModel = new HuggingFaceInferenceEmbeddings({
+    //   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
+    //   model: "BAAI/bge-large-en-v1.5",
+    // });
 
     console.log("Loaded embeddings model from HuggingFace ✅");
 
@@ -110,10 +111,10 @@ export async function POST(req: Request) {
       cog,
     });
   } catch (error) {
-    if (cog) {
-      await db?.cog.delete({ where: { id: cog.id } });
-      console.log("Deleted cog due to error");
-    }
+    // if (cog) {
+    //   await db?.cog.delete({ where: { id: cog.id } });
+    //   console.log("Deleted cog due to error");
+    // }
 
     console.log(error);
     return NextResponse.json({

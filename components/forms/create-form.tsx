@@ -166,7 +166,7 @@ const Create = ({
           // console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 14000,
+            chunkSize: 30000,
             chunkOverlap: 400,
           });
 
@@ -177,7 +177,7 @@ const Create = ({
 
         if (file) {
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 14000,
+            chunkSize: 30000,
             chunkOverlap: 400,
             separators: ["\n", "\n\n", "\t"],
           });

@@ -20,6 +20,7 @@ import Link from "next/link";
 import { CommandLoading } from "cmdk";
 import { Icons } from "./Icons";
 import { searchCogs } from "@/app/_actions/search";
+import { Space_Grotesk } from "next/font/google";
 
 interface Cog {
   name: string;
@@ -32,6 +33,11 @@ interface Cog {
   };
   id: string;
 }
+
+const space_grotesk = Space_Grotesk({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
 
 const Search = () => {
   const [search, setSearch] = useState("");
@@ -64,7 +70,7 @@ const Search = () => {
       loop
     >
       <CommandInput
-        className="text-normal py-6"
+        className={`text-normal py-6 ${space_grotesk.className}`}
         placeholder="Let's find something to cognite ⚡️"
         value={search}
         onInput={(e) => setSearch(e.currentTarget.value)}
@@ -104,7 +110,7 @@ const Search = () => {
                       className="aspect-square self-start rounded-md border bg-background object-contain p-1"
                     />
                     <div className="flex flex-col">
-                      <span className="font-medium">{cog.name}</span>
+                      <span className={`font-medium ${space_grotesk.className}`}>{cog.name}</span>
                       <span className="text-xs text-muted-foreground">
                         {cog.description}
                       </span>

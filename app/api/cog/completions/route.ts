@@ -21,13 +21,14 @@ const embeddingsModel = new OpenAIEmbeddings(
   },
   {
     // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-    basePath: "https://ayaanzaveri-bge-base-en-v1-5.hf.space/v1",
+    // basePath: "https://openai-cf.ayaanzaveri08.workers.dev",
+    basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
   }
 );
 
 // const embeddingsModel = new HuggingFaceInferenceEmbeddings({
 //   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-//   model: "BAAI/bge-base-en-v1.5",
+//   model: "BAAI/bge-large-en-v1.5",
 // });
 
 const runLLMChain = async (style: string, messages: any, id: string) => {
