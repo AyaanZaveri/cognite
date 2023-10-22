@@ -55,22 +55,23 @@ export async function POST(req: Request) {
     });
 
   try {
-    const embeddingsModel = new OpenAIEmbeddings(
-      {
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-        stripNewLines: true,
-        verbose: true,
-      },
-      {
-        // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-        basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
-      }
-    );
-    
-    // const embeddingsModel = new HuggingFaceInferenceEmbeddings({
-    //   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-    //   model: "BAAI/bge-large-en-v1.5",
-    // });
+    // const embeddingsModel = new OpenAIEmbeddings(
+    //   {
+    //     openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+    //     stripNewLines: true,
+    //     verbose: true,
+    //   },
+    //   {
+    //     // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+    //     // basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
+    //     // basePath: "http://openai-cf.ayaanzaveri08.workers.dev",
+    //   }
+    // );
+
+    const embeddingsModel = new HuggingFaceInferenceEmbeddings({
+      apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
+      model: "BAAI/bge-large-en-v1.5",
+    });
 
     console.log("Loaded embeddings model from HuggingFace ✅");
 
@@ -88,6 +89,8 @@ export async function POST(req: Request) {
     );
 
     console.log("Loaded embeddings vector store ✅");
+
+    console.log("Docs length: " + docs.length);
 
     if (docs) {
       await vectorStore.addModels(
