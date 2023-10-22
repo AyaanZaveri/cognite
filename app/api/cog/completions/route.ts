@@ -28,7 +28,7 @@ const embeddingsModel = new OpenAIEmbeddings(
 
 // const embeddingsModel = new HuggingFaceInferenceEmbeddings({
 //   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-//   model: "BAAI/bge-large-en-v1.5",
+//   model: "BAAI/bge-small-en-v1.5",
 // });
 
 const runLLMChain = async (style: string, messages: any, id: string) => {
