@@ -1,4 +1,3 @@
-import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { ChatOpenAI } from "langchain/chat_models/openai";
@@ -7,29 +6,34 @@ import { NextResponse } from "next/server";
 import { StreamingTextResponse, LangChainStream, Message } from "ai";
 import { CallbackManager, ConsoleCallbackHandler } from "langchain/callbacks";
 import { AIMessage, HumanMessage } from "langchain/schema";
-import { Document } from "langchain/dist/document";
 import { prompts } from "@/lib/prompts";
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
+import { StringOutputParser } from "langchain/schema/output_parser";
+import { RunnableSequence } from "langchain/schema/runnable";
+import { Document } from "langchain/document";
 
-const embeddingsModel = new OpenAIEmbeddings(
-  {
-    openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-    stripNewLines: true,
-    verbose: true,
-  },
-  {
-    // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-    basePath: "https://openai-cf.ayaanzaveri08.workers.dev",
-    // basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
-  }
-);
+// const embeddingsModel = new OpenAIEmbeddings(
+//   {
+//     openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+//     stripNewLines: true,
+//     verbose: true,
+//   },
+//   {
+//     // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+//     basePath: "https://openai-cf.ayaanzaveri08.workers.dev",
+//     // basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
+//   }
+// );
 
-// const embeddingsModel = new HuggingFaceInferenceEmbeddings({
-//   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-//   model: "BAAI/bge-small-en-v1.5",
-// });
+const embeddingsModel = new HuggingFaceInferenceEmbeddings({
+  apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
+  model: "infgrad/stella-base-en-v2",
+});
+
+const serializeDocs = (docs: Array<Document>) =>
+  docs.map((doc) => doc.pageContent).join("\n\n");
 
 const runLLMChain = async (style: string, messages: any, id: string) => {
   const encoder = new TextEncoder();
@@ -54,6 +58,18 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
       },
     }
   );
+
+  const additionalContext = await db?.cog
+    .findUnique({
+      where: {
+        id,
+      },
+    })
+    .then((cog) => {
+      return cog?.additionalContext;
+    });
+
+  console.log(additionalContext);
 
   const streamingModel = new ChatOpenAI(
     {
@@ -94,22 +110,48 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
 
   console.log("Created models");
 
-  const chain = ConversationalRetrievalQAChain.fromLLM(
-    streamingModel,
-    vectorStore.asRetriever(),
+  const retriever = vectorStore.asRetriever();
+
+  const chain = RunnableSequence.from([
     {
-      verbose: true,
-      returnSourceDocuments: true,
-      qaChainOptions: {
-        type: "stuff",
-        prompt: PromptTemplate.fromTemplate(prompts[style].qa),
+      question: (input: { question: string; chatHistory?: string }) =>
+        input.question,
+      chatHistory: (input: { question: string; chatHistory?: string }) =>
+        input.chatHistory ?? "",
+      context: async (input: { question: string; chatHistory?: string }) => {
+        const relevantDocs = await retriever.getRelevantDocuments(
+          input.question
+        );
+        const serialized = serializeDocs(relevantDocs);
+        return serialized;
       },
-      questionGeneratorChainOptions: {
-        template: prompts[style].condense,
-        llm: nonStreamingModel,
-      },
-    }
-  );
+      additionalContext: (input: {
+        question: string;
+        chatHistory?: string;
+        additionalContext?: string;
+      }) => input.additionalContext ?? "",
+    },
+    PromptTemplate.fromTemplate(prompts[style].qa),
+    streamingModel,
+    new StringOutputParser(),
+  ]);
+
+  // const chain = ConversationalRetrievalQAChain.fromLLM(
+  //   streamingModel,
+  //   vectorStore.asRetriever(),
+  //   {
+  //     verbose: true,
+  //     returnSourceDocuments: true,
+  //     qaChainOptions: {
+  //       type: "stuff",
+  //       prompt: PromptTemplate.fromTemplate(prompts[style].qa),
+  //     },
+  //     questionGeneratorChainOptions: {
+  //       template: prompts[style].condense,
+  //       llm: nonStreamingModel,
+  //     },
+  //   }
+  // );
 
   const history = messages.map((m: any) => {
     return m.role === "user"
@@ -119,9 +161,10 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
 
   const prompt: string = history.pop().text.trim().replaceAll("\n", " ");
 
-  chain.call({
+  chain.invoke({
     question: prompt,
-    chat_history: history,
+    chatHistory: history,
+    additionalContext: additionalContext ? additionalContext : "Go!",
   });
 
   return transformStream.readable;

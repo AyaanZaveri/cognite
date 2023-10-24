@@ -143,6 +143,8 @@ const Create = ({
     pulse: false,
   });
 
+  const [additionalContext, setAdditionalContext] = useState<string>("");
+
   const router = useRouter();
 
   const [file, setFile] = useState<Blob | null>(null);
@@ -223,6 +225,8 @@ const Create = ({
     }
   }
 
+  // console.log({additionalContext})
+
   async function onSubmit(data: CreateFormValues) {
     const sources: Sources = {
       sites: data.websites?.map((website) => website.value),
@@ -230,6 +234,8 @@ const Create = ({
     };
 
     const theDocs = await getSources(sources);
+
+    console.log({additionalContext})
 
     const updatedData = {
       name: data.name,
@@ -240,11 +246,10 @@ const Create = ({
       slug: slugify(data.name, { lower: true }),
       userId: session?.user?.id,
       isPrivate: data.private,
+      additionalContext: additionalContext,
     };
 
-    // console.log(session?.session?.user?.id);
-
-    const response = await axios
+    await axios
       .post(`/api/cog/create`, {
         data: updatedData,
       })
@@ -294,6 +299,10 @@ const Create = ({
           });
           const fileSize = file.size;
           console.log("File size:", fileSize);
+          console.log("File type:", file.type);
+          console.log("File name:", file.name);
+
+          // setAdditionalContext(`This is the "${file.name}" document.`);
 
           if (!ACCEPTED_FILE_TYPES.includes(file.type)) {
             alert("File type not supported. Please upload a PDF");

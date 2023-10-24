@@ -172,7 +172,7 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
       tags: [],
       isPrivate: true,
       description: `Cog about ${data.name}`,
-      imgUrl: "https://em-content.zobj.net/thumbs/240/apple/354/fire_1f525.png",
+      imgUrl: "https://em-content.zobj.net/source/microsoft-teams/363/rocket_1f680.png",
     };
 
     // console.log(updatedData);

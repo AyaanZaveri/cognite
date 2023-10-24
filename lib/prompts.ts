@@ -26,6 +26,9 @@ export const prompts: { [key: string]: Prompt } = {
   =========
   {context}
   =========
+  Background information:
+  {additionalContext}
+  =========
   Answer:
       `,
   },
@@ -43,6 +46,10 @@ export const prompts: { [key: string]: Prompt } = {
 
     Here is some context from a document, along with a question related to it.
     {context}
+
+    Background information:
+    {additionalContext}
+
     Question: {question}
     Answer:
           `,
@@ -56,6 +63,7 @@ export const prompts: { [key: string]: Prompt } = {
     Follow Up Input: {question}
     Standalone question:`,
     qa: `
+    {additionalContext}
     Carefully heed the user's instructions. 
     Respond using Markdown.
 
@@ -64,6 +72,9 @@ export const prompts: { [key: string]: Prompt } = {
     Question: {question}
     =========
     {context}
+    =========
+    Background information:
+    {additionalContext}
     =========
     Answer:`,
   },

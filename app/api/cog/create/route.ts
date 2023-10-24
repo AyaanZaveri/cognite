@@ -25,6 +25,7 @@ export async function POST(req: Request) {
     docs,
     tags,
     isPrivate,
+    additionalContext
   }: Cog = data;
 
   console.log(name);
@@ -48,6 +49,7 @@ export async function POST(req: Request) {
           })),
         },
         private: isPrivate,
+        additionalContext
       },
     })
     .catch((err: Error) => {
@@ -70,7 +72,7 @@ export async function POST(req: Request) {
 
     const embeddingsModel = new HuggingFaceInferenceEmbeddings({
       apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-      model: "BAAI/bge-large-en-v1.5",
+      model: "infgrad/stella-base-en-v2",
     });
 
     console.log("Loaded embeddings model from HuggingFace ✅");

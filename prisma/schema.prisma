@@ -72,12 +72,13 @@ model Cog {
   name        String       @default("")
   description String       @default("")
   slug        String
-  imgUrl      String?      @default("https://em-content.zobj.net/thumbs/240/apple/354/fire_1f525.png")
+  imgUrl      String?      @default("https://em-content.zobj.net/source/microsoft-teams/363/rocket_1f680.png")
   createdDate DateTime     @default(now())
   private     Boolean      @default(false)
   user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   embeddings  Embeddings[]
   tags        Tag[]        @relation("CogToTag")
+  additionalContext String? @default("")
 
   @@unique([userId, slug])
   @@index([userId])
