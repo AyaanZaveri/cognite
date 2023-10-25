@@ -29,7 +29,7 @@ import { Document } from "langchain/document";
 
 const embeddingsModel = new HuggingFaceInferenceEmbeddings({
   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-  model: "infgrad/stella-base-en-v2",
+  model: "BAAI/bge-small-en-v1.5",
 });
 
 const serializeDocs = (docs: Array<Document>) =>

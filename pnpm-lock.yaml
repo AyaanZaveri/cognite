@@ -18,8 +18,8 @@ dependencies:
     specifier: ^3.1.1
     version: 3.1.1(react-hook-form@7.45.2)
   '@huggingface/inference':
-    specifier: ^1.8.0
-    version: 1.8.0
+    specifier: ^2.6.4
+    version: 2.6.4
   '@next-auth/prisma-adapter':
     specifier: ^1.0.7
     version: 1.0.7(@prisma/client@5.4.2)(next-auth@4.22.3)
@@ -148,7 +148,7 @@ dependencies:
     version: 2.2.3
   langchain:
     specifier: ^0.0.171
-    version: 0.0.171(@huggingface/inference@1.8.0)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1)
+    version: 0.0.171(@huggingface/inference@2.6.4)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1)
   lucide-react:
     specifier: ^0.260.0
     version: 0.260.0(react@18.2.0)
@@ -4713,8 +4713,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@huggingface/inference@1.8.0:
-    resolution: {integrity: sha512-Dkh7PiyMf6TINRocQsdceiR5LcqJiUHgWjaBMRpCUOCbs+GZA122VH9q+wodoSptj6rIQf7wIwtDsof+/gd0WA==}
+  /@huggingface/inference@2.6.4:
+    resolution: {integrity: sha512-Xna7arltBSBoKaH3diGi3sYvkExgJMd/pF4T6vl2YbmDccbr1G/X5EPZ2048p+YgrJYG1jTYFCtY6Dr3HvJaow==}
     engines: {node: '>=18'}
     dev: false
 
@@ -12224,7 +12224,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
-  /langchain@0.0.171(@huggingface/inference@1.8.0)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1):
+  /langchain@0.0.171(@huggingface/inference@2.6.4)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1):
     resolution: {integrity: sha512-SSlo3Q2qYohdYxQZ2Iehu5/B2c9x4saKNHIhLhiTRlIiStQORYyxAXu71/eIkpVa9thrK0i3fuU3gXKWukGlyA==}
     engines: {node: '>=18'}
     peerDependencies:
@@ -12516,7 +12516,7 @@ packages:
         optional: true
     dependencies:
       '@anthropic-ai/sdk': 0.6.2
-      '@huggingface/inference': 1.8.0
+      '@huggingface/inference': 2.6.4
       ansi-styles: 5.2.0
       axios: 1.4.0
       binary-extensions: 2.2.0

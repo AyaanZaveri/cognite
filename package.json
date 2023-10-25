@@ -16,7 +16,7 @@
     "@cloudflare/workers-types": "^4.20231016.0",
     "@extractus/article-extractor": "^7.3.1",
     "@hookform/resolvers": "^3.1.1",
-    "@huggingface/inference": "^1.8.0",
+    "@huggingface/inference": "^2.6.4",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@npmcli/fs": "^3.1.0",
     "@prisma/client": "5.4.2",
