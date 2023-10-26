@@ -107,8 +107,8 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
           console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 1000,
-            chunkOverlap: 200,
+            chunkSize: 30000,
+            chunkOverlap: 400,
           });
 
           const siteDocs = await splitter.createDocuments([siteText]);
@@ -119,8 +119,8 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
         if (file) {
           const splitter = new RecursiveCharacterTextSplitter({
             // seperator: "s/\x00//g;",
-            chunkSize: 1000,
-            chunkOverlap: 200,
+            chunkSize: 30000,
+            chunkOverlap: 400,
           });
 
           const loader = new PDFLoader(file as Blob);
@@ -154,7 +154,7 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
         pulse: false,
       });
     }
-  }
+  } 
 
   async function onSubmit(data: QuickCreateFormValues) {
     const sources: Sources = {
