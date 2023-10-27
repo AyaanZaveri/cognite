@@ -19,7 +19,7 @@
     "@huggingface/inference": "^2.6.4",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@npmcli/fs": "^3.1.0",
-    "@prisma/client": "5.4.2",
+    "@prisma/client": "5.5.2",
     "@prisma/extension-accelerate": "^0.5.0",
     "@radix-ui/react-alert-dialog": "^1.0.4",
     "@radix-ui/react-avatar": "^1.0.3",
@@ -64,7 +64,7 @@
     "mongodb": "^5.7.0",
     "mongoose": "7.1.1",
     "nanoid": "^4.0.2",
-    "next": "13.5.4",
+    "next": "14.0.0",
     "next-auth": "^4.22.3",
     "next-themes": "^0.2.1",
     "open-next": "0.0.0-streaming",
@@ -107,7 +107,7 @@
     "hnswlib-node": "^1.4.2",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
-    "prisma": "^5.4.2",
+    "prisma": "^5.5.2",
     "sst": "^2.24.1"
   }
 }

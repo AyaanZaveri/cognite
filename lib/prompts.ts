@@ -26,9 +26,6 @@ export const prompts: { [key: string]: Prompt } = {
   =========
   {context}
   =========
-  Background information:
-  {additionalContext}
-  =========
   Answer:
       `,
   },
@@ -47,11 +44,8 @@ export const prompts: { [key: string]: Prompt } = {
     Here is some context from a document, along with a question related to it.
     {context}
 
-    Background information:
-    {additionalContext}
-
     Question: {question}
-    Answer:
+    Your answer is:
           `,
   },
   focused: {
@@ -72,9 +66,6 @@ export const prompts: { [key: string]: Prompt } = {
     Question: {question}
     =========
     {context}
-    =========
-    Background information:
-    {additionalContext}
     =========
     Answer:`,
   },

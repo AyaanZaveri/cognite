@@ -227,6 +227,21 @@ const Create = ({
 
   // console.log({additionalContext})
 
+  const pickRandomImageURL = () => {
+    const imgUrls = [
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Party%20Popper.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Water%20Wave.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Comet.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Ferris%20Wheel.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Compass.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Airplane.png",
+    ];
+
+    return imgUrls[Math.floor(Math.random() * imgUrls.length)];
+  };
+
+
   async function onSubmit(data: CreateFormValues) {
     const sources: Sources = {
       sites: data.websites?.map((website) => website.value),
@@ -237,10 +252,12 @@ const Create = ({
 
     console.log({additionalContext})
 
+    const imageUrl = data.imgUrl ? data.imgUrl : pickRandomImageURL();
+
     const updatedData = {
       name: data.name,
       description: data.description,
-      imgUrl: data.imgUrl,
+      imgUrl: imageUrl,
       tags: data.tags?.map((tag) => tag.value),
       docs: theDocs,
       slug: slugify(data.name, { lower: true }),

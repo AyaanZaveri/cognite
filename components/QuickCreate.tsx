@@ -154,7 +154,21 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
         pulse: false,
       });
     }
-  } 
+  }
+
+  const pickRandomImageURL = () => {
+    const imgUrls = [
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Party%20Popper.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Rocket.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Water%20Wave.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Comet.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Ferris%20Wheel.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Compass.png",
+      "https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Airplane.png",
+    ];
+
+    return imgUrls[Math.floor(Math.random() * imgUrls.length)];
+  };
 
   async function onSubmit(data: QuickCreateFormValues) {
     const sources: Sources = {
@@ -172,7 +186,7 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
       tags: [],
       isPrivate: true,
       description: `Cog about ${data.name}`,
-      imgUrl: "https://em-content.zobj.net/source/microsoft-teams/363/rocket_1f680.png",
+      imgUrl: pickRandomImageURL(),
     };
 
     // console.log(updatedData);
@@ -225,16 +239,17 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"outline"} className="h-min py-4 group shadow-2xl shadow-orange-500/10 transition duration-300 ease-in-out hover:shadow-orange-500/20">
-          <Zap className="h-4 w-4 group-hover:rotate-180 transition-transform duration-700 ease-in-out" />
+        <Button
+          variant={"outline"}
+          className="group h-min py-4 shadow-2xl shadow-orange-500/10 transition duration-300 ease-in-out hover:shadow-orange-500/20"
+        >
+          <Zap className="h-4 w-4 transition-transform duration-700 ease-in-out group-hover:rotate-180" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Quick Create</DialogTitle>
-          <DialogDescription>
-            Quickly create a cog ⚡️
-          </DialogDescription>
+          <DialogDescription>Quickly create a cog ⚡️</DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <Form {...form}>

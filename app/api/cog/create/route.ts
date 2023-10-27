@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     docs,
     tags,
     isPrivate,
-    additionalContext
+    additionalContext,
   }: Cog = data;
 
   console.log(name);
@@ -49,7 +49,7 @@ export async function POST(req: Request) {
           })),
         },
         private: isPrivate,
-        additionalContext
+        additionalContext,
       },
     })
     .catch((err: Error) => {
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
     //     verbose: true,
     //   },
     //   {
-    //     // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+    // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
     //     // basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
     //     // basePath: "http://openai-cf.ayaanzaveri08.workers.dev",
     //   }

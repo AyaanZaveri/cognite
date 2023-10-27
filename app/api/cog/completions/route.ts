@@ -21,8 +21,8 @@ import { Document } from "langchain/document";
 //     verbose: true,
 //   },
 //   {
-//     // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-//     basePath: "https://openai-cf.ayaanzaveri08.workers.dev",
+//     basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
+//     // basePath: "https://openai-cf.ayaanzaveri08.workers.dev",
 //     // basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
 //   }
 // );
