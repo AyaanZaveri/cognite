@@ -3,7 +3,6 @@ import { Poppins } from "next/font/google";
 import Sidebar from "../components/Sidebar";
 import { getAuthSession } from "@/lib/auth";
 import { Toaster } from "@/components/ui/toaster";
-import { Analytics } from "@vercel/analytics/react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Metadata } from "next";
 
@@ -39,7 +38,6 @@ export default async function RootLayout({
           {children}
         </ThemeProvider>
         <Toaster />
-        <Analytics />
       </body>
     </html>
   );

@@ -57,7 +57,6 @@ export const prompts: { [key: string]: Prompt } = {
     Follow Up Input: {question}
     Standalone question:`,
     qa: `
-    {additionalContext}
     Carefully heed the user's instructions. 
     Respond using Markdown.
 

@@ -24,6 +24,7 @@ import { Document } from "langchain/document";
 //     basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
 //     // basePath: "https://openai-cf.ayaanzaveri08.workers.dev",
 //     // basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
+//     // basePath: "https://limcheekin-bge-small-en-v1-5.hf.space/v1",
 //   }
 // );
 
@@ -88,7 +89,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
         },
       ],
       temperature: 0.7,
-      modelName: "gpt-3.5-turbo-16k",
+      modelName: "gpt-4",
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
     },
     {
