@@ -1,15 +1,9 @@
 import "./globals.css";
-import { Poppins } from "next/font/google";
-import Sidebar from "../components/Sidebar";
 import { getAuthSession } from "@/lib/auth";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Metadata } from "next";
-
-const poppins = Poppins({
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"],
-});
+import { GeistSans } from "geist/font";
 
 export const metadata: Metadata = {
   title: "Cognite",
@@ -31,7 +25,7 @@ export default async function RootLayout({
   const session = await getAuthSession();
 
   return (
-    <html lang="en">
+    <html lang="en" className={GeistSans.className}>
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 
