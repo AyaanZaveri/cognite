@@ -30,7 +30,7 @@ import { Document } from "langchain/document";
 
 const embeddingsModel = new HuggingFaceInferenceEmbeddings({
   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-  model: "BAAI/bge-base-en-v1.5",
+  model: "thenlper/gte-small",
 });
 
 const serializeDocs = (docs: Array<Document>) =>
@@ -89,7 +89,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
         },
       ],
       temperature: 0.7,
-      modelName: "gpt-4",
+      modelName: "gpt-3.5-turbo-16k",
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
     },
     {

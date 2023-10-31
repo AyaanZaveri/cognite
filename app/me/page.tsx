@@ -1,18 +1,12 @@
 import { getAuthSession } from "@/lib/auth";
 import timestampDate from "@/utils/timestampDate";
 import { CalendarDays } from "lucide-react";
-import Image from "next/image";
 import React from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import Link from "next/link";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Space_Grotesk } from "next/font/google";
-import UserHoverCard from "@/components/UserHoverCard";
 import { db } from "@/lib/db";
 import MeCard from "@/components/me/Card";
-import { Tag, User } from "@prisma/client";
-import CoolBlur from "@/components/CoolBlur";
+import { Tag } from "@prisma/client";
 import Sidebar from "@/components/Sidebar";
 
 export const dynamic = "force-dynamic";
@@ -63,7 +57,7 @@ export default async function Page() {
                     </AvatarFallback>
                   </Avatar>
                 </div>
-                <div className="flex items-center pt-3">
+                <div className="flex items-center pt-3 ${GeistMono.className}">
                   <span className="text-xs text-muted-foreground">
                     Joined {date}
                   </span>

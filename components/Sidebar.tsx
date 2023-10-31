@@ -3,10 +3,9 @@ import { Session } from "next-auth";
 import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { TbSquareRoundedPlus, TbTelescope, TbUserCircle } from "react-icons/tb";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "./ui/button";
-import { Compass, FerrisWheel, MapPin, PlusSquare, Ship, UserCircle } from "lucide-react";
+import { MapPin, PlusSquare, UserCircle } from "lucide-react";
 
 const space_grotesk = Space_Grotesk({
   subsets: ["latin"],

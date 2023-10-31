@@ -64,15 +64,14 @@ export async function POST(req: Request) {
     //     verbose: true,
     //   },
     //   {
-    //     // basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-    //     basePath: "https://limcheekin-bge-small-en-v1-5.hf.space/v1",
+    //     basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
     //     // basePath: "http://openai-cf.ayaanzaveri08.workers.dev",
     //   }
     // );
 
     const embeddingsModel = new HuggingFaceInferenceEmbeddings({
       apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-      model: "BAAI/bge-base-en-v1.5",
+      model: "thenlper/gte-small",
     });
 
     console.log("Loaded embeddings model from HuggingFace ✅");

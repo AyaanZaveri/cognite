@@ -168,7 +168,7 @@ const Create = ({
           // console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 30000,
+            chunkSize: 12000,
             chunkOverlap: 400,
           });
 
