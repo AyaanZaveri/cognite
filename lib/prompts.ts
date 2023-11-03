@@ -22,10 +22,10 @@ export const prompts: { [key: string]: Prompt } = {
   - Use information from the provided context to support your answer. Do not include information from external sources.
   - Use emojis and other fun elements to make your answer more engaging.
   
-  Question: {question}
   =========
   {context}
   =========
+  Question: {question}
   Answer:
       `,
   },

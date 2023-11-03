@@ -168,8 +168,8 @@ const Create = ({
           // console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 12000,
-            chunkOverlap: 400,
+            chunkSize: 1000,
+            chunkOverlap: 200,
           });
 
           const siteDocs = await splitter.createDocuments([siteText]);
@@ -179,8 +179,8 @@ const Create = ({
 
         if (file) {
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 30000,
-            chunkOverlap: 400,
+            chunkSize: 1000,
+            chunkOverlap: 200,
             separators: ["\n", "\n\n", "\t"],
           });
 
@@ -240,7 +240,6 @@ const Create = ({
     return imgUrls[Math.floor(Math.random() * imgUrls.length)];
   };
 
-
   async function onSubmit(data: CreateFormValues) {
     const sources: Sources = {
       sites: data.websites?.map((website) => website.value),
@@ -249,7 +248,7 @@ const Create = ({
 
     const theDocs = await getSources(sources);
 
-    console.log({additionalContext})
+    console.log({ additionalContext });
 
     const imageUrl = data.imgUrl ? data.imgUrl : pickRandomImageURL();
 
@@ -583,7 +582,7 @@ const Create = ({
             )}
           />
           {session?.user?.id ? (
-            <Button type="submit" className={`${space_grotesk.className}`}>
+            <Button type="submit">
               <span
                 className={cn(
                   buttonStatus.pulse && "animate-pulse",
@@ -596,9 +595,7 @@ const Create = ({
           ) : (
             <div>
               <Link href="/api/auth/signin">
-                <Button type="button" className={`${space_grotesk.className}`}>
-                  Sign in to create a cog
-                </Button>
+                <Button type="button">Sign in to create a cog</Button>
               </Link>
             </div>
           )}

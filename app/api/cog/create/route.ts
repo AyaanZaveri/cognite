@@ -71,7 +71,7 @@ export async function POST(req: Request) {
 
     const embeddingsModel = new HuggingFaceInferenceEmbeddings({
       apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-      model: "thenlper/gte-small",
+      model: "sentence-transformers/all-MiniLM-L6-v2",
     });
 
     console.log("Loaded embeddings model from HuggingFace ✅");

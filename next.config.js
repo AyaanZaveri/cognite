@@ -9,6 +9,7 @@ const nextConfig = {
       },
     ],
   },
+  serverComponentsExternalPackages: ["sharp", "onnxruntime-node"],
   webpack: (config, { webpack }) => {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     config.externals["node:fs"] = "commonjs node:fs";
@@ -21,6 +22,11 @@ const nextConfig = {
         resource.request = resource.request.replace(/^node:/, "");
       })
     );
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      sharp$: false,
+      "onnxruntime-node$": false,
+    };
 
     return config;
   },

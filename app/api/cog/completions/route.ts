@@ -13,6 +13,7 @@ import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
 import { StringOutputParser } from "langchain/schema/output_parser";
 import { RunnableSequence } from "langchain/schema/runnable";
 import { Document } from "langchain/document";
+import { HuggingFaceInference } from "langchain/llms/hf";
 
 // const embeddingsModel = new OpenAIEmbeddings(
 //   {
@@ -30,7 +31,7 @@ import { Document } from "langchain/document";
 
 const embeddingsModel = new HuggingFaceInferenceEmbeddings({
   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-  model: "thenlper/gte-small",
+  model: "sentence-transformers/all-MiniLM-L6-v2",
 });
 
 const serializeDocs = (docs: Array<Document>) =>
@@ -97,6 +98,11 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
     }
   );
 
+  // const streamingModel = new HuggingFaceInference({
+  //   model: "HuggingFaceH4/zephyr-7b-beta",
+  //   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
+  // });
+
   const nonStreamingModel = new ChatOpenAI(
     {
       verbose: true,
@@ -123,6 +129,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
         const relevantDocs = await retriever.getRelevantDocuments(
           input.question
         );
+        console.log("zi length", relevantDocs.length);
         const serialized = serializeDocs(relevantDocs);
         return serialized;
       },
