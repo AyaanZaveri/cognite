@@ -20,7 +20,10 @@ import { Button } from "../ui/button";
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { scrapeSite } from "@/utils/scrapeSite";
-import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
+import {
+  RecursiveCharacterTextSplitter,
+  TokenTextSplitter,
+} from "langchain/text_splitter";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import slugify from "slugify";
 import { InputFile } from "../InputFile";
@@ -168,8 +171,9 @@ const Create = ({
           // console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 1000,
-            chunkOverlap: 200,
+            chunkSize: 3500,
+            chunkOverlap: 250,
+            // separators: ["\n", "\n\n", "\t"],
           });
 
           const siteDocs = await splitter.createDocuments([siteText]);
@@ -179,9 +183,9 @@ const Create = ({
 
         if (file) {
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 1000,
-            chunkOverlap: 200,
-            separators: ["\n", "\n\n", "\t"],
+            chunkSize: 3500,
+            chunkOverlap: 250,
+            // separators: ["\n", "\n\n", "\t"],
           });
 
           const loader = new PDFLoader(file as Blob);

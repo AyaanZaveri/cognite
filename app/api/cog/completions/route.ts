@@ -76,7 +76,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
   const streamingModel = new ChatOpenAI(
     {
       streaming: true,
-      // verbose: true,
+      verbose: true,
       callbacks: [
         {
           async handleLLMNewToken(token) {
@@ -90,30 +90,36 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
         },
       ],
       temperature: 0.7,
-      modelName: "gpt-3.5-turbo-16k",
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
+      topP: 0.75,
+      maxTokens: 4000,
+      modelName: "huggingfaceh4/zephyr-7b-beta"
     },
     {
       basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
+      defaultHeaders: {
+        "HTTP-Referer": "http://localhost:3000"
+      }
     }
   );
 
   // const streamingModel = new HuggingFaceInference({
-  //   model: "HuggingFaceH4/zephyr-7b-beta",
+  //   model: "mistralai/Mistral-7B-v0.1",
   //   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
+  //   verbose: true,
+  //   callbacks: [
+  //     {
+  //       async handleLLMNewToken(token) {
+  //         await writer.ready;
+  //         await writer.write(encoder.encode(`${token}`));
+  //       },
+  //       async handleLLMEnd() {
+  //         await writer.ready;
+  //         await writer.close();
+  //       },
+  //     },
+  //   ],
   // });
-
-  const nonStreamingModel = new ChatOpenAI(
-    {
-      verbose: true,
-      temperature: 0.3,
-      modelName: "gpt-3.5-turbo",
-      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
-    },
-    {
-      basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
-    }
-  );
 
   console.log("Created models");
 

@@ -82,8 +82,8 @@ const ProfileForm = ({ session }: { session: Session }) => {
   }
 
   return (
-    <div className="mt-12 w-full space-y-8 px-12">
-      <div className="flex items-center">
+    <div className="w-full space-y-8 px-12">
+      <div className="flex items-center pt-12">
         <Avatar className="h-9 w-9">
           <AvatarImage src={session?.user?.image as string} alt="Avatar" />
           <AvatarFallback>
