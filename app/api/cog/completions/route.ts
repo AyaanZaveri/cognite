@@ -93,13 +93,13 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
       topP: 0.75,
       maxTokens: 4000,
-      modelName: "huggingfaceh4/zephyr-7b-beta"
+      modelName: "huggingfaceh4/zephyr-7b-beta",
     },
     {
       basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
       defaultHeaders: {
-        "HTTP-Referer": "http://localhost:3000"
-      }
+        "HTTP-Referer": process.env.NEXTAUTH_URL,
+      },
     }
   );
 
