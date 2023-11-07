@@ -3,17 +3,26 @@ import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { NextResponse } from "next/server";
-import { StreamingTextResponse, LangChainStream, Message } from "ai";
+import {
+  StreamingTextResponse,
+  LangChainStream,
+  Message as VercelChatMessage,
+} from "ai";
 import { CallbackManager, ConsoleCallbackHandler } from "langchain/callbacks";
 import { AIMessage, HumanMessage } from "langchain/schema";
 import { prompts } from "@/lib/prompts";
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
-import { StringOutputParser } from "langchain/schema/output_parser";
-import { RunnableSequence } from "langchain/schema/runnable";
+import {
+  BytesOutputParser,
+  StringOutputParser,
+} from "langchain/schema/output_parser";
+import {
+  RunnablePassthrough,
+  RunnableSequence,
+} from "langchain/schema/runnable";
 import { Document } from "langchain/document";
-import { HuggingFaceInference } from "langchain/llms/hf";
 
 // const embeddingsModel = new OpenAIEmbeddings(
 //   {
@@ -28,6 +37,29 @@ import { HuggingFaceInference } from "langchain/llms/hf";
 //     // basePath: "https://limcheekin-bge-small-en-v1-5.hf.space/v1",
 //   }
 // );
+
+type ConversationalRetrievalQAChainInput = {
+  question: string;
+  chat_history: VercelChatMessage[];
+};
+
+const combineDocumentsFn = (docs: Document[], separator = "\n\n") => {
+  const serializedDocs = docs.map((doc) => doc.pageContent);
+  return serializedDocs.join(separator);
+};
+
+const formatVercelMessages = (chatHistory: VercelChatMessage[]) => {
+  const formattedDialogueTurns = chatHistory.map((message) => {
+    if (message.role === "user") {
+      return `Human: ${message.content}`;
+    } else if (message.role === "assistant") {
+      return `Assistant: ${message.content}`;
+    } else {
+      return `${message.role}: ${message.content}`;
+    }
+  });
+  return formattedDialogueTurns.join("\n");
+};
 
 const embeddingsModel = new HuggingFaceInferenceEmbeddings({
   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
@@ -73,7 +105,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
 
   console.log(additionalContext);
 
-  const streamingModel = new ChatOpenAI(
+  const model = new ChatOpenAI(
     {
       streaming: true,
       verbose: true,
@@ -91,9 +123,10 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
       ],
       temperature: 0.7,
       openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
-      topP: 0.75,
+      // topP: 0.75,
       maxTokens: 4000,
-      modelName: "huggingfaceh4/zephyr-7b-beta",
+      // modelName: "huggingfaceh4/zephyr-7b-beta",
+      modelName: "gpt-3.5-turbo-16k",
     },
     {
       basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
@@ -103,52 +136,49 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
     }
   );
 
-  // const streamingModel = new HuggingFaceInference({
-  //   model: "mistralai/Mistral-7B-v0.1",
-  //   apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-  //   verbose: true,
-  //   callbacks: [
-  //     {
-  //       async handleLLMNewToken(token) {
-  //         await writer.ready;
-  //         await writer.write(encoder.encode(`${token}`));
-  //       },
-  //       async handleLLMEnd() {
-  //         await writer.ready;
-  //         await writer.close();
-  //       },
-  //     },
-  //   ],
-  // });
+  const questionModel = new ChatOpenAI(
+    {
+      temperature: 0.5,
+      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
+      // topP: 0.75,
+      maxTokens: 4000,
+      // modelName: "huggingfaceh4/zephyr-7b-beta",
+      modelName: "gpt-3.5-turbo",
+    },
+    {
+      basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
+      defaultHeaders: {
+        "HTTP-Referer": process.env.NEXTAUTH_URL,
+      },
+    }
+  );
 
   console.log("Created models");
 
   const retriever = vectorStore.asRetriever();
 
-  const chain = RunnableSequence.from([
+  const standaloneQuestionChain = RunnableSequence.from([
     {
-      question: (input: { question: string; chatHistory?: string }) =>
-        input.question,
-      chatHistory: (input: { question: string; chatHistory?: string }) =>
-        input.chatHistory ?? "",
-      context: async (input: { question: string; chatHistory?: string }) => {
-        const relevantDocs = await retriever.getRelevantDocuments(
-          input.question
-        );
-        console.log("zi length", relevantDocs.length);
-        const serialized = serializeDocs(relevantDocs);
-        return serialized;
-      },
-      additionalContext: (input: {
-        question: string;
-        chatHistory?: string;
-        additionalContext?: string;
-      }) => input.additionalContext ?? "",
+      question: (input: ConversationalRetrievalQAChainInput) => input.question,
+      chat_history: (input: ConversationalRetrievalQAChainInput) =>
+      formatVercelMessages(input.chat_history),
     },
-    PromptTemplate.fromTemplate(prompts[style].qa),
-    streamingModel,
+    PromptTemplate.fromTemplate(prompts[style].condense),
+    questionModel,
     new StringOutputParser(),
   ]);
+
+  const answerChain = RunnableSequence.from([
+    {
+      question: new RunnablePassthrough(),
+      context: retriever.pipe(combineDocumentsFn),
+    },
+    PromptTemplate.fromTemplate(prompts[style].qa),
+    model,
+    new BytesOutputParser(),
+  ]);
+
+  const chain = standaloneQuestionChain.pipe(answerChain);
 
   // const chain = ConversationalRetrievalQAChain.fromLLM(
   //   streamingModel,
@@ -167,18 +197,12 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
   //   }
   // );
 
-  const history = messages.map((m: any) => {
-    return m.role === "user"
-      ? new HumanMessage(m.content)
-      : new AIMessage(m.content.split("\n__META_JSON__\n")[0]);
-  });
-
-  const prompt: string = history.pop().text.trim().replaceAll("\n", " ");
+  const currentMessageContent = messages[messages.length - 1].content;
+  const previousMessages = messages.slice(0, -1);
 
   chain.invoke({
-    question: prompt,
-    chatHistory: history,
-    additionalContext: additionalContext ? additionalContext : "Go!",
+    question: currentMessageContent,
+    chat_history: previousMessages,
   });
 
   return transformStream.readable;

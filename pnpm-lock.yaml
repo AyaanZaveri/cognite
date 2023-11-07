@@ -150,8 +150,8 @@ dependencies:
     specifier: ^2.2.3
     version: 2.2.3
   langchain:
-    specifier: ^0.0.177
-    version: 0.0.177(@huggingface/inference@2.6.4)(@xenova/transformers@2.7.0)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1)
+    specifier: 0.0.182-rc.0
+    version: 0.0.182-rc.0(@huggingface/inference@2.6.4)(@xenova/transformers@2.7.0)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(ws@8.13.0)(youtube-transcript@1.0.6)(youtubei.js@5.7.1)
   lucide-react:
     specifier: ^0.260.0
     version: 0.260.0(react@18.2.0)
@@ -12313,8 +12313,8 @@ packages:
     engines: {node: '>=14.0.0'}
     dev: true
 
-  /langchain@0.0.177(@huggingface/inference@2.6.4)(@xenova/transformers@2.7.0)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(youtube-transcript@1.0.6)(youtubei.js@5.7.1):
-    resolution: {integrity: sha512-V2BPPxxNp4l9RPXqdKxWE6MG7m2w+CT9LlOD9yMDIQssFTDXq9DB8oTSWbnJhCj+a4F891acA8RYlPlWmzBuwA==}
+  /langchain@0.0.182-rc.0(@huggingface/inference@2.6.4)(@xenova/transformers@2.7.0)(axios@1.4.0)(cheerio@1.0.0-rc.12)(chromadb@1.5.5)(epub2@3.0.1)(hnswlib-node@1.4.2)(html-to-text@9.0.5)(mongodb@5.7.0)(pdf-parse@1.1.1)(typeorm@0.3.17)(ws@8.13.0)(youtube-transcript@1.0.6)(youtubei.js@5.7.1):
+    resolution: {integrity: sha512-DSRzz5Djxrlnzu9wZNIM3AqX3v3IclMbebwqKIpiV2gvCHL+w6s17f40HwoceFpkLTHIqQg6v7PHZANY+8IB2A==}
     engines: {node: '>=18'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.0.0
@@ -12411,6 +12411,7 @@ packages:
       voy-search: 0.6.2
       weaviate-ts-client: ^1.4.0
       web-auth-library: ^1.0.3
+      ws: ^8.14.2
       youtube-transcript: ^1.0.6
       youtubei.js: ^5.8.0
     peerDependenciesMeta:
@@ -12602,6 +12603,8 @@ packages:
         optional: true
       web-auth-library:
         optional: true
+      ws:
+        optional: true
       youtube-transcript:
         optional: true
       youtubei.js:
@@ -12626,17 +12629,17 @@ packages:
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
       langchainhub: 0.0.6
-      langsmith: 0.0.33
+      langsmith: 0.0.48
       ml-distance: 4.0.1
       mongodb: 5.7.0
-      object-hash: 3.0.0
-      openai: 4.4.0
+      openai: 4.16.1
       openapi-types: 12.1.3
       p-queue: 6.6.2
       p-retry: 4.6.2
       pdf-parse: 1.1.1
       typeorm: 0.3.17(mongodb@5.7.0)
       uuid: 9.0.0
+      ws: 8.13.0
       yaml: 2.3.1
       youtube-transcript: 1.0.6
       youtubei.js: 5.7.1
@@ -12651,8 +12654,8 @@ packages:
     resolution: {integrity: sha512-SW6105T+YP1cTe0yMf//7kyshCgvCTyFBMTgH2H3s9rTAR4e+78DA/BBrUL/Mt4Q5eMWui7iGuAYb3pgGsdQ9w==}
     dev: false
 
-  /langsmith@0.0.33:
-    resolution: {integrity: sha512-8dVBjJsuIwsnUFtA6OJ85k2wWzpka+LsF2EFzpzpF3yOHO/Ui7oeCMobyp6L7QcgWIBdRUIJY6sNSxAW0uAMHg==}
+  /langsmith@0.0.48:
+    resolution: {integrity: sha512-s0hW8iZ90Q9XLTnDK0Pgee245URV3b1cXQjPDj5OKm1+KN7iSK1pKx+4CO7RcFLz58Ixe7Mt+mVcomYqUuryxQ==}
     hasBin: true
     dependencies:
       '@types/uuid': 9.0.2
@@ -14291,8 +14294,8 @@ packages:
       - debug
     dev: false
 
-  /openai@4.2.0:
-    resolution: {integrity: sha512-zfvpO2eITIxIjTG8T6Cek7NB2dMvP/LW0TRUJ4P9E8+qbBNKw00DrtfF64b+fAV2+wUYCVyynT6iSycJ//TtbA==}
+  /openai@4.16.1:
+    resolution: {integrity: sha512-Gr+uqUN1ICSk6VhrX64E+zL7skjI1TgPr/XUN+ZQuNLLOvx15+XZulx/lSW4wFEAQzgjBDlMBbBeikguGIjiMg==}
     hasBin: true
     dependencies:
       '@types/node': 18.17.0
@@ -14303,13 +14306,14 @@ packages:
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.6.12
+      web-streams-polyfill: 3.2.1
     transitivePeerDependencies:
       - encoding
       - supports-color
     dev: false
 
-  /openai@4.4.0:
-    resolution: {integrity: sha512-JN0t628Kh95T0IrXl0HdBqnlJg+4Vq0Bnh55tio+dfCnyzHvMLiWyCM9m726MAJD2YkDU4/8RQB6rNbEq9ct2w==}
+  /openai@4.2.0:
+    resolution: {integrity: sha512-zfvpO2eITIxIjTG8T6Cek7NB2dMvP/LW0TRUJ4P9E8+qbBNKw00DrtfF64b+fAV2+wUYCVyynT6iSycJ//TtbA==}
     hasBin: true
     dependencies:
       '@types/node': 18.17.0
@@ -17340,7 +17344,6 @@ packages:
   /web-streams-polyfill@3.2.1:
     resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
     engines: {node: '>= 8'}
-    dev: true
 
   /web-streams-polyfill@4.0.0-beta.3:
     resolution: {integrity: sha512-QW95TCTaHmsYfHDybGMwO5IJIM93I/6vTRk+daHTWFPhwh+C8Cg7j7XyKrwrj8Ib6vYXe0ocYNrmzY4xAAN6ug==}
@@ -17544,7 +17547,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: true
 
   /xdm@2.1.0:
     resolution: {integrity: sha512-3LxxbxKcRogYY7cQSMy1tUuU1zKNK9YPqMT7/S0r7Cz2QpyF8O9yFySGD7caOZt+LWUOQioOIX+6ZzCoBCpcAA==}

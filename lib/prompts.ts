@@ -29,13 +29,13 @@ export const prompts: { [key: string]: Prompt } = {
   `,
   },
   neutral: {
-    condense: `
-  Given the following conversation and a follow up question, enhance the follow up question to be a standalone question.
-  
-  Chat History:
-  {chat_history}
-  Follow Up Input: {question}
-  Standalone question:`,
+    condense: `Given the following conversation and a follow up question, rephrase the follow up question to be a 
+    standalone question without changing the content in given question.
+    
+    Chat History:
+    {chat_history}
+    Follow Up Input: {question}
+    Standalone question:`,
     qa: `
   Carefully heed the user's instructions. 
   Respond using Markdown.
