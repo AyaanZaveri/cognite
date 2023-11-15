@@ -12,7 +12,7 @@ import { CallbackManager, ConsoleCallbackHandler } from "langchain/callbacks";
 import { AIMessage, HumanMessage } from "langchain/schema";
 import { prompts } from "@/lib/prompts";
 import { db } from "@/lib/db";
-import { Prisma } from "@prisma/client";
+import { Prisma } from '@prisma/client';
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
 import {
   BytesOutputParser,

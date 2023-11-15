@@ -51,10 +51,11 @@ export default {
           isExternalDomain: true,
           domainName: "cognite.app",
           cdk: {
+            // @ts-ignore
             certificate: Certificate.fromCertificateArn(
               stack,
               "cert",
-              "arn:aws:acm:us-east-1:695897674742:certificate/2762b75b-8ba8-4748-b7e8-ff15a91a0088"
+              process.env.AWS_CERT_ARN as string
             ),
           },
         },

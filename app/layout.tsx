@@ -3,7 +3,6 @@ import { getAuthSession } from "@/lib/auth";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Metadata } from "next";
-import { GeistSans } from "geist/font";
 
 export const metadata: Metadata = {
   title: "Cognite",
@@ -25,7 +24,7 @@ export default async function RootLayout({
   const session = await getAuthSession();
 
   return (
-    <html lang="en" className={GeistSans.className}>
+    <html lang="en">
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
 

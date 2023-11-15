@@ -6,8 +6,8 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { db } from "@/lib/db";
 import MeCard from "@/components/me/Card";
-import { Tag } from "@prisma/client";
 import Sidebar from "@/components/Sidebar";
+import { Tag } from "@/types";
 
 export const dynamic = "force-dynamic";
 
@@ -57,7 +57,7 @@ export default async function Page() {
                     </AvatarFallback>
                   </Avatar>
                 </div>
-                <div className="flex items-center pt-3 ${GeistMono.className}">
+                <div className="flex items-center pt-3">
                   <span className="text-xs text-muted-foreground">
                     Joined {date}
                   </span>

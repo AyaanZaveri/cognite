@@ -111,8 +111,7 @@ const ProfileForm = ({ session }: { session: Session }) => {
                   <Input placeholder="It's a username" {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is your public display name. It can be your real name or
-                  a pseudonym.
+                  {"Pick a name that you like. You can't change it later. jk you can"}
                 </FormDescription>
                 <FormMessage />
               </FormItem>
