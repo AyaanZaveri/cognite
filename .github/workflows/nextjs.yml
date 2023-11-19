@@ -18,11 +18,11 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Install bun
+        run: npm install -g bun
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun i
 
       - name: Deploy
         env:
@@ -49,6 +49,6 @@ jobs:
           STRIPE_PRO_MONTHLY_PLAN_ID: ${{ secrets.STRIPE_PRO_MONTHLY_PLAN_ID }}
         run: |
           echo "Primsa generate"
-          npx prisma generate
+          bun prisma generate
           echo "SST deploy"
-          npx sst deploy --stage prod
+          bun sst deploy --stage prod
