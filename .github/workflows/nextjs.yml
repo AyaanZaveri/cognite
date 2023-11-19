@@ -29,6 +29,7 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_CERT_ARN: ${{ secrets.AWS_CERT_ARN }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
           DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
           DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
