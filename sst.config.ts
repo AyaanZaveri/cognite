@@ -55,7 +55,7 @@ export default {
             certificate: Certificate.fromCertificateArn(
               stack,
               "cert",
-              process.env.AWS_CERT_ARN as string
+              process.env.AWS_CERT_ARN!
             ),
           },
         },
