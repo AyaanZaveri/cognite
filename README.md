@@ -22,7 +22,7 @@ It's a fast and simple way to **share** and **create** chatbots with external kn
 **Embeddings**: It uses [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) to create embeddings for the knowledge provided.  
 **LLM**: It currently uses GPT-3.5-Turbo, but you can use whatever LangChain currently [supports](https://js.langchain.com/docs/integrations/chat/)
 
-## Run Locally
+## 🏡 Run Locally
 1. Clone the repo `git clone https://github.com/AyaanZaveri/cognite && cd cognite`
 2. Install bun (if not installed already) `npm install -g bun`
 3. Run `bun i` to install packages
