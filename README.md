@@ -1,7 +1,7 @@
 # Cognite 🔥
 The **open-source alternative** to OpenAI's GPT Store built w/ Next.js and LangChain.js
 
-## 👇 Look at this
+## 👇 Screenshots
 ![Homepage](https://github.com/AyaanZaveri/cognite/assets/63752541/5ffe48a3-6b03-4b9f-b1b1-52b3f19290e0)
 ![Chat](https://github.com/AyaanZaveri/cognite/assets/63752541/8ee93c37-a537-4f33-829c-1260361b4378)
 ![Create](https://github.com/AyaanZaveri/cognite/assets/63752541/1d1fa03a-1005-48c9-9c97-f65b9e1ec859)
