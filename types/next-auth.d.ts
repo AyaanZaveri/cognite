@@ -13,4 +13,15 @@ declare module "next-auth" {
     user: User;
     expires: string;
   }
+
+  interface Profile {
+    id: string;
+    name: string;
+    email: string;
+    image: string;
+    username: string;
+    bio: string;
+    createdDate: string;
+    picture: string;
+  }
 }

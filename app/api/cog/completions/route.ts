@@ -126,7 +126,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
       // topP: 0.75,
       maxTokens: 4000,
       // modelName: "huggingfaceh4/zephyr-7b-beta",
-      modelName: "gpt-3.5-turbo-16k",
+      modelName: "gryphe/mythomist-7b",
     },
     {
       basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
@@ -143,7 +143,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
       // topP: 0.75,
       maxTokens: 4000,
       // modelName: "huggingfaceh4/zephyr-7b-beta",
-      modelName: "gpt-3.5-turbo",
+      modelName: "openchat/openchat-7b",
     },
     {
       basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,

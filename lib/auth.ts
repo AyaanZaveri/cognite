@@ -12,7 +12,7 @@ import GoogleProvider from "next-auth/providers/google";
 import DiscordProvider from "next-auth/providers/discord";
 import GithubProvider from "next-auth/providers/github";
 import { generateUsername } from "friendly-username-generator";
-import { Github } from "lucide-react";
+import { updateUserImage } from "./user";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db),
@@ -87,38 +87,20 @@ export const authOptions: NextAuthOptions = {
         createdDate: dbUser.createdDate,
       };
     },
+    async signIn({ user, profile }) {
+      let currentImage = user?.image;
+      let profileImg = profile?.picture;
+
+      console.log("signIn", currentImage, profileImg);
+
+      if (currentImage !== profileImg) {
+        console.log("soo soo")
+        await updateUserImage(user.id, profileImg!);
+        user.image = profileImg;
+      }
+      return true;
+    },
   },
 };
-
-async function updateUser(user: User, account: Account) {
-  //
-  // handle username so it is less than 15 chars for zod validation
-  let username = (user.username as string).substring(0, 6);
-
-  switch (account.provider) {
-    case "google":
-      username = `go_${username}`;
-      break;
-    case "facebook":
-      username = `fb_${username}`;
-      break;
-  }
-
-  const data = {
-    provider: account.provider,
-    username,
-  } as any;
-
-  if (!user.email) {
-    data.email = `${data.username}@non-existing-facebook-email.com`;
-  }
-
-  await db.user.update({
-    where: { id: user.id },
-    data,
-  });
-
-  return data;
-}
 
 export const getAuthSession = () => getServerSession(authOptions);

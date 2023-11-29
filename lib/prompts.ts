@@ -30,12 +30,12 @@ export const prompts: { [key: string]: Prompt } = {
   },
   neutral: {
     condense: `
-    Given the following conversation and a follow up question, enhance the follow up question to be a standalone question.
+    Fix grammar in this question based on the following conversation.
     
     Chat History:
     {chat_history}
     Follow Up Input: {question}
-    Standalone question:
+    One line enhanced question:
           `,
     qa: `
   Carefully heed the user's instructions. 

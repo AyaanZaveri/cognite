@@ -98,8 +98,12 @@ const MeCard = ({ cog, session }: { cog: Cog; session: Session | null }) => {
             >
               <CardHeader className="relative p-0">
                 <div className="flex flex-row items-center gap-x-3">
-                  <Avatar className="h-7 w-7 rounded-sm">
-                    <AvatarImage src={cog.imgUrl as string} draggable={false} />
+                  <Avatar className="flex h-7 w-7 items-center rounded-sm">
+                    <AvatarImage
+                      src={cog.imgUrl as string}
+                      draggable={false}
+                      className="h-min w-7 object-contain"
+                    />
                     <AvatarFallback className="h-7 w-7 rounded-sm">
                       {cog.name.charAt(0).toUpperCase()}
                     </AvatarFallback>
