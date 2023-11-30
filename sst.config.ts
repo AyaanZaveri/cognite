@@ -60,6 +60,7 @@ export default {
           },
         },
         buildCommand: "npx open-next@latest build --streaming",
+        timeout: 30,
         experimental: {
           streaming: true,
         },
@@ -72,6 +73,7 @@ export default {
     });
 
     app.setDefaultFunctionProps({
+      timeout: 30,
       runtime: "nodejs18.x",
       architecture: "arm_64",
     });
