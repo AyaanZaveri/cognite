@@ -51,7 +51,7 @@ export default {
           isExternalDomain: true,
           domainName: "cognite.app",
           cdk: {
-            // @ts-ignore
+
             certificate: Certificate.fromCertificateArn(
               stack,
               "cert",
@@ -59,7 +59,7 @@ export default {
             ),
           },
         },
-        buildCommand: "npx open-next@3.0.0-alpha.2 build --streaming",
+        buildCommand: "npx open-next build --streaming",
         timeout: 30,
         experimental: {
           streaming: true,

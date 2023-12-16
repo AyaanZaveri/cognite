@@ -94,7 +94,7 @@ export const authOptions: NextAuthOptions = {
       console.log("signIn", currentImage, profileImg);
 
       if (currentImage !== profileImg) {
-        console.log("soo soo")
+        console.log("soo soo");
         await updateUserImage(user.id, profileImg!);
         user.image = profileImg;
       }

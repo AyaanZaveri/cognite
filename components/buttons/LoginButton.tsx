@@ -23,7 +23,7 @@ const providerButtons: ProviderButtons = {
     icon: <Icons.gitHub className="mr-2 h-6 w-6 dark:fill-white" />,
   },
   discord: {
-  id: "discord",
+    id: "discord",
     icon: <Icons.discord className="mr-2 h-6 w-6" />,
   },
 };
@@ -34,7 +34,7 @@ export default function LoginButton({ auth }: { auth?: ClientSafeProvider }) {
       type="button"
       onClick={() => signIn(auth?.id)}
       variant={"outline"}
-      className="w-full py-6 text-base hover:skew-"
+      className="hover:skew- w-full py-6 text-base"
     >
       {auth && providerButtons[auth.id].icon}
       {auth ? `Sign In with ${auth.name}` : "Login"}
