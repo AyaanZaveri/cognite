@@ -12,7 +12,7 @@ import { CallbackManager, ConsoleCallbackHandler } from "langchain/callbacks";
 import { AIMessage, HumanMessage } from "langchain/schema";
 import { prompts } from "@/lib/prompts";
 import { db } from "@/lib/db";
-import { Prisma } from '@prisma/client';
+import { Prisma } from "@prisma/client";
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
 import {
   BytesOutputParser,
@@ -69,7 +69,7 @@ const embeddingsModel = new HuggingFaceInferenceEmbeddings({
 const serializeDocs = (docs: Array<Document>) =>
   docs.map((doc) => doc.pageContent).join("\n\n");
 
-const runLLMChain = async (style: string, messages: any, id: string) => {
+const getStuff = async (currentMessageContent: string, id: string) => {
   const encoder = new TextEncoder();
 
   const transformStream = new TransformStream();
@@ -105,37 +105,6 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
 
   console.log(additionalContext);
 
-  const model = new ChatOpenAI(
-    {
-      streaming: true,
-      verbose: true,
-      callbacks: [
-        {
-          async handleLLMNewToken(token) {
-            await writer.ready;
-            await writer.write(encoder.encode(`${token}`));
-          },
-          async handleLLMEnd() {
-            await writer.ready;
-            await writer.close();
-          },
-        },
-      ],
-      temperature: 0.7,
-      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
-      // topP: 0.75,
-      maxTokens: 4000,
-      // modelName: "huggingfaceh4/zephyr-7b-beta",
-      modelName: "mistralai/mixtral-8x7b-instruct",
-    },
-    {
-      basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
-      defaultHeaders: {
-        "HTTP-Referer": process.env.NEXTAUTH_URL,
-      },
-    }
-  );
-
   const questionModel = new ChatOpenAI(
     {
       temperature: 0.5,
@@ -153,64 +122,17 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
 
   console.log("Created models");
 
-  const retriever = vectorStore.asRetriever();
+  const similarDocs = await vectorStore.similaritySearch(
+    currentMessageContent,
+    7
+  );
 
-  const standaloneQuestionChain = RunnableSequence.from([
-    {
-      question: (input: ConversationalRetrievalQAChainInput) => input.question,
-      chat_history: (input: ConversationalRetrievalQAChainInput) =>
-      formatVercelMessages(input.chat_history),
-    },
-    PromptTemplate.fromTemplate(prompts[style].condense),
-    questionModel,
-    new StringOutputParser(),
-  ]);
-
-  const answerChain = RunnableSequence.from([
-    {
-      question: new RunnablePassthrough(),
-      context: retriever.pipe(combineDocumentsFn),
-    },
-    PromptTemplate.fromTemplate(prompts[style].qa),
-    model,
-    new BytesOutputParser(),
-  ]);
-
-  const chain = standaloneQuestionChain.pipe(answerChain);
-
-  // const chain = ConversationalRetrievalQAChain.fromLLM(
-  //   streamingModel,
-  //   vectorStore.asRetriever(),
-  //   {
-  //     verbose: true,
-  //     returnSourceDocuments: true,
-  //     qaChainOptions: {
-  //       type: "stuff",
-  //       prompt: PromptTemplate.fromTemplate(prompts[style].qa),
-  //     },
-  //     questionGeneratorChainOptions: {
-  //       template: prompts[style].condense,
-  //       llm: nonStreamingModel,
-  //     },
-  //   }
-  // );
-
-  const currentMessageContent = messages[messages.length - 1].content;
-  const previousMessages = messages.slice(0, -1);
-
-  chain.invoke({
-    question: currentMessageContent,
-    chat_history: previousMessages,
-  });
-
-  return transformStream.readable;
+  return similarDocs;
 };
 
 export async function POST(req: Request) {
   try {
     const { id, messages, style } = await req.json();
-
-    const { stream, handlers } = LangChainStream();
 
     console.log("Created vector store");
 
@@ -225,14 +147,64 @@ export async function POST(req: Request) {
 
     console.log("Calling chain");
 
-    const theStream = await runLLMChain(style, messages, id);
+    const currentMessageContent = messages[messages.length - 1].content;
+
+    const similarDocs = await getStuff(currentMessageContent, id);
+
+    const model = new ChatOpenAI(
+      {
+        streaming: true,
+        verbose: true,
+        temperature: 0.7,
+        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
+        maxTokens: 4000,
+        modelName: "mistralai/mixtral-8x7b-instruct",
+      },
+      {
+        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
+        defaultHeaders: {
+          "HTTP-Referer": process.env.NEXTAUTH_URL,
+        },
+      }
+    );
+
+    const previousMessages = messages.slice(0, -1);
+
+    const proompt = `
+    {previousMessages}
+    Here is some context from a document, along with a question related to it.
+    <context>
+      {docs}
+    </context>
+    
+    Question: {message}
+
+    Carefully heed the user's instructions. 
+    Respond using Markdown.
+
+    Bold important words using **bold**.
+    
+    Answer:
+  `;
+
+    const prompt = PromptTemplate.fromTemplate(proompt);
+
+    const outputParser = new StringOutputParser();
+
+    const chain = prompt.pipe(model).pipe(outputParser);
 
     console.log("Called chain");
 
+    const stream = await chain.stream({
+      message: currentMessageContent,
+      previousMessages: previousMessages,
+      docs: combineDocumentsFn(similarDocs),
+    });
+
+    return new StreamingTextResponse(stream);
+
     // return new StreamingTextResponse(stream);
     // return stream as readable stream
-
-    return new Response(theStream);
   } catch (error) {
     // get the first 2000 characters of the error
     const errorString = error!.toString().substring(0, 2000);

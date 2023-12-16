@@ -40,13 +40,6 @@ export const prompts: { [key: string]: Prompt } = {
     qa: `
   Carefully heed the user's instructions. 
   Respond using Markdown.
-  
-  Here is some context from a document, along with a question related to it.
-  {context}
-  
-  Question: {question}
-  =========
-  Answer:
           `,
   },
   focused: {

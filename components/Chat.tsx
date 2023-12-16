@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { useChat } from "ai/react";
 import ChatBox from "./ChatBox";
 import { FormEvent, useState } from "react";
-import { Space_Grotesk } from "next/font/google";
+import { Mulish, Space_Grotesk } from "next/font/google";
 import { ChatRequestOptions } from "ai";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,6 +16,11 @@ const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
+
+const mulish = Mulish({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+})
 
 export default function Chat({ id }: { id: string }) {
   const [isThinking, setIsThinking] = useState(false);
@@ -98,7 +103,7 @@ export default function Chat({ id }: { id: string }) {
           </Tabs>
         </div>
       )}
-      <div className="flex w-full flex-col gap-5 px-8">
+      <div className={`flex w-full flex-col gap-5 px-8 ${mulish.className}`}>
         {messages.map((message) => (
           <div
             key={message.id}
@@ -111,7 +116,7 @@ export default function Chat({ id }: { id: string }) {
           >
             <span className="prose transition-all">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {message.content}
+                {message.content.replace(/\\n/g, "\n").replace(/<\/s>/g, "")}
               </ReactMarkdown>
             </span>
           </div>
