@@ -51,7 +51,7 @@ export default {
           isExternalDomain: true,
           domainName: "cognite.app",
           cdk: {
-
+            // @ts-ignore
             certificate: Certificate.fromCertificateArn(
               stack,
               "cert",
