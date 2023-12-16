@@ -126,7 +126,7 @@ const runLLMChain = async (style: string, messages: any, id: string) => {
       // topP: 0.75,
       maxTokens: 4000,
       // modelName: "huggingfaceh4/zephyr-7b-beta",
-      modelName: "gryphe/mythomist-7b",
+      modelName: "mistralai/mixtral-8x7b-instruct",
     },
     {
       basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
