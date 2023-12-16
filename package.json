@@ -2,6 +2,7 @@
   "name": "cognite",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "des": "sst bind next dev",
@@ -68,7 +69,6 @@
     "next": "latest",
     "next-auth": "latest",
     "next-themes": "^0.2.1",
-    "node-fetch": "2.6.1",
     "open-next": "2.3.3",
     "openai": "^3.3.0",
     "openai-edge": "^1.2.2",
