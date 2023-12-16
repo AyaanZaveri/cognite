@@ -59,7 +59,7 @@ export default {
             ),
           },
         },
-        buildCommand: "npx open-next@3.0.0-rc.2 build --streaming",
+        buildCommand: "npx open-next@2.3.3 build --streaming",
         timeout: 30,
         experimental: {
           streaming: true,
