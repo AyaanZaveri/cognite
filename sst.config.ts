@@ -61,9 +61,6 @@ export default {
         },
         buildCommand: "npx open-next@3.0.0-rc.2 build --streaming",
         timeout: 30,
-        experimental: {
-          streaming: true,
-        },
       });
 
       stack.addOutputs({
