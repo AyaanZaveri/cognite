@@ -9,7 +9,7 @@ import { FormEvent, useState } from "react";
 import { Mulish, Space_Grotesk } from "next/font/google";
 import { ChatRequestOptions } from "ai";
 import { cn } from "@/lib/utils";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "./ui/badge";
 
 const space_grotesk = Space_Grotesk({
