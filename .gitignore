@@ -38,3 +38,5 @@ next-env.d.ts
 # sst & open-next
 .sst
 .open-next
+
+api_log.json*
