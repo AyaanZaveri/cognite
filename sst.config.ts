@@ -29,6 +29,7 @@ export default {
             .NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT as string,
           NEXT_PUBLIC_TOGETHERAI_API_KEY: process.env
             .NEXT_PUBLIC_TOGETHERAI_API_KEY as string,
+          TOGETHER_AI_API_KEY: process.env.TOGETHER_AI_API_KEY as string,
           MY_GITHUB_CLIENT_ID: process.env.MY_GITHUB_CLIENT_ID as string,
           MY_GITHUB_CLIENT_SECRET: process.env
             .MY_GITHUB_CLIENT_SECRET as string,
