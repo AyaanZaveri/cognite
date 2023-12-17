@@ -36,12 +36,14 @@ const Page = async () => {
             <div className="flex flex-col gap-4 px-8 py-8">
               <div className="flex flex-col gap-1">
                 <h1
-                  className={`${space_grotesk.className} inline-flex animate-text items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text text-4xl font-semibold text-transparent`}
+                  className={`${space_grotesk.className} animate-text inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text text-4xl font-semibold text-transparent`}
                 >
                   <PlusSquare className="h-8 w-8 text-primary" />
                   Create
                 </h1>
-                <span className={`${rubik.className} text-secondary-foreground`}>
+                <span
+                  className={`${rubik.className} text-secondary-foreground`}
+                >
                   {"Let's create something new!"}
                 </span>
               </div>

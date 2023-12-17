@@ -171,7 +171,7 @@ const Create = ({
           // console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 3500,
+            chunkSize: 8000,
             chunkOverlap: 250,
             // separators: ["\n", "\n\n", "\t"],
           });
@@ -183,7 +183,7 @@ const Create = ({
 
         if (file) {
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 3500,
+            chunkSize: 8000,
             chunkOverlap: 250,
             // separators: ["\n", "\n\n", "\t"],
           });
@@ -542,15 +542,16 @@ const Create = ({
                       Tags are used to help people find your cog.
                     </FormDescription>
                     <FormControl>
-                      <div className="flex flex-row gap-x-4">
+                      <div className="flex flex-row gap-x-2">
                         <Input {...field} />
                         <Button
                           type="button"
                           variant="outline"
                           size="sm"
+                          className="h-10"
                           onClick={() => removeTag(index)}
                         >
-                          <XIcon />
+                          <XIcon className="h-5 w-5 text-accent-foreground" />
                         </Button>
                       </div>
                     </FormControl>

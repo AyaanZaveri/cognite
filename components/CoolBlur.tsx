@@ -1,17 +1,11 @@
 "use client";
 
-import { getTheme } from "@/helpers/getTheme";
-import { useTheme } from "next-themes";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const CoolBlur = () => {
-  const { theme } = useTheme();
-
   return (
     <div
-      className={`${
-        theme == "light" ? "hidden" : ""
-      } top-0 h-24 w-full bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 blur-[200px]`}
+      className={`absolute top-0 z-10 h-72 w-full bg-gradient-to-r from-sky-500/[0.10] via-blue-500/[0.10] to-violet-500/[0.10] blur-[50px] dark:from-orange-500/50 dark:via-yellow-500/50 dark:to-red-500/50`}
     />
   );
 };

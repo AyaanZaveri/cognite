@@ -1,47 +1,15 @@
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { NextResponse } from "next/server";
-import {
-  StreamingTextResponse,
-  LangChainStream,
-  Message as VercelChatMessage,
-} from "ai";
-import { CallbackManager, ConsoleCallbackHandler } from "langchain/callbacks";
-import { AIMessage, HumanMessage } from "langchain/schema";
+import { StreamingTextResponse, Message as VercelChatMessage } from "ai";
 import { prompts } from "@/lib/prompts";
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
-import {
-  BytesOutputParser,
-  StringOutputParser,
-} from "langchain/schema/output_parser";
-import {
-  RunnablePassthrough,
-  RunnableSequence,
-} from "langchain/schema/runnable";
+import { StringOutputParser } from "langchain/schema/output_parser";
 import { Document } from "langchain/document";
-
-// const embeddingsModel = new OpenAIEmbeddings(
-//   {
-//     openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
-//     stripNewLines: true,
-//     verbose: true,
-//   },
-//   {
-//     basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT,
-//     // basePath: "https://openai-cf.ayaanzaveri08.workers.dev",
-//     // basePath: "https://ayaanzaveri-bge-large-en-v1-5.hf.space/v1",
-//     // basePath: "https://limcheekin-bge-small-en-v1-5.hf.space/v1",
-//   }
-// );
-
-type ConversationalRetrievalQAChainInput = {
-  question: string;
-  chat_history: VercelChatMessage[];
-};
+import { TogetherAI } from "@langchain/community/llms/togetherai";
 
 const combineDocumentsFn = (docs: Document[], separator = "\n\n") => {
   const serializedDocs = docs.map((doc) => doc.pageContent);
@@ -66,15 +34,7 @@ const embeddingsModel = new HuggingFaceInferenceEmbeddings({
   model: "sentence-transformers/all-MiniLM-L6-v2",
 });
 
-const serializeDocs = (docs: Array<Document>) =>
-  docs.map((doc) => doc.pageContent).join("\n\n");
-
 const getStuff = async (currentMessageContent: string, id: string) => {
-  const encoder = new TextEncoder();
-
-  const transformStream = new TransformStream();
-  const writer = transformStream.writable.getWriter();
-
   const vectorStore = PrismaVectorStore.withModel<any>(db).create(
     embeddingsModel,
     {
@@ -105,26 +65,11 @@ const getStuff = async (currentMessageContent: string, id: string) => {
 
   console.log(additionalContext);
 
-  const questionModel = new ChatOpenAI(
-    {
-      temperature: 0.5,
-      openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
-      maxTokens: 4000,
-      modelName: "mistralai/mixtral-8x7b-instruct",
-    },
-    {
-      basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
-      defaultHeaders: {
-        "HTTP-Referer": process.env.NEXTAUTH_URL,
-      },
-    }
-  );
-
   console.log("Created models");
 
   const similarDocs = await vectorStore.similaritySearch(
-    currentMessageContent,
-    7
+    `${currentMessageContent}`,
+    10
   );
 
   return similarDocs;
@@ -136,52 +81,52 @@ export async function POST(req: Request) {
 
     console.log("Created vector store");
 
-    // teach me more
-    // what is this
-
-    // add recipe books
-    // add menus
-    // make create button big at top so people click it
-
-    // Create encoding to convert token (string) to Uint8Array
-
     console.log("Calling chain");
 
+    const previousMessages = messages.slice(0, -1);
     const currentMessageContent = messages[messages.length - 1].content;
 
     const similarDocs = await getStuff(currentMessageContent, id);
 
-    const model = new ChatOpenAI(
+    // const model = new ChatOpenAI(
+    //   {
+    //     streaming: true,
+    //     verbose: true,
+    //     temperature: 1,
+    //     openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
+    //     modelName: "mistralai/mixtral-8x7b-instruct",
+    //   },
+    //   {
+    //     basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
+    //     defaultHeaders: {
+    //       "HTTP-Referer": process.env.NEXTAUTH_URL,
+    //     },
+    //   }
+    // );
+
+    const model = new TogetherAI(
       {
         streaming: true,
         verbose: true,
-        temperature: 0.7,
-        openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
-        maxTokens: 4000,
-        modelName: "mistralai/mixtral-8x7b-instruct",
+        temperature: 1,
+        apiKey: process.env.NEXT_PUBLIC_TOGETHERAI_API_KEY,
+        modelName: "mistralai/Mixtral-8x7B-Instruct-v0.1",
       },
-      {
-        basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
-        defaultHeaders: {
-          "HTTP-Referer": process.env.NEXTAUTH_URL,
-        },
-      }
     );
 
-    const previousMessages = messages.slice(0, -1);
-
     const proompt = `
-    {previousMessages}
     Here is some context from a document, along with a question related to it.
     <context>
-      {docs}
+    {docs}
     </context>
     
+    Chat history:
+    {previousMessages}
+
     Question: {message}
 
-    Carefully heed the user's instructions. 
-    Respond using Markdown.
-
+    {style}
+    
     Bold important words using **bold**.
     
     Answer:
@@ -191,30 +136,24 @@ export async function POST(req: Request) {
 
     const outputParser = new StringOutputParser();
 
+    // @ts-ignore
     const chain = prompt.pipe(model).pipe(outputParser);
 
     console.log("Called chain");
 
     const stream = await chain.stream({
       message: currentMessageContent,
-      previousMessages: previousMessages,
+      previousMessages: formatVercelMessages(previousMessages),
       docs: combineDocumentsFn(similarDocs),
+      style: prompts[style].qa,
     });
 
     return new StreamingTextResponse(stream);
-
-    // return new StreamingTextResponse(stream);
-    // return stream as readable stream
   } catch (error) {
-    // get the first 2000 characters of the error
     const errorString = error!.toString().substring(0, 2000);
     console.log(errorString);
     return NextResponse.json({
       error: errorString,
     });
   }
-
-  // return NextResponse.json({
-  //   response: response,
-  // });
 }

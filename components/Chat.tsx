@@ -6,7 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { useChat } from "ai/react";
 import ChatBox from "./ChatBox";
 import { FormEvent, useState } from "react";
-import { Mulish, Space_Grotesk } from "next/font/google";
+import { IBM_Plex_Sans, Mulish, Outfit, Plus_Jakarta_Sans, Quicksand, Rubik, Space_Grotesk } from "next/font/google";
 import { ChatRequestOptions } from "ai";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,11 +16,6 @@ const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
-
-const mulish = Mulish({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-})
 
 export default function Chat({ id }: { id: string }) {
   const [isThinking, setIsThinking] = useState(false);
@@ -103,7 +98,7 @@ export default function Chat({ id }: { id: string }) {
           </Tabs>
         </div>
       )}
-      <div className={`flex w-full flex-col gap-5 px-8 ${mulish.className}`}>
+      <div className={`flex w-full flex-col gap-5 px-8`}>
         {messages.map((message) => (
           <div
             key={message.id}

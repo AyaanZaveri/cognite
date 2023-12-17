@@ -17,6 +17,7 @@
     "@extractus/article-extractor": "^7.3.1",
     "@hookform/resolvers": "^3.1.1",
     "@huggingface/inference": "^2.6.4",
+    "@langchain/community": "latest",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@npmcli/fs": "^3.1.0",
     "@prisma/client": "latest",

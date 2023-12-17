@@ -107,7 +107,7 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
           console.log(siteText);
 
           const splitter = new RecursiveCharacterTextSplitter({
-            chunkSize: 30000,
+            chunkSize: 8000,
             chunkOverlap: 400,
           });
 
@@ -119,7 +119,7 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
         if (file) {
           const splitter = new RecursiveCharacterTextSplitter({
             // seperator: "s/\x00//g;",
-            chunkSize: 30000,
+            chunkSize: 8000,
             chunkOverlap: 400,
           });
 
