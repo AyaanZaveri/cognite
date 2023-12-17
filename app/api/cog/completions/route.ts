@@ -108,7 +108,10 @@ export async function POST(req: Request) {
       {
         streaming: true,
         verbose: true,
-        temperature: 1,
+        temperature: 0.6,
+        topP: 0.95,
+        repetitionPenalty: 1.2,
+        topK: 0.5,
         apiKey: process.env.NEXT_PUBLIC_TOGETHERAI_API_KEY,
         modelName: "mistralai/Mixtral-8x7B-Instruct-v0.1",
       },
