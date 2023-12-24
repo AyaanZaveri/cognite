@@ -2,7 +2,13 @@ import { PrismaVectorStore } from "langchain/vectorstores/prisma";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import { PromptTemplate } from "langchain/prompts";
 import { NextResponse } from "next/server";
-import { StreamingTextResponse, Message as VercelChatMessage } from "ai";
+import {
+  HuggingFaceStream,
+  Message,
+  OpenAIStream,
+  StreamingTextResponse,
+  Message as VercelChatMessage,
+} from "ai";
 import { prompts } from "@/lib/prompts";
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
@@ -10,23 +16,18 @@ import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
 import { StringOutputParser } from "langchain/schema/output_parser";
 import { Document } from "langchain/document";
 import { TogetherAI } from "@langchain/community/llms/togetherai";
+import OpenAI from "openai";
+import { HfInference } from "@huggingface/inference";
+import { experimental_buildOpenAssistantPrompt } from "ai/prompts";
+
+const fireworks = new OpenAI({
+  apiKey: process.env.FIREWORKS_AI_API_KEY || "",
+  baseURL: process.env.FIREWORKS_AI_ENDPOINT,
+});
 
 const combineDocumentsFn = (docs: Document[], separator = "\n\n") => {
   const serializedDocs = docs.map((doc) => doc.pageContent);
   return serializedDocs.join(separator);
-};
-
-const formatVercelMessages = (chatHistory: VercelChatMessage[]) => {
-  const formattedDialogueTurns = chatHistory.map((message) => {
-    if (message.role === "user") {
-      return `Human: ${message.content}`;
-    } else if (message.role === "assistant") {
-      return `Assistant: ${message.content}`;
-    } else {
-      return `${message.role}: ${message.content}`;
-    }
-  });
-  return formattedDialogueTurns.join("\n");
 };
 
 const embeddingsModel = new HuggingFaceInferenceEmbeddings({
@@ -69,7 +70,7 @@ const getStuff = async (currentMessageContent: string, id: string) => {
 
   const similarDocs = await vectorStore.similaritySearch(
     `${currentMessageContent}`,
-    10
+    7
   );
 
   return similarDocs;
@@ -77,7 +78,7 @@ const getStuff = async (currentMessageContent: string, id: string) => {
 
 export async function POST(req: Request) {
   try {
-    const { id, messages, style } = await req.json();
+    const { id, messages } = await req.json();
 
     console.log("Created vector store");
 
@@ -88,67 +89,36 @@ export async function POST(req: Request) {
 
     const similarDocs = await getStuff(currentMessageContent, id);
 
-    // const model = new ChatOpenAI(
-    //   {
-    //     streaming: true,
-    //     verbose: true,
-    //     temperature: 1,
-    //     openAIApiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY_CHAT,
-    //     modelName: "mistralai/mixtral-8x7b-instruct",
-    //   },
-    //   {
-    //     basePath: process.env.NEXT_PUBLIC_OPENAI_ENDPOINT_CHAT,
-    //     defaultHeaders: {
-    //       "HTTP-Referer": process.env.NEXTAUTH_URL,
-    //     },
-    //   }
-    // );
+    const context = combineDocumentsFn(similarDocs);
 
-    const model = new TogetherAI(
+    const prompt = [
       {
-        streaming: true,
-        verbose: true,
-        temperature: 0.6,
-        topP: 0.95,
-        repetitionPenalty: 1.2,
-        topK: 0.5,
-        modelName: "mistralai/Mixtral-8x7B-Instruct-v0.1",
-      },
-    );
+        role: "user",
+        content: `
+        You are Cognite.
+        Carefully heed the user's instructions.
+        Respond using Markdown.
+        ${context}
+      `,
+      }, {
+        role: "assistant",
+        content: `
+        Got it! I'll do my best to follow your instructions.
+      `,
+      }
+    ];
 
-    const proompt = `
-    Here is some context from a document, along with a question related to it.
-    <context>
-    {docs}
-    </context>
-    
-    Chat history:
-    {previousMessages}
+    console.log(context);
 
-    Question: {message}
-
-    {style}
-    
-    Bold important words using **bold**.
-    
-    Answer:
-  `;
-
-    const prompt = PromptTemplate.fromTemplate(proompt);
-
-    const outputParser = new StringOutputParser();
-
-    // @ts-ignore
-    const chain = prompt.pipe(model).pipe(outputParser);
-
-    console.log("Called chain");
-
-    const stream = await chain.stream({
-      message: currentMessageContent,
-      previousMessages: formatVercelMessages(previousMessages),
-      docs: combineDocumentsFn(similarDocs),
-      style: prompts[style].qa,
+    // // Ask OpenAI for a streaming chat completion given the prompt
+    const response = await fireworks.chat.completions.create({
+      model: "accounts/fireworks/models/mixtral-8x7b-instruct",
+      stream: true,
+      max_tokens: 2000,
+      messages: [...prompt, ...messages],
     });
+
+    const stream = OpenAIStream(response);
 
     return new StreamingTextResponse(stream);
   } catch (error) {

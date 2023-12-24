@@ -1,16 +1,16 @@
 "use client";
 
-import remarkGfm from "remark-gfm";
-import ReactMarkdown from "react-markdown";
-
 import { useChat } from "ai/react";
 import ChatBox from "./ChatBox";
 import { FormEvent, useState } from "react";
-import { IBM_Plex_Sans, Mulish, Outfit, Plus_Jakarta_Sans, Quicksand, Rubik, Space_Grotesk } from "next/font/google";
+import { Space_Grotesk } from "next/font/google";
 import { ChatRequestOptions } from "ai";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "./ui/badge";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { PluggableList } from "react-markdown/lib";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -70,6 +70,16 @@ export default function Chat({ id }: { id: string }) {
 
   console.log(messages[messages.length - 1]?.content);
 
+  const demo = `
+  1. First item
+  2. Second item
+  3. Third item
+     - Subitem 3.1
+     - Subitem 3.2
+  4. Fourth item
+  
+  `;
+
   return (
     <div className="pb-28">
       {messages.length === 0 && (
@@ -109,10 +119,10 @@ export default function Chat({ id }: { id: string }) {
                 : "bg-muted shadow-xl shadow-muted/20"
             )}
           >
-            <span className="prose transition-all">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {message.content.replace(/\\n/g, "\n").replace(/<\/s>/g, "")}
-              </ReactMarkdown>
+            <span className={`transition-all ${message.role === "assistant" && "prose dark:prose-invert"}`}>
+              <Markdown remarkPlugins={[remarkGfm] as PluggableList}>
+                {message.content}
+              </Markdown>
             </span>
           </div>
         ))}

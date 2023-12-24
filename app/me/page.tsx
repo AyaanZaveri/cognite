@@ -2,12 +2,12 @@ import { getAuthSession } from "@/lib/auth";
 import timestampDate from "@/utils/timestampDate";
 import { CalendarDays } from "lucide-react";
 import React from "react";
-import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { db } from "@/lib/db";
 import MeCard from "@/components/me/Card";
 import Sidebar from "@/components/Sidebar";
 import { Tag } from "@/types";
+import Markdown from "react-markdown";
 
 export const dynamic = "force-dynamic";
 
@@ -69,7 +69,7 @@ export default async function Page() {
                 </span>
 
                 <span className={`mt-1 text-muted-foreground`}>
-                  <ReactMarkdown>{session?.user?.bio as string}</ReactMarkdown>
+                  <Markdown>{session?.user?.bio as string}</Markdown>
                 </span>
               </div>
             </div>
