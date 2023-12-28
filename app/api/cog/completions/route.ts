@@ -20,9 +20,9 @@ import OpenAI from "openai";
 import { HfInference } from "@huggingface/inference";
 import { experimental_buildOpenAssistantPrompt } from "ai/prompts";
 
-const fireworks = new OpenAI({
-  apiKey: process.env.FIREWORKS_AI_API_KEY || "",
-  baseURL: process.env.FIREWORKS_AI_ENDPOINT,
+const togetherai = new OpenAI({
+  apiKey: process.env.TOGETHER_AI_API_KEY || "",
+  baseURL: process.env.TOGETHER_AI_ENDPOINT,
 });
 
 const combineDocumentsFn = (docs: Document[], separator = "\n\n") => {
@@ -111,8 +111,8 @@ export async function POST(req: Request) {
     console.log(context);
 
     // // Ask OpenAI for a streaming chat completion given the prompt
-    const response = await fireworks.chat.completions.create({
-      model: "accounts/fireworks/models/mixtral-8x7b-instruct",
+    const response = await togetherai.chat.completions.create({
+      model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
       stream: true,
       max_tokens: 2000,
       messages: [...prompt, ...messages],

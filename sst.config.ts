@@ -32,6 +32,7 @@ export default {
           FIREWORKS_AI_ENDPOINT: process.env.FIREWORKS_AI_ENDPOINT as string,
           FIREWORKS_AI_API_KEY: process.env.FIREWORKS_AI_API_KEY as string,
           TOGETHER_AI_API_KEY: process.env.TOGETHER_AI_API_KEY as string,
+          TOGETHER_AI_ENDPOINT: process.env.TOGETHER_AI_ENDPOINT as string,
           MY_GITHUB_CLIENT_ID: process.env.MY_GITHUB_CLIENT_ID as string,
           MY_GITHUB_CLIENT_SECRET: process.env
             .MY_GITHUB_CLIENT_SECRET as string,
