@@ -20,7 +20,7 @@ It's a fast and simple way to **share** and **create** chatbots with external kn
 <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4/fff" alt="Tailwind" width=16> [shadcn-ui](https://ui.shadcn.com/) + [TailwindCSS](https://tailwindcss.com/) as the UI framework and CSS
 
 **Embeddings**: It uses [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) to create embeddings for the knowledge provided.  
-**LLM**: It currently uses GPT-3.5-Turbo, but you can use whatever LangChain currently [supports](https://js.langchain.com/docs/integrations/chat/)
+**LLM**: It currently uses `mistralai/Mixtral-8x7B-Instruct-v0.1`, but you can use whatever LangChain currently [supports](https://js.langchain.com/docs/integrations/chat/)
 
 ## 🏡 Run Locally
 1. Clone the repo `git clone https://github.com/AyaanZaveri/cognite && cd cognite`
