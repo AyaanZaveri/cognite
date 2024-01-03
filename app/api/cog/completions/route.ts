@@ -78,39 +78,53 @@ const getStuff = async (currentMessageContent: string, id: string) => {
 
 export async function POST(req: Request) {
   try {
-    const { id, messages } = await req.json();
+    const {
+      id,
+      messages,
+      style,
+    }: {
+      id: string;
+      messages: any[];
+      style: keyof typeof prompts;
+    } = await req.json();
 
     console.log("Created vector store");
 
     console.log("Calling chain");
 
-    const previousMessages = messages.slice(0, -1);
     const currentMessageContent = messages[messages.length - 1].content;
 
     const similarDocs = await getStuff(currentMessageContent, id);
 
     const context = combineDocumentsFn(similarDocs);
 
+    const selectedPrompt = prompts[style];
+
     const prompt = [
+      {
+        role: "system",
+        content: selectedPrompt,
+      },
       {
         role: "user",
         content: `
         You are Cognite.
-        Carefully heed the user's instructions.
-        Respond using Markdown.
+
         ${context}
+
+        ${selectedPrompt}
       `,
-      }, {
+      },
+      {
         role: "assistant",
         content: `
         Got it! I'll do my best to follow your instructions.
       `,
-      }
+      },
     ];
 
-    console.log(context);
+    console.log({ prompt });
 
-    // // Ask OpenAI for a streaming chat completion given the prompt
     const response = await togetherai.chat.completions.create({
       model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
       stream: true,
