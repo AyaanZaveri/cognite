@@ -11,6 +11,9 @@ import { Badge } from "./ui/badge";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { PluggableList } from "react-markdown/lib";
+import { ComboboxPopover } from "./style-combobox";
+import Style, { styles } from "@/lib/styles";
+// import { styles } from "@/lib/styles";
 
 const space_grotesk = Space_Grotesk({
   weight: ["300", "400", "500", "600", "700"],
@@ -20,13 +23,13 @@ const space_grotesk = Space_Grotesk({
 export default function Chat({ id }: { id: string }) {
   const [isThinking, setIsThinking] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
-  const [selectedStyle, setSelectedStyle] = useState("neutral");
+  const [selectedStyle, setSelectedStyle] = useState<Style>(styles[0]);
 
   const { messages, input, handleInputChange, handleSubmit, stop } = useChat({
     api: "/api/cog/completions",
     body: {
       id: id,
-      style: selectedStyle,
+      style: selectedStyle.prompt,
     },
     onError: (err) => {
       console.log(err);
@@ -50,36 +53,6 @@ export default function Chat({ id }: { id: string }) {
     handleSubmit(e, chatRequestOptions);
   };
 
-  const styles = [
-    {
-      id: "friendly",
-      name: "Friendly 👋",
-      description: "A nice and friendly conversation style.",
-    },
-    {
-      id: "neutral",
-      name: "Neutral 🤔",
-      description: "A casual and neutral conversation style.",
-    },
-    {
-      id: "focused",
-      name: "Focused 🧠",
-      description: "A very precise and focused conversation style.",
-    },
-  ];
-
-  console.log(messages[messages.length - 1]?.content);
-
-  const demo = `
-  1. First item
-  2. Second item
-  3. Third item
-     - Subitem 3.1
-     - Subitem 3.2
-  4. Fourth item
-  
-  `;
-
   return (
     <div className="pb-28">
       {messages.length === 0 && (
@@ -93,19 +66,10 @@ export default function Chat({ id }: { id: string }) {
               BETA
             </Badge>
           </div>
-          <Tabs defaultValue="neutral">
-            <TabsList>
-              {styles.map((style) => (
-                <TabsTrigger
-                  key={style.id}
-                  value={style.id}
-                  onClick={() => setSelectedStyle(style.id)}
-                >
-                  {style.name}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+          <ComboboxPopover
+            selectedStyle={selectedStyle}
+            setSelectedStyle={setSelectedStyle}
+          />
         </div>
       )}
       <div className={`flex w-full flex-col gap-5 px-8`}>
@@ -119,7 +83,11 @@ export default function Chat({ id }: { id: string }) {
                 : "bg-muted shadow-xl shadow-muted/20"
             )}
           >
-            <span className={`transition-all ${message.role === "assistant" && "prose dark:prose-invert"}`}>
+            <span
+              className={`transition-all ${
+                message.role === "assistant" && "prose dark:prose-invert"
+              }`}
+            >
               <Markdown remarkPlugins={[remarkGfm] as PluggableList}>
                 {message.content}
               </Markdown>

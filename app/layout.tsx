@@ -27,7 +27,6 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-
           {children}
         </ThemeProvider>
         <Toaster />

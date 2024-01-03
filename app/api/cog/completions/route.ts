@@ -9,7 +9,7 @@ import {
   StreamingTextResponse,
   Message as VercelChatMessage,
 } from "ai";
-import { prompts } from "@/lib/prompts";
+import { styles } from "@/lib/styles";
 import { db } from "@/lib/db";
 import { Prisma } from "@prisma/client";
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
@@ -85,7 +85,7 @@ export async function POST(req: Request) {
     }: {
       id: string;
       messages: any[];
-      style: keyof typeof prompts;
+      style: keyof typeof styles;
     } = await req.json();
 
     console.log("Created vector store");
@@ -98,12 +98,14 @@ export async function POST(req: Request) {
 
     const context = combineDocumentsFn(similarDocs);
 
-    const selectedPrompt = prompts[style];
-
     const prompt = [
       {
         role: "system",
-        content: selectedPrompt,
+        content: `
+        Carefully heed the user's instructions.
+        Respond using Markdown.
+
+        ${String(style)}`,
       },
       {
         role: "user",
@@ -112,7 +114,7 @@ export async function POST(req: Request) {
 
         ${context}
 
-        ${selectedPrompt}
+        ${String(style)}
       `,
       },
       {
