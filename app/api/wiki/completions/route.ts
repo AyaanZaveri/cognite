@@ -12,6 +12,7 @@ const togetherai = new OpenAI({
   baseURL: process.env.TOGETHER_AI_ENDPOINT,
 });
 
+let cachedArticleName: string | null = null;
 let cachedVectorStore: any = null;
 
 const combineDocumentsFn = (docs: Document[], separator = "\n\n") => {
@@ -25,6 +26,11 @@ const embeddingsModel = new HuggingFaceInferenceEmbeddings({
 });
 
 const getStuff = async (currentMessageContent: string, article: string) => {
+  if (cachedArticleName !== article) {
+    cachedArticleName = article;
+    cachedVectorStore = null;
+  }
+
   if (cachedVectorStore === null) {
     const response = await fetch(`${process.env.NEXTAUTH_URL}/api/wiki/parse`, {
       method: "POST",
