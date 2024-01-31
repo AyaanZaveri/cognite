@@ -17,7 +17,11 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
     <div className="z-50 hidden md:block">
       <div className="w-[220px] transition-all duration-300 ease-in-out">
         <div className="fixed z-20 h-full w-[220px] select-none">
-          <Link href={`/`} className="absolute top-0 mx-3 my-4">
+          <Link
+            href={`/`}
+            className="absolute top-0 mx-3 my-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background rounded-lg"
+            draggable={false}
+          >
             <div className="group relative transition-all duration-1000 ease-in-out">
               <Image
                 src="/fire_3d.png"
@@ -44,7 +48,8 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
           >
             <Link
               href={"/create"}
-              className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-accent active:scale-[0.98]"
+              draggable={false}
+              className="inline-flex w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background items-center gap-2 rounded-lg px-3 py-1.5 duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-accent active:scale-[0.98]"
             >
               <PlusSquare className="h-5 w-5" />
               <span className={`${space_grotesk.className} font-medium`}>
@@ -54,7 +59,8 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
 
             <Link
               href={"/explore"}
-              className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-muted active:scale-[0.98]"
+              draggable={false}
+              className="inline-flex w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background items-center gap-2 rounded-lg px-3 py-1.5 duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-muted active:scale-[0.98]"
             >
               <MapPin className="h-5 w-5" />
               <span className={`${space_grotesk.className} font-medium`}>
@@ -64,16 +70,14 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
 
             <Link
               href={"/me"}
-              className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-accent active:scale-[0.98]"
+              draggable={false}
+              className="inline-flex w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background items-center gap-2 rounded-lg px-3 py-1.5 duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-accent active:scale-[0.98]"
             >
               <UserCircle className="h-5 w-5" />
               <span className={`${space_grotesk.className} font-medium`}>
                 Me
               </span>
             </Link>
-          </div>
-          <div className="absolute bottom-16 p-5">
-            <ModeToggle />
           </div>
           <div className="absolute bottom-0 w-full px-2 py-3">
             {session ? (

@@ -12,6 +12,7 @@ import Image from "next/image";
 import WikiModal from "@/components/WikiModal";
 import YouTubeModal from "@/components/YouTubeModal";
 import { Suspense } from "react";
+import { ModeToggle } from "@/components/ModeToggle";
 
 interface Cog {
   id: string;
@@ -44,6 +45,9 @@ export default async function Home() {
 
   return (
     <div className="h-full">
+      <div className="absolute right-0 top-0 p-5">
+        <ModeToggle />
+      </div>
       <div className="flex h-full min-h-[100vh] flex-row">
         <Suspense fallback={<span>Loading...</span>}>
           <Sidebar session={session?.user ? session : null} />
