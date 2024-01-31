@@ -1,24 +1,9 @@
-import { PrismaVectorStore } from "langchain/vectorstores/prisma";
-import { ChatOpenAI } from "langchain/chat_models/openai";
-import { PromptTemplate } from "langchain/prompts";
 import { NextResponse } from "next/server";
-import {
-  HuggingFaceStream,
-  Message,
-  OpenAIStream,
-  StreamingTextResponse,
-  Message as VercelChatMessage,
-} from "ai";
+import { OpenAIStream, StreamingTextResponse } from "ai";
 import { styles } from "@/lib/styles";
-import { db } from "@/lib/db";
-import { Prisma } from "@prisma/client";
 import { HuggingFaceInferenceEmbeddings } from "langchain/embeddings/hf";
-import { StringOutputParser } from "langchain/schema/output_parser";
 import { Document } from "langchain/document";
-import { TogetherAI } from "@langchain/community/llms/togetherai";
 import OpenAI from "openai";
-import { HfInference } from "@huggingface/inference";
-import { experimental_buildOpenAssistantPrompt } from "ai/prompts";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
@@ -26,6 +11,8 @@ const togetherai = new OpenAI({
   apiKey: process.env.TOGETHER_AI_API_KEY || "",
   baseURL: process.env.TOGETHER_AI_ENDPOINT,
 });
+
+let cachedVectorStore: any = null;
 
 const combineDocumentsFn = (docs: Document[], separator = "\n\n") => {
   const serializedDocs = docs.map((doc) => doc.pageContent);
@@ -38,34 +25,36 @@ const embeddingsModel = new HuggingFaceInferenceEmbeddings({
 });
 
 const getStuff = async (currentMessageContent: string, article: string) => {
-  const response = await fetch(`${process.env.NEXTAUTH_URL}/api/wiki/parse`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      search: article,
-    }),
-  });
+  if (cachedVectorStore === null) {
+    const response = await fetch(`${process.env.NEXTAUTH_URL}/api/wiki/parse`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        search: article,
+      }),
+    });
 
-  const { data } = await response.json();
+    const { data } = await response.json();
 
-  const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 3000 });
+    const splitter = new RecursiveCharacterTextSplitter({ chunkSize: 3000 });
 
-  const text = data.content;
+    const text = data.content;
 
-  // console.log(text);
+    const docs = await splitter.createDocuments([text as string]);
 
-  const docs = await splitter.createDocuments([text as string]);
+    const vectorStore = await MemoryVectorStore.fromDocuments(
+      docs,
+      embeddingsModel
+    );
 
-  const vectorStore = await MemoryVectorStore.fromDocuments(
-    docs,
-    embeddingsModel
-  );
+    cachedVectorStore = vectorStore;
+  }
 
   console.log("Created models");
 
-  const similarDocs = await vectorStore.similaritySearch(
+  const similarDocs = await cachedVectorStore.similaritySearch(
     `${currentMessageContent}`,
     7
   );
