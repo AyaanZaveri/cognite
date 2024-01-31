@@ -181,4 +181,26 @@ export const styles: Style[] = [
     `,
     info: "Responses that uplift and create a positive atmosphere.",
   },
+  {
+    value: "snarky",
+    name: "Snarky",
+    emoji: "😏",
+    prompt: `
+    Use a sarcastic and snarky tone in your responses, incorporating irony,
+    cynicism, and witty remarks to convey your message. Your answers should be
+    humorous, biting, and thought-provoking.
+    `,
+    info: "Humorous, sarcastic responses with wit.",
+  },
+  {
+    value: "sarcastic",
+    name: "Sarcastic",
+    emoji: "😠",
+    prompt: `
+    Use a sarcastic and snarky tone in your responses, incorporating irony,
+    cynicism, and witty remarks to convey your message. Your answers should be
+    humorous, biting, and thought-provoking.
+    `,
+    info: "Humorous, sarcastic responses with wit.",
+  }
 ];

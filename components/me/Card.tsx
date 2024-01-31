@@ -94,7 +94,7 @@ const MeCard = ({ cog, session }: { cog: Cog; session: Session | null }) => {
           <Link href={`/cog/${session?.user?.username}/${cog.slug}`}>
             <Card
               key={cog.id}
-              className="duaration-300 relative h-44 p-6 transition duration-300 ease-in-out hover:cursor-pointer hover:bg-accent/25 active:scale-[0.98]"
+              className="relative h-44 p-6 transition duration-300 ease-in-out hover:cursor-pointer hover:ring-2 hover:ring-amber-500 hover:ring-offset-4 hover:ring-offset-background active:scale-[0.98] active:brightness-90"
             >
               <CardHeader className="relative p-0">
                 <div className="flex flex-row items-center gap-x-3">

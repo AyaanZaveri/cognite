@@ -58,7 +58,7 @@ const getStuff = async (currentMessageContent: string, id: string) => {
 
   const similarDocs = await vectorStore.similaritySearch(
     `${currentMessageContent}`,
-    7
+    79
   );
 
   return similarDocs;
@@ -71,9 +71,8 @@ export async function handler({
   messages: Message[];
   id: string;
 }) {
-
-  console.log("the id", id)
-  console.log("the messages", messages)
+  console.log("the id", id);
+  console.log("the messages", messages);
 
   const currentMessageContent = messages[messages.length - 1].content;
 

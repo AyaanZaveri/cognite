@@ -31,7 +31,7 @@ export default async function SignIn() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-background bg-gradient-to-b from-amber-300/10 to-white bg-clip-border p-24 shadow-sm dark:from-orange-600/10 dark:to-black">
+    <div className="flex min-h-screen flex-col items-center bg-background bg-gradient-to-b bg-clip-border p-24 shadow-sm dark:from-orange-600/10 dark:to-black">
       <div className="mb-8">
         <Logo size={"5xl"} />
       </div>

@@ -31,12 +31,14 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { Document } from "langchain/dist/document";
 import axios from "axios";
+import { getAuthSession } from "@/lib/auth";
 import { Session } from "next-auth";
 import slugify from "slugify";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Zap } from "lucide-react";
+import Image from "next/image";
 
 const quickCreateFormSchema = z.object({
   name: z
@@ -66,7 +68,7 @@ interface Sources {
 
 type QuickCreateFormValues = z.infer<typeof quickCreateFormSchema>;
 
-const QuickCreate = ({ session }: { session: Session | null }) => {
+const YouTubeModal = ({ session }: { session: Session | null }) => {
   const form = useForm<QuickCreateFormValues>({
     resolver: zodResolver(quickCreateFormSchema),
     mode: "onChange",
@@ -239,12 +241,23 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
       <DialogTrigger asChild>
         <Button
           variant={"outline"}
-          className="group h-min py-4 shadow-2xl shadow-orange-500/10 transition duration-300 ease-in-out hover:shadow-orange-500/20"
+          size={"sm"}
+          className="inline-flex h-8 gap-2 text-xs"
         >
-          <Zap className="h-4 w-4 transition-transform duration-700 ease-in-out group-hover:rotate-180" />
+          YouTube
+          <div className="relative grid h-4 w-4 place-items-center rounded bg-white p-0.5">
+            <Image
+              src={
+                "https://upload.wikimedia.org/wikipedia/commons/4/48/YouTube_full-color_icon.png?20230803125710"
+              }
+              alt="YouTube"
+              height={16}
+              width={16}
+            />
+          </div>
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Quick Create</DialogTitle>
           <DialogDescription>Quickly create a cog ⚡️</DialogDescription>
@@ -349,4 +362,4 @@ const QuickCreate = ({ session }: { session: Session | null }) => {
   );
 };
 
-export default QuickCreate;
+export default YouTubeModal;

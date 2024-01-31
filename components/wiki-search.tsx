@@ -13,8 +13,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { CommandLoading } from "cmdk";
 import { Icons } from "./Icons";
-import { searchCogs } from "@/app/_actions/search";
 import { Space_Grotesk } from "next/font/google";
+import axios from "axios";
 import { Session } from "next-auth";
 import QuickCreate from "./QuickCreate";
 
@@ -35,86 +35,70 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-const Search = ({ session }: { session: Session | null }) => {
+const WikiSearch = () => {
   const [search, setSearch] = useState("");
-  const [cogs, setCogs] = useState<Cog[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [articles, setArticles] = useState<{ name: string; url: string }[]>([]);
 
-  const router = useRouter();
+  // create a function that gets autocomplete search results from wikipedia
+  const getAutoComplete = async (search: string) => {
+    const res = await axios.post(`/api/wiki/autocomplete`, {
+      search,
+    });
 
-  const searchForCogs = async () => {
-    setLoading(true);
-    const cogs = await searchCogs(search);
-    setCogs(cogs as Cog[]);
-    setLoading(false);
+    const data = res.data;
+
+    setArticles(data.data);
   };
 
   useEffect(() => {
-    searchForCogs();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (search.trim().length > 0) {
+      getAutoComplete(search);
+    } else {
+      setArticles([]);
+    }
   }, [search]);
-
-  console.log(cogs);
 
   return (
     <div className="relative flex w-full flex-row space-x-2">
-      <div className="w-full animate-gradient rounded-lg bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 p-0.5">
+      <div className="w-full animate-gradient rounded-lg bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 p-0.5 absolute">
         <Command
           className="h-full bg-background shadow-2xl shadow-orange-500/10 transition duration-300 ease-in-out hover:shadow-orange-500/20"
-          filter={(value, search) => {
-            if (value.includes(search.toLowerCase())) return 1;
-            return 0;
-          }}
           loop
+          shouldFilter={false}
         >
           <CommandInput
             className={`text-normal py-6 ${space_grotesk.className}`}
-            placeholder="Let's find something to cognite ⚡️"
+            placeholder="Search all of Wikipedia 🌐"
             value={search}
             onInput={(e) => setSearch(e.currentTarget.value)}
           />
-          {search.trim().length !== 0 && cogs.length >= 1 ? (
+          {search.trim().length !== 0 && articles.length >= 1 ? (
             <CommandList className="max-h-full">
-              {loading && (
-                <CommandLoading>
-                  <div className="fill-muted-foreground px-3 pt-1 font-medium">
-                    <Icons.gooeyBalls className="h-3 w-3" />
-                  </div>
-                </CommandLoading>
-              )}
               <CommandGroup heading="Suggestions">
-                {cogs.map((cog) => (
+                {articles.map((article, idx) => (
                   <Link
-                    href={`/cog/${cog?.user?.username}/${cog.slug}`}
-                    key={cog?.id}
+                    href={`/cog/wiki/${article?.name}`}
+                    key={idx}
                     className="focus:outline-2 focus:outline-ring"
                   >
-                    <CommandItem
-                      className="p-3"
-                      value={cog?.name}
-                      onSelect={() => {
-                        router.push(
-                          `/cog/${cog?.user?.username}/${cog.slug}` as string
-                        );
-                      }}
-                    >
+                    <CommandItem className="p-3" value={article?.name}>
                       <div className="flex flex-row gap-2">
-                        <Image
-                          src={cog.imgUrl as string}
-                          alt={cog.name}
+                        {/* <Image
+                          src={article.imgUrl as string}
+                          alt={article.name}
                           width={32}
                           height={32}
                           draggable={false}
                           className="aspect-square self-start rounded-md border bg-background object-contain p-1"
-                        />
+                        /> */}
                         <div className="flex flex-col">
                           <span
                             className={`font-medium ${space_grotesk.className}`}
                           >
-                            {cog.name}
+                            {article.name}
                           </span>
                           <span className="text-xs text-muted-foreground">
-                            {cog.description}
+                            {article.url}
                           </span>
                         </div>
                       </div>
@@ -123,16 +107,15 @@ const Search = ({ session }: { session: Session | null }) => {
                 ))}
               </CommandGroup>
             </CommandList>
-          ) : search.trim().length !== 0 && cogs.length === 0 ? (
+          ) : search.trim().length !== 0 && articles.length === 0 ? (
             <span className="py-6 text-center text-sm">
               No results found 🙃
             </span>
           ) : null}
         </Command>
       </div>
-      <QuickCreate session={session} />
     </div>
   );
 };
 
-export default Search;
+export default WikiSearch;

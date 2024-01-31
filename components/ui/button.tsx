@@ -25,6 +25,9 @@ const buttonVariants = cva(
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
       },
+      for: {
+        emerald: "bg-emerald-500 hover:bg-emerald-600",
+      }
     },
     defaultVariants: {
       variant: "default",

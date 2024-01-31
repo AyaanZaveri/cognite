@@ -2,7 +2,7 @@ import "./globals.css";
 import { getAuthSession } from "@/lib/auth";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   title: "Cognite",
@@ -10,11 +10,14 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+};
+
+export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
   ],
-};
+}
 
 export default async function RootLayout({
   children,

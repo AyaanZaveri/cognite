@@ -50,10 +50,10 @@ export default async function BillingPage() {
       <div className="flex h-full min-h-[100vh] flex-row">
         <Sidebar session={session?.user ? session : null} />
         <div className="grow lg:pb-2 lg:pr-2 lg:pt-2">
-          <div className="h-full bg-background bg-gradient-to-b from-amber-300/10 to-white bg-clip-border shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
+          <div className="h-full bg-background bg-gradient-to-b bg-clip-border shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
             <div className="flex flex-col gap-4 px-8 py-10">
               <h1
-                className={`${space_grotesk.className} animate-text bg-gradient-to-r from-orange-500 via-amber-500 to-red-500 bg-clip-text pb-2 text-4xl font-semibold text-transparent`}
+                className={`${space_grotesk.className} animate-text bg-gradient-to-r from-sky-500 via-teal-500 to-emerald-500 bg-clip-text pb-2 text-4xl font-semibold text-transparent`}
               >
                 Billing
               </h1>

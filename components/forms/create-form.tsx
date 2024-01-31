@@ -19,7 +19,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import React, { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { scrapeSite } from "@/utils/scrapeSite";
+import { scrapeSite } from "@/utils/scrapeSite"; 
 import {
   RecursiveCharacterTextSplitter,
   TokenTextSplitter,
@@ -86,7 +86,7 @@ const createFormSchema = z.object({
     .optional(),
   imgUrl: z
     .string()
-    .max(200, { message: "Your image URL is too long (max 200 characters)" })
+    .max(500, { message: "Your image URL is too long (max 500 characters)" })
     .optional(),
   tags: tagsSchema,
   websites: z
