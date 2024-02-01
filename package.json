@@ -67,7 +67,7 @@
     "mongodb": "^5.7.0",
     "mongoose": "7.1.1",
     "nanoid": "^4.0.2",
-    "next": "latest",
+    "next": "14.0.4",
     "next-auth": "latest",
     "next-themes": "^0.2.1",
     "node-fetch": "2.6.1",
