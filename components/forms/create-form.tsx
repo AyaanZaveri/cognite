@@ -455,7 +455,7 @@ const Create = ({
               size="sm"
               className="mt-2"
               disabled={
-                subscriptionPlan?.id === "basic" && websiteFields.length >= 1
+                subscriptionPlan?.id === "basic" && websiteFields.length >= 2
                   ? true
                   : subscriptionPlan?.id === "standard" &&
                     websiteFields.length >= 5
