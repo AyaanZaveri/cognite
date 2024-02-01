@@ -33,10 +33,27 @@ const rubik = Rubik({
   subsets: ["latin"],
 });
 
-const embeddingsModel = new HuggingFaceInferenceEmbeddings({
-  apiKey: process.env.NEXT_PUBLIC_HUGGINGFACEHUB_API_KEY,
-  model: "sentence-transformers/all-MiniLM-L6-v2",
-});
+async function initizalizeWikiCache(article: string) {
+  const response = await fetch(
+    `${process.env.NEXTAUTH_URL}/api/wiki/completions`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        article,
+        init: true,
+      }),
+    }
+  );
+
+  const { status } = await response.json();
+
+  console.log(status);
+
+  return status;
+}
 
 async function getWiki(article: string) {
   const response = await fetch(`${process.env.NEXTAUTH_URL}/api/wiki/parse`, {
@@ -66,6 +83,8 @@ export default async function Page({
   params: { slug: string; user: string; article: string };
 }) {
   const { article } = params;
+
+  const wikiCacheStatus = await initizalizeWikiCache(article);
 
   const session = await getAuthSession();
 
@@ -123,7 +142,9 @@ export default async function Page({
                   </div>
                 </div>
               </div>
-              <Chat article={wiki?.title} />
+              {wikiCacheStatus == 200 ? (
+                <Chat article={wiki?.title} />
+              ) : null}
             </Suspense>
           </div>
         </div>

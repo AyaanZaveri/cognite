@@ -30,6 +30,7 @@ export default function Chat({ article }: { article: string }) {
     body: {
       article: article,
       style: selectedStyle.prompt,
+      init: false,
     },
     onError: (err) => {
       console.log(err);
