@@ -1,5 +1,3 @@
-"use client";
-
 import { SignInSmaller } from "@/app/actions";
 import { Session } from "next-auth";
 import { Space_Grotesk } from "next/font/google";
@@ -14,12 +12,13 @@ const space_grotesk = Space_Grotesk({
 });
 
 const Sidebar = ({ session }: { session?: Session | null }) => {
+
   return (
     <div className="z-50 hidden md:block">
       <div className="w-[220px] transition-all duration-300 ease-in-out">
         <div className="fixed z-20 h-full w-[220px] select-none">
           <Link
-            href={`/`}
+            href={"/"}
             className="absolute top-0 mx-3 my-4 rounded-lg ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             draggable={false}
           >
