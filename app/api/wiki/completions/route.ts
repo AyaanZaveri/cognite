@@ -94,68 +94,65 @@ export async function POST(req: Request) {
     } = await req.json();
 
     if (init) {
-      const initialized = cacheVectorStore(article);
+      const initialized = await cacheVectorStore(article);
 
       console.log("Created vector store");
 
       if (!initialized) {
         return NextResponse.json({
-          message: "Failed to initialize",
           status: 500,
         });
       }
 
       return NextResponse.json({
-        message: "Initialized",
         status: 200,
       });
-    } else {
-      console.log("Calling chain");
+    }
+    console.log("Calling chain");
 
-      const currentMessageContent = messages[messages.length - 1].content;
+    const currentMessageContent = messages[messages.length - 1].content;
 
-      const similarDocs = await getStuff(currentMessageContent, article);
+    const similarDocs = await getStuff(currentMessageContent, article);
 
-      const context = combineDocumentsFn(similarDocs);
+    const context = combineDocumentsFn(similarDocs);
 
-      const prompt = [
-        {
-          role: "system",
-          content: `
+    const prompt = [
+      {
+        role: "system",
+        content: `
         Carefully heed the user's instructions.
         Respond using Markdown.
 
         ${String(style)}`,
-        },
-        {
-          role: "user",
-          content: `
+      },
+      {
+        role: "user",
+        content: `
         You are Cognite.
 
         ${context}
 
         ${String(style)}
       `,
-        },
-        {
-          role: "assistant",
-          content: `
+      },
+      {
+        role: "assistant",
+        content: `
         Got it! I'll do my best to follow your instructions.
       `,
-        },
-      ];
+      },
+    ];
 
-      const response = await togetherai.chat.completions.create({
-        model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
-        stream: true,
-        max_tokens: 2000,
-        messages: [...prompt, ...messages],
-      });
+    const response = await togetherai.chat.completions.create({
+      model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      stream: true,
+      max_tokens: 2000,
+      messages: [...prompt, ...messages],
+    });
 
-      const stream = OpenAIStream(response);
+    const stream = OpenAIStream(response);
 
-      return new StreamingTextResponse(stream);
-    }
+    return new StreamingTextResponse(stream);
   } catch (error) {
     const errorString = error!.toString().substring(0, 2000);
     console.log(errorString);

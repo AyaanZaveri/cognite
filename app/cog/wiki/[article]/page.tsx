@@ -84,11 +84,11 @@ export default async function Page({
 }) {
   const { article } = params;
 
-  const wikiCacheStatus = await initizalizeWikiCache(article);
-
   const session = await getAuthSession();
 
   const wiki = await getWiki(article);
+  
+  const wikiCacheStatus = await initizalizeWikiCache(article);
 
   return (
     <div className="h-full">
