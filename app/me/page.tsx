@@ -41,8 +41,8 @@ export default async function Page() {
   return (
     <div className="h-full">
       <div className="flex h-full min-h-[100vh] flex-row">
+        <Sidebar session={session?.user ? session : null} />
         <Suspense fallback={<span>Loading...</span>}>
-          <Sidebar session={session?.user ? session : null} />
           <div className="grow lg:pb-2 lg:pr-2 lg:pt-2">
             <div className="h-full bg-background bg-gradient-to-b bg-clip-border pb-8 shadow-sm dark:from-orange-600/10 dark:to-black md:dark:border lg:rounded-lg">
               <div className="-space-y-10 p-5">

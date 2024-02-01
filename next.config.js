@@ -9,6 +9,7 @@ const nextConfig = {
       },
     ],
   },
+
   serverComponentsExternalPackages: ["sharp", "onnxruntime-node"],
   webpack: (config, { webpack }) => {
     config.externals["node:fs"] = "commonjs node:fs";

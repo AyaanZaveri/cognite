@@ -1,9 +1,10 @@
+"use client";
+
 import { SignInSmaller } from "@/app/actions";
 import { Session } from "next-auth";
 import { Space_Grotesk } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
-import { ModeToggle } from "./ModeToggle";
 import { Button } from "./ui/button";
 import { MapPin, PlusSquare, UserCircle } from "lucide-react";
 
@@ -19,7 +20,7 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
         <div className="fixed z-20 h-full w-[220px] select-none">
           <Link
             href={`/`}
-            className="absolute top-0 mx-3 my-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background rounded-lg"
+            className="absolute top-0 mx-3 my-4 rounded-lg ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             draggable={false}
           >
             <div className="group relative transition-all duration-1000 ease-in-out">
@@ -49,7 +50,7 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
             <Link
               href={"/create"}
               draggable={false}
-              className="inline-flex w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background items-center gap-2 rounded-lg px-3 py-1.5 duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-accent active:scale-[0.98]"
+              className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 ring-offset-background duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:scale-[0.98]"
             >
               <PlusSquare className="h-5 w-5" />
               <span className={`${space_grotesk.className} font-medium`}>
@@ -60,7 +61,7 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
             <Link
               href={"/explore"}
               draggable={false}
-              className="inline-flex w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background items-center gap-2 rounded-lg px-3 py-1.5 duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-muted active:scale-[0.98]"
+              className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 ring-offset-background duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:scale-[0.98]"
             >
               <MapPin className="h-5 w-5" />
               <span className={`${space_grotesk.className} font-medium`}>
@@ -71,7 +72,7 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
             <Link
               href={"/me"}
               draggable={false}
-              className="inline-flex w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ring-offset-background items-center gap-2 rounded-lg px-3 py-1.5 duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-accent active:scale-[0.98]"
+              className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-1.5 ring-offset-background duration-200 ease-in-out hover:cursor-pointer hover:gap-2.5 hover:bg-muted hover:tracking-wide hover:ring-1 hover:ring-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 active:scale-[0.98]"
             >
               <UserCircle className="h-5 w-5" />
               <span className={`${space_grotesk.className} font-medium`}>
@@ -83,7 +84,7 @@ const Sidebar = ({ session }: { session?: Session | null }) => {
             {session ? (
               <Button
                 variant={"outline"}
-                className="w-full rounded-full border-none hover:border-input"
+                className="w-full rounded-full border-none hover:border-input hover:bg-muted"
                 asChild
               >
                 <Link

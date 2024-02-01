@@ -48,7 +48,7 @@ export default async function Home() {
       <div className="absolute right-0 top-0 p-5">
         <ModeToggle />
       </div>
-      <div className="flex h-full min-h-[100vh] flex-row">
+      <div className="flex h-full min-h-screen flex-row">
         <Suspense fallback={<span>Loading...</span>}>
           <Sidebar session={session?.user ? session : null} />
           <div className="grow lg:pb-2 lg:pr-2 lg:pt-2">
