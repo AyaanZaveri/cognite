@@ -55,7 +55,7 @@ const cacheVectorStore = async (article: string) => {
   );
 
   cachedVectorStore = vectorStore;
-  
+
   if (cachedVectorStore === null) {
     throw new Error("Failed to create vector store");
   } else {
@@ -66,6 +66,10 @@ const cacheVectorStore = async (article: string) => {
 
 const getStuff = async (currentMessageContent: string, article: string) => {
   console.log("Created models");
+
+  if (cachedVectorStore === null) {
+    await cacheVectorStore(article);
+  }
 
   const similarDocs = await cachedVectorStore.similaritySearch(
     `${currentMessageContent}`,
