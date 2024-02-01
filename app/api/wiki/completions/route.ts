@@ -67,9 +67,9 @@ const cacheVectorStore = async (article: string) => {
 const getStuff = async (currentMessageContent: string, article: string) => {
   console.log("Created models");
 
-  if (cachedVectorStore === null) {
-    await cacheVectorStore(article);
-  }
+  // if (cachedVectorStore === null) {
+  //   await cacheVectorStore(article);
+  // }
 
   const similarDocs = await cachedVectorStore.similaritySearch(
     `${currentMessageContent}`,
@@ -144,8 +144,6 @@ export async function POST(req: Request) {
       `,
         },
       ];
-
-      console.log({ prompt });
 
       const response = await togetherai.chat.completions.create({
         model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
