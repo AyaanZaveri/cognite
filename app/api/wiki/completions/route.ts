@@ -49,6 +49,8 @@ const cacheVectorStore = async (article: string) => {
 
   const docs = await splitter.createDocuments([text as string]);
 
+  console.log(docs[10].metadata);
+
   const vectorStore = await MemoryVectorStore.fromDocuments(
     docs,
     embeddingsModel
@@ -67,11 +69,11 @@ const cacheVectorStore = async (article: string) => {
 const getStuff = async (currentMessageContent: string, article: string) => {
   console.log("Created models");
 
-  // if (cachedVectorStore === null) {
-  //   await cacheVectorStore(article);
-  // }
+  if (cachedVectorStore === null) {
+    await cacheVectorStore(article);
+  }
 
-  const similarDocs = await cachedVectorStore.similaritySearch(
+  const similarDocs = await cachedVectorStore.similaritySearchWithScore(
     `${currentMessageContent}`,
     7
   );
@@ -150,9 +152,26 @@ export async function POST(req: Request) {
       messages: [...prompt, ...messages],
     });
 
+    console.log(similarDocs, "similar docs")
+
+    // const serializedSources = Buffer.from(
+    //   JSON.stringify(
+    //     similarDocs.map((doc: Document) => {
+    //       return {
+    //         pageContent: doc.pageContent.slice(0, 50) + "...",
+    //         metadata: doc.metadata,
+    //       };
+    //     })
+    //   )
+    // ).toString("base64");
+
     const stream = OpenAIStream(response);
 
-    return new StreamingTextResponse(stream);
+    return new StreamingTextResponse(stream, {
+      headers: {
+        // "x-sources": serializedSources,
+      },
+    });
   } catch (error) {
     const errorString = error!.toString().substring(0, 2000);
     console.log(errorString);

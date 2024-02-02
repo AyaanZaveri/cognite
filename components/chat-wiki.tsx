@@ -13,6 +13,7 @@ import remarkGfm from "remark-gfm";
 import { PluggableList } from "react-markdown/lib";
 import { ComboboxPopover } from "./style-combobox";
 import Style, { styles } from "@/lib/styles";
+import { toast } from "./ui/use-toast";
 // import { styles } from "@/lib/styles";
 
 const space_grotesk = Space_Grotesk({
@@ -24,6 +25,7 @@ export default function Chat({ article }: { article: string }) {
   const [isThinking, setIsThinking] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [selectedStyle, setSelectedStyle] = useState<Style>(styles[0]);
+  const [sourcesForMessages, setSourcesForMessages] = useState<Record<string, any>>({});
 
   const { messages, input, handleInputChange, handleSubmit, stop } = useChat({
     api: "/api/wiki/completions",
@@ -34,10 +36,22 @@ export default function Chat({ article }: { article: string }) {
     },
     onError: (err) => {
       console.log(err);
+      toast({
+        title: "Error",
+        description: "An error occurred while fetching the response",
+        variant: "destructive",
+      })
     },
     onResponse: (res) => {
       console.log("onRes", res);
       setIsStreaming(true);
+      const sourcesHeader = res.headers.get("x-sources");
+      const sources = sourcesHeader ? JSON.parse(atob(sourcesHeader)) : [];
+      console.log("sources", sources);
+      const messageIndexHeader = res.headers.get("x-message-index");
+      if (sources.length && messageIndexHeader !== null) {
+        setSourcesForMessages({...sourcesForMessages, [messageIndexHeader]: sources});
+      }
     },
     onFinish: (msg) => {
       console.log("msg", msg);

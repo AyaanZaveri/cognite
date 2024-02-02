@@ -15,6 +15,7 @@ import OpenAI from "openai";
 import { OpenAIStream } from "ai";
 import { Tokens } from "ai/react";
 import Chat from "@/components/chat-wiki";
+import { Badge } from "@/components/ui/badge";
 
 export const dynamic = "force-dynamic";
 
@@ -87,7 +88,7 @@ export default async function Page({
   const session = await getAuthSession();
 
   const wiki = await getWiki(article);
-  
+
   const wikiCacheStatus = await initizalizeWikiCache(article);
 
   return (
@@ -104,7 +105,7 @@ export default async function Page({
             <Suspense fallback={<div>Loading...</div>}>
               <div className="flex flex-col items-center justify-center gap-6 p-5">
                 {wiki?.image ? (
-                  <div className="relative inline-flex h-28 w-28 items-center justify-center rounded-lg bg-orange-50/70 transition-all duration-1000 ease-in-out hover:scale-110">
+                  <div className="relative h-28 w-28 items-center justify-center rounded-lg bg-muted/50 transition-all duration-1000 ease-in-out hover:scale-110">
                     <Image
                       src={wiki?.image}
                       alt={wiki?.title as string}
@@ -134,17 +135,27 @@ export default async function Page({
                     {wiki?.title}
                   </h1>
                   <div className="flex flex-col items-center">
-                    <p
-                      className={`text-center text-lg text-muted-foreground ${rubik.className}`}
+                    <div
+                      className={`text-center text-lg text-muted-foreground ${rubik.className} inline-flex items-center justify-center gap-2`}
                     >
-                      Learn about {wiki?.title} from Wikipedia
-                    </p>
+                      Learn about{" "}
+                      <Link
+                        href={`https://en.wikipedia.org/wiki/${wiki?.title}`}
+                        target="_blank"
+                      >
+                        <Badge
+                          variant={"outline"}
+                          className="text-sm font-normal transition duration-200 ease-in-out hover:cursor-pointer hover:bg-muted hover:ring-[1.5px] hover:ring-amber-500 hover:ring-offset-2 hover:ring-offset-background active:scale-[0.98] active:brightness-90"
+                        >
+                          {wiki?.title}
+                        </Badge>
+                      </Link>{" "}
+                      from Wikipedia
+                    </div>
                   </div>
                 </div>
               </div>
-              {wikiCacheStatus == 200 ? (
-                <Chat article={wiki?.title} />
-              ) : null}
+              {wikiCacheStatus == 200 ? <Chat article={wiki?.title} /> : null}
             </Suspense>
           </div>
         </div>

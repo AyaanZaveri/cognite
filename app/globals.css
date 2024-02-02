@@ -92,6 +92,11 @@
     @apply bg-accent/50 text-foreground;
     -webkit-user-drag: none;
   }
+  img,
+  a {
+    user-select: none;
+    -webkit-user-drag: none;
+  }
 }
 
 .noise {

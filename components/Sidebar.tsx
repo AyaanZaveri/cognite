@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { MapPin, PlusSquare, UserCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const space_grotesk = Space_Grotesk({
   subsets: ["latin"],
