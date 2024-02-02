@@ -1,11 +1,7 @@
 import { db } from "@/lib/db";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { nanoid } from "nanoid";
 import {
-  Account,
   NextAuthOptions,
-  Session,
-  User,
   getServerSession,
 } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
