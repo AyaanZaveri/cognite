@@ -73,7 +73,7 @@ const getStuff = async (currentMessageContent: string, article: string) => {
     await cacheVectorStore(article);
   }
 
-  const similarDocs = await cachedVectorStore.similaritySearchWithScore(
+  const similarDocs = await cachedVectorStore.similaritySearch(
     `${currentMessageContent}`,
     7
   );
@@ -152,24 +152,24 @@ export async function POST(req: Request) {
       messages: [...prompt, ...messages],
     });
 
-    console.log(similarDocs, "similar docs")
+    console.log(similarDocs, "similar docs");
 
-    // const serializedSources = Buffer.from(
-    //   JSON.stringify(
-    //     similarDocs.map((doc: Document) => {
-    //       return {
-    //         pageContent: doc.pageContent.slice(0, 50) + "...",
-    //         metadata: doc.metadata,
-    //       };
-    //     })
-    //   )
-    // ).toString("base64");
+    const serializedSources = Buffer.from(
+      JSON.stringify(
+        similarDocs.map((doc: Document) => {
+          return {
+            pageContent: doc.pageContent.slice(0, 50) + "...",
+            metadata: doc.metadata,
+          };
+        })
+      )
+    ).toString("base64");
 
     const stream = OpenAIStream(response);
 
     return new StreamingTextResponse(stream, {
       headers: {
-        // "x-sources": serializedSources,
+        "x-sources": serializedSources,
       },
     });
   } catch (error) {
