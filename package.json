@@ -66,7 +66,6 @@
     "lucide-react": "^0.260.0",
     "mongodb": "^5.7.0",
     "mongoose": "7.1.1",
-    "nanoid": "^4.0.2",
     "next": "latest",
     "next-auth": "latest",
     "next-themes": "^0.2.1",
