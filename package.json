@@ -75,7 +75,7 @@
     "openai": "^4.23.0",
     "openai-edge": "^1.2.2",
     "pdf-parse": "^1.1.1",
-    "postcss": "8.4.23",
+    "postcss": "latest",
     "react": "18.2.0",
     "react-day-picker": "^8.8.0",
     "react-dom": "18.2.0",
