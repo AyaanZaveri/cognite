@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { getAuthSession } from "@/lib/auth";
-const cheerio = require("cheerio");
+import * as cheerio from "cheerio";
 
 type CheerioElement = {
   type: string;
@@ -11,10 +11,9 @@ type CheerioElement = {
 };
 
 export async function POST(req: Request) {
-
   const { urls } = await req.json();
 
-  console.log("urls", urls)
+  console.log("urls", urls);
 
   if (!urls || !Array.isArray(urls)) {
     console.log("URLs array is required in the request body");
@@ -51,7 +50,7 @@ export async function POST(req: Request) {
       const title = $("title").text();
 
       // Extract the text content from the body
-      let extractedText = extractText($("body")[0]);
+      let extractedText = extractText($("body")[0] as CheerioElement);
 
       // Remove unnecessary white spaces, new line characters, and tab characters
       extractedText = extractedText
@@ -69,6 +68,6 @@ export async function POST(req: Request) {
   } catch (error) {
     console.log("error is", error);
 
-    return NextResponse.error()
+    return NextResponse.error();
   }
 }
