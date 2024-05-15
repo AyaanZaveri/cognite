@@ -49,8 +49,6 @@ const cacheVectorStore = async (article: string) => {
 
   const docs = await splitter.createDocuments([text as string]);
 
-  console.log(docs[10].metadata);
-
   const vectorStore = await MemoryVectorStore.fromDocuments(
     docs,
     embeddingsModel
@@ -117,6 +115,8 @@ export async function POST(req: Request) {
     const similarDocs = await getStuff(currentMessageContent, article);
 
     const context = combineDocumentsFn(similarDocs);
+
+    console.log(context, "context")
 
     const prompt = [
       {
